@@ -45,19 +45,31 @@ async function apiShorten(longUrl, keyword) {
   if (keyword) payload.keyword = keyword;
 
   const { res, text, json } = await yourlsFetch(base, payload);
-  const short = H.extractShort(json, base);
 
-  // Handle success, including the case where the URL already existed.
-  if (json?.status === "success" || (json?.code === "200" && short)) {
-    if (/already exists/i.test(String(json.message || ""))) {
-      toast(browser.i18n.getMessage("extensionName"), browser.i18n.getMessage("toastUrlExists"));
-      return { ok: true, shortUrl: short, already: true };
+  // Handle the "already exists" case first, as it has a unique response format.
+  if (json && /already exists/i.test(String(json.message || ""))) {
+    let existingShortUrl = null;
+    // Use a regular expression to extract the short URL from the message string.
+    const match = String(json.message).match(/\(short URL: (https?:\/\/\S+)\)/i);
+    if (match && match[1]) {
+      existingShortUrl = match[1];
+    } else {
+      // As a fallback, try the standard extraction method on the off-chance
+      // the API provides structured data along with the message.
+      existingShortUrl = H.extractShort(json, base);
     }
+    toast(browser.i18n.getMessage("extensionName"), browser.i18n.getMessage("toastUrlExists"));
+    return { ok: true, shortUrl: existingShortUrl, already: true };
+  }
+
+  // Handle the standard success case for newly created URLs.
+  const short = H.extractShort(json, base);
+  if (res.ok && json && short) {
     toast(browser.i18n.getMessage("extensionName"), browser.i18n.getMessage("toastUrlCreated"));
     return { ok: true, shortUrl: short, already: false };
   }
 
-  // Handle specific failure cases reported by the API.
+  // Handle other errors reported by the API.
   if (json?.status === "fail" && json.message) throw new Error(json.message);
   throw new Error(`HTTP ${res.status}${text ? (": " + text.slice(0, 200)) : ""}`);
 }
