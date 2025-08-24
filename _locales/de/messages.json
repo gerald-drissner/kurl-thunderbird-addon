@@ -1,0 +1,98 @@
+{
+  "extensionName": {
+    "message": "kurl - YOURLS Shortener",
+    "description": "Name der Erweiterung."
+  },
+  "extensionDescription": {
+    "message": "Verkürzen Sie Links mit Ihrer YOURLS-Instanz und fügen Sie den Kurzlink direkt in den E-Mail-Editor ein.",
+    "description": "Beschreibung der Erweiterung."
+  },
+  "optionsTitle": {
+    "message": "kurl-Einstellungen",
+    "description": "Titel für die Einstellungsseite."
+  },
+  "optionsYourlsUrlLabel": {
+    "message": "YOURLS-URL (ohne abschließenden Schrägstrich)",
+    "description": "Beschriftung für das YOURLS-URL-Eingabefeld."
+  },
+  "optionsApiSignatureLabel": {
+    "message": "API-Signatur-Token",
+    "description": "Beschriftung für das API-Signatur-Token-Eingabefeld."
+  },
+  "optionsAutoCopyLabel": {
+    "message": "Kurzlink automatisch in die Zwischenablage kopieren",
+    "description": "Beschriftung für das Kontrollkästchen zum automatischen Kopieren."
+  },
+  "optionsBtnSave": {
+    "message": "Speichern",
+    "description": "Text der Schaltfläche Speichern."
+  },
+  "optionsBtnTest": {
+    "message": "Verbindung testen",
+    "description": "Text der Schaltfläche Verbindung testen."
+  },
+  "optionsBtnRemovePerm": {
+    "message": "Host-Berechtigung entfernen",
+    "description": "Text der Schaltfläche Host-Berechtigung entfernen."
+  },
+  "optionsStatusLoaded": {
+    "message": "Gespeicherte Einstellungen geladen. Klicken Sie auf „Verbindung testen“.",
+    "description": "Anfängliche Statusmeldung auf der Einstellungsseite."
+  },
+  "popupTitle": {
+    "message": "kurl Shortener",
+    "description": "Titel für das Popup-Fenster."
+  },
+  "popupLongUrlLabel": {
+    "message": "Lange URL",
+    "description": "Beschriftung für das Eingabefeld für lange URLs."
+  },
+  "popupKeywordLabel": {
+    "message": "Benutzerdefiniertes Schlüsselwort (optional)",
+    "description": "Beschriftung für das Eingabefeld für benutzerdefinierte Schlüsselwörter."
+  },
+  "popupBtnShorten": {
+    "message": "Verkürzen",
+    "description": "Text der Schaltfläche Verkürzen."
+  },
+  "popupShortUrlLabel": {
+    "message": "Kurze URL",
+    "description": "Beschriftung für die Ausgabe der kurzen URL."
+  },
+  "popupBtnCopy": {
+    "message": "Kopieren",
+    "description": "Text der Schaltfläche Kopieren."
+  },
+  "popupBtnInsert": {
+    "message": "Einfügen",
+    "description": "Text der Schaltfläche Einfügen."
+  },
+  "popupBtnDelete": {
+    "message": "Löschen",
+    "description": "Text der Schaltfläche Löschen."
+  },
+  "popupBtnConfirmDelete": {
+    "message": "Bestätigen?",
+    "description": "Bestätigungstext der Schaltfläche Löschen."
+  },
+  "popupStatsLabel": {
+    "message": "Statistiken für (kurze URL oder Schlüsselwort)",
+    "description": "Beschriftung für das Statistik-Eingabefeld."
+  },
+  "popupBtnStats": {
+    "message": "Statistiken",
+    "description": "Text der Schaltfläche Statistiken abrufen."
+  },
+  "popupBtnToggleJson": {
+    "message": "JSON umschalten",
+    "description": "Text der Schaltfläche JSON-Ansicht umschalten."
+  },
+  "popupStatusReady": {
+    "message": "Bereit.",
+    "description": "Anfängliche Statusmeldung im Popup."
+  },
+  "popupInfoAutoStats": {
+    "message": "Dies ist bereits eine kurze URL. Statistiken werden automatisch abgerufen.",
+    "description": "Meldung, wenn Statistiken für eine ausgewählte kurze URL automatisch abgerufen werden."
+  }
+}

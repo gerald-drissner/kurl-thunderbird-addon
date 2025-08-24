@@ -1,0 +1,98 @@
+{
+  "extensionName": {
+    "message": "kurl - Сокращатель YOURLS",
+    "description": "Название расширения."
+  },
+  "extensionDescription": {
+    "message": "Сокращайте ссылки с помощью вашего экземпляра YOURLS и вставляйте короткую ссылку прямо в редактор.",
+    "description": "Описание расширения."
+  },
+  "optionsTitle": {
+    "message": "Настройки kurl",
+    "description": "Заголовок страницы настроек."
+  },
+  "optionsYourlsUrlLabel": {
+    "message": "URL-адрес YOURLS (без косой черты в конце)",
+    "description": "Метка для поля ввода URL-адреса YOURLS."
+  },
+  "optionsApiSignatureLabel": {
+    "message": "Токен подписи API",
+    "description": "Метка для поля ввода токена подписи API."
+  },
+  "optionsAutoCopyLabel": {
+    "message": "Автоматически копировать короткую ссылку в буфер обмена",
+    "description": "Метка для флажка автоматического копирования."
+  },
+  "optionsBtnSave": {
+    "message": "Сохранить",
+    "description": "Текст кнопки «Сохранить»."
+  },
+  "optionsBtnTest": {
+    "message": "Проверить соединение",
+    "description": "Текст кнопки «Проверить соединение»."
+  },
+  "optionsBtnRemovePerm": {
+    "message": "Удалить разрешение хоста",
+    "description": "Текст кнопки «Удалить разрешение хоста»."
+  },
+  "optionsStatusLoaded": {
+    "message": "Сохраненные настройки загружены. Нажмите «Проверить соединение».",
+    "description": "Начальное сообщение о состоянии на странице настроек."
+  },
+  "popupTitle": {
+    "message": "Сокращатель kurl",
+    "description": "Заголовок всплывающего окна."
+  },
+  "popupLongUrlLabel": {
+    "message": "Длинный URL",
+    "description": "Метка для поля ввода длинного URL-адреса."
+  },
+  "popupKeywordLabel": {
+    "message": "Пользовательское ключевое слово (необязательно)",
+    "description": "Метка для поля ввода пользовательского ключевого слова."
+  },
+  "popupBtnShorten": {
+    "message": "Сократить",
+    "description": "Текст кнопки «Сократить»."
+  },
+  "popupShortUrlLabel": {
+    "message": "Короткий URL",
+    "description": "Метка для поля вывода короткого URL-адреса."
+  },
+  "popupBtnCopy": {
+    "message": "Копировать",
+    "description": "Текст кнопки «Копировать»."
+  },
+  "popupBtnInsert": {
+    "message": "Вставить",
+    "description": "Текст кнопки «Вставить»."
+  },
+  "popupBtnDelete": {
+    "message": "Удалить",
+    "description": "Текст кнопки «Удалить»."
+  },
+  "popupBtnConfirmDelete": {
+    "message": "Подтвердить?",
+    "description": "Текст подтверждения кнопки «Удалить»."
+  },
+  "popupStatsLabel": {
+    "message": "Статистика для (короткий URL или ключевое слово)",
+    "description": "Метка для поля ввода статистики."
+  },
+  "popupBtnStats": {
+    "message": "Статистика",
+    "description": "Текст кнопки «Получить статистику»."
+  },
+  "popupBtnToggleJson": {
+    "message": "Переключить JSON",
+    "description": "Текст кнопки «Переключить вид JSON»."
+  },
+  "popupStatusReady": {
+    "message": "Готово.",
+    "description": "Начальное сообщение о состоянии во всплывающем окне."
+  },
+  "popupInfoAutoStats": {
+    "message": "Это уже короткий URL. Автоматическое получение статистики.",
+    "description": "Сообщение при автоматическом получении статистики для выбранного короткого URL-адреса."
+  }
+}

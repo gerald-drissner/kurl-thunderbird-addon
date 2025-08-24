@@ -1,0 +1,98 @@
+{
+  "extensionName": {
+    "message": "kurl - YOURLS مقصر",
+    "description": "اسم الإضافة."
+  },
+  "extensionDescription": {
+    "message": "قم بتقصير الروابط باستخدام مثيل YOURLS الخاص بك وأدخل الرابط القصير مباشرة في محرر الإنشاء.",
+    "description": "وصف الإضافة."
+  },
+  "optionsTitle": {
+    "message": "إعدادات kurl",
+    "description": "عنوان صفحة الخيارات."
+  },
+  "optionsYourlsUrlLabel": {
+    "message": "YOURLS URL (بدون شرطة مائلة في النهاية)",
+    "description": "تسمية حقل إدخال YOURLS URL."
+  },
+  "optionsApiSignatureLabel": {
+    "message": "رمز توقيع API",
+    "description": "تسمية حقل إدخال رمز توقيع API."
+  },
+  "optionsAutoCopyLabel": {
+    "message": "انسخ الرابط القصير إلى الحافظة تلقائيًا",
+    "description": "تسمية مربع اختيار النسخ التلقائي."
+  },
+  "optionsBtnSave": {
+    "message": "حفظ",
+    "description": "نص زر الحفظ."
+  },
+  "optionsBtnTest": {
+    "message": "اختبار الاتصال",
+    "description": "نص زر اختبار الاتصال."
+  },
+  "optionsBtnRemovePerm": {
+    "message": "إزالة إذن المضيف",
+    "description": "نص زر إزالة إذن المضيف."
+  },
+  "optionsStatusLoaded": {
+    "message": "تم تحميل الإعدادات المحفوظة. انقر فوق «اختبار الاتصال».",
+    "description": "رسالة الحالة الأولية في صفحة الخيارات."
+  },
+  "popupTitle": {
+    "message": "مقصر kurl",
+    "description": "عنوان النافذة المنبثقة."
+  },
+  "popupLongUrlLabel": {
+    "message": "URL طويل",
+    "description": "تسمية حقل إدخال URL الطويل."
+  },
+  "popupKeywordLabel": {
+    "message": "كلمة رئيسية مخصصة (اختياري)",
+    "description": "تسمية حقل إدخال الكلمة الرئيسية المخصصة."
+  },
+  "popupBtnShorten": {
+    "message": "تقصير",
+    "description": "نص زر التقصير."
+  },
+  "popupShortUrlLabel": {
+    "message": "URL قصير",
+    "description": "تسمية حقل إخراج URL القصير."
+  },
+  "popupBtnCopy": {
+    "message": "نسخ",
+    "description": "نص زر النسخ."
+  },
+  "popupBtnInsert": {
+    "message": "إدراج",
+    "description": "نص زر الإدراج."
+  },
+  "popupBtnDelete": {
+    "message": "حذف",
+    "description": "نص زر الحذف."
+  },
+  "popupBtnConfirmDelete": {
+    "message": "تأكيد؟",
+    "description": "نص تأكيد زر الحذف."
+  },
+  "popupStatsLabel": {
+    "message": "إحصائيات لـ (URL قصير أو كلمة رئيسية)",
+    "description": "تسمية حقل إدخال الإحصائيات."
+  },
+  "popupBtnStats": {
+    "message": "إحصائيات",
+    "description": "نص زر الحصول على الإحصائيات."
+  },
+  "popupBtnToggleJson": {
+    "message": "تبديل JSON",
+    "description": "نص زر تبديل عرض JSON."
+  },
+  "popupStatusReady": {
+    "message": "جاهز.",
+    "description": "رسالة الحالة الأولية في النافذة المنبثقة."
+  },
+  "popupInfoAutoStats": {
+    "message": "هذا بالفعل URL قصير. جارٍ جلب الإحصائيات تلقائيًا.",
+    "description": "رسالة عند جلب الإحصائيات تلقائيًا لـ URL قصير محدد."
+  }
+}

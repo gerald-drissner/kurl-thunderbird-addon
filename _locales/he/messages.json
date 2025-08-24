@@ -1,0 +1,98 @@
+{
+  "extensionName": {
+    "message": "kurl - YOURLS מקצר",
+    "description": "שם התוסף."
+  },
+  "extensionDescription": {
+    "message": "קצר קישורים באמצעות מופע ה- YOURLS שלך והכנס את הקישור הקצר ישירות לעורך החיבור.",
+    "description": "תיאור התוסף."
+  },
+  "optionsTitle": {
+    "message": "הגדרות kurl",
+    "description": "כותרת דף האפשרויות."
+  },
+  "optionsYourlsUrlLabel": {
+    "message": "כתובת YOURLS (ללא קו נטוי בסוף)",
+    "description": "תווית לשדה הקלט של כתובת YOURLS."
+  },
+  "optionsApiSignatureLabel": {
+    "message": "אסימון חתימת API",
+    "description": "תווית לשדה הקלט של אסימון חתימת API."
+  },
+  "optionsAutoCopyLabel": {
+    "message": "העתק קישור קצר ללוח באופן אוטומטי",
+    "description": "תווית לתיבת הסימון של העתקה אוטומטית."
+  },
+  "optionsBtnSave": {
+    "message": "שמור",
+    "description": "טקסט לחצן השמירה."
+  },
+  "optionsBtnTest": {
+    "message": "בדוק חיבור",
+    "description": "טקסט לחצן בדיקת החיבור."
+  },
+  "optionsBtnRemovePerm": {
+    "message": "הסר הרשאת מארח",
+    "description": "טקסט לחצן הסרת הרשאת המארח."
+  },
+  "optionsStatusLoaded": {
+    "message": "הגדרות שמורות נטענו. לחץ על «בדוק חיבור».",
+    "description": "הודעת מצב ראשונית בדף האפשרויות."
+  },
+  "popupTitle": {
+    "message": "מקצר kurl",
+    "description": "כותרת החלון הקופץ."
+  },
+  "popupLongUrlLabel": {
+    "message": "כתובת ארוכה",
+    "description": "תווית לשדה הקלט של כתובת ארוכה."
+  },
+  "popupKeywordLabel": {
+    "message": "מילת מפתח מותאמת אישית (אופציונלי)",
+    "description": "תווית לשדה הקלט של מילת מפתח מותאמת אישית."
+  },
+  "popupBtnShorten": {
+    "message": "קצר",
+    "description": "טקסט לחצן הקיצור."
+  },
+  "popupShortUrlLabel": {
+    "message": "כתובת קצרה",
+    "description": "תווית לשדה הפלט של כתובת קצרה."
+  },
+  "popupBtnCopy": {
+    "message": "העתק",
+    "description": "טקסט לחצן ההעתקה."
+  },
+  "popupBtnInsert": {
+    "message": "הכנס",
+    "description": "טקסט לחצן ההכנסה."
+  },
+  "popupBtnDelete": {
+    "message": "מחק",
+    "description": "טקסט לחצן המחיקה."
+  },
+  "popupBtnConfirmDelete": {
+    "message": "אשר?",
+    "description": "טקסט אישור לחצן המחיקה."
+  },
+  "popupStatsLabel": {
+    "message": "סטטיסטיקות עבור (כתובת קצרה או מילת מפתח)",
+    "description": "תווית לשדה הקלט של סטטיסטיקות."
+  },
+  "popupBtnStats": {
+    "message": "סטטיסטיקות",
+    "description": "טקסט לחצן קבלת הסטטיסטיקות."
+  },
+  "popupBtnToggleJson": {
+    "message": "החלף JSON",
+    "description": "טקסט לחצן החלפת תצוגת JSON."
+  },
+  "popupStatusReady": {
+    "message": "מוכן.",
+    "description": "הודעת מצב ראשונית בחלון הקופץ."
+  },
+  "popupInfoAutoStats": {
+    "message": "זוהי כבר כתובת קצרה. מאחזר סטטיסטיקות באופן אוטומטי.",
+    "description": "הודעה בעת אחזור אוטומטי של סטטיסטיקות עבור כתובת קצרה נבחרת."
+  }
+}

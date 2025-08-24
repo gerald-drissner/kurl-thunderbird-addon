@@ -1,0 +1,98 @@
+{
+  "extensionName": {
+    "message": "kurl - Raccourcisseur YOURLS",
+    "description": "Nom de l'extension."
+  },
+  "extensionDescription": {
+    "message": "Raccourcissez les liens avec votre instance YOURLS et insérez le lien court directement dans l'éditeur de composition.",
+    "description": "Description de l'extension."
+  },
+  "optionsTitle": {
+    "message": "Paramètres de kurl",
+    "description": "Titre de la page des options."
+  },
+  "optionsYourlsUrlLabel": {
+    "message": "URL YOURLS (sans barre oblique finale)",
+    "description": "Étiquette pour le champ de saisie de l'URL YOURLS."
+  },
+  "optionsApiSignatureLabel": {
+    "message": "Jeton de signature API",
+    "description": "Étiquette pour le champ de saisie du jeton de signature API."
+  },
+  "optionsAutoCopyLabel": {
+    "message": "Copier automatiquement le lien court dans le presse-papiers",
+    "description": "Étiquette pour la case à cocher de copie automatique."
+  },
+  "optionsBtnSave": {
+    "message": "Enregistrer",
+    "description": "Texte du bouton Enregistrer."
+  },
+  "optionsBtnTest": {
+    "message": "Tester la connexion",
+    "description": "Texte du bouton Tester la connexion."
+  },
+  "optionsBtnRemovePerm": {
+    "message": "Supprimer l'autorisation de l'hôte",
+    "description": "Texte du bouton Supprimer l'autorisation de l'hôte."
+  },
+  "optionsStatusLoaded": {
+    "message": "Paramètres enregistrés chargés. Cliquez sur « Tester la connexion ».",
+    "description": "Message d'état initial sur la page des options."
+  },
+  "popupTitle": {
+    "message": "Raccourcisseur kurl",
+    "description": "Titre de la fenêtre contextuelle."
+  },
+  "popupLongUrlLabel": {
+    "message": "URL longue",
+    "description": "Étiquette pour le champ de saisie de l'URL longue."
+  },
+  "popupKeywordLabel": {
+    "message": "Mot-clé personnalisé (facultatif)",
+    "description": "Étiquette pour le champ de saisie du mot-clé personnalisé."
+  },
+  "popupBtnShorten": {
+    "message": "Raccourcir",
+    "description": "Texte du bouton Raccourcir."
+  },
+  "popupShortUrlLabel": {
+    "message": "URL courte",
+    "description": "Étiquette pour le champ de sortie de l'URL courte."
+  },
+  "popupBtnCopy": {
+    "message": "Copier",
+    "description": "Texte du bouton Copier."
+  },
+  "popupBtnInsert": {
+    "message": "Insérer",
+    "description": "Texte du bouton Insérer."
+  },
+  "popupBtnDelete": {
+    "message": "Supprimer",
+    "description": "Texte du bouton Supprimer."
+  },
+  "popupBtnConfirmDelete": {
+    "message": "Confirmer ?",
+    "description": "Texte de confirmation du bouton Supprimer."
+  },
+  "popupStatsLabel": {
+    "message": "Statistiques pour (URL courte ou mot-clé)",
+    "description": "Étiquette pour le champ de saisie des statistiques."
+  },
+  "popupBtnStats": {
+    "message": "Statistiques",
+    "description": "Texte du bouton Obtenir les statistiques."
+  },
+  "popupBtnToggleJson": {
+    "message": "Basculer JSON",
+    "description": "Texte du bouton Basculer la vue JSON."
+  },
+  "popupStatusReady": {
+    "message": "Prêt.",
+    "description": "Message d'état initial dans la fenêtre contextuelle."
+  },
+  "popupInfoAutoStats": {
+    "message": "Ceci est déjà une URL courte. Récupération automatique des statistiques.",
+    "description": "Message lors de la récupération automatique des statistiques pour une URL courte sélectionnée."
+  }
+}

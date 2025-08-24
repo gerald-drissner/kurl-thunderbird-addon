@@ -1,0 +1,65 @@
+{
+  "manifest_version": 3,
+  "name": "kurl - YOURLS Shortener",
+  "short_name": "kurl",
+  "version": "1.0",
+  "author": "Gerald Drißner",
+  "default_locale": "en",
+  "description": "Shorten links with your YOURLS instance and insert the short link directly into the compose editor.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "yourls@drissner.me",
+      "strict_min_version": "115.0"
+    }
+  },
+  "icons": {
+    "48": "images/kurl-icon-48.png",
+    "96": "images/kurl-icon-96.png"
+  },
+  "background": {
+    "scripts": [
+      "JS/helpers.js",
+      "JS/background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*/compose*"
+      ],
+      "js": [
+        "JS/compose_inject.js"
+      ]
+    }
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
+  "compose_action": {
+    "default_title": "kurl",
+    "default_popup": "popup.html",
+    "default_icon": "images/kurl-icon-48.png"
+  },
+  "message_display_action": {
+    "default_title": "kurl",
+    "default_popup": "popup.html",
+    "default_icon": "images/kurl-icon-48.png"
+  },
+  "permissions": [
+    "storage",
+    "clipboardWrite",
+    "compose",
+    "menus",
+    "notifications",
+    "tabs",
+    "scripting"
+  ],
+  "optional_host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; base-uri 'none';"
+  }
+}
