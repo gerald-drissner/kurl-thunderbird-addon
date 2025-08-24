@@ -5,8 +5,7 @@
 
 A Thunderbird add-on to shorten URLs with your self-hosted YOURLS instance and insert them directly into the email compose window.
 
-![Screenshot of the kurl popup](images/kurl-icon-96.png)
-*(Suggestion: Replace the icon above with a full screenshot of your add-on in action!)*
+![Screenshot of the kurl add-on popup](assets/kurl-thunderbird-add-on-screenshot.jpg)
 
 ## Features
 
