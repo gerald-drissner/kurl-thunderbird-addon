@@ -54,12 +54,7 @@
   "optionsStatusConnOk": {
     "message": "Connection OK (Total links: $total$)",
     "description": "Success message for connection test.",
-    "placeholders": {
-      "total": {
-        "content": "$1",
-        "example": "123"
-      }
-    }
+    "placeholders": { "total": { "content": "$1" } }
   },
   "optionsStatusConnFailed": {
     "message": "Connection failed.",
@@ -80,6 +75,18 @@
   "optionsStatusPermRemoved": {
     "message": "Host permission removed for this origin.",
     "description": "Success message when permission is removed."
+  },
+  "optionsShortcutTitle": {
+    "message": "Using the Shortcut",
+    "description": "Title for the shortcut information box in options."
+  },
+  "optionsShortcutDescription": {
+    "message": "You can quickly open the shortener by selecting a URL in the compose editor and pressing",
+    "description": "Description of how to use the keyboard shortcut."
+  },
+  "optionsShortcutChange": {
+    "message": "You can change this shortcut in Thunderbird's Add-ons Manager under the ⚙️ menu for kurl.",
+    "description": "Instructions on how to change the default keyboard shortcut."
   },
   "popupTitle": {
     "message": "YOURLS Shortener",
@@ -161,9 +168,9 @@
     "message": "Short: $shorturl$\nTarget: $longurl$\nClicks: $clicks$",
     "description": "Formatted stats result.",
     "placeholders": {
-      "shorturl": {"content": "$1"},
-      "longurl": {"content": "$2"},
-      "clicks": {"content": "$3"}
+      "shorturl": { "content": "$1" },
+      "longurl": { "content": "$2" },
+      "clicks": { "content": "$3" }
     }
   },
   "popupStatusDeleting": {
@@ -199,7 +206,7 @@
     "description": "Error when insert button is clicked with no URL."
   },
   "popupErrorNoCompose": {
-    "message": "Could not find an active compose window. The original may have been closed.",
+    "message": "Could not find an active compose window.",
     "description": "Error when trying to insert without a compose window."
   },
   "popupErrorEnterUrlForStats": {
@@ -209,6 +216,10 @@
   "popupErrorProvideUrlToDelete": {
     "message": "Provide a short URL or keyword to delete.",
     "description": "Error when delete is clicked with no URL."
+  },
+  "popupErrorStatsNotFound": {
+    "message": "Short URL not found.",
+    "description": "Error when stats are requested for a non-existent URL."
   },
   "errorShortenFailed": {
     "message": "Shorten failed.",
@@ -241,5 +252,13 @@
   "toastUrlDeleted": {
     "message": "Short URL deleted.",
     "description": "Notification message for deleted URL."
+  },
+  "menuItemShortenSelection": {
+    "message": "kurl: Shorten selection…",
+    "description": "The title of the context menu item for shortening a selection."
+  },
+  "commandShortenDescription": {
+    "message": "Open the kurl shortener popup.",
+    "description": "Description for the keyboard shortcut."
   }
 }

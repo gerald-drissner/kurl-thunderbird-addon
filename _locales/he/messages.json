@@ -1,98 +1,264 @@
 {
   "extensionName": {
-    "message": "kurl - YOURLS מקצר",
+    "message": "kurl - YOURLS Shortener",
     "description": "שם התוסף."
   },
   "extensionDescription": {
-    "message": "קצר קישורים באמצעות מופע ה- YOURLS שלך והכנס את הקישור הקצר ישירות לעורך החיבור.",
+    "message": "קצר קישורים עם מופע ה-YOURLS שלך והכנס את הקישור המקוצר ישירות לעורך.",
     "description": "תיאור התוסף."
   },
   "optionsTitle": {
-    "message": "הגדרות kurl",
-    "description": "כותרת דף האפשרויות."
+    "message": "הגדרות YOURLS",
+    "description": "כותרת עמוד האפשרויות."
   },
   "optionsYourlsUrlLabel": {
-    "message": "כתובת YOURLS (ללא קו נטוי בסוף)",
-    "description": "תווית לשדה הקלט של כתובת YOURLS."
+    "message": "כתובת YOURLS (ללא לוכסן בסוף)",
+    "description": "תווית לשדה הזנת כתובת YOURLS."
   },
   "optionsApiSignatureLabel": {
     "message": "אסימון חתימת API",
-    "description": "תווית לשדה הקלט של אסימון חתימת API."
+    "description": "תווית לשדה הזנת אסימון חתימת API."
   },
   "optionsAutoCopyLabel": {
-    "message": "העתק קישור קצר ללוח באופן אוטומטי",
+    "message": "העתק קישור מקוצר ללוח באופן אוטומטי",
     "description": "תווית לתיבת הסימון של העתקה אוטומטית."
   },
   "optionsBtnSave": {
     "message": "שמור",
-    "description": "טקסט לחצן השמירה."
+    "description": "טקסט כפתור השמירה."
   },
   "optionsBtnTest": {
     "message": "בדוק חיבור",
-    "description": "טקסט לחצן בדיקת החיבור."
+    "description": "טקסט כפתור בדיקת החיבור."
   },
   "optionsBtnRemovePerm": {
     "message": "הסר הרשאת מארח",
-    "description": "טקסט לחצן הסרת הרשאת המארח."
+    "description": "טקסט כפתור הסרת הרשאת מארח."
   },
   "optionsStatusLoaded": {
-    "message": "הגדרות שמורות נטענו. לחץ על «בדוק חיבור».",
-    "description": "הודעת מצב ראשונית בדף האפשרויות."
+    "message": "הגדרות שמורות נטענו. לחץ על 'בדוק חיבור'.",
+    "description": "הודעת סטטוס ראשונית בעמוד האפשרויות."
+  },
+  "optionsStatusEnterUrlAndToken": {
+    "message": "אנא הזן את כתובת ה-YOURLS ואסימון ה-API שלך.",
+    "description": "הודעת שגיאה כאשר כתובת או אסימון חסרים."
+  },
+  "optionsStatusPermNotGranted": {
+    "message": "הרשאת מארח לא ניתנה.",
+    "description": "הודעת שגיאה כאשר הרשאת מארח נדחית."
+  },
+  "optionsStatusPermRequestError": {
+    "message": "לא ניתן לבקש הרשאת מארח: ",
+    "description": "הודעת שגיאה כאשר בקשת הרשאת מארח נכשלת."
+  },
+  "optionsStatusConnOk": {
+    "message": "החיבור תקין (סה\"כ קישורים: $total$)",
+    "description": "הודעת הצלחה לבדיקת חיבור.",
+    "placeholders": { "total": { "content": "$1" } }
+  },
+  "optionsStatusConnFailed": {
+    "message": "החיבור נכשל.",
+    "description": "הודעת שגיאה לבדיקת חיבור שנכשלה."
+  },
+  "optionsStatusSaved": {
+    "message": "ההגדרות נשמרו. ייתכן שתרצה לבדוק את החיבור שוב.",
+    "description": "הודעת סטטוס לאחר שמירת הגדרות."
+  },
+  "optionsStatusEnterUrlToRemove": {
+    "message": "הזן כתובת להסרת הרשאתה.",
+    "description": "הודעה בעת ניסיון להסיר הרשאה ללא כתובת."
+  },
+  "optionsStatusPermRemoveError": {
+    "message": "לא ניתן להסיר הרשאה: ",
+    "description": "הודעת שגיאה כאשר הסרת הרשאת מארח נכשלת."
+  },
+  "optionsStatusPermRemoved": {
+    "message": "הרשאת מארח הוסרה עבור מקור זה.",
+    "description": "הודעת הצלחה כאשר הרשאה מוסרת."
+  },
+  "optionsShortcutTitle": {
+    "message": "שימוש בקיצור הדרך",
+    "description": "כותרת תיבת המידע על קיצור הדרך באפשרויות."
+  },
+  "optionsShortcutDescription": {
+    "message": "ניתן לפתוח במהירות את המקצר על ידי בחירת כתובת URL בעורך והקשה על",
+    "description": "תיאור אופן השימוש בקיצור המקשים."
+  },
+  "optionsShortcutChange": {
+    "message": "ניתן לשנות קיצור דרך זה במנהל התוספים של Thunderbird תחת תפריט ⚙️ של kurl.",
+    "description": "הוראות לשינוי קיצור המקשים המוגדר כברירת מחדל."
   },
   "popupTitle": {
-    "message": "מקצר kurl",
+    "message": "מקצר YOURLS",
     "description": "כותרת החלון הקופץ."
   },
   "popupLongUrlLabel": {
     "message": "כתובת ארוכה",
-    "description": "תווית לשדה הקלט של כתובת ארוכה."
+    "description": "תווית לשדה הזנת הכתובת הארוכה."
   },
   "popupKeywordLabel": {
     "message": "מילת מפתח מותאמת אישית (אופציונלי)",
-    "description": "תווית לשדה הקלט של מילת מפתח מותאמת אישית."
+    "description": "תווית לשדה הזנת מילת המפתח המותאמת אישית."
   },
   "popupBtnShorten": {
     "message": "קצר",
-    "description": "טקסט לחצן הקיצור."
+    "description": "טקסט כפתור הקיצור."
   },
   "popupShortUrlLabel": {
-    "message": "כתובת קצרה",
-    "description": "תווית לשדה הפלט של כתובת קצרה."
+    "message": "כתובת מקוצרת",
+    "description": "תווית לשדה פלט הכתובת המקוצרת."
   },
   "popupBtnCopy": {
     "message": "העתק",
-    "description": "טקסט לחצן ההעתקה."
+    "description": "טקסט כפתור ההעתקה."
   },
   "popupBtnInsert": {
     "message": "הכנס",
-    "description": "טקסט לחצן ההכנסה."
+    "description": "טקסט כפתור ההכנסה."
   },
   "popupBtnDelete": {
     "message": "מחק",
-    "description": "טקסט לחצן המחיקה."
+    "description": "טקסט כפתור המחיקה."
   },
   "popupBtnConfirmDelete": {
-    "message": "אשר?",
-    "description": "טקסט אישור לחצן המחיקה."
+    "message": "לאשר?",
+    "description": "טקסט אישור כפתור המחיקה."
   },
   "popupStatsLabel": {
-    "message": "סטטיסטיקות עבור (כתובת קצרה או מילת מפתח)",
-    "description": "תווית לשדה הקלט של סטטיסטיקות."
+    "message": "סטטיסטיקה עבור (כתובת מקוצרת או מילת מפתח)",
+    "description": "תווית לשדה הזנת הסטטיסטיקה."
   },
   "popupBtnStats": {
-    "message": "סטטיסטיקות",
-    "description": "טקסט לחצן קבלת הסטטיסטיקות."
+    "message": "סטטיסטיקה",
+    "description": "טקסט כפתור קבלת הסטטיסטיקה."
   },
   "popupBtnToggleJson": {
-    "message": "החלף JSON",
-    "description": "טקסט לחצן החלפת תצוגת JSON."
+    "message": "הצג/הסתר JSON",
+    "description": "טקסט כפתור החלפת תצוגת JSON."
   },
   "popupStatusReady": {
     "message": "מוכן.",
-    "description": "הודעת מצב ראשונית בחלון הקופץ."
+    "description": "הודעת סטטוס ראשונית בחלון הקופץ."
+  },
+  "popupStatusShortening": {
+    "message": "מקצר…",
+    "description": "הודעת סטטוס בזמן הקיצור."
+  },
+  "popupStatusCreated": {
+    "message": "כתובת מקוצרת נוצרה.",
+    "description": "הודעת הצלחה כאשר הכתובת קוצרה."
+  },
+  "popupStatusAlreadyShortened": {
+    "message": "הכתובת כבר קוצרה.",
+    "description": "הודעה כאשר הכתובת כבר קיימת."
+  },
+  "popupStatusCopied": {
+    "message": "הועתק ללוח.",
+    "description": "הודעה כאשר הטקסט מועתק."
+  },
+  "popupStatusInserted": {
+    "message": "הכתובת המקוצרת הוכנסה לעורך.",
+    "description": "הודעה כאשר הכתובת המקוצרת מוכנסת."
+  },
+  "popupStatusFetchingStats": {
+    "message": "מביא סטטיסטיקה…",
+    "description": "הודעת סטטוס בזמן הבאת הסטטיסטיקה."
+  },
+  "popupStatusStatsResult": {
+    "message": "מקוצר: $shorturl$\nיעד: $longurl$\nקליקים: $clicks$",
+    "description": "תוצאת סטטיסטיקה מעוצבת.",
+    "placeholders": {
+      "shorturl": { "content": "$1" },
+      "longurl": { "content": "$2" },
+      "clicks": { "content": "$3" }
+    }
+  },
+  "popupStatusDeleting": {
+    "message": "מוחק…",
+    "description": "הודעת סטטוס בזמן המחיקה."
+  },
+  "popupStatusDeleted": {
+    "message": "הכתובת המקוצרת נמחקה.",
+    "description": "הודעת הצלחה כאשר הכתובת נמחקת."
+  },
+  "popupInfoAlreadyShortened": {
+    "message": "הכתובת כבר קוצרה. ניתן לצפות בסטטיסטיקה או למחוק אותה למטה.",
+    "description": "הודעת מידע עבור כתובת קיימת."
   },
   "popupInfoAutoStats": {
-    "message": "זוהי כבר כתובת קצרה. מאחזר סטטיסטיקות באופן אוטומטי.",
-    "description": "הודעה בעת אחזור אוטומטי של סטטיסטיקות עבור כתובת קצרה נבחרת."
+    "message": "זוהי כבר כתובת מקוצרת. מביא סטטיסטיקה באופן אוטומטי.",
+    "description": "הודעה בעת הבאת סטטיסטיקה אוטומטית עבור כתובת מקוצרת שנבחרה."
+  },
+  "popupErrorInvalidUrl": {
+    "message": "אנא הזן כתובת http(s) תקינה.",
+    "description": "שגיאה עבור פורמט כתובת לא תקין."
+  },
+  "popupErrorNothingToCopy": {
+    "message": "אין מה להעתיק.",
+    "description": "שגיאה כאשר לוחצים על כפתור ההעתקה ללא כתובת."
+  },
+  "popupErrorCopyFailed": {
+    "message": "ההעתקה נכשלה.",
+    "description": "שגיאה כאשר ההעתקה ללוח נכשלת."
+  },
+  "popupErrorNothingToInsert": {
+    "message": "אין מה להכניס.",
+    "description": "שגיאה כאשר לוחצים על כפתור ההכנסה ללא כתובת."
+  },
+  "popupErrorNoCompose": {
+    "message": "לא נמצא חלון עריכה פעיל.",
+    "description": "שגיאה בעת ניסיון להכניס ללא חלון עריכה."
+  },
+  "popupErrorEnterUrlForStats": {
+    "message": "הזן כתובת מקוצרת או מילת מפתח לקבלת סטטיסטיקה.",
+    "description": "שגיאה כאשר לוחצים על כפתור הסטטיסטיקה ללא קלט."
+  },
+  "popupErrorProvideUrlToDelete": {
+    "message": "ספק כתובת מקוצרת או מילת מפתח למחיקה.",
+    "description": "שגיאה כאשר לוחצים על מחיקה ללא כתובת."
+  },
+  "popupErrorStatsNotFound": {
+    "message": "כתובת מקוצרת לא נמצאה.",
+    "description": "שגיאה כאשר מתבקשת סטטיסטיקה עבור כתובת לא קיימת."
+  },
+  "errorShortenFailed": {
+    "message": "הקיצור נכשל.",
+    "description": "שגיאה כללית לקיצור."
+  },
+  "errorStatsFailed": {
+    "message": "הבאת הסטטיסטיקה נכשלה.",
+    "description": "שגיאה כללית להבאת סטטיסטיקה."
+  },
+  "errorDeleteFailed": {
+    "message": "המחיקה נכשלה",
+    "description": "שגיאה כללית למחיקה."
+  },
+  "errorEnterKeywordToDelete": {
+    "message": "אנא הזן כתובת מקוצרת או מילת מפתח למחיקה.",
+    "description": "שגיאה בסקריפט הרקע אם מילת המפתח חסרה למחיקה."
+  },
+  "errorNoSettings": {
+    "message": "אנא הגדר את YOURLS תחילה בהגדרות התוסף.",
+    "description": "שגיאה כאשר ההגדרות אינן מוגדרות."
+  },
+  "toastUrlCreated": {
+    "message": "כתובת מקוצרת נוצרה.",
+    "description": "הודעת התראה על הצלחה."
+  },
+  "toastUrlExists": {
+    "message": "הכתובת כבר קוצרה.",
+    "description": "הודעת התראה על כתובת קיימת."
+  },
+  "toastUrlDeleted": {
+    "message": "הכתובת המקוצרת נמחקה.",
+    "description": "הודעת התראה על כתובת שנמחקה."
+  },
+  "menuItemShortenSelection": {
+    "message": "kurl: קצר בחירה…",
+    "description": "כותרת פריט תפריט ההקשר לקיצור בחירה."
+  },
+  "commandShortenDescription": {
+    "message": "פתח את חלון המקצר הקופץ של kurl.",
+    "description": "תיאור קיצור המקשים."
   }
 }

@@ -4,15 +4,15 @@
     "description": "Nombre de la extensión."
   },
   "extensionDescription": {
-    "message": "Acorte enlaces con su instancia de YOURLS e inserte el enlace corto directamente en el editor de redacción.",
+    "message": "Acorta enlaces con tu instancia de YOURLS e inserta el enlace corto directamente en el editor de redacción.",
     "description": "Descripción de la extensión."
   },
   "optionsTitle": {
-    "message": "Configuración de kurl",
+    "message": "Configuración de YOURLS",
     "description": "Título de la página de opciones."
   },
   "optionsYourlsUrlLabel": {
-    "message": "URL de YOURLS (sin barra diagonal final)",
+    "message": "URL de YOURLS (sin barra final)",
     "description": "Etiqueta para el campo de entrada de la URL de YOURLS."
   },
   "optionsApiSignatureLabel": {
@@ -21,7 +21,7 @@
   },
   "optionsAutoCopyLabel": {
     "message": "Copiar enlace corto al portapapeles automáticamente",
-    "description": "Etiqueta para la casilla de verificación de copia automática."
+    "description": "Etiqueta de la casilla de verificación de copiado automático."
   },
   "optionsBtnSave": {
     "message": "Guardar",
@@ -36,11 +36,60 @@
     "description": "Texto del botón Eliminar permiso de host."
   },
   "optionsStatusLoaded": {
-    "message": "Configuración guardada cargada. Haga clic en «Probar conexión».",
+    "message": "Configuración guardada cargada. Haz clic en «Probar conexión».",
     "description": "Mensaje de estado inicial en la página de opciones."
   },
+  "optionsStatusEnterUrlAndToken": {
+    "message": "Por favor, introduce tu URL de YOURLS y tu token de API.",
+    "description": "Mensaje de error cuando faltan la URL o el token."
+  },
+  "optionsStatusPermNotGranted": {
+    "message": "No se concedió el permiso de host.",
+    "description": "Mensaje de error cuando se deniega el permiso de host."
+  },
+  "optionsStatusPermRequestError": {
+    "message": "No se pudo solicitar el permiso de host: ",
+    "description": "Mensaje de error cuando falla la solicitud de permiso de host."
+  },
+  "optionsStatusConnOk": {
+    "message": "Conexión OK (Enlaces totales: $total$)",
+    "description": "Mensaje de éxito para la prueba de conexión.",
+    "placeholders": { "total": { "content": "$1" } }
+  },
+  "optionsStatusConnFailed": {
+    "message": "La conexión falló.",
+    "description": "Mensaje de error para una prueba de conexión fallida."
+  },
+  "optionsStatusSaved": {
+    "message": "Configuración guardada. Es posible que desees probar la conexión de nuevo.",
+    "description": "Mensaje de estado después de guardar la configuración."
+  },
+  "optionsStatusEnterUrlToRemove": {
+    "message": "Introduce una URL para eliminar su permiso.",
+    "description": "Mensaje al intentar eliminar el permiso sin una URL."
+  },
+  "optionsStatusPermRemoveError": {
+    "message": "No se pudo eliminar el permiso: ",
+    "description": "Mensaje de error cuando falla la eliminación del permiso de host."
+  },
+  "optionsStatusPermRemoved": {
+    "message": "Permiso de host eliminado para este origen.",
+    "description": "Mensaje de éxito cuando se elimina el permiso."
+  },
+  "optionsShortcutTitle": {
+    "message": "Uso del atajo",
+    "description": "Título del cuadro de información del atajo en las opciones."
+  },
+  "optionsShortcutDescription": {
+    "message": "Puedes abrir rápidamente el acortador seleccionando una URL en el editor y pulsando",
+    "description": "Descripción de cómo usar el atajo de teclado."
+  },
+  "optionsShortcutChange": {
+    "message": "Puedes cambiar este atajo en el Administrador de complementos de Thunderbird, en el menú ⚙️ de kurl.",
+    "description": "Instrucciones sobre cómo cambiar el atajo de teclado predeterminado."
+  },
   "popupTitle": {
-    "message": "Acortador kurl",
+    "message": "Acortador YOURLS",
     "description": "Título de la ventana emergente."
   },
   "popupLongUrlLabel": {
@@ -85,14 +134,131 @@
   },
   "popupBtnToggleJson": {
     "message": "Alternar JSON",
-    "description": "Texto del botón Alternar vista JSON."
+    "description": "Texto del botón para alternar la vista JSON."
   },
   "popupStatusReady": {
     "message": "Listo.",
     "description": "Mensaje de estado inicial en la ventana emergente."
   },
+  "popupStatusShortening": {
+    "message": "Acortando…",
+    "description": "Mensaje de estado mientras se acorta."
+  },
+  "popupStatusCreated": {
+    "message": "URL corta creada.",
+    "description": "Mensaje de éxito cuando se acorta la URL."
+  },
+  "popupStatusAlreadyShortened": {
+    "message": "La URL ya está acortada.",
+    "description": "Mensaje cuando la URL ya existe."
+  },
+  "popupStatusCopied": {
+    "message": "Copiado al portapapeles.",
+    "description": "Mensaje cuando se copia el texto."
+  },
+  "popupStatusInserted": {
+    "message": "URL corta insertada en el editor.",
+    "description": "Mensaje cuando se inserta la URL corta."
+  },
+  "popupStatusFetchingStats": {
+    "message": "Obteniendo estadísticas…",
+    "description": "Mensaje de estado mientras se obtienen las estadísticas."
+  },
+  "popupStatusStatsResult": {
+    "message": "Corta: $shorturl$\nDestino: $longurl$\nClics: $clicks$",
+    "description": "Resultado de estadísticas formateado.",
+    "placeholders": {
+      "shorturl": { "content": "$1" },
+      "longurl": { "content": "$2" },
+      "clicks": { "content": "$3" }
+    }
+  },
+  "popupStatusDeleting": {
+    "message": "Eliminando…",
+    "description": "Mensaje de estado mientras se elimina."
+  },
+  "popupStatusDeleted": {
+    "message": "URL corta eliminada.",
+    "description": "Mensaje de éxito cuando se elimina la URL."
+  },
+  "popupInfoAlreadyShortened": {
+    "message": "La URL ya está acortada. Puedes ver las estadísticas o eliminarla a continuación.",
+    "description": "Mensaje informativo para una URL existente."
+  },
   "popupInfoAutoStats": {
     "message": "Esta ya es una URL corta. Obteniendo estadísticas automáticamente.",
-    "description": "Mensaje al obtener estadísticas automáticamente para una URL corta seleccionada."
+    "description": "Mensaje al obtener automáticamente las estadísticas de una URL corta seleccionada."
+  },
+  "popupErrorInvalidUrl": {
+    "message": "Por favor, introduce una URL http(s) válida.",
+    "description": "Error por formato de URL no válido."
+  },
+  "popupErrorNothingToCopy": {
+    "message": "Nada que copiar.",
+    "description": "Error cuando se hace clic en el botón Copiar sin URL."
+  },
+  "popupErrorCopyFailed": {
+    "message": "Falló la copia.",
+    "description": "Error cuando falla la copia al portapapeles."
+  },
+  "popupErrorNothingToInsert": {
+    "message": "Nada que insertar.",
+    "description": "Error cuando se hace clic en el botón Insertar sin URL."
+  },
+  "popupErrorNoCompose": {
+    "message": "No se pudo encontrar una ventana de redacción activa.",
+    "description": "Error al intentar insertar sin una ventana de redacción."
+  },
+  "popupErrorEnterUrlForStats": {
+    "message": "Introduce una URL corta o palabra clave para obtener estadísticas.",
+    "description": "Error cuando se hace clic en el botón de estadísticas sin entrada."
+  },
+  "popupErrorProvideUrlToDelete": {
+    "message": "Proporciona una URL corta o palabra clave para eliminar.",
+    "description": "Error cuando se hace clic en Eliminar sin URL."
+  },
+  "popupErrorStatsNotFound": {
+    "message": "URL corta no encontrada.",
+    "description": "Error cuando se solicitan estadísticas para una URL inexistente."
+  },
+  "errorShortenFailed": {
+    "message": "Falló el acortamiento.",
+    "description": "Error genérico al acortar."
+  },
+  "errorStatsFailed": {
+    "message": "Falló la obtención de estadísticas.",
+    "description": "Error genérico al obtener estadísticas."
+  },
+  "errorDeleteFailed": {
+    "message": "Falló la eliminación",
+    "description": "Error genérico al eliminar."
+  },
+  "errorEnterKeywordToDelete": {
+    "message": "Por favor, introduce una URL corta o palabra clave para eliminar.",
+    "description": "Error en el script de fondo si falta la palabra clave para eliminar."
+  },
+  "errorNoSettings": {
+    "message": "Por favor, configura YOURLS primero en los ajustes del complemento.",
+    "description": "Error cuando no están configurados los ajustes."
+  },
+  "toastUrlCreated": {
+    "message": "URL corta creada.",
+    "description": "Mensaje de notificación de éxito."
+  },
+  "toastUrlExists": {
+    "message": "La URL ya está acortada.",
+    "description": "Mensaje de notificación para una URL existente."
+  },
+  "toastUrlDeleted": {
+    "message": "URL corta eliminada.",
+    "description": "Mensaje de notificación para una URL eliminada."
+  },
+  "menuItemShortenSelection": {
+    "message": "kurl: Acortar selección…",
+    "description": "El título del elemento del menú contextual para acortar una selección."
+  },
+  "commandShortenDescription": {
+    "message": "Abrir la ventana emergente del acortador kurl.",
+    "description": "Descripción del atajo de teclado."
   }
 }

@@ -1,26 +1,26 @@
 {
   "extensionName": {
-    "message": "kurl - YOURLS مقصر",
+    "message": "kurl - YOURLS Shortener",
     "description": "اسم الإضافة."
   },
   "extensionDescription": {
-    "message": "قم بتقصير الروابط باستخدام مثيل YOURLS الخاص بك وأدخل الرابط القصير مباشرة في محرر الإنشاء.",
+    "message": "اختصر الروابط باستخدام مثيل YOURLS الخاص بك وأدرج الرابط المختصر مباشرة في محرر الإنشاء.",
     "description": "وصف الإضافة."
   },
   "optionsTitle": {
-    "message": "إعدادات kurl",
+    "message": "إعدادات YOURLS",
     "description": "عنوان صفحة الخيارات."
   },
   "optionsYourlsUrlLabel": {
-    "message": "YOURLS URL (بدون شرطة مائلة في النهاية)",
-    "description": "تسمية حقل إدخال YOURLS URL."
+    "message": "عنوان URL الخاص بـ YOURLS (بدون شرطة مائلة في النهاية)",
+    "description": "تسمية حقل إدخال عنوان URL الخاص بـ YOURLS."
   },
   "optionsApiSignatureLabel": {
     "message": "رمز توقيع API",
     "description": "تسمية حقل إدخال رمز توقيع API."
   },
   "optionsAutoCopyLabel": {
-    "message": "انسخ الرابط القصير إلى الحافظة تلقائيًا",
+    "message": "نسخ الرابط المختصر إلى الحافظة تلقائيًا",
     "description": "تسمية مربع اختيار النسخ التلقائي."
   },
   "optionsBtnSave": {
@@ -36,28 +36,77 @@
     "description": "نص زر إزالة إذن المضيف."
   },
   "optionsStatusLoaded": {
-    "message": "تم تحميل الإعدادات المحفوظة. انقر فوق «اختبار الاتصال».",
+    "message": "تم تحميل الإعدادات المحفوظة. انقر فوق 'اختبار الاتصال'.",
     "description": "رسالة الحالة الأولية في صفحة الخيارات."
   },
+  "optionsStatusEnterUrlAndToken": {
+    "message": "الرجاء إدخال عنوان URL الخاص بـ YOURLS ورمز API الخاص بك.",
+    "description": "رسالة خطأ عند فقدان عنوان URL أو الرمز."
+  },
+  "optionsStatusPermNotGranted": {
+    "message": "لم يتم منح إذن المضيف.",
+    "description": "رسالة خطأ عند رفض إذن المضيف."
+  },
+  "optionsStatusPermRequestError": {
+    "message": "تعذر طلب إذن المضيف: ",
+    "description": "رسالة خطأ عند فشل طلب إذن المضيف."
+  },
+  "optionsStatusConnOk": {
+    "message": "الاتصال جيد (إجمالي الروابط: $total$)",
+    "description": "رسالة نجاح لاختبار الاتصال.",
+    "placeholders": { "total": { "content": "$1" } }
+  },
+  "optionsStatusConnFailed": {
+    "message": "فشل الاتصال.",
+    "description": "رسالة خطأ لاختبار اتصال فاشل."
+  },
+  "optionsStatusSaved": {
+    "message": "تم حفظ الإعدادات. قد ترغب في اختبار الاتصال مرة أخرى.",
+    "description": "رسالة الحالة بعد حفظ الإعدادات."
+  },
+  "optionsStatusEnterUrlToRemove": {
+    "message": "أدخل عنوان URL لإزالة إذنه.",
+    "description": "رسالة عند محاولة إزالة الإذن بدون عنوان URL."
+  },
+  "optionsStatusPermRemoveError": {
+    "message": "تعذر إزالة الإذن: ",
+    "description": "رسالة خطأ عند فشل إزالة إذن المضيف."
+  },
+  "optionsStatusPermRemoved": {
+    "message": "تمت إزالة إذن المضيف لهذا الأصل.",
+    "description": "رسالة نجاح عند إزالة الإذن."
+  },
+  "optionsShortcutTitle": {
+    "message": "استخدام الاختصار",
+    "description": "عنوان مربع معلومات الاختصار في الخيارات."
+  },
+  "optionsShortcutDescription": {
+    "message": "يمكنك فتح أداة الاختصار بسرعة عن طريق تحديد عنوان URL في المحرر والضغط على",
+    "description": "وصف كيفية استخدام اختصار لوحة المفاتيح."
+  },
+  "optionsShortcutChange": {
+    "message": "يمكنك تغيير هذا الاختصار في مدير إضافات Thunderbird ضمن قائمة ⚙️ الخاصة بـ kurl.",
+    "description": "إرشادات حول كيفية تغيير اختصار لوحة المفاتيح الافتراضي."
+  },
   "popupTitle": {
-    "message": "مقصر kurl",
+    "message": "أداة اختصار YOURLS",
     "description": "عنوان النافذة المنبثقة."
   },
   "popupLongUrlLabel": {
-    "message": "URL طويل",
-    "description": "تسمية حقل إدخال URL الطويل."
+    "message": "الرابط الطويل",
+    "description": "تسمية حقل إدخال الرابط الطويل."
   },
   "popupKeywordLabel": {
-    "message": "كلمة رئيسية مخصصة (اختياري)",
-    "description": "تسمية حقل إدخال الكلمة الرئيسية المخصصة."
+    "message": "كلمة مفتاحية مخصصة (اختياري)",
+    "description": "تسمية حقل إدخال الكلمة المفتاحية المخصصة."
   },
   "popupBtnShorten": {
-    "message": "تقصير",
-    "description": "نص زر التقصير."
+    "message": "اختصر",
+    "description": "نص زر الاختصار."
   },
   "popupShortUrlLabel": {
-    "message": "URL قصير",
-    "description": "تسمية حقل إخراج URL القصير."
+    "message": "الرابط المختصر",
+    "description": "تسمية حقل إخراج الرابط المختصر."
   },
   "popupBtnCopy": {
     "message": "نسخ",
@@ -76,7 +125,7 @@
     "description": "نص تأكيد زر الحذف."
   },
   "popupStatsLabel": {
-    "message": "إحصائيات لـ (URL قصير أو كلمة رئيسية)",
+    "message": "إحصائيات لـ (رابط مختصر أو كلمة مفتاحية)",
     "description": "تسمية حقل إدخال الإحصائيات."
   },
   "popupBtnStats": {
@@ -91,8 +140,125 @@
     "message": "جاهز.",
     "description": "رسالة الحالة الأولية في النافذة المنبثقة."
   },
+  "popupStatusShortening": {
+    "message": "جاري الاختصار…",
+    "description": "رسالة الحالة أثناء الاختصار."
+  },
+  "popupStatusCreated": {
+    "message": "تم إنشاء الرابط المختصر.",
+    "description": "رسالة نجاح عند اختصار الرابط."
+  },
+  "popupStatusAlreadyShortened": {
+    "message": "الرابط مختصر بالفعل.",
+    "description": "رسالة عند وجود الرابط بالفعل."
+  },
+  "popupStatusCopied": {
+    "message": "تم النسخ إلى الحافظة.",
+    "description": "رسالة عند نسخ النص."
+  },
+  "popupStatusInserted": {
+    "message": "تم إدراج الرابط المختصر في المحرر.",
+    "description": "رسالة عند إدراج الرابط المختصر."
+  },
+  "popupStatusFetchingStats": {
+    "message": "جاري جلب الإحصائيات…",
+    "description": "رسالة الحالة أثناء جلب الإحصائيات."
+  },
+  "popupStatusStatsResult": {
+    "message": "المختصر: $shorturl$\nالهدف: $longurl$\nالنقرات: $clicks$",
+    "description": "نتيجة الإحصائيات المنسقة.",
+    "placeholders": {
+      "shorturl": { "content": "$1" },
+      "longurl": { "content": "$2" },
+      "clicks": { "content": "$3" }
+    }
+  },
+  "popupStatusDeleting": {
+    "message": "جاري الحذف…",
+    "description": "رسالة الحالة أثناء الحذف."
+  },
+  "popupStatusDeleted": {
+    "message": "تم حذف الرابط المختصر.",
+    "description": "رسالة نجاح عند حذف الرابط."
+  },
+  "popupInfoAlreadyShortened": {
+    "message": "الرابط مختصر بالفعل. يمكنك عرض الإحصائيات أو حذفه أدناه.",
+    "description": "رسالة معلومات لرابط موجود."
+  },
   "popupInfoAutoStats": {
-    "message": "هذا بالفعل URL قصير. جارٍ جلب الإحصائيات تلقائيًا.",
-    "description": "رسالة عند جلب الإحصائيات تلقائيًا لـ URL قصير محدد."
+    "message": "هذا رابط مختصر بالفعل. جاري جلب الإحصائيات تلقائيًا.",
+    "description": "رسالة عند جلب الإحصائيات تلقائيًا لرابط مختصر محدد."
+  },
+  "popupErrorInvalidUrl": {
+    "message": "الرجاء إدخال عنوان URL http(s) صالح.",
+    "description": "خطأ لتنسيق عنوان URL غير صالح."
+  },
+  "popupErrorNothingToCopy": {
+    "message": "لا يوجد شيء لنسخه.",
+    "description": "خطأ عند النقر على زر النسخ بدون وجود رابط."
+  },
+  "popupErrorCopyFailed": {
+    "message": "فشل النسخ.",
+    "description": "خطأ عند فشل النسخ إلى الحافظة."
+  },
+  "popupErrorNothingToInsert": {
+    "message": "لا يوجد شيء لإدراجه.",
+    "description": "خطأ عند النقر على زر الإدراج بدون وجود رابط."
+  },
+  "popupErrorNoCompose": {
+    "message": "تعذر العثور على نافذة إنشاء نشطة.",
+    "description": "خطأ عند محاولة الإدراج بدون نافذة إنشاء."
+  },
+  "popupErrorEnterUrlForStats": {
+    "message": "أدخل رابطًا مختصرًا أو كلمة مفتاحية للحصول على الإحصائيات.",
+    "description": "خطأ عند النقر على زر الإحصائيات بدون إدخال."
+  },
+  "popupErrorProvideUrlToDelete": {
+    "message": "أدخل رابطًا مختصرًا أو كلمة مفتاحية للحذف.",
+    "description": "خطأ عند النقر على زر الحذف بدون وجود رابط."
+  },
+  "popupErrorStatsNotFound": {
+    "message": "الرابط المختصر غير موجود.",
+    "description": "خطأ عند طلب إحصائيات لرابط غير موجود."
+  },
+  "errorShortenFailed": {
+    "message": "فشل الاختصار.",
+    "description": "خطأ عام للاختصار."
+  },
+  "errorStatsFailed": {
+    "message": "فشل جلب الإحصائيات.",
+    "description": "خطأ عام لجلب الإحصائيات."
+  },
+  "errorDeleteFailed": {
+    "message": "فشل الحذف",
+    "description": "خطأ عام للحذف."
+  },
+  "errorEnterKeywordToDelete": {
+    "message": "الرجاء إدخال رابط مختصر أو كلمة مفتاحية للحذف.",
+    "description": "خطأ في البرنامج النصي الخلفي إذا كانت الكلمة المفتاحية مفقودة للحذف."
+  },
+  "errorNoSettings": {
+    "message": "الرجاء تكوين YOURLS أولاً في إعدادات الإضافة.",
+    "description": "خطأ عند عدم تكوين الإعدادات."
+  },
+  "toastUrlCreated": {
+    "message": "تم إنشاء الرابط المختصر.",
+    "description": "رسالة إشعار بالنجاح."
+  },
+  "toastUrlExists": {
+    "message": "الرابط مختصر بالفعل.",
+    "description": "رسالة إشعار لرابط موجود."
+  },
+  "toastUrlDeleted": {
+    "message": "تم حذف الرابط المختصر.",
+    "description": "رسالة إشعار لرابط محذوف."
+  },
+  "menuItemShortenSelection": {
+    "message": "kurl: اختصار التحديد…",
+    "description": "عنوان عنصر قائمة السياق لاختصار تحديد."
+  },
+  "commandShortenDescription": {
+    "message": "فتح نافذة kurl المنبثقة للاختصار.",
+    "description": "وصف اختصار لوحة المفاتيح."
   }
 }

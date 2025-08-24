@@ -8,7 +8,7 @@
     "description": "Description de l'extension."
   },
   "optionsTitle": {
-    "message": "Paramètres de kurl",
+    "message": "Paramètres YOURLS",
     "description": "Titre de la page des options."
   },
   "optionsYourlsUrlLabel": {
@@ -21,7 +21,7 @@
   },
   "optionsAutoCopyLabel": {
     "message": "Copier automatiquement le lien court dans le presse-papiers",
-    "description": "Étiquette pour la case à cocher de copie automatique."
+    "description": "Étiquette de la case à cocher de copie automatique."
   },
   "optionsBtnSave": {
     "message": "Enregistrer",
@@ -32,15 +32,64 @@
     "description": "Texte du bouton Tester la connexion."
   },
   "optionsBtnRemovePerm": {
-    "message": "Supprimer l'autorisation de l'hôte",
-    "description": "Texte du bouton Supprimer l'autorisation de l'hôte."
+    "message": "Retirer l'autorisation de l'hôte",
+    "description": "Texte du bouton Retirer l'autorisation de l'hôte."
   },
   "optionsStatusLoaded": {
     "message": "Paramètres enregistrés chargés. Cliquez sur « Tester la connexion ».",
     "description": "Message d'état initial sur la page des options."
   },
+  "optionsStatusEnterUrlAndToken": {
+    "message": "Veuillez entrer votre URL YOURLS et votre jeton API.",
+    "description": "Message d'erreur lorsque l'URL ou le jeton est manquant."
+  },
+  "optionsStatusPermNotGranted": {
+    "message": "L'autorisation de l'hôte n'a pas été accordée.",
+    "description": "Message d'erreur lorsque l'autorisation de l'hôte est refusée."
+  },
+  "optionsStatusPermRequestError": {
+    "message": "Impossible de demander l'autorisation de l'hôte : ",
+    "description": "Message d'erreur lorsque la demande d'autorisation de l'hôte échoue."
+  },
+  "optionsStatusConnOk": {
+    "message": "Connexion OK (Total des liens : $total$)",
+    "description": "Message de succès pour le test de connexion.",
+    "placeholders": { "total": { "content": "$1" } }
+  },
+  "optionsStatusConnFailed": {
+    "message": "La connexion a échoué.",
+    "description": "Message d'erreur pour un test de connexion échoué."
+  },
+  "optionsStatusSaved": {
+    "message": "Paramètres enregistrés. Vous voudrez peut-être tester à nouveau la connexion.",
+    "description": "Message d'état après l'enregistrement des paramètres."
+  },
+  "optionsStatusEnterUrlToRemove": {
+    "message": "Entrez une URL pour retirer son autorisation.",
+    "description": "Message lors de la tentative de suppression de l'autorisation sans URL."
+  },
+  "optionsStatusPermRemoveError": {
+    "message": "Impossible de retirer l'autorisation : ",
+    "description": "Message d'erreur lorsque la suppression de l'autorisation de l'hôte échoue."
+  },
+  "optionsStatusPermRemoved": {
+    "message": "Autorisation de l'hôte retirée pour cette origine.",
+    "description": "Message de succès lorsque l'autorisation est retirée."
+  },
+  "optionsShortcutTitle": {
+    "message": "Utilisation du raccourci",
+    "description": "Titre de la boîte d'information sur le raccourci dans les options."
+  },
+  "optionsShortcutDescription": {
+    "message": "Vous pouvez ouvrir rapidement le raccourcisseur en sélectionnant une URL dans l'éditeur et en appuyant sur",
+    "description": "Description de l'utilisation du raccourci clavier."
+  },
+  "optionsShortcutChange": {
+    "message": "Vous pouvez modifier ce raccourci dans le gestionnaire de modules de Thunderbird via le menu ⚙️ de kurl.",
+    "description": "Instructions pour modifier le raccourci clavier par défaut."
+  },
   "popupTitle": {
-    "message": "Raccourcisseur kurl",
+    "message": "Raccourcisseur YOURLS",
     "description": "Titre de la fenêtre contextuelle."
   },
   "popupLongUrlLabel": {
@@ -80,19 +129,136 @@
     "description": "Étiquette pour le champ de saisie des statistiques."
   },
   "popupBtnStats": {
-    "message": "Statistiques",
+    "message": "Stats",
     "description": "Texte du bouton Obtenir les statistiques."
   },
   "popupBtnToggleJson": {
-    "message": "Basculer JSON",
-    "description": "Texte du bouton Basculer la vue JSON."
+    "message": "Afficher/Masquer JSON",
+    "description": "Texte du bouton pour afficher/masquer la vue JSON."
   },
   "popupStatusReady": {
     "message": "Prêt.",
     "description": "Message d'état initial dans la fenêtre contextuelle."
   },
+  "popupStatusShortening": {
+    "message": "Raccourcissement en cours…",
+    "description": "Message d'état pendant le raccourcissement."
+  },
+  "popupStatusCreated": {
+    "message": "URL courte créée.",
+    "description": "Message de succès lorsque l'URL est raccourcie."
+  },
+  "popupStatusAlreadyShortened": {
+    "message": "URL déjà raccourcie.",
+    "description": "Message lorsque l'URL existe déjà."
+  },
+  "popupStatusCopied": {
+    "message": "Copié dans le presse-papiers.",
+    "description": "Message lorsque le texte est copié."
+  },
+  "popupStatusInserted": {
+    "message": "URL courte insérée dans l'éditeur.",
+    "description": "Message lorsque l'URL courte est insérée."
+  },
+  "popupStatusFetchingStats": {
+    "message": "Récupération des statistiques…",
+    "description": "Message d'état lors de la récupération des statistiques."
+  },
+  "popupStatusStatsResult": {
+    "message": "Court : $shorturl$\nCible : $longurl$\nClics : $clicks$",
+    "description": "Résultat des statistiques formaté.",
+    "placeholders": {
+      "shorturl": { "content": "$1" },
+      "longurl": { "content": "$2" },
+      "clicks": { "content": "$3" }
+    }
+  },
+  "popupStatusDeleting": {
+    "message": "Suppression en cours…",
+    "description": "Message d'état pendant la suppression."
+  },
+  "popupStatusDeleted": {
+    "message": "URL courte supprimée.",
+    "description": "Message de succès lorsque l'URL est supprimée."
+  },
+  "popupInfoAlreadyShortened": {
+    "message": "URL déjà raccourcie. Vous pouvez consulter les statistiques ou la supprimer ci-dessous.",
+    "description": "Message d'information pour une URL existante."
+  },
   "popupInfoAutoStats": {
     "message": "Ceci est déjà une URL courte. Récupération automatique des statistiques.",
     "description": "Message lors de la récupération automatique des statistiques pour une URL courte sélectionnée."
+  },
+  "popupErrorInvalidUrl": {
+    "message": "Veuillez entrer une URL http(s) valide.",
+    "description": "Erreur pour un format d'URL non valide."
+  },
+  "popupErrorNothingToCopy": {
+    "message": "Rien à copier.",
+    "description": "Erreur lorsque le bouton Copier est cliqué sans URL."
+  },
+  "popupErrorCopyFailed": {
+    "message": "La copie a échoué.",
+    "description": "Erreur lorsque la copie dans le presse-papiers échoue."
+  },
+  "popupErrorNothingToInsert": {
+    "message": "Rien à insérer.",
+    "description": "Erreur lorsque le bouton Insérer est cliqué sans URL."
+  },
+  "popupErrorNoCompose": {
+    "message": "Impossible de trouver une fenêtre de composition active.",
+    "description": "Erreur lors de la tentative d'insertion sans fenêtre de composition."
+  },
+  "popupErrorEnterUrlForStats": {
+    "message": "Entrez une URL courte ou un mot-clé pour obtenir les statistiques.",
+    "description": "Erreur lorsque le bouton des statistiques est cliqué sans saisie."
+  },
+  "popupErrorProvideUrlToDelete": {
+    "message": "Fournissez une URL courte ou un mot-clé à supprimer.",
+    "description": "Erreur lorsque le bouton Supprimer est cliqué sans URL."
+  },
+  "popupErrorStatsNotFound": {
+    "message": "URL courte non trouvée.",
+    "description": "Erreur lorsque les statistiques sont demandées pour une URL inexistante."
+  },
+  "errorShortenFailed": {
+    "message": "Le raccourcissement a échoué.",
+    "description": "Erreur générique pour le raccourcissement."
+  },
+  "errorStatsFailed": {
+    "message": "Échec de la récupération des statistiques.",
+    "description": "Erreur générique pour la récupération des statistiques."
+  },
+  "errorDeleteFailed": {
+    "message": "La suppression a échoué",
+    "description": "Erreur générique pour la suppression."
+  },
+  "errorEnterKeywordToDelete": {
+    "message": "Veuillez entrer une URL courte ou un mot-clé à supprimer.",
+    "description": "Erreur dans le script d'arrière-plan si le mot-clé est manquant pour la suppression."
+  },
+  "errorNoSettings": {
+    "message": "Veuillez d'abord configurer YOURLS dans les paramètres du module.",
+    "description": "Erreur lorsque les paramètres ne sont pas configurés."
+  },
+  "toastUrlCreated": {
+    "message": "URL courte créée.",
+    "description": "Message de notification en cas de succès."
+  },
+  "toastUrlExists": {
+    "message": "URL déjà raccourcie.",
+    "description": "Message de notification pour une URL existante."
+  },
+  "toastUrlDeleted": {
+    "message": "URL courte supprimée.",
+    "description": "Message de notification pour une URL supprimée."
+  },
+  "menuItemShortenSelection": {
+    "message": "kurl : Raccourcir la sélection…",
+    "description": "Le titre de l'élément du menu contextuel pour raccourcir une sélection."
+  },
+  "commandShortenDescription": {
+    "message": "Ouvrir la fenêtre contextuelle du raccourcisseur kurl.",
+    "description": "Description du raccourci clavier."
   }
 }

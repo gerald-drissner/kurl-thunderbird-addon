@@ -1,0 +1,264 @@
+{
+  "extensionName": {
+    "message": "kurl - YOURLS 短縮ツール",
+    "description": "拡張機能の名前。"
+  },
+  "extensionDescription": {
+    "message": "YOURLS インスタンスでリンクを短縮し、作成エディタに直接短いリンクを挿入します。",
+    "description": "拡張機能の説明。"
+  },
+  "optionsTitle": {
+    "message": "YOURLS 設定",
+    "description": "オプションページのタイトル。"
+  },
+  "optionsYourlsUrlLabel": {
+    "message": "YOURLS URL (末尾にスラッシュなし)",
+    "description": "YOURLS URL 入力フィールドのラベル。"
+  },
+  "optionsApiSignatureLabel": {
+    "message": "API 署名トークン",
+    "description": "API 署名トークン入力フィールドのラベル。"
+  },
+  "optionsAutoCopyLabel": {
+    "message": "短いリンクを自動的にクリップボードにコピーする",
+    "description": "自動コピーチェックボックスのラベル。"
+  },
+  "optionsBtnSave": {
+    "message": "保存",
+    "description": "保存ボタンのテキスト。"
+  },
+  "optionsBtnTest": {
+    "message": "接続をテスト",
+    "description": "接続テストボタンのテキスト。"
+  },
+  "optionsBtnRemovePerm": {
+    "message": "ホスト権限を削除",
+    "description": "ホスト権限削除ボタンのテキスト。"
+  },
+  "optionsStatusLoaded": {
+    "message": "保存された設定が読み込まれました。「接続をテスト」をクリックしてください。",
+    "description": "オプションページの初期ステータスメッセージ。"
+  },
+  "optionsStatusEnterUrlAndToken": {
+    "message": "YOURLS URL と API トークンを入力してください。",
+    "description": "URL またはトークンが不足している場合のエラーメッセージ。"
+  },
+  "optionsStatusPermNotGranted": {
+    "message": "ホスト権限が付与されませんでした。",
+    "description": "ホスト権限が拒否された場合のエラーメッセージ。"
+  },
+  "optionsStatusPermRequestError": {
+    "message": "ホスト権限を要求できませんでした: ",
+    "description": "ホスト権限の要求に失敗した場合のエラーメッセージ。"
+  },
+  "optionsStatusConnOk": {
+    "message": "接続OK (合計リンク数: $total$)",
+    "description": "接続テスト成功のメッセージ。",
+    "placeholders": { "total": { "content": "$1" } }
+  },
+  "optionsStatusConnFailed": {
+    "message": "接続に失敗しました。",
+    "description": "接続テスト失敗のエラーメッセージ。"
+  },
+  "optionsStatusSaved": {
+    "message": "設定が保存されました。再度接続をテストすることをお勧めします。",
+    "description": "設定保存後のステータスメッセージ。"
+  },
+  "optionsStatusEnterUrlToRemove": {
+    "message": "権限を削除する URL を入力してください。",
+    "description": "URL なしで権限を削除しようとした場合のメッセージ。"
+  },
+  "optionsStatusPermRemoveError": {
+    "message": "権限を削除できませんでした: ",
+    "description": "ホスト権限の削除に失敗した場合のエラーメッセージ。"
+  },
+  "optionsStatusPermRemoved": {
+    "message": "このオリジンのホスト権限が削除されました。",
+    "description": "権限が正常に削除された場合のメッセージ。"
+  },
+  "optionsShortcutTitle": {
+    "message": "ショートカットの使用",
+    "description": "オプションのショートカット情報ボックスのタイトル。"
+  },
+  "optionsShortcutDescription": {
+    "message": "作成エディタで URL を選択し、",
+    "description": "キーボードショートカットの使用方法の説明。"
+  },
+  "optionsShortcutChange": {
+    "message": "このショートカットは、Thunderbird のアドオンマネージャーで kurl の ⚙️ メニューから変更できます。",
+    "description": "デフォルトのキーボードショートカットの変更方法の説明。"
+  },
+  "popupTitle": {
+    "message": "YOURLS 短縮ツール",
+    "description": "ポップアップウィンドウのタイトル。"
+  },
+  "popupLongUrlLabel": {
+    "message": "長い URL",
+    "description": "長い URL 入力フィールドのラベル。"
+  },
+  "popupKeywordLabel": {
+    "message": "カスタムキーワード (任意)",
+    "description": "カスタムキーワード入力フィールドのラベル。"
+  },
+  "popupBtnShorten": {
+    "message": "短縮",
+    "description": "短縮ボタンのテキスト。"
+  },
+  "popupShortUrlLabel": {
+    "message": "短い URL",
+    "description": "短い URL 出力フィールドのラベル。"
+  },
+  "popupBtnCopy": {
+    "message": "コピー",
+    "description": "コピーボタンのテキスト。"
+  },
+  "popupBtnInsert": {
+    "message": "挿入",
+    "description": "挿入ボタンのテキスト。"
+  },
+  "popupBtnDelete": {
+    "message": "削除",
+    "description": "削除ボタンのテキスト。"
+  },
+  "popupBtnConfirmDelete": {
+    "message": "確認しますか？",
+    "description": "削除ボタンの確認テキスト。"
+  },
+  "popupStatsLabel": {
+    "message": "統計 (短い URL またはキーワード)",
+    "description": "統計入力フィールドのラベル。"
+  },
+  "popupBtnStats": {
+    "message": "統計",
+    "description": "統計取得ボタンのテキスト。"
+  },
+  "popupBtnToggleJson": {
+    "message": "JSON を切り替え",
+    "description": "JSON 表示切り替えボタンのテキスト。"
+  },
+  "popupStatusReady": {
+    "message": "準備完了。",
+    "description": "ポップアップの初期ステータスメッセージ。"
+  },
+  "popupStatusShortening": {
+    "message": "短縮中…",
+    "description": "短縮中のステータスメッセージ。"
+  },
+  "popupStatusCreated": {
+    "message": "短い URL が作成されました。",
+    "description": "URL が短縮された場合の成功メッセージ。"
+  },
+  "popupStatusAlreadyShortened": {
+    "message": "URL はすでに短縮されています。",
+    "description": "URL がすでに存在する場合のメッセージ。"
+  },
+  "popupStatusCopied": {
+    "message": "クリップボードにコピーしました。",
+    "description": "テキストがコピーされた場合のメッセージ。"
+  },
+  "popupStatusInserted": {
+    "message": "短い URL を作成ウィンドウに挿入しました。",
+    "description": "短い URL が挿入された場合のメッセージ。"
+  },
+  "popupStatusFetchingStats": {
+    "message": "統計を取得中…",
+    "description": "統計を取得中のステータスメッセージ。"
+  },
+  "popupStatusStatsResult": {
+    "message": "短縮: $shorturl$\nターゲット: $longurl$\nクリック数: $clicks$",
+    "description": "フォーマットされた統計結果。",
+    "placeholders": {
+      "shorturl": { "content": "$1" },
+      "longurl": { "content": "$2" },
+      "clicks": { "content": "$3" }
+    }
+  },
+  "popupStatusDeleting": {
+    "message": "削除中…",
+    "description": "削除中のステータスメッセージ。"
+  },
+  "popupStatusDeleted": {
+    "message": "短い URL が削除されました。",
+    "description": "URL が削除された場合の成功メッセージ。"
+  },
+  "popupInfoAlreadyShortened": {
+    "message": "URL はすでに短縮されています。以下で統計を表示または削除できます。",
+    "description": "既存の URL の情報メッセージ。"
+  },
+  "popupInfoAutoStats": {
+    "message": "これはすでに短い URL です。統計を自動的に取得しています。",
+    "description": "選択された短い URL の統計を自動取得する場合のメッセージ。"
+  },
+  "popupErrorInvalidUrl": {
+    "message": "有効な http(s) URL を入力してください。",
+    "description": "無効な URL 形式のエラー。"
+  },
+  "popupErrorNothingToCopy": {
+    "message": "コピーするものがありません。",
+    "description": "URL なしでコピーボタンがクリックされた場合のエラー。"
+  },
+  "popupErrorCopyFailed": {
+    "message": "コピーに失敗しました。",
+    "description": "クリップボードへのコピーに失敗した場合のエラー。"
+  },
+  "popupErrorNothingToInsert": {
+    "message": "挿入するものがありません。",
+    "description": "URL なしで挿入ボタンがクリックされた場合のエラー。"
+  },
+  "popupErrorNoCompose": {
+    "message": "アクティブな作成ウィンドウが見つかりませんでした。",
+    "description": "作成ウィンドウなしで挿入しようとした場合のエラー。"
+  },
+  "popupErrorEnterUrlForStats": {
+    "message": "統計を取得するには、短い URL またはキーワードを入力してください。",
+    "description": "入力なしで統計ボタンがクリックされた場合のエラー。"
+  },
+  "popupErrorProvideUrlToDelete": {
+    "message": "削除する短い URL またはキーワードを入力してください。",
+    "description": "URL なしで削除がクリックされた場合のエラー。"
+  },
+  "popupErrorStatsNotFound": {
+    "message": "短い URL が見つかりません。",
+    "description": "存在しない URL の統計が要求された場合のエラー。"
+  },
+  "errorShortenFailed": {
+    "message": "短縮に失敗しました。",
+    "description": "短縮の一般的なエラー。"
+  },
+  "errorStatsFailed": {
+    "message": "統計の取得に失敗しました。",
+    "description": "統計取得の一般的なエラー。"
+  },
+  "errorDeleteFailed": {
+    "message": "削除に失敗しました",
+    "description": "削除の一般的なエラー。"
+  },
+  "errorEnterKeywordToDelete": {
+    "message": "削除する短い URL またはキーワードを入力してください。",
+    "description": "削除用のキーワードが不足している場合のバックグラウンドスクリプトのエラー。"
+  },
+  "errorNoSettings": {
+    "message": "最初にアドオン設定で YOURLS を設定してください。",
+    "description": "設定が構成されていない場合のエラー。"
+  },
+  "toastUrlCreated": {
+    "message": "短い URL が作成されました。",
+    "description": "成功の通知メッセージ。"
+  },
+  "toastUrlExists": {
+    "message": "URL はすでに短縮されています。",
+    "description": "既存の URL の通知メッセージ。"
+  },
+  "toastUrlDeleted": {
+    "message": "短い URL が削除されました。",
+    "description": "削除された URL の通知メッセージ。"
+  },
+  "menuItemShortenSelection": {
+    "message": "kurl: 選択範囲を短縮…",
+    "description": "選択範囲を短縮するためのコンテキストメニュー項目のタイトル。"
+  },
+  "commandShortenDescription": {
+    "message": "kurl 短縮ツールのポップアップを開きます。",
+    "description": "キーボードショートカットの説明。"
+  }
+}

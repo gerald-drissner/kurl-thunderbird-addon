@@ -4,95 +4,261 @@
     "description": "Name der Erweiterung."
   },
   "extensionDescription": {
-    "message": "Verkürzen Sie Links mit Ihrer YOURLS-Instanz und fügen Sie den Kurzlink direkt in den E-Mail-Editor ein.",
+    "message": "Verkürzen Sie Links mit Ihrer YOURLS-Instanz und fügen Sie den Kurzlink direkt in den Editor ein.",
     "description": "Beschreibung der Erweiterung."
   },
   "optionsTitle": {
-    "message": "kurl-Einstellungen",
+    "message": "YOURLS-Einstellungen",
     "description": "Titel für die Einstellungsseite."
   },
   "optionsYourlsUrlLabel": {
     "message": "YOURLS-URL (ohne abschließenden Schrägstrich)",
-    "description": "Beschriftung für das YOURLS-URL-Eingabefeld."
+    "description": "Label für das YOURLS-URL-Eingabefeld."
   },
   "optionsApiSignatureLabel": {
     "message": "API-Signatur-Token",
-    "description": "Beschriftung für das API-Signatur-Token-Eingabefeld."
+    "description": "Label für das API-Signatur-Token-Eingabefeld."
   },
   "optionsAutoCopyLabel": {
     "message": "Kurzlink automatisch in die Zwischenablage kopieren",
-    "description": "Beschriftung für das Kontrollkästchen zum automatischen Kopieren."
+    "description": "Label für das Auto-Kopieren-Kontrollkästchen."
   },
   "optionsBtnSave": {
     "message": "Speichern",
-    "description": "Text der Schaltfläche Speichern."
+    "description": "Text für den Speichern-Button."
   },
   "optionsBtnTest": {
     "message": "Verbindung testen",
-    "description": "Text der Schaltfläche Verbindung testen."
+    "description": "Text für den Verbindung-testen-Button."
   },
   "optionsBtnRemovePerm": {
     "message": "Host-Berechtigung entfernen",
-    "description": "Text der Schaltfläche Host-Berechtigung entfernen."
+    "description": "Text für den Host-Berechtigung-entfernen-Button."
   },
   "optionsStatusLoaded": {
     "message": "Gespeicherte Einstellungen geladen. Klicken Sie auf „Verbindung testen“.",
     "description": "Anfängliche Statusmeldung auf der Einstellungsseite."
   },
+  "optionsStatusEnterUrlAndToken": {
+    "message": "Bitte geben Sie Ihre YOURLS-URL und Ihr API-Token ein.",
+    "description": "Fehlermeldung, wenn URL oder Token fehlen."
+  },
+  "optionsStatusPermNotGranted": {
+    "message": "Host-Berechtigung wurde nicht erteilt.",
+    "description": "Fehlermeldung, wenn die Host-Berechtigung verweigert wird."
+  },
+  "optionsStatusPermRequestError": {
+    "message": "Host-Berechtigung konnte nicht angefordert werden: ",
+    "description": "Fehlermeldung, wenn die Anforderung der Host-Berechtigung fehlschlägt."
+  },
+  "optionsStatusConnOk": {
+    "message": "Verbindung OK (Links insgesamt: $total$)",
+    "description": "Erfolgsmeldung für den Verbindungstest.",
+    "placeholders": { "total": { "content": "$1" } }
+  },
+  "optionsStatusConnFailed": {
+    "message": "Verbindung fehlgeschlagen.",
+    "description": "Fehlermeldung für fehlgeschlagenen Verbindungstest."
+  },
+  "optionsStatusSaved": {
+    "message": "Einstellungen gespeichert. Sie sollten die Verbindung erneut testen.",
+    "description": "Statusmeldung nach dem Speichern der Einstellungen."
+  },
+  "optionsStatusEnterUrlToRemove": {
+    "message": "Geben Sie eine URL ein, um deren Berechtigung zu entfernen.",
+    "description": "Meldung beim Versuch, die Berechtigung ohne URL zu entfernen."
+  },
+  "optionsStatusPermRemoveError": {
+    "message": "Berechtigung konnte nicht entfernt werden: ",
+    "description": "Fehlermeldung, wenn das Entfernen der Host-Berechtigung fehlschlägt."
+  },
+  "optionsStatusPermRemoved": {
+    "message": "Host-Berechtigung für diesen Ursprung entfernt.",
+    "description": "Erfolgsmeldung, wenn die Berechtigung entfernt wird."
+  },
+  "optionsShortcutTitle": {
+    "message": "Verwendung des Shortcuts",
+    "description": "Titel für die Shortcut-Informationsbox in den Einstellungen."
+  },
+  "optionsShortcutDescription": {
+    "message": "Sie können den Shortener schnell öffnen, indem Sie eine URL im Editor auswählen und",
+    "description": "Beschreibung zur Verwendung des Tastaturkürzels."
+  },
+  "optionsShortcutChange": {
+    "message": "Sie können diesen Shortcut in Thunderbirds Add-ons-Manager unter dem ⚙️-Menü für kurl ändern.",
+    "description": "Anleitung zum Ändern des Standard-Tastaturkürzels."
+  },
   "popupTitle": {
-    "message": "kurl Shortener",
+    "message": "YOURLS Shortener",
     "description": "Titel für das Popup-Fenster."
   },
   "popupLongUrlLabel": {
     "message": "Lange URL",
-    "description": "Beschriftung für das Eingabefeld für lange URLs."
+    "description": "Label für das Lange-URL-Eingabefeld."
   },
   "popupKeywordLabel": {
     "message": "Benutzerdefiniertes Schlüsselwort (optional)",
-    "description": "Beschriftung für das Eingabefeld für benutzerdefinierte Schlüsselwörter."
+    "description": "Label für das benutzerdefinierte Schlüsselwort-Eingabefeld."
   },
   "popupBtnShorten": {
     "message": "Verkürzen",
-    "description": "Text der Schaltfläche Verkürzen."
+    "description": "Text für den Verkürzen-Button."
   },
   "popupShortUrlLabel": {
     "message": "Kurze URL",
-    "description": "Beschriftung für die Ausgabe der kurzen URL."
+    "description": "Label für das Kurze-URL-Ausgabefeld."
   },
   "popupBtnCopy": {
     "message": "Kopieren",
-    "description": "Text der Schaltfläche Kopieren."
+    "description": "Text für den Kopieren-Button."
   },
   "popupBtnInsert": {
     "message": "Einfügen",
-    "description": "Text der Schaltfläche Einfügen."
+    "description": "Text für den Einfügen-Button."
   },
   "popupBtnDelete": {
     "message": "Löschen",
-    "description": "Text der Schaltfläche Löschen."
+    "description": "Text für den Löschen-Button."
   },
   "popupBtnConfirmDelete": {
     "message": "Bestätigen?",
-    "description": "Bestätigungstext der Schaltfläche Löschen."
+    "description": "Bestätigungstext für den Löschen-Button."
   },
   "popupStatsLabel": {
     "message": "Statistiken für (kurze URL oder Schlüsselwort)",
-    "description": "Beschriftung für das Statistik-Eingabefeld."
+    "description": "Label für das Statistik-Eingabefeld."
   },
   "popupBtnStats": {
     "message": "Statistiken",
-    "description": "Text der Schaltfläche Statistiken abrufen."
+    "description": "Text für den Statistiken-abrufen-Button."
   },
   "popupBtnToggleJson": {
     "message": "JSON umschalten",
-    "description": "Text der Schaltfläche JSON-Ansicht umschalten."
+    "description": "Text für den JSON-Ansicht-umschalten-Button."
   },
   "popupStatusReady": {
     "message": "Bereit.",
     "description": "Anfängliche Statusmeldung im Popup."
   },
+  "popupStatusShortening": {
+    "message": "Verkürze…",
+    "description": "Statusmeldung während des Verkürzens."
+  },
+  "popupStatusCreated": {
+    "message": "Kurze URL erstellt.",
+    "description": "Erfolgsmeldung, wenn die URL verkürzt wurde."
+  },
+  "popupStatusAlreadyShortened": {
+    "message": "URL bereits verkürzt.",
+    "description": "Meldung, wenn die URL bereits existiert."
+  },
+  "popupStatusCopied": {
+    "message": "In die Zwischenablage kopiert.",
+    "description": "Meldung, wenn Text kopiert wird."
+  },
+  "popupStatusInserted": {
+    "message": "Kurze URL in den Editor eingefügt.",
+    "description": "Meldung, wenn die kurze URL eingefügt wird."
+  },
+  "popupStatusFetchingStats": {
+    "message": "Rufe Statistiken ab…",
+    "description": "Statusmeldung während des Abrufens von Statistiken."
+  },
+  "popupStatusStatsResult": {
+    "message": "Kurz: $shorturl$\nZiel: $longurl$\nKlicks: $clicks$",
+    "description": "Formatiertes Statistikergebnis.",
+    "placeholders": {
+      "shorturl": { "content": "$1" },
+      "longurl": { "content": "$2" },
+      "clicks": { "content": "$3" }
+    }
+  },
+  "popupStatusDeleting": {
+    "message": "Lösche…",
+    "description": "Statusmeldung während des Löschens."
+  },
+  "popupStatusDeleted": {
+    "message": "Kurze URL gelöscht.",
+    "description": "Erfolgsmeldung, wenn die URL gelöscht wurde."
+  },
+  "popupInfoAlreadyShortened": {
+    "message": "URL bereits verkürzt. Sie können unten Statistiken anzeigen oder sie löschen.",
+    "description": "Informationsmeldung für eine vorhandene URL."
+  },
   "popupInfoAutoStats": {
-    "message": "Dies ist bereits eine kurze URL. Statistiken werden automatisch abgerufen.",
-    "description": "Meldung, wenn Statistiken für eine ausgewählte kurze URL automatisch abgerufen werden."
+    "message": "Dies ist bereits eine kurze URL. Rufe Statistiken automatisch ab.",
+    "description": "Meldung beim automatischen Abrufen von Statistiken für eine ausgewählte kurze URL."
+  },
+  "popupErrorInvalidUrl": {
+    "message": "Bitte geben Sie eine gültige http(s)-URL ein.",
+    "description": "Fehler für ungültiges URL-Format."
+  },
+  "popupErrorNothingToCopy": {
+    "message": "Nichts zum Kopieren vorhanden.",
+    "description": "Fehler, wenn der Kopieren-Button ohne URL geklickt wird."
+  },
+  "popupErrorCopyFailed": {
+    "message": "Kopieren fehlgeschlagen.",
+    "description": "Fehler, wenn das Kopieren in die Zwischenablage fehlschlägt."
+  },
+  "popupErrorNothingToInsert": {
+    "message": "Nichts zum Einfügen vorhanden.",
+    "description": "Fehler, wenn der Einfügen-Button ohne URL geklickt wird."
+  },
+  "popupErrorNoCompose": {
+    "message": "Konnte kein aktives Verfassen-Fenster finden.",
+    "description": "Fehler beim Versuch, ohne ein Verfassen-Fenster einzufügen."
+  },
+  "popupErrorEnterUrlForStats": {
+    "message": "Geben Sie eine kurze URL oder ein Schlüsselwort ein, um Statistiken abzurufen.",
+    "description": "Fehler, wenn der Statistik-Button ohne Eingabe geklickt wird."
+  },
+  "popupErrorProvideUrlToDelete": {
+    "message": "Geben Sie eine kurze URL oder ein Schlüsselwort zum Löschen an.",
+    "description": "Fehler, wenn Löschen ohne URL geklickt wird."
+  },
+  "popupErrorStatsNotFound": {
+    "message": "Kurze URL nicht gefunden.",
+    "description": "Fehler, wenn Statistiken für eine nicht existierende URL angefordert werden."
+  },
+  "errorShortenFailed": {
+    "message": "Verkürzen fehlgeschlagen.",
+    "description": "Allgemeiner Fehler beim Verkürzen."
+  },
+  "errorStatsFailed": {
+    "message": "Abrufen der Statistiken fehlgeschlagen.",
+    "description": "Allgemeiner Fehler beim Abrufen von Statistiken."
+  },
+  "errorDeleteFailed": {
+    "message": "Löschen fehlgeschlagen",
+    "description": "Allgemeiner Fehler beim Löschen."
+  },
+  "errorEnterKeywordToDelete": {
+    "message": "Bitte geben Sie eine kurze URL oder ein Schlüsselwort zum Löschen ein.",
+    "description": "Fehler im Hintergrundskript, wenn das Schlüsselwort zum Löschen fehlt."
+  },
+  "errorNoSettings": {
+    "message": "Bitte konfigurieren Sie YOURLS zuerst in den Add-on-Einstellungen.",
+    "description": "Fehler, wenn die Einstellungen nicht konfiguriert sind."
+  },
+  "toastUrlCreated": {
+    "message": "Kurze URL erstellt.",
+    "description": "Benachrichtigungsmeldung für Erfolg."
+  },
+  "toastUrlExists": {
+    "message": "URL bereits verkürzt.",
+    "description": "Benachrichtigungsmeldung für vorhandene URL."
+  },
+  "toastUrlDeleted": {
+    "message": "Kurze URL gelöscht.",
+    "description": "Benachrichtigungsmeldung für gelöschte URL."
+  },
+  "menuItemShortenSelection": {
+    "message": "kurl: Auswahl verkürzen…",
+    "description": "Der Titel des Kontextmenü-Eintrags zum Verkürzen einer Auswahl."
+  },
+  "commandShortenDescription": {
+    "message": "Öffnet das kurl-Shortener-Popup.",
+    "description": "Beschreibung für das Tastaturkürzel."
   }
 }
