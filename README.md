@@ -1,64 +1,71 @@
-# kurl-thunderbird-addon
+# kurl - YOURLS Shortener for Thunderbird
 
-![kurl icon](images/kurl-icon-96.png)
+[![Version](https://img.shields.io/badge/version-1.1-blue.svg)](https://github.com/gerald-drissner/kurl-thunderbird-addon/releases)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-**kurl-thunderbird-addon** is a powerful Thunderbird add-on that seamlessly integrates your personal [YOURLS](https://yourls.org/) (Your Own URL Shortener) instance with your email workflow. Shorten long URLs, get statistics, and manage your links directly from the Thunderbird compose window.
+A Thunderbird add-on to shorten URLs with your self-hosted YOURLS instance and insert them directly into the email compose window.
 
----
+![Screenshot of the kurl add-on popup](assets/kurl-thunderbird-add-on-screenshot.jpg)
 
-## ✨ Features
+## Features
 
-- **Quickly Shorten URLs** from the compose window
-- **Context Menu Integration** for right-click shortening
-- **Smart Detection** of existing YOURLS links
-- **Custom Keywords** for memorable short URLs
-- **Link Management** with stats and deletion
-- **Secure** connection to your YOURLS instance
-- **Light & Dark Mode** support
-- **Multi-language UI** (EN, DE, FR, ES, etc.)
+* **Quickly shorten links:** Create short URLs directly from the Thunderbird compose window.
+* **Custom Keywords:** Assign optional custom keywords to your short links for easy memorization.
+* **View Stats:** Check the click count and target URL for any existing short link.
+* **Delete Links:** Manage your links by deleting short URLs directly from the add-on.
+* **Auto-Copy:** Automatically copy the newly created short URL to your clipboard.
+* **Multiple Workflows:** Use the toolbar button, right-click context menu, or a keyboard shortcut.
+* **Multi-language Support:** Available in English, German, French, Spanish, and many more languages.
 
----
+## About YOURLS (Your Own URL Shortener)
 
-## 📦 Installation
+YOURLS is a free, open-source set of PHP scripts that allows you to run your own URL shortening service. Unlike commercial services like bit.ly, YOURLS gives you full control over your data, with powerful features like detailed statistics, link management, and a plugin architecture to extend its functionality.
 
-1. Go to the [Releases Page](https://github.com/yourusername/kurl-thunderbird-addon/releases)
-2. Download the latest `.xpi` file
-3. In Thunderbird: `Tools > Add-ons and Themes`
-4. Click the gear icon → **Install Add-on From File...**
-5. Select the `.xpi` file
+This Thunderbird add-on requires you to have your own YOURLS instance already installed and running on a web server.
 
----
+### How to Install YOURLS
 
-## ⚙️ Configuration
+Self-hosting YOURLS requires a web server with PHP and a MySQL database. The general steps are:
+1.  Download the latest version of YOURLS from their official website.
+2.  Unzip the files and upload them to your web server.
+3.  Create a MySQL database and a user for it.
+4.  Configure the `config.php` file with your database details, site URL, and a secure signature token.
+5.  Run the installation script by navigating to `http://your-domain.com/admin/` in your browser.
 
-1. Open Thunderbird → `Tools > Add-ons and Themes`
-2. Find **kurl-thunderbird-addon** → click **Preferences**
-3. Enter your YOURLS URL and API Signature Token
-4. Test connection → Save
+For complete and detailed instructions, please refer to the official guide:
+**[Official YOURLS Installation Guide](https://yourls.org/#Install)**
 
----
+### Finding Your API Signature Token
 
-## 🚀 Usage
+To connect this add-on to your YOURLS instance, you need your unique API signature token.
+1.  Log in to your YOURLS admin dashboard (e.g., `http://your-domain.com/admin/`).
+2.  In the top menu, click on **Tools**.
+3.  At the very top of the Tools page, you will find a section titled **"Secure passwordless API call"**. Your API signature token is the long string of characters displayed there.
 
-### Shorten a Link
+## Installation of this Add-on
 
-- Click the **kurl** icon or right-click a link → `kurl: Shorten selection...`
-- Add a custom keyword (optional)
-- Click **Shorten** → Copy or Insert the short URL
+1.  Go to the [**Releases Page**](https://github.com/gerald-drissner/kurl-thunderbird-addon/releases).
+2.  Download the `.zip` file from the latest release (e.g., `kurl-thunderbird-addon-v1.1.zip`).
+3.  In Thunderbird, go to `Tools > Add-ons and Themes`.
+4.  Click the gear icon (⚙️) and select "Install Add-on From File...".
+5.  Select the downloaded `.zip` file.
 
-### View Stats
+## Usage
 
-- Right-click a YOURLS short link → `kurl: Shorten selection...`
-- Stats auto-fetch and display in the popup
+Before first use, you must configure the add-on by going to `Add-ons and Themes`, finding "kurl", and opening its preferences. You will need to enter your YOURLS instance URL and your API signature token.
 
----
+There are three ways to use the shortener:
 
-## 🤝 Contributing
+1.  **Toolbar Button:** Click the "kurl" icon in the compose window's toolbar to open the popup.
+2.  **Context Menu:** Select a long URL in the editor, right-click, and choose "kurl: Shorten selection…".
+3.  **Keyboard Shortcut:** Select a URL and press the keyboard shortcut to open the popup with the URL pre-filled.
+    * The default shortcut is **`Ctrl+Shift+K`**.
+    * You can change this shortcut in Thunderbird by going to `Tools > Add-ons and Themes`, clicking the gear icon (⚙️) next to "kurl", and selecting "Manage Extension Shortcuts".
 
-Got ideas or bugs? [Open an issue](https://github.com/yourusername/kurl-thunderbird-addon/issues) or submit a pull request.
+## Privacy Policy
 
----
+kurl communicates directly with the YOURLS instance URL that you configure in the add-on's settings. It does not collect, store, or transmit any other data to any other third-party servers.
 
-## 📄 License
+## License
 
-MIT License — see [LICENSE](LICENSE)
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
