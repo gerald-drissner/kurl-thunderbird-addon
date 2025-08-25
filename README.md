@@ -1,7 +1,8 @@
 # kurl - YOURLS Shortener for Thunderbird
 
-[![Version](https://img.shields.io/badge/version-1.1-blue.svg)](https://github.com/gerald-drissner/kurl-thunderbird-addon/releases)
+[![Version](https://img.shields.io/badge/version-1.4-blue.svg)](https://github.com/gerald-drissner/kurl-thunderbird-addon/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Listed in Awesome YOURLS!](https://img.shields.io/badge/Awesome-YOURLS-C5A3BE)](https://github.com/YOURLS/awesome)
 
 A Thunderbird add-on to shorten URLs with your self-hosted YOURLS instance and insert them directly into the email compose window.
 
