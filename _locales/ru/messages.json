@@ -1,264 +1,306 @@
 {
   "extensionName": {
     "message": "kurl - YOURLS Shortener",
-    "description": "Название расширения."
+    "description": "Name of the extension."
   },
   "extensionDescription": {
-    "message": "Сокращайте ссылки с помощью вашего экземпляра YOURLS и вставляйте короткую ссылку прямо в редактор.",
-    "description": "Описание расширения."
+    "message": "Сокращайте ссылки с помощью вашего экземпляра YOURLS и вставляйте короткую ссылку прямо в редактор создания.",
+    "description": "Description of the extension."
   },
   "optionsTitle": {
     "message": "Настройки YOURLS",
-    "description": "Заголовок страницы настроек."
+    "description": "Title for the options page."
   },
   "optionsYourlsUrlLabel": {
-    "message": "URL YOURLS (без слеша в конце)",
-    "description": "Метка для поля ввода URL YOURLS."
+    "message": "URL YOURLS (без завершающей косой черты)",
+    "description": "Label for the YOURLS URL input."
   },
   "optionsApiSignatureLabel": {
     "message": "Токен подписи API",
-    "description": "Метка для поля ввода токена подписи API."
+    "description": "Label for the API signature token input."
   },
   "optionsAutoCopyLabel": {
     "message": "Автоматически копировать короткую ссылку в буфер обмена",
-    "description": "Метка для флажка автоматического копирования."
+    "description": "Label for the auto-copy checkbox."
   },
   "optionsBtnSave": {
     "message": "Сохранить",
-    "description": "Текст кнопки Сохранить."
+    "description": "Save button text."
   },
   "optionsBtnTest": {
     "message": "Проверить соединение",
-    "description": "Текст кнопки Проверить соединение."
+    "description": "Test connection button text."
   },
   "optionsBtnRemovePerm": {
-    "message": "Удалить разрешение для хоста",
-    "description": "Текст кнопки Удалить разрешение для хоста."
+    "message": "Удалить разрешение хоста",
+    "description": "Remove host permission button text."
   },
   "optionsStatusLoaded": {
     "message": "Сохраненные настройки загружены. Нажмите «Проверить соединение».",
-    "description": "Начальное сообщение о состоянии на странице настроек."
+    "description": "Initial status message on options page."
   },
   "optionsStatusEnterUrlAndToken": {
     "message": "Пожалуйста, введите ваш URL YOURLS и токен API.",
-    "description": "Сообщение об ошибке, когда отсутствует URL или токен."
+    "description": "Error message when URL or token is missing."
   },
   "optionsStatusPermNotGranted": {
-    "message": "Разрешение для хоста не было предоставлено.",
-    "description": "Сообщение об ошибке, когда разрешение для хоста отклонено."
+    "message": "Разрешение хоста не было предоставлено.",
+    "description": "Error message when host permission is denied."
   },
   "optionsStatusPermRequestError": {
-    "message": "Не удалось запросить разрешение для хоста: ",
-    "description": "Сообщение об ошибке, когда запрос разрешения для хоста не удался."
+    "message": "Не удалось запросить разрешение хоста: ",
+    "description": "Error message when requesting host permission fails."
   },
   "optionsStatusConnOk": {
-    "message": "Соединение в порядке (Всего ссылок: $total$)",
-    "description": "Сообщение об успешном тесте соединения.",
-    "placeholders": { "total": { "content": "$1" } }
+    "message": "Соединение ОК (Всего ссылок: $total$)",
+    "description": "Success message for connection test.",
+    "placeholders": {
+      "total": {
+        "content": "$1"
+      }
+    }
   },
   "optionsStatusConnFailed": {
     "message": "Соединение не удалось.",
-    "description": "Сообщение об ошибке при неудачном тесте соединения."
+    "description": "Error message for failed connection test."
   },
   "optionsStatusSaved": {
-    "message": "Настройки сохранены. Вы можете проверить соединение еще раз.",
-    "description": "Сообщение о состоянии после сохранения настроек."
+    "message": "Настройки сохранены. Возможно, вы захотите проверить соединение еще раз.",
+    "description": "Status message after saving settings."
   },
   "optionsStatusEnterUrlToRemove": {
-    "message": "Введите URL, чтобы удалить его разрешение.",
-    "description": "Сообщение при попытке удалить разрешение без URL."
+    "message": "Введите URL для удаления его разрешения.",
+    "description": "Message when trying to remove permission without a URL."
   },
   "optionsStatusPermRemoveError": {
     "message": "Не удалось удалить разрешение: ",
-    "description": "Сообщение об ошибке при неудачном удалении разрешения для хоста."
+    "description": "Error message when removing host permission fails."
   },
   "optionsStatusPermRemoved": {
-    "message": "Разрешение для хоста удалено для этого источника.",
-    "description": "Сообщение об успешном удалении разрешения."
+    "message": "Разрешение хоста удалено для этого источника.",
+    "description": "Success message when permission is removed."
   },
   "optionsShortcutTitle": {
-    "message": "Использование горячей клавиши",
-    "description": "Заголовок информационного блока о горячей клавише в настройках."
+    "message": "Использование сочетания клавиш",
+    "description": "Title for the shortcut information box in options."
   },
   "optionsShortcutDescription": {
-    "message": "Вы можете быстро открыть сокращатель, выделив URL в редакторе и нажав",
-    "description": "Описание использования сочетания клавиш."
+    "message": "Вы можете быстро открыть сокращатель, выбрав URL в редакторе создания и нажав",
+    "description": "Description of how to use the keyboard shortcut."
   },
   "optionsShortcutChange": {
-    "message": "Вы можете изменить это сочетание клавиш в менеджере дополнений Thunderbird в меню ⚙️ для kurl.",
-    "description": "Инструкции по изменению сочетания клавиш по умолчанию."
+    "message": "Вы можете изменить это сочетание клавиш в диспетчере дополнений Thunderbird в меню ⚙️ для kurl.",
+    "description": "Instructions on how to change the default keyboard shortcut."
   },
   "popupTitle": {
     "message": "Сокращатель YOURLS",
-    "description": "Заголовок всплывающего окна."
+    "description": "Title for the popup window."
   },
   "popupLongUrlLabel": {
     "message": "Длинный URL",
-    "description": "Метка для поля ввода длинного URL."
+    "description": "Label for the long URL input."
   },
   "popupKeywordLabel": {
     "message": "Пользовательское ключевое слово (необязательно)",
-    "description": "Метка для поля ввода пользовательского ключевого слова."
+    "description": "Label for the custom keyword input."
+  },
+  "popupTitleLabel": {
+    "message": "Заголовок (необязательно)",
+    "description": "Label for the URL title input."
   },
   "popupBtnShorten": {
     "message": "Сократить",
-    "description": "Текст кнопки Сократить."
+    "description": "Shorten button text."
   },
   "popupShortUrlLabel": {
     "message": "Короткий URL",
-    "description": "Метка для поля вывода короткого URL."
+    "description": "Label for the short URL output."
   },
   "popupBtnCopy": {
     "message": "Копировать",
-    "description": "Текст кнопки Копировать."
+    "description": "Copy button text."
   },
   "popupBtnInsert": {
     "message": "Вставить",
-    "description": "Текст кнопки Вставить."
+    "description": "Insert button text."
   },
   "popupBtnDelete": {
     "message": "Удалить",
-    "description": "Текст кнопки Удалить."
+    "description": "Delete button text."
   },
   "popupBtnConfirmDelete": {
     "message": "Подтвердить?",
-    "description": "Текст подтверждения кнопки Удалить."
+    "description": "Delete button confirmation text."
+  },
+  "popupBtnShowQr": {
+    "message": "Показать QR-код",
+    "description": "Button to show the QR code."
+  },
+  "popupBtnDownloadQr": {
+    "message": "Скачать",
+    "description": "Button to download the QR code image."
+  },
+  "popupBtnAttachQr": {
+    "message": "Прикрепить QR-код",
+    "description": "Button to attach the QR code to an email."
   },
   "popupStatsLabel": {
     "message": "Статистика для (короткий URL или ключевое слово)",
-    "description": "Метка для поля ввода статистики."
+    "description": "Label for the stats input."
   },
   "popupBtnStats": {
     "message": "Статистика",
-    "description": "Текст кнопки Получить статистику."
+    "description": "Get stats button text."
   },
   "popupBtnToggleJson": {
     "message": "Переключить JSON",
-    "description": "Текст кнопки для переключения вида JSON."
+    "description": "Toggle JSON view button text."
   },
   "popupStatusReady": {
     "message": "Готово.",
-    "description": "Начальное сообщение о состоянии во всплывающем окне."
+    "description": "Initial status message in popup."
   },
   "popupStatusShortening": {
     "message": "Сокращение…",
-    "description": "Сообщение о состоянии во время сокращения."
+    "description": "Status message while shortening."
   },
   "popupStatusCreated": {
     "message": "Короткий URL создан.",
-    "description": "Сообщение об успехе при сокращении URL."
+    "description": "Success message when URL is shortened."
   },
   "popupStatusAlreadyShortened": {
     "message": "URL уже сокращен.",
-    "description": "Сообщение, когда URL уже существует."
+    "description": "Message when URL already exists."
   },
   "popupStatusCopied": {
     "message": "Скопировано в буфер обмена.",
-    "description": "Сообщение при копировании текста."
+    "description": "Message when text is copied."
   },
   "popupStatusInserted": {
-    "message": "Короткий URL вставлен в редактор.",
-    "description": "Сообщение при вставке короткого URL."
+    "message": "Короткий URL вставлен в редактор создания.",
+    "description": "Message when short URL is inserted."
   },
   "popupStatusFetchingStats": {
     "message": "Получение статистики…",
-    "description": "Сообщение о состоянии при получении статистики."
+    "description": "Status message while fetching stats."
   },
   "popupStatusStatsResult": {
-    "message": "Короткий: $shorturl$\nЦель: $longurl$\nКлики: $clicks$",
-    "description": "Отформатированный результат статистики.",
+    "message": "Короткий: $shorturl$\nЦель: $longurl$\nКликов: $clicks$",
+    "description": "Formatted stats result.",
     "placeholders": {
-      "shorturl": { "content": "$1" },
-      "longurl": { "content": "$2" },
-      "clicks": { "content": "$3" }
+      "shorturl": {
+        "content": "$1"
+      },
+      "longurl": {
+        "content": "$2"
+      },
+      "clicks": {
+        "content": "$3"
+      }
     }
   },
   "popupStatusDeleting": {
     "message": "Удаление…",
-    "description": "Сообщение о состоянии во время удаления."
+    "description": "Status message while deleting."
   },
   "popupStatusDeleted": {
     "message": "Короткий URL удален.",
-    "description": "Сообщение об успехе при удалении URL."
+    "description": "Success message when URL is deleted."
+  },
+  "popupStatusAttachingQr": {
+    "message": "Прикрепление QR-кода...",
+    "description": "Status message when attaching a QR code."
+  },
+  "popupStatusQrAttached": {
+    "message": "QR-код успешно прикреплен.",
+    "description": "Success message when QR code is attached."
   },
   "popupInfoAlreadyShortened": {
     "message": "URL уже сокращен. Вы можете просмотреть статистику или удалить его ниже.",
-    "description": "Информационное сообщение для существующего URL."
+    "description": "Informational message for an existing URL."
   },
   "popupInfoAutoStats": {
-    "message": "Это уже короткий URL. Автоматическое получение статистики.",
-    "description": "Сообщение при автоматическом получении статистики для выбранного короткого URL."
+    "message": "Это уже короткий URL. Получение статистики автоматически.",
+    "description": "Message when auto-fetching stats for a selected short URL."
   },
   "popupErrorInvalidUrl": {
-    "message": "Пожалуйста, введите действительный http(s) URL.",
-    "description": "Ошибка для неверного формата URL."
+    "message": "Пожалуйста, введите действительный URL http(s).",
+    "description": "Error for invalid URL format."
   },
   "popupErrorNothingToCopy": {
     "message": "Нечего копировать.",
-    "description": "Ошибка при нажатии кнопки Копировать без URL."
+    "description": "Error when copy button is clicked with no URL."
   },
   "popupErrorCopyFailed": {
     "message": "Копирование не удалось.",
-    "description": "Ошибка при неудачном копировании в буфер обмена."
+    "description": "Error when clipboard copy fails."
   },
   "popupErrorNothingToInsert": {
     "message": "Нечего вставлять.",
-    "description": "Ошибка при нажатии кнопки Вставить без URL."
+    "description": "Error when insert button is clicked with no URL."
+  },
+  "popupErrorNothingToAttach": {
+    "message": "Нечего прикреплять.",
+    "description": "Error when attach button is clicked with no URL."
+  },
+  "popupErrorAttachFailed": {
+    "message": "Не удалось прикрепить QR-код.",
+    "description": "Error when QR code attachment fails."
   },
   "popupErrorNoCompose": {
-    "message": "Не удалось найти активное окно редактора.",
-    "description": "Ошибка при попытке вставить без окна редактора."
+    "message": "Не удалось найти активное окно создания.",
+    "description": "Error when trying to insert without a compose window."
   },
   "popupErrorEnterUrlForStats": {
-    "message": "Введите короткий URL или ключевое слово для получения статистики.",
-    "description": "Ошибка при нажатии кнопки статистики без ввода."
+    "message": "Введите короткий URL или ключевое слово, чтобы получить статистику.",
+    "description": "Error when stats button is clicked with no input."
   },
   "popupErrorProvideUrlToDelete": {
     "message": "Укажите короткий URL или ключевое слово для удаления.",
-    "description": "Ошибка при нажатии кнопки Удалить без URL."
+    "description": "Error when delete is clicked with no URL."
   },
   "popupErrorStatsNotFound": {
     "message": "Короткий URL не найден.",
-    "description": "Ошибка при запросе статистики для несуществующего URL."
+    "description": "Error when stats are requested for a non-existent URL."
   },
   "errorShortenFailed": {
     "message": "Сокращение не удалось.",
-    "description": "Общая ошибка при сокращении."
+    "description": "Generic error for shortening."
   },
   "errorStatsFailed": {
     "message": "Не удалось получить статистику.",
-    "description": "Общая ошибка при получении статистики."
+    "description": "Generic error for fetching stats."
   },
   "errorDeleteFailed": {
     "message": "Удаление не удалось",
-    "description": "Общая ошибка при удалении."
+    "description": "Generic error for deleting."
   },
   "errorEnterKeywordToDelete": {
     "message": "Пожалуйста, введите короткий URL или ключевое слово для удаления.",
-    "description": "Ошибка в фоновом скрипте, если отсутствует ключевое слово для удаления."
+    "description": "Error in background script if keyword is missing for delete."
   },
   "errorNoSettings": {
     "message": "Пожалуйста, сначала настройте YOURLS в настройках дополнения.",
-    "description": "Ошибка, когда настройки не сконфигурированы."
+    "description": "Error when settings are not configured."
   },
   "toastUrlCreated": {
     "message": "Короткий URL создан.",
-    "description": "Уведомление об успехе."
+    "description": "Notification message for success."
   },
   "toastUrlExists": {
     "message": "URL уже сокращен.",
-    "description": "Уведомление о существующем URL."
+    "description": "Notification message for existing URL."
   },
   "toastUrlDeleted": {
     "message": "Короткий URL удален.",
-    "description": "Уведомление об удаленном URL."
+    "description": "Notification message for deleted URL."
   },
   "menuItemShortenSelection": {
     "message": "kurl: Сократить выделение…",
-    "description": "Заголовок элемента контекстного меню для сокращения выделения."
+    "description": "The title of the context menu item for shortening a selection."
   },
   "commandShortenDescription": {
     "message": "Открыть всплывающее окно сокращателя kurl.",
-    "description": "Описание сочетания клавиш."
+    "description": "Description for the keyboard shortcut."
   }
 }

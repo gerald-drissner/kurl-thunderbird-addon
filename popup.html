@@ -6,14 +6,25 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="popup-body">
-  <div class="card">
+
+  <div id="setup-message" class="info" style="display: none;">
+    <p data-i18n-key="errorNoSettings">Please configure your YOURLS instance first in the add-on settings.</p>
+    <button id="open-options" class="secondary">Go to Settings</button>
+  </div>
+
+  <div id="main-content" class="card" style="display: none;">
     <h1 data-i18n-key="popupTitle">kurl - YOURLS Shortener</h1>
 
     <label data-i18n-key="popupLongUrlLabel">Long URL</label>
     <input id="longUrl" type="url" placeholder="https://example.com/very/long/article/url/to/shorten">
 
-    <label data-i18n-key="popupKeywordLabel">Custom keyword (optional)</label>
-    <input id="keyword" type="text" placeholder="e.g. news-aug-22">
+    <details>
+      <summary>Advanced Options</summary>
+      <label data-i18n-key="popupKeywordLabel">Custom keyword (optional)</label>
+      <input id="keyword" type="text" placeholder="e.g. news-aug-22">
+      <label data-i18n-key="popupTitleLabel">Title (optional)</label>
+      <input id="title" type="text" placeholder="e.g. My great article">
+    </details>
 
     <div class="row">
       <button id="btnShorten" data-i18n-key="popupBtnShorten">Shorten</button>
@@ -27,6 +38,14 @@
       <button id="btnDelete" class="secondary danger" data-i18n-key="popupBtnDelete" disabled>Delete</button>
     </div>
 
+    <div class="row">
+        <button id="btnQrCode" class="secondary" style="display: none;">Show QR Code</button>
+        <button id="btnDownloadQr" class="secondary" style="display: none;">Download</button>
+        <button id="btnAttachQr" class="secondary" style="display: none;">Attach QR Code</button>
+    </div>
+
+    <div id="qrcode-display" class="qr-container" style="display: none;"></div>
+
     <label data-i18n-key="popupStatsLabel">Stats for (short URL or keyword)</label>
     <input id="statsInput" type="text" placeholder="e.g. https://short.example/abc or abc">
     <div class="row">
@@ -37,7 +56,9 @@
     <div id="msg" class="info" data-i18n-key="popupStatusReady">Ready.</div>
     <pre id="json" style="display:none;"></pre>
   </div>
+
   <script src="JS/helpers.js"></script>
+  <script src="JS/qrcode.min.js"></script>
   <script src="JS/popup.js"></script>
 </body>
 </html>

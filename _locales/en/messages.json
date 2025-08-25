@@ -54,7 +54,11 @@
   "optionsStatusConnOk": {
     "message": "Connection OK (Total links: $total$)",
     "description": "Success message for connection test.",
-    "placeholders": { "total": { "content": "$1" } }
+    "placeholders": {
+      "total": {
+        "content": "$1"
+      }
+    }
   },
   "optionsStatusConnFailed": {
     "message": "Connection failed.",
@@ -100,6 +104,10 @@
     "message": "Custom keyword (optional)",
     "description": "Label for the custom keyword input."
   },
+  "popupTitleLabel": {
+    "message": "Title (optional)",
+    "description": "Label for the URL title input."
+  },
   "popupBtnShorten": {
     "message": "Shorten",
     "description": "Shorten button text."
@@ -123,6 +131,18 @@
   "popupBtnConfirmDelete": {
     "message": "Confirm?",
     "description": "Delete button confirmation text."
+  },
+  "popupBtnShowQr": {
+    "message": "Show QR Code",
+    "description": "Button to show the QR code."
+  },
+  "popupBtnDownloadQr": {
+    "message": "Download",
+    "description": "Button to download the QR code image."
+  },
+  "popupBtnAttachQr": {
+    "message": "Attach QR Code",
+    "description": "Button to attach the QR code to an email."
   },
   "popupStatsLabel": {
     "message": "Stats for (short URL or keyword)",
@@ -168,9 +188,15 @@
     "message": "Short: $shorturl$\nTarget: $longurl$\nClicks: $clicks$",
     "description": "Formatted stats result.",
     "placeholders": {
-      "shorturl": { "content": "$1" },
-      "longurl": { "content": "$2" },
-      "clicks": { "content": "$3" }
+      "shorturl": {
+        "content": "$1"
+      },
+      "longurl": {
+        "content": "$2"
+      },
+      "clicks": {
+        "content": "$3"
+      }
     }
   },
   "popupStatusDeleting": {
@@ -180,6 +206,14 @@
   "popupStatusDeleted": {
     "message": "Short URL deleted.",
     "description": "Success message when URL is deleted."
+  },
+  "popupStatusAttachingQr": {
+    "message": "Attaching QR code...",
+    "description": "Status message when attaching a QR code."
+  },
+  "popupStatusQrAttached": {
+    "message": "QR code attached successfully.",
+    "description": "Success message when QR code is attached."
   },
   "popupInfoAlreadyShortened": {
     "message": "URL already shortened. You can view stats or delete it below.",
@@ -204,6 +238,14 @@
   "popupErrorNothingToInsert": {
     "message": "Nothing to insert.",
     "description": "Error when insert button is clicked with no URL."
+  },
+  "popupErrorNothingToAttach": {
+    "message": "Nothing to attach.",
+    "description": "Error when attach button is clicked with no URL."
+  },
+  "popupErrorAttachFailed": {
+    "message": "Failed to attach QR code.",
+    "description": "Error when QR code attachment fails."
   },
   "popupErrorNoCompose": {
     "message": "Could not find an active compose window.",

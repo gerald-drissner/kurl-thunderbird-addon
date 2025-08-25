@@ -172,3 +172,24 @@ pre {
   overflow: auto;
   margin-top: 10px;
 }
+
+/* New QR code container style */
+.qr-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background: var(--field);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+/* Add this new rule to your stylesheet */
+details summary {
+  font-size: 13px; /* Match the size of the labels */
+  color: var(--muted);
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 8px; /* Match the top margin of the labels */
+}

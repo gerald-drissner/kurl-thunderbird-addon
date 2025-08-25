@@ -1,264 +1,306 @@
 {
   "extensionName": {
-    "message": "kurl - YOURLS Shortener",
-    "description": "שם התוסף."
+    "message": "kurl - מקצר YOURLS",
+    "description": "Name of the extension."
   },
   "extensionDescription": {
-    "message": "קצר קישורים עם מופע ה-YOURLS שלך והכנס את הקישור המקוצר ישירות לעורך.",
-    "description": "תיאור התוסף."
+    "message": "קצר קישורים באמצעות מופע YOURLS משלך והכנס את הקישור הקצר ישירות לעורך הכתיבה.",
+    "description": "Description of the extension."
   },
   "optionsTitle": {
     "message": "הגדרות YOURLS",
-    "description": "כותרת עמוד האפשרויות."
+    "description": "Title for the options page."
   },
   "optionsYourlsUrlLabel": {
-    "message": "כתובת YOURLS (ללא לוכסן בסוף)",
-    "description": "תווית לשדה הזנת כתובת YOURLS."
+    "message": "כתובת אתר YOURLS (ללא לוכסן בסוף)",
+    "description": "Label for the YOURLS URL input."
   },
   "optionsApiSignatureLabel": {
     "message": "אסימון חתימת API",
-    "description": "תווית לשדה הזנת אסימון חתימת API."
+    "description": "Label for the API signature token input."
   },
   "optionsAutoCopyLabel": {
-    "message": "העתק קישור מקוצר ללוח באופן אוטומטי",
-    "description": "תווית לתיבת הסימון של העתקה אוטומטית."
+    "message": "העתק קישור קצר ללוח באופן אוטומטי",
+    "description": "Label for the auto-copy checkbox."
   },
   "optionsBtnSave": {
     "message": "שמור",
-    "description": "טקסט כפתור השמירה."
+    "description": "Save button text."
   },
   "optionsBtnTest": {
     "message": "בדוק חיבור",
-    "description": "טקסט כפתור בדיקת החיבור."
+    "description": "Test connection button text."
   },
   "optionsBtnRemovePerm": {
     "message": "הסר הרשאת מארח",
-    "description": "טקסט כפתור הסרת הרשאת מארח."
+    "description": "Remove host permission button text."
   },
   "optionsStatusLoaded": {
-    "message": "הגדרות שמורות נטענו. לחץ על 'בדוק חיבור'.",
-    "description": "הודעת סטטוס ראשונית בעמוד האפשרויות."
+    "message": "הגדרות שמורות נטענו. לחץ על “בדוק חיבור”.",
+    "description": "Initial status message on options page."
   },
   "optionsStatusEnterUrlAndToken": {
-    "message": "אנא הזן את כתובת ה-YOURLS ואסימון ה-API שלך.",
-    "description": "הודעת שגיאה כאשר כתובת או אסימון חסרים."
+    "message": "אנא הכנס את כתובת האתר של YOURLS ואת אסימון ה-API.",
+    "description": "Error message when URL or token is missing."
   },
   "optionsStatusPermNotGranted": {
-    "message": "הרשאת מארח לא ניתנה.",
-    "description": "הודעת שגיאה כאשר הרשאת מארח נדחית."
+    "message": "הקצאת מארח לא ניתנה.",
+    "description": "Error message when host permission is denied."
   },
   "optionsStatusPermRequestError": {
     "message": "לא ניתן לבקש הרשאת מארח: ",
-    "description": "הודעת שגיאה כאשר בקשת הרשאת מארח נכשלת."
+    "description": "Error message when requesting host permission fails."
   },
   "optionsStatusConnOk": {
     "message": "החיבור תקין (סה\"כ קישורים: $total$)",
-    "description": "הודעת הצלחה לבדיקת חיבור.",
-    "placeholders": { "total": { "content": "$1" } }
+    "description": "Success message for connection test.",
+    "placeholders": {
+      "total": {
+        "content": "$1"
+      }
+    }
   },
   "optionsStatusConnFailed": {
     "message": "החיבור נכשל.",
-    "description": "הודעת שגיאה לבדיקת חיבור שנכשלה."
+    "description": "Error message for failed connection test."
   },
   "optionsStatusSaved": {
-    "message": "ההגדרות נשמרו. ייתכן שתרצה לבדוק את החיבור שוב.",
-    "description": "הודעת סטטוס לאחר שמירת הגדרות."
+    "message": "הגדרות נשמרו. ייתכן שתרצה לבדוק שוב את החיבור.",
+    "description": "Status message after saving settings."
   },
   "optionsStatusEnterUrlToRemove": {
-    "message": "הזן כתובת להסרת הרשאתה.",
-    "description": "הודעה בעת ניסיון להסיר הרשאה ללא כתובת."
+    "message": "הכנס כתובת אתר כדי להסיר את הרשאתה.",
+    "description": "Message when trying to remove permission without a URL."
   },
   "optionsStatusPermRemoveError": {
     "message": "לא ניתן להסיר הרשאה: ",
-    "description": "הודעת שגיאה כאשר הסרת הרשאת מארח נכשלת."
+    "description": "Error message when removing host permission fails."
   },
   "optionsStatusPermRemoved": {
     "message": "הרשאת מארח הוסרה עבור מקור זה.",
-    "description": "הודעת הצלחה כאשר הרשאה מוסרת."
+    "description": "Success message when permission is removed."
   },
   "optionsShortcutTitle": {
     "message": "שימוש בקיצור הדרך",
-    "description": "כותרת תיבת המידע על קיצור הדרך באפשרויות."
+    "description": "Title for the shortcut information box in options."
   },
   "optionsShortcutDescription": {
-    "message": "ניתן לפתוח במהירות את המקצר על ידי בחירת כתובת URL בעורך והקשה על",
-    "description": "תיאור אופן השימוש בקיצור המקשים."
+    "message": "באפשרותך לפתוח במהירות את המקצר על ידי בחירת כתובת אתר בעורך הכתיבה ולחיצה על",
+    "description": "Description of how to use the keyboard shortcut."
   },
   "optionsShortcutChange": {
-    "message": "ניתן לשנות קיצור דרך זה במנהל התוספים של Thunderbird תחת תפריט ⚙️ של kurl.",
-    "description": "הוראות לשינוי קיצור המקשים המוגדר כברירת מחדל."
+    "message": "באפשרותך לשנות קיצור דרך זה במנהל התוספים של Thunderbird תחת תפריט ⚙️ עבור kurl.",
+    "description": "Instructions on how to change the default keyboard shortcut."
   },
   "popupTitle": {
     "message": "מקצר YOURLS",
-    "description": "כותרת החלון הקופץ."
+    "description": "Title for the popup window."
   },
   "popupLongUrlLabel": {
-    "message": "כתובת ארוכה",
-    "description": "תווית לשדה הזנת הכתובת הארוכה."
+    "message": "כתובת אתר ארוכה",
+    "description": "Label for the long URL input."
   },
   "popupKeywordLabel": {
     "message": "מילת מפתח מותאמת אישית (אופציונלי)",
-    "description": "תווית לשדה הזנת מילת המפתח המותאמת אישית."
+    "description": "Label for the custom keyword input."
+  },
+  "popupTitleLabel": {
+    "message": "כותרת (אופציונלי)",
+    "description": "Label for the URL title input."
   },
   "popupBtnShorten": {
     "message": "קצר",
-    "description": "טקסט כפתור הקיצור."
+    "description": "Shorten button text."
   },
   "popupShortUrlLabel": {
-    "message": "כתובת מקוצרת",
-    "description": "תווית לשדה פלט הכתובת המקוצרת."
+    "message": "כתובת אתר קצרה",
+    "description": "Label for the short URL output."
   },
   "popupBtnCopy": {
     "message": "העתק",
-    "description": "טקסט כפתור ההעתקה."
+    "description": "Copy button text."
   },
   "popupBtnInsert": {
     "message": "הכנס",
-    "description": "טקסט כפתור ההכנסה."
+    "description": "Insert button text."
   },
   "popupBtnDelete": {
     "message": "מחק",
-    "description": "טקסט כפתור המחיקה."
+    "description": "Delete button text."
   },
   "popupBtnConfirmDelete": {
     "message": "לאשר?",
-    "description": "טקסט אישור כפתור המחיקה."
+    "description": "Delete button confirmation text."
+  },
+  "popupBtnShowQr": {
+    "message": "הצג קוד QR",
+    "description": "Button to show the QR code."
+  },
+  "popupBtnDownloadQr": {
+    "message": "הורד",
+    "description": "Button to download the QR code image."
+  },
+  "popupBtnAttachQr": {
+    "message": "צרף קוד QR",
+    "description": "Button to attach the QR code to an email."
   },
   "popupStatsLabel": {
-    "message": "סטטיסטיקה עבור (כתובת מקוצרת או מילת מפתח)",
-    "description": "תווית לשדה הזנת הסטטיסטיקה."
+    "message": "סטטיסטיקה עבור (כתובת אתר קצרה או מילת מפתח)",
+    "description": "Label for the stats input."
   },
   "popupBtnStats": {
     "message": "סטטיסטיקה",
-    "description": "טקסט כפתור קבלת הסטטיסטיקה."
+    "description": "Get stats button text."
   },
   "popupBtnToggleJson": {
-    "message": "הצג/הסתר JSON",
-    "description": "טקסט כפתור החלפת תצוגת JSON."
+    "message": "החלף JSON",
+    "description": "Toggle JSON view button text."
   },
   "popupStatusReady": {
     "message": "מוכן.",
-    "description": "הודעת סטטוס ראשונית בחלון הקופץ."
+    "description": "Initial status message in popup."
   },
   "popupStatusShortening": {
     "message": "מקצר…",
-    "description": "הודעת סטטוס בזמן הקיצור."
+    "description": "Status message while shortening."
   },
   "popupStatusCreated": {
-    "message": "כתובת מקוצרת נוצרה.",
-    "description": "הודעת הצלחה כאשר הכתובת קוצרה."
+    "message": "כתובת אתר קצרה נוצרה.",
+    "description": "Success message when URL is shortened."
   },
   "popupStatusAlreadyShortened": {
-    "message": "הכתובת כבר קוצרה.",
-    "description": "הודעה כאשר הכתובת כבר קיימת."
+    "message": "כתובת האתר כבר קוצרה.",
+    "description": "Message when URL already exists."
   },
   "popupStatusCopied": {
     "message": "הועתק ללוח.",
-    "description": "הודעה כאשר הטקסט מועתק."
+    "description": "Message when text is copied."
   },
   "popupStatusInserted": {
-    "message": "הכתובת המקוצרת הוכנסה לעורך.",
-    "description": "הודעה כאשר הכתובת המקוצרת מוכנסת."
+    "message": "כתובת אתר קצרה הוצבה בעורך הכתיבה.",
+    "description": "Message when short URL is inserted."
   },
   "popupStatusFetchingStats": {
-    "message": "מביא סטטיסטיקה…",
-    "description": "הודעת סטטוס בזמן הבאת הסטטיסטיקה."
+    "message": "אוסף סטטיסטיקה…",
+    "description": "Status message while fetching stats."
   },
   "popupStatusStatsResult": {
-    "message": "מקוצר: $shorturl$\nיעד: $longurl$\nקליקים: $clicks$",
-    "description": "תוצאת סטטיסטיקה מעוצבת.",
+    "message": "קצר: $shorturl$\nיעד: $longurl$\nקליקים: $clicks$",
+    "description": "Formatted stats result.",
     "placeholders": {
-      "shorturl": { "content": "$1" },
-      "longurl": { "content": "$2" },
-      "clicks": { "content": "$3" }
+      "shorturl": {
+        "content": "$1"
+      },
+      "longurl": {
+        "content": "$2"
+      },
+      "clicks": {
+        "content": "$3"
+      }
     }
   },
   "popupStatusDeleting": {
     "message": "מוחק…",
-    "description": "הודעת סטטוס בזמן המחיקה."
+    "description": "Status message while deleting."
   },
   "popupStatusDeleted": {
-    "message": "הכתובת המקוצרת נמחקה.",
-    "description": "הודעת הצלחה כאשר הכתובת נמחקת."
+    "message": "כתובת אתר קצרה נמחקה.",
+    "description": "Success message when URL is deleted."
+  },
+  "popupStatusAttachingQr": {
+    "message": "מצרף קוד QR...",
+    "description": "Status message when attaching a QR code."
+  },
+  "popupStatusQrAttached": {
+    "message": "קוד QR צורף בהצלחה.",
+    "description": "Success message when QR code is attached."
   },
   "popupInfoAlreadyShortened": {
-    "message": "הכתובת כבר קוצרה. ניתן לצפות בסטטיסטיקה או למחוק אותה למטה.",
-    "description": "הודעת מידע עבור כתובת קיימת."
+    "message": "כתובת האתר כבר קוצרה. באפשרותך לצפות בסטטיסטיקה או למחוק אותה למטה.",
+    "description": "Informational message for an existing URL."
   },
   "popupInfoAutoStats": {
-    "message": "זוהי כבר כתובת מקוצרת. מביא סטטיסטיקה באופן אוטומטי.",
-    "description": "הודעה בעת הבאת סטטיסטיקה אוטומטית עבור כתובת מקוצרת שנבחרה."
+    "message": "זו כבר כתובת אתר קצרה. אוסף סטטיסטיקה באופן אוטומטי.",
+    "description": "Message when auto-fetching stats for a selected short URL."
   },
   "popupErrorInvalidUrl": {
-    "message": "אנא הזן כתובת http(s) תקינה.",
-    "description": "שגיאה עבור פורמט כתובת לא תקין."
+    "message": "אנא הכנס כתובת אתר http(s) חוקית.",
+    "description": "Error for invalid URL format."
   },
   "popupErrorNothingToCopy": {
     "message": "אין מה להעתיק.",
-    "description": "שגיאה כאשר לוחצים על כפתור ההעתקה ללא כתובת."
+    "description": "Error when copy button is clicked with no URL."
   },
   "popupErrorCopyFailed": {
-    "message": "ההעתקה נכשלה.",
-    "description": "שגיאה כאשר ההעתקה ללוח נכשלת."
+    "message": "העתקה נכשלה.",
+    "description": "Error when clipboard copy fails."
   },
   "popupErrorNothingToInsert": {
     "message": "אין מה להכניס.",
-    "description": "שגיאה כאשר לוחצים על כפתור ההכנסה ללא כתובת."
+    "description": "Error when insert button is clicked with no URL."
+  },
+  "popupErrorNothingToAttach": {
+    "message": "אין מה לצרף.",
+    "description": "Error when attach button is clicked with no URL."
+  },
+  "popupErrorAttachFailed": {
+    "message": "צירוף קוד QR נכשל.",
+    "description": "Error when QR code attachment fails."
   },
   "popupErrorNoCompose": {
-    "message": "לא נמצא חלון עריכה פעיל.",
-    "description": "שגיאה בעת ניסיון להכניס ללא חלון עריכה."
+    "message": "לא ניתן היה למצוא חלון כתיבה פעיל.",
+    "description": "Error when trying to insert without a compose window."
   },
   "popupErrorEnterUrlForStats": {
-    "message": "הזן כתובת מקוצרת או מילת מפתח לקבלת סטטיסטיקה.",
-    "description": "שגיאה כאשר לוחצים על כפתור הסטטיסטיקה ללא קלט."
+    "message": "הכנס כתובת אתר קצרה או מילת מפתח כדי לקבל סטטיסטיקה.",
+    "description": "Error when stats button is clicked with no input."
   },
   "popupErrorProvideUrlToDelete": {
-    "message": "ספק כתובת מקוצרת או מילת מפתח למחיקה.",
-    "description": "שגיאה כאשר לוחצים על מחיקה ללא כתובת."
+    "message": "ספק כתובת אתר קצרה או מילת מפתח כדי למחוק.",
+    "description": "Error when delete is clicked with no URL."
   },
   "popupErrorStatsNotFound": {
-    "message": "כתובת מקוצרת לא נמצאה.",
-    "description": "שגיאה כאשר מתבקשת סטטיסטיקה עבור כתובת לא קיימת."
+    "message": "כתובת האתר הקצרה לא נמצאה.",
+    "description": "Error when stats are requested for a non-existent URL."
   },
   "errorShortenFailed": {
     "message": "הקיצור נכשל.",
-    "description": "שגיאה כללית לקיצור."
+    "description": "Generic error for shortening."
   },
   "errorStatsFailed": {
-    "message": "הבאת הסטטיסטיקה נכשלה.",
-    "description": "שגיאה כללית להבאת סטטיסטיקה."
+    "message": "אוסף הסטטיסטיקה נכשל.",
+    "description": "Generic error for fetching stats."
   },
   "errorDeleteFailed": {
     "message": "המחיקה נכשלה",
-    "description": "שגיאה כללית למחיקה."
+    "description": "Generic error for deleting."
   },
   "errorEnterKeywordToDelete": {
-    "message": "אנא הזן כתובת מקוצרת או מילת מפתח למחיקה.",
-    "description": "שגיאה בסקריפט הרקע אם מילת המפתח חסרה למחיקה."
+    "message": "אנא הכנס כתובת אתר קצרה או מילת מפתח למחיקה.",
+    "description": "Error in background script if keyword is missing for delete."
   },
   "errorNoSettings": {
     "message": "אנא הגדר את YOURLS תחילה בהגדרות התוסף.",
-    "description": "שגיאה כאשר ההגדרות אינן מוגדרות."
+    "description": "Error when settings are not configured."
   },
   "toastUrlCreated": {
-    "message": "כתובת מקוצרת נוצרה.",
-    "description": "הודעת התראה על הצלחה."
+    "message": "כתובת אתר קצרה נוצרה.",
+    "description": "Notification message for success."
   },
   "toastUrlExists": {
-    "message": "הכתובת כבר קוצרה.",
-    "description": "הודעת התראה על כתובת קיימת."
+    "message": "כתובת האתר כבר קוצרה.",
+    "description": "Notification message for existing URL."
   },
   "toastUrlDeleted": {
-    "message": "הכתובת המקוצרת נמחקה.",
-    "description": "הודעת התראה על כתובת שנמחקה."
+    "message": "כתובת אתר קצרה נמחקה.",
+    "description": "Notification message for deleted URL."
   },
   "menuItemShortenSelection": {
     "message": "kurl: קצר בחירה…",
-    "description": "כותרת פריט תפריט ההקשר לקיצור בחירה."
+    "description": "The title of the context menu item for shortening a selection."
   },
   "commandShortenDescription": {
-    "message": "פתח את חלון המקצר הקופץ של kurl.",
-    "description": "תיאור קיצור המקשים."
+    "message": "פתח את החלון הקופץ של מקצר kurl.",
+    "description": "Description for the keyboard shortcut."
   }
 }

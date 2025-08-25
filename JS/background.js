@@ -34,15 +34,17 @@ async function apiStats(shortOrKeyword) {
  * Shortens a long URL.
  * @param {string} longUrl - The URL to shorten.
  * @param {string} keyword - An optional custom keyword.
+ * @param {string} title - An optional title for the short URL.
  * @returns {Promise<object>}
  */
-async function apiShorten(longUrl, keyword) {
+async function apiShorten(longUrl, keyword, title) {
   const { yourlsUrl, apiSignature } = await H.getSettings();
   const base = H.sanitizeBaseUrl(yourlsUrl);
   if (!base || !apiSignature) throw new Error(browser.i18n.getMessage("errorNoSettings"));
 
   const payload = { action: "shorturl", format: "json", signature: apiSignature, url: longUrl };
   if (keyword) payload.keyword = keyword;
+  if (title) payload.title = title;
 
   const { res, text, json } = await yourlsFetch(base, payload);
 
@@ -167,15 +169,39 @@ async function handleAction(tab) {
 }
 
 /**
+ * Handles the attachment of a QR code received from the popup script.
+ * @param {object} payload - An object containing the blob and filename.
+ */
+async function handleAttachQrCode(payload) {
+  const { blob, name } = payload;
+  const { lastActiveComposeTabId } = await browser.storage.local.get("lastActiveComposeTabId");
+
+  if (!lastActiveComposeTabId) {
+    throw new Error("Could not find an active compose window.");
+  }
+
+  // Use the File API to create a File object from the blob.
+  const file = new File([blob], name, { type: blob.type });
+
+  // Use the Thunderbird specific `compose.addAttachment` API with the correct object format.
+  await browser.compose.addAttachment(lastActiveComposeTabId, { file });
+
+  toast(browser.i18n.getMessage("extensionName"), "QR code attached.");
+}
+
+/**
  * Central message hub for the extension.
  */
 browser.runtime.onMessage.addListener(async (msg) => {
   try {
     switch (msg.type) {
       case "CHECK_CONNECTION": return await apiCheck();
-      case "SHORTEN_URL": return await apiShorten(msg.longUrl, msg.keyword || "");
+      case "SHORTEN_URL": return await apiShorten(msg.longUrl, msg.keyword || "", msg.title || "");
       case "GET_STATS": return { ok: true, data: await apiStats(msg.shortUrl) };
       case "DELETE_SHORTURL": return await apiDelete(msg.shortUrl);
+      case "ATTACH_QR_CODE":
+        await handleAttachQrCode(msg);
+        return { ok: true };
       default: return { ok: false, reason: "Unknown message type" };
     }
   } catch (e) {
