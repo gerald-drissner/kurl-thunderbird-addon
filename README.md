@@ -3,6 +3,8 @@
 [![Version](https://img.shields.io/badge/version-1.4-blue.svg)](https://github.com/gerald-drissner/kurl-thunderbird-addon/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Listed in Awesome YOURLS!](https://img.shields.io/badge/Awesome-YOURLS-C5A3BE)](https://github.com/YOURLS/awesome)
+[![Get it on Thunderbird Add-ons](https://img.shields.io/badge/Get%20it%20on-Thunderbird%20Add--ons-4e8cff?logo=mozilla&logoColor=white)](https://addons.thunderbird.net/de/thunderbird/addon/kurl-yourls-shortener/)
+
 
 A Thunderbird add-on to shorten URLs with your self-hosted YOURLS instance and insert them directly into the email compose window.
 
@@ -57,11 +59,23 @@ To connect this add-on to your YOURLS instance, you need your unique API signatu
 
 ## Installation of this Add-on
 
-1.  Go to the [**Releases Page**](https://github.com/gerald-drissner/kurl-thunderbird-addon/releases).
-2.  Download the `.zip` file from the latest release (e.g., `kurl-thunderbird-addon-v1.1.zip`).
-3.  In Thunderbird, go to `Tools > Add-ons and Themes`.
-4.  Click the gear icon (⚙️) and select "Install Add-on From File...".
-5.  Select the downloaded `.zip` file.
+There are two ways to install **kurl**:
+
+### 🔹 Option 1: Install from Thunderbird Add-ons
+
+You can install the latest version (**v1.4**) directly from the official Thunderbird Add-ons repository:
+
+[![Get it on Thunderbird Add-ons](https://img.shields.io/badge/Get%20it%20on-Thunderbird%20Add--ons-4e8cff?logo=mozilla&logoColor=white)](https://addons.thunderbird.net/de/thunderbird/addon/kurl-yourls-shortener/)
+
+Click **“Add to Thunderbird”** and follow the prompts.
+
+### 🔹 Option 2: Manual Installation
+
+1.  Go to the [**Releases Page**](https://github.com/gerald-drissner/kurl-thunderbird-addon/releases).  
+2.  Download the `.zip` file from the latest release (e.g., `kurl-thunderbird-addon-v1.4.zip`).  
+3.  In Thunderbird, go to `Tools > Add-ons and Themes`.  
+4.  Click the gear icon (⚙️) and select **"Install Add-on From File..."**.  
+5.  Select the downloaded `.zip` file.
 
 ***
 
