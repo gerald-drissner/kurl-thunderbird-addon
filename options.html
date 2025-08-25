@@ -15,10 +15,13 @@
     <label data-i18n-key="optionsApiSignatureLabel">API signature token</label>
     <input id="apiSignature" type="password" placeholder="••••••••••">
 
-    <label class="row">
-      <input id="autoCopy" type="checkbox">
+    <div class="toggle-container">
       <span data-i18n-key="optionsAutoCopyLabel">Copy short link to clipboard automatically</span>
-    </label>
+      <label class="switch">
+        <input id="autoCopy" type="checkbox">
+        <span class="slider round"></span>
+      </label>
+    </div>
 
     <div class="row">
       <button id="save" data-i18n-key="optionsBtnSave">Save</button>
