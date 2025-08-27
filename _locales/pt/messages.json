@@ -8,7 +8,7 @@
     "description": "Description of the extension."
   },
   "optionsTitle": {
-    "message": "Configurações YOURLS",
+    "message": "Configurações do YOURLS",
     "description": "Title for the options page."
   },
   "optionsYourlsUrlLabel": {
@@ -16,7 +16,7 @@
     "description": "Label for the YOURLS URL input."
   },
   "optionsApiSignatureLabel": {
-    "message": "Token de assinatura da API",
+    "message": "Token de assinatura de API",
     "description": "Label for the API signature token input."
   },
   "optionsAutoCopyLabel": {
@@ -32,7 +32,7 @@
     "description": "Test connection button text."
   },
   "optionsBtnRemovePerm": {
-    "message": "Remover Permissão do Host",
+    "message": "Remover Permissão de Host",
     "description": "Remove host permission button text."
   },
   "optionsStatusLoaded": {
@@ -40,15 +40,15 @@
     "description": "Initial status message on options page."
   },
   "optionsStatusEnterUrlAndToken": {
-    "message": "Por favor, insira sua URL do YOURLS e o token da API.",
+    "message": "Por favor, insira sua URL YOURLS e token de API.",
     "description": "Error message when URL or token is missing."
   },
   "optionsStatusPermNotGranted": {
-    "message": "A permissão do host não foi concedida.",
+    "message": "A permissão de host não foi concedida.",
     "description": "Error message when host permission is denied."
   },
   "optionsStatusPermRequestError": {
-    "message": "Não foi possível solicitar a permissão do host: ",
+    "message": "Não foi possível solicitar a permissão de host: ",
     "description": "Error message when requesting host permission fails."
   },
   "optionsStatusConnOk": {
@@ -61,7 +61,7 @@
     }
   },
   "optionsStatusConnFailed": {
-    "message": "A conexão falhou.",
+    "message": "Conexão falhou.",
     "description": "Error message for failed connection test."
   },
   "optionsStatusSaved": {
@@ -77,7 +77,7 @@
     "description": "Error message when removing host permission fails."
   },
   "optionsStatusPermRemoved": {
-    "message": "Permissão do host removida para esta origem.",
+    "message": "Permissão de host removida para esta origem.",
     "description": "Success message when permission is removed."
   },
   "optionsShortcutTitle": {
@@ -89,11 +89,11 @@
     "description": "Description of how to use the keyboard shortcut."
   },
   "optionsShortcutChange": {
-    "message": "Você pode mudar este atalho no Gerenciador de Complementos do Thunderbird, no menu ⚙️ para kurl.",
+    "message": "Você pode alterar este atalho no Gerenciador de Complementos do Thunderbird, no menu ⚙️ para kurl.",
     "description": "Instructions on how to change the default keyboard shortcut."
   },
   "popupTitle": {
-    "message": "Encurtador YOURLS",
+    "message": "Encurtador de YOURLS",
     "description": "Title for the popup window."
   },
   "popupLongUrlLabel": {
@@ -125,7 +125,7 @@
     "description": "Insert button text."
   },
   "popupBtnDelete": {
-    "message": "Deletar",
+    "message": "Excluir",
     "description": "Delete button text."
   },
   "popupBtnConfirmDelete": {
@@ -185,7 +185,7 @@
     "description": "Status message while fetching stats."
   },
   "popupStatusStatsResult": {
-    "message": "Curta: $shorturl$\nAlvo: $longurl$\nCliques: $clicks$",
+    "message": "Curto: $shorturl$\\nAlvo: $longurl$\\nCliques: $clicks$",
     "description": "Formatted stats result.",
     "placeholders": {
       "shorturl": {
@@ -200,15 +200,15 @@
     }
   },
   "popupStatusDeleting": {
-    "message": "Deletando…",
+    "message": "Excluindo…",
     "description": "Status message while deleting."
   },
   "popupStatusDeleted": {
-    "message": "URL curta deletada.",
+    "message": "URL curta excluída.",
     "description": "Success message when URL is deleted."
   },
   "popupStatusAttachingQr": {
-    "message": "Anexando Código QR...",
+    "message": "Anexando código QR...",
     "description": "Status message when attaching a QR code."
   },
   "popupStatusQrAttached": {
@@ -216,7 +216,7 @@
     "description": "Success message when QR code is attached."
   },
   "popupInfoAlreadyShortened": {
-    "message": "URL já encurtada. Você pode visualizar as estatísticas ou deletá-la abaixo.",
+    "message": "URL já encurtada. Você pode ver as estatísticas ou excluí-la abaixo.",
     "description": "Informational message for an existing URL."
   },
   "popupInfoAutoStats": {
@@ -244,7 +244,7 @@
     "description": "Error when attach button is clicked with no URL."
   },
   "popupErrorAttachFailed": {
-    "message": "Falha ao anexar o Código QR.",
+    "message": "Falha ao anexar o código QR.",
     "description": "Error when QR code attachment fails."
   },
   "popupErrorNoCompose": {
@@ -252,11 +252,11 @@
     "description": "Error when trying to insert without a compose window."
   },
   "popupErrorEnterUrlForStats": {
-    "message": "Insira uma URL curta ou palavra-chave para obter estatísticas.",
+    "message": "Insira uma URL curta ou uma palavra-chave para obter estatísticas.",
     "description": "Error when stats button is clicked with no input."
   },
   "popupErrorProvideUrlToDelete": {
-    "message": "Forneça uma URL curta ou palavra-chave para deletar.",
+    "message": "Forneça uma URL curta ou uma palavra-chave para excluir.",
     "description": "Error when delete is clicked with no URL."
   },
   "popupErrorStatsNotFound": {
@@ -272,11 +272,11 @@
     "description": "Generic error for fetching stats."
   },
   "errorDeleteFailed": {
-    "message": "O deletar falhou",
+    "message": "A exclusão falhou",
     "description": "Generic error for deleting."
   },
   "errorEnterKeywordToDelete": {
-    "message": "Por favor, insira uma URL curta ou palavra-chave para deletar.",
+    "message": "Por favor, insira uma URL curta ou uma palavra-chave para excluir.",
     "description": "Error in background script if keyword is missing for delete."
   },
   "errorNoSettings": {
@@ -292,7 +292,7 @@
     "description": "Notification message for existing URL."
   },
   "toastUrlDeleted": {
-    "message": "URL curta deletada.",
+    "message": "URL curta excluída.",
     "description": "Notification message for deleted URL."
   },
   "menuItemShortenSelection": {
@@ -302,5 +302,21 @@
   "commandShortenDescription": {
     "message": "Abrir o popup do encurtador kurl.",
     "description": "Description for the keyboard shortcut."
+  },
+  "popupBtnCopyClose": {
+    "message": "Copiar e Fechar",
+    "description": "Copy and Close button text."
+  },
+  "menuItemPrimeUrl": {
+    "message": "kurl: Copiar URL para preparar (sem popup)",
+    "description": "The title of the context menu item for the 3-pane view."
+  },
+  "toastUrlPrimed": {
+    "message": "URL preparada. Clique no ícone kurl no cabeçalho da mensagem.",
+    "description": "Notification message after priming the URL from the 3-pane view."
+  },
+  "commandOpenReaderDescription": {
+    "message": "Abrir kurl no leitor de mensagens",
+    "description": "Description for the message reader keyboard shortcut."
   }
 }

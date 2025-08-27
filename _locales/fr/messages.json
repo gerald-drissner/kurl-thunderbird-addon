@@ -1,10 +1,10 @@
 {
   "extensionName": {
-    "message": "kurl - YOURLS Shortener",
+    "message": "kurl - Raccourcisseur YOURLS",
     "description": "Name of the extension."
   },
   "extensionDescription": {
-    "message": "Raccourcir les liens avec votre instance YOURLS et insérer le lien court directement dans l'éditeur de composition.",
+    "message": "Raccourcissez les liens avec votre instance YOURLS et insérez le lien court directement dans l'éditeur de composition.",
     "description": "Description of the extension."
   },
   "optionsTitle": {
@@ -12,11 +12,11 @@
     "description": "Title for the options page."
   },
   "optionsYourlsUrlLabel": {
-    "message": "URL YOURLS (sans barre oblique finale)",
+    "message": "URL de YOURLS (pas de slash final)",
     "description": "Label for the YOURLS URL input."
   },
   "optionsApiSignatureLabel": {
-    "message": "Jeton de signature API",
+    "message": "Jeton de signature d'API",
     "description": "Label for the API signature token input."
   },
   "optionsAutoCopyLabel": {
@@ -24,7 +24,7 @@
     "description": "Label for the auto-copy checkbox."
   },
   "optionsBtnSave": {
-    "message": "Sauvegarder",
+    "message": "Enregistrer",
     "description": "Save button text."
   },
   "optionsBtnTest": {
@@ -65,7 +65,7 @@
     "description": "Error message for failed connection test."
   },
   "optionsStatusSaved": {
-    "message": "Paramètres sauvegardés. Vous voudrez peut-être tester à nouveau la connexion.",
+    "message": "Paramètres enregistrés. Vous pouvez tester à nouveau la connexion.",
     "description": "Status message after saving settings."
   },
   "optionsStatusEnterUrlToRemove": {
@@ -89,7 +89,7 @@
     "description": "Description of how to use the keyboard shortcut."
   },
   "optionsShortcutChange": {
-    "message": "Vous pouvez modifier ce raccourci dans le Gestionnaire de modules de Thunderbird sous le menu ⚙️ pour kurl.",
+    "message": "Vous pouvez modifier ce raccourci dans le gestionnaire de modules complémentaires de Thunderbird sous le menu ⚙️ pour kurl.",
     "description": "Instructions on how to change the default keyboard shortcut."
   },
   "popupTitle": {
@@ -101,11 +101,11 @@
     "description": "Label for the long URL input."
   },
   "popupKeywordLabel": {
-    "message": "Mot-clé personnalisé (optionnel)",
+    "message": "Mot-clé personnalisé (facultatif)",
     "description": "Label for the custom keyword input."
   },
   "popupTitleLabel": {
-    "message": "Titre (optionnel)",
+    "message": "Titre (facultatif)",
     "description": "Label for the URL title input."
   },
   "popupBtnShorten": {
@@ -129,7 +129,7 @@
     "description": "Delete button text."
   },
   "popupBtnConfirmDelete": {
-    "message": "Confirmer ?",
+    "message": "Confirmer?",
     "description": "Delete button confirmation text."
   },
   "popupBtnShowQr": {
@@ -161,7 +161,7 @@
     "description": "Initial status message in popup."
   },
   "popupStatusShortening": {
-    "message": "Raccourcissement…",
+    "message": "Raccourcissement en cours…",
     "description": "Status message while shortening."
   },
   "popupStatusCreated": {
@@ -169,7 +169,7 @@
     "description": "Success message when URL is shortened."
   },
   "popupStatusAlreadyShortened": {
-    "message": "L'URL est déjà raccourcie.",
+    "message": "URL déjà raccourcie.",
     "description": "Message when URL already exists."
   },
   "popupStatusCopied": {
@@ -185,7 +185,7 @@
     "description": "Status message while fetching stats."
   },
   "popupStatusStatsResult": {
-    "message": "Courte : $shorturl$\nCible : $longurl$\nClics : $clicks$",
+    "message": "Court: $shorturl$\\nCible: $longurl$\\nClics: $clicks$",
     "description": "Formatted stats result.",
     "placeholders": {
       "shorturl": {
@@ -200,7 +200,7 @@
     }
   },
   "popupStatusDeleting": {
-    "message": "Suppression…",
+    "message": "Suppression en cours…",
     "description": "Status message while deleting."
   },
   "popupStatusDeleted": {
@@ -208,7 +208,7 @@
     "description": "Success message when URL is deleted."
   },
   "popupStatusAttachingQr": {
-    "message": "Pièce jointe du code QR...",
+    "message": "Joindre le code QR...",
     "description": "Status message when attaching a QR code."
   },
   "popupStatusQrAttached": {
@@ -216,11 +216,11 @@
     "description": "Success message when QR code is attached."
   },
   "popupInfoAlreadyShortened": {
-    "message": "L'URL est déjà raccourcie. Vous pouvez afficher les statistiques ou la supprimer ci-dessous.",
+    "message": "URL déjà raccourcie. Vous pouvez afficher les statistiques ou la supprimer ci-dessous.",
     "description": "Informational message for an existing URL."
   },
   "popupInfoAutoStats": {
-    "message": "C'est déjà une URL courte. Récupération automatique des statistiques.",
+    "message": "Ceci est déjà une URL courte. Récupération des statistiques automatiquement.",
     "description": "Message when auto-fetching stats for a selected short URL."
   },
   "popupErrorInvalidUrl": {
@@ -244,7 +244,7 @@
     "description": "Error when attach button is clicked with no URL."
   },
   "popupErrorAttachFailed": {
-    "message": "Échec de la pièce jointe du code QR.",
+    "message": "Échec de la connexion du code QR.",
     "description": "Error when QR code attachment fails."
   },
   "popupErrorNoCompose": {
@@ -260,7 +260,7 @@
     "description": "Error when delete is clicked with no URL."
   },
   "popupErrorStatsNotFound": {
-    "message": "URL courte non trouvée.",
+    "message": "URL courte introuvable.",
     "description": "Error when stats are requested for a non-existent URL."
   },
   "errorShortenFailed": {
@@ -288,7 +288,7 @@
     "description": "Notification message for success."
   },
   "toastUrlExists": {
-    "message": "L'URL est déjà raccourcie.",
+    "message": "URL déjà raccourcie.",
     "description": "Notification message for existing URL."
   },
   "toastUrlDeleted": {
@@ -300,7 +300,23 @@
     "description": "The title of the context menu item for shortening a selection."
   },
   "commandShortenDescription": {
-    "message": "Ouvrir la fenêtre contextuelle du raccourcisseur kurl.",
+    "message": "Ouvrir la fenêtre pop-up du raccourcisseur kurl.",
     "description": "Description for the keyboard shortcut."
+  },
+  "popupBtnCopyClose": {
+    "message": "Copier & Fermer",
+    "description": "Copy and Close button text."
+  },
+  "menuItemPrimeUrl": {
+    "message": "kurl: Copier l'URL pour amorcer (sans popup)",
+    "description": "The title of the context menu item for the 3-pane view."
+  },
+  "toastUrlPrimed": {
+    "message": "URL amorcée. Cliquez sur l'icône kurl dans l'en-tête du message.",
+    "description": "Notification message after priming the URL from the 3-pane view."
+  },
+  "commandOpenReaderDescription": {
+    "message": "Ouvrir kurl dans le lecteur de messages",
+    "description": "Description for the message reader keyboard shortcut."
   }
 }

@@ -302,5 +302,21 @@
   "commandShortenDescription": {
     "message": "Open the kurl shortener popup.",
     "description": "Description for the keyboard shortcut."
+  },
+  "popupBtnCopyClose": {
+    "message": "Copy & Close",
+    "description": "Copy and Close button text."
+  },
+  "menuItemPrimeUrl": {
+    "message": "kurl: Copy URL to prime (no popup)",
+    "description": "The title of the context menu item for the 3-pane view."
+  },
+  "toastUrlPrimed": {
+    "message": "URL primed. Click the kurl icon in the message header.",
+    "description": "Notification message after priming the URL from the 3-pane view."
+  },
+  "commandOpenReaderDescription": {
+    "message": "Open kurl in message reader",
+    "description": "Description for the message reader keyboard shortcut."
   }
 }

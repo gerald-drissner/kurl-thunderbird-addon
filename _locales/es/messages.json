@@ -12,15 +12,15 @@
     "description": "Title for the options page."
   },
   "optionsYourlsUrlLabel": {
-    "message": "URL de YOURLS (sin barra diagonal al final)",
+    "message": "URL de YOURLS (sin barra final)",
     "description": "Label for the YOURLS URL input."
   },
   "optionsApiSignatureLabel": {
-    "message": "Token de firma API",
+    "message": "Token de firma de la API",
     "description": "Label for the API signature token input."
   },
   "optionsAutoCopyLabel": {
-    "message": "Copiar el enlace corto al portapapeles automáticamente",
+    "message": "Copiar enlace corto al portapapeles automáticamente",
     "description": "Label for the auto-copy checkbox."
   },
   "optionsBtnSave": {
@@ -40,7 +40,7 @@
     "description": "Initial status message on options page."
   },
   "optionsStatusEnterUrlAndToken": {
-    "message": "Por favor, introduce tu URL de YOURLS y el token de API.",
+    "message": "Por favor, introduce tu URL de YOURLS y tu token de API.",
     "description": "Error message when URL or token is missing."
   },
   "optionsStatusPermNotGranted": {
@@ -65,7 +65,7 @@
     "description": "Error message for failed connection test."
   },
   "optionsStatusSaved": {
-    "message": "Configuración guardada. Puede que desees probar la conexión de nuevo.",
+    "message": "Configuración guardada. Puedes volver a probar la conexión.",
     "description": "Status message after saving settings."
   },
   "optionsStatusEnterUrlToRemove": {
@@ -81,7 +81,7 @@
     "description": "Success message when permission is removed."
   },
   "optionsShortcutTitle": {
-    "message": "Uso del atajo de teclado",
+    "message": "Uso del atajo",
     "description": "Title for the shortcut information box in options."
   },
   "optionsShortcutDescription": {
@@ -89,7 +89,7 @@
     "description": "Description of how to use the keyboard shortcut."
   },
   "optionsShortcutChange": {
-    "message": "Puedes cambiar este atajo de teclado en el Administrador de complementos de Thunderbird bajo el menú ⚙️ para kurl.",
+    "message": "Puedes cambiar este atajo en el Administrador de Complementos de Thunderbird bajo el menú ⚙️ para kurl.",
     "description": "Instructions on how to change the default keyboard shortcut."
   },
   "popupTitle": {
@@ -169,7 +169,7 @@
     "description": "Success message when URL is shortened."
   },
   "popupStatusAlreadyShortened": {
-    "message": "La URL ya está acortada.",
+    "message": "URL ya acortada.",
     "description": "Message when URL already exists."
   },
   "popupStatusCopied": {
@@ -185,7 +185,7 @@
     "description": "Status message while fetching stats."
   },
   "popupStatusStatsResult": {
-    "message": "Corta: $shorturl$\nDestino: $longurl$\nClics: $clicks$",
+    "message": "Corta: $shorturl$\\nDestino: $longurl$\\nClics: $clicks$",
     "description": "Formatted stats result.",
     "placeholders": {
       "shorturl": {
@@ -216,7 +216,7 @@
     "description": "Success message when QR code is attached."
   },
   "popupInfoAlreadyShortened": {
-    "message": "La URL ya está acortada. Puedes ver las estadísticas o eliminarla a continuación.",
+    "message": "URL ya acortada. Puedes ver las estadísticas o eliminarla a continuación.",
     "description": "Informational message for an existing URL."
   },
   "popupInfoAutoStats": {
@@ -232,7 +232,7 @@
     "description": "Error when copy button is clicked with no URL."
   },
   "popupErrorCopyFailed": {
-    "message": "Copia fallida.",
+    "message": "Fallo al copiar.",
     "description": "Error when clipboard copy fails."
   },
   "popupErrorNothingToInsert": {
@@ -252,11 +252,11 @@
     "description": "Error when trying to insert without a compose window."
   },
   "popupErrorEnterUrlForStats": {
-    "message": "Introduce una URL corta o palabra clave para obtener estadísticas.",
+    "message": "Introduce una URL corta o una palabra clave para obtener estadísticas.",
     "description": "Error when stats button is clicked with no input."
   },
   "popupErrorProvideUrlToDelete": {
-    "message": "Proporciona una URL corta o palabra clave para eliminar.",
+    "message": "Proporciona una URL corta o una palabra clave para eliminar.",
     "description": "Error when delete is clicked with no URL."
   },
   "popupErrorStatsNotFound": {
@@ -264,7 +264,7 @@
     "description": "Error when stats are requested for a non-existent URL."
   },
   "errorShortenFailed": {
-    "message": "Acortar fallido.",
+    "message": "Fallo al acortar.",
     "description": "Generic error for shortening."
   },
   "errorStatsFailed": {
@@ -272,15 +272,15 @@
     "description": "Generic error for fetching stats."
   },
   "errorDeleteFailed": {
-    "message": "Eliminar fallido",
+    "message": "Fallo al eliminar",
     "description": "Generic error for deleting."
   },
   "errorEnterKeywordToDelete": {
-    "message": "Por favor, introduce una URL corta o palabra clave para eliminar.",
+    "message": "Por favor, introduce una URL corta o una palabra clave para eliminar.",
     "description": "Error in background script if keyword is missing for delete."
   },
   "errorNoSettings": {
-    "message": "Por favor, configura YOURLS primero en la configuración del complemento.",
+    "message": "Por favor, configura YOURLS primero en los ajustes del complemento.",
     "description": "Error when settings are not configured."
   },
   "toastUrlCreated": {
@@ -288,7 +288,7 @@
     "description": "Notification message for success."
   },
   "toastUrlExists": {
-    "message": "La URL ya está acortada.",
+    "message": "URL ya acortada.",
     "description": "Notification message for existing URL."
   },
   "toastUrlDeleted": {
@@ -302,5 +302,21 @@
   "commandShortenDescription": {
     "message": "Abrir el popup del acortador kurl.",
     "description": "Description for the keyboard shortcut."
+  },
+  "popupBtnCopyClose": {
+    "message": "Copiar y cerrar",
+    "description": "Copy and Close button text."
+  },
+  "menuItemPrimeUrl": {
+    "message": "kurl: Copiar URL para preparar (sin popup)",
+    "description": "The title of the context menu item for the 3-pane view."
+  },
+  "toastUrlPrimed": {
+    "message": "URL preparada. Haz clic en el icono de kurl en el encabezado del mensaje.",
+    "description": "Notification message after priming the URL from the 3-pane view."
+  },
+  "commandOpenReaderDescription": {
+    "message": "Abrir kurl en el lector de mensajes",
+    "description": "Description for the message reader keyboard shortcut."
   }
 }

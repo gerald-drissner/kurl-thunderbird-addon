@@ -4,7 +4,7 @@
     "description": "Name of the extension."
   },
   "extensionDescription": {
-    "message": "使用您自己的 YOURLS 实例缩短链接，并将短链接直接插入到撰写编辑器中。",
+    "message": "使用您的 YOURLS 实例缩短链接，并将短链接直接插入到编写编辑器中。",
     "description": "Description of the extension."
   },
   "optionsTitle": {
@@ -48,11 +48,11 @@
     "description": "Error message when host permission is denied."
   },
   "optionsStatusPermRequestError": {
-    "message": "无法请求主机权限：",
+    "message": "无法请求主机权限： ",
     "description": "Error message when requesting host permission fails."
   },
   "optionsStatusConnOk": {
-    "message": "连接正常（总链接数：$total$）",
+    "message": "连接正常（链接总数：$total$）",
     "description": "Success message for connection test.",
     "placeholders": {
       "total": {
@@ -65,7 +65,7 @@
     "description": "Error message for failed connection test."
   },
   "optionsStatusSaved": {
-    "message": "设置已保存。您可能需要再次测试连接。",
+    "message": "设置已保存。您可能想再次测试连接。",
     "description": "Status message after saving settings."
   },
   "optionsStatusEnterUrlToRemove": {
@@ -73,7 +73,7 @@
     "description": "Message when trying to remove permission without a URL."
   },
   "optionsStatusPermRemoveError": {
-    "message": "无法移除权限：",
+    "message": "无法移除权限： ",
     "description": "Error message when removing host permission fails."
   },
   "optionsStatusPermRemoved": {
@@ -85,7 +85,7 @@
     "description": "Title for the shortcut information box in options."
   },
   "optionsShortcutDescription": {
-    "message": "您可以通过在撰写编辑器中选择一个 URL 并按下",
+    "message": "您可以通过在编写编辑器中选择一个 URL 并按下",
     "description": "Description of how to use the keyboard shortcut."
   },
   "optionsShortcutChange": {
@@ -97,7 +97,7 @@
     "description": "Title for the popup window."
   },
   "popupLongUrlLabel": {
-    "message": "长链接",
+    "message": "长 URL",
     "description": "Label for the long URL input."
   },
   "popupKeywordLabel": {
@@ -113,7 +113,7 @@
     "description": "Shorten button text."
   },
   "popupShortUrlLabel": {
-    "message": "短链接",
+    "message": "短 URL",
     "description": "Label for the short URL output."
   },
   "popupBtnCopy": {
@@ -145,7 +145,7 @@
     "description": "Button to attach the QR code to an email."
   },
   "popupStatsLabel": {
-    "message": "统计信息（短链接或关键词）",
+    "message": "统计信息（短 URL 或关键词）",
     "description": "Label for the stats input."
   },
   "popupBtnStats": {
@@ -157,7 +157,7 @@
     "description": "Toggle JSON view button text."
   },
   "popupStatusReady": {
-    "message": "准备就绪。",
+    "message": "就绪。",
     "description": "Initial status message in popup."
   },
   "popupStatusShortening": {
@@ -165,7 +165,7 @@
     "description": "Status message while shortening."
   },
   "popupStatusCreated": {
-    "message": "短链接已创建。",
+    "message": "已创建短 URL。",
     "description": "Success message when URL is shortened."
   },
   "popupStatusAlreadyShortened": {
@@ -177,7 +177,7 @@
     "description": "Message when text is copied."
   },
   "popupStatusInserted": {
-    "message": "已将短链接插入撰写。",
+    "message": "已将短 URL 插入到编写中。",
     "description": "Message when short URL is inserted."
   },
   "popupStatusFetchingStats": {
@@ -185,7 +185,7 @@
     "description": "Status message while fetching stats."
   },
   "popupStatusStatsResult": {
-    "message": "短链接：$shorturl$\n目标：$longurl$\n点击量：$clicks$",
+    "message": "短：$shorturl$\\n目标：$longurl$\\n点击数：$clicks$",
     "description": "Formatted stats result.",
     "placeholders": {
       "shorturl": {
@@ -204,7 +204,7 @@
     "description": "Status message while deleting."
   },
   "popupStatusDeleted": {
-    "message": "短链接已删除。",
+    "message": "已删除短 URL。",
     "description": "Success message when URL is deleted."
   },
   "popupStatusAttachingQr": {
@@ -216,11 +216,11 @@
     "description": "Success message when QR code is attached."
   },
   "popupInfoAlreadyShortened": {
-    "message": "URL 已被缩短。您可以在下方查看统计信息或将其删除。",
+    "message": "URL 已被缩短。您可以在下方查看统计信息或删除它。",
     "description": "Informational message for an existing URL."
   },
   "popupInfoAutoStats": {
-    "message": "这已是一个短链接。正在自动获取统计信息。",
+    "message": "这已经是一个短 URL。正在自动获取统计信息。",
     "description": "Message when auto-fetching stats for a selected short URL."
   },
   "popupErrorInvalidUrl": {
@@ -228,7 +228,7 @@
     "description": "Error for invalid URL format."
   },
   "popupErrorNothingToCopy": {
-    "message": "没有可复制的内容。",
+    "message": "无可复制。",
     "description": "Error when copy button is clicked with no URL."
   },
   "popupErrorCopyFailed": {
@@ -236,11 +236,11 @@
     "description": "Error when clipboard copy fails."
   },
   "popupErrorNothingToInsert": {
-    "message": "没有可插入的内容。",
+    "message": "无可插入。",
     "description": "Error when insert button is clicked with no URL."
   },
   "popupErrorNothingToAttach": {
-    "message": "没有可附加的内容。",
+    "message": "无可附加。",
     "description": "Error when attach button is clicked with no URL."
   },
   "popupErrorAttachFailed": {
@@ -248,19 +248,19 @@
     "description": "Error when QR code attachment fails."
   },
   "popupErrorNoCompose": {
-    "message": "无法找到活动的撰写窗口。",
+    "message": "找不到活动的编写窗口。",
     "description": "Error when trying to insert without a compose window."
   },
   "popupErrorEnterUrlForStats": {
-    "message": "输入短链接或关键词以获取统计信息。",
+    "message": "输入短 URL 或关键词以获取统计信息。",
     "description": "Error when stats button is clicked with no input."
   },
   "popupErrorProvideUrlToDelete": {
-    "message": "提供要删除的短链接或关键词。",
+    "message": "提供短 URL 或关键词以删除。",
     "description": "Error when delete is clicked with no URL."
   },
   "popupErrorStatsNotFound": {
-    "message": "未找到短链接。",
+    "message": "未找到短 URL。",
     "description": "Error when stats are requested for a non-existent URL."
   },
   "errorShortenFailed": {
@@ -276,7 +276,7 @@
     "description": "Generic error for deleting."
   },
   "errorEnterKeywordToDelete": {
-    "message": "请输入要删除的短链接或关键词。",
+    "message": "请输入短 URL 或关键词以删除。",
     "description": "Error in background script if keyword is missing for delete."
   },
   "errorNoSettings": {
@@ -284,7 +284,7 @@
     "description": "Error when settings are not configured."
   },
   "toastUrlCreated": {
-    "message": "短链接已创建。",
+    "message": "已创建短 URL。",
     "description": "Notification message for success."
   },
   "toastUrlExists": {
@@ -292,15 +292,31 @@
     "description": "Notification message for existing URL."
   },
   "toastUrlDeleted": {
-    "message": "短链接已删除。",
+    "message": "已删除短 URL。",
     "description": "Notification message for deleted URL."
   },
   "menuItemShortenSelection": {
-    "message": "kurl: 缩短选中内容…",
+    "message": "kurl: 缩短选择…",
     "description": "The title of the context menu item for shortening a selection."
   },
   "commandShortenDescription": {
-    "message": "打开 kurl 缩短器弹出窗口。",
+    "message": "打开 kurl 缩短器弹窗。",
     "description": "Description for the keyboard shortcut."
+  },
+  "popupBtnCopyClose": {
+    "message": "复制并关闭",
+    "description": "Copy and Close button text."
+  },
+  "menuItemPrimeUrl": {
+    "message": "kurl: 复制 URL 以准备（无弹窗）",
+    "description": "The title of the context menu item for the 3-pane view."
+  },
+  "toastUrlPrimed": {
+    "message": "URL 已准备好。点击消息头中的 kurl 图标。",
+    "description": "Notification message after priming the URL from the 3-pane view."
+  },
+  "commandOpenReaderDescription": {
+    "message": "在消息阅读器中打开 kurl",
+    "description": "Description for the message reader keyboard shortcut."
   }
 }
