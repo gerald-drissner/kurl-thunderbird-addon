@@ -88,7 +88,7 @@ async function handleAttachQrCode(payload) {
   }
   const file = new File([blob], name, { type: blob.type });
   await browser.compose.addAttachment(lastActiveComposeTabId, { file });
-  toast(browser.i18n.getMessage("extensionName"), "QR code attached.");
+  toast(browser.i18n.getMessage("extensionName"), browser.i18n.getMessage("toastQrAttached"));
 }
 
 // --- Add-on Integration & Event Listeners ---
@@ -109,7 +109,6 @@ browser.runtime.onMessage.addListener(async (msg) => {
   }
 });
 
-// --- NEW/RESTORED SECTION ---
 
 async function getUrlFromTab(tab) {
   if (!tab) return "";
@@ -164,13 +163,13 @@ browser.menus.onShown.addListener(async (info, tab) => {
   if (context === "compose" || context === "display") {
     browser.menus.create({
       id: "kurl-shorten-and-open",
-      title: "kurl: Shorten selection…",
-      contexts: ["link", "selection", "editable"]
+      title: browser.i18n.getMessage("menuItemShortenSelection"),
+                         contexts: ["link", "selection", "editable"]
     });
   } else if (context === "three-pane") {
     browser.menus.create({
       id: "kurl-prime-url",
-      title: "kurl: Copy URL to prime (no popup)",
+      title: browser.i18n.getMessage("menuItemPrimeUrl"),
                          contexts: ["link", "selection"]
     });
   }
@@ -195,11 +194,10 @@ browser.menus.onClicked.addListener(async (info, tab) => {
     }
   } else if (info.menuItemId === "kurl-prime-url") {
     await browser.storage.local.set({ popup_context: "display" });
-    toast("kurl", "URL primed. Click the kurl icon in the message header.");
+    toast(browser.i18n.getMessage("extensionName"), browser.i18n.getMessage("toastUrlPrimed"));
   }
 });
 
-// --- END NEW/RESTORED SECTION ---
 
 // --- Helper Functions ---
 function toast(title, message) {

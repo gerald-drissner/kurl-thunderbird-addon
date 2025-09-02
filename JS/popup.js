@@ -214,15 +214,32 @@ btnCopyClose.addEventListener("click", () => {
 
 if (btnInsert) {
   btnInsert.addEventListener("click", async () => {
-    const v = shortUrl.value.trim();
-    if (!v) return setMsg(browser.i18n.getMessage("popupErrorNothingToInsert"));
+    const textToInsert = shortUrl.value.trim();
+    if (!textToInsert) return setMsg(browser.i18n.getMessage("popupErrorNothingToInsert"));
+
     try {
-      // No need to get the tab ID here anymore for this specific action.
-      // The API call is now simpler and correct.
-      await browser.compose.insertText(v);
+      // Get the currently active compose tab to ensure we're targeting the right window.
+      const [tab] = await browser.tabs.query({ active: true, lastFocusedWindow: true, type: "messageCompose" });
+
+      if (!tab) {
+        // If no compose tab is active, we cannot insert text.
+        throw new Error("No active compose tab found.");
+      }
+
+      // This is the correct API to interact with the compose editor.
+      // We execute a script inside the compose window to insert the text.
+      await browser.composeScript.executeScript(tab.id, {
+        func: (text) => {
+          // document.execCommand is a reliable way to insert text at the cursor.
+          document.execCommand('insertText', false, text);
+        },
+        args: [textToInsert],
+      });
+
       setMsg(browser.i18n.getMessage("popupStatusInserted"), "ok");
     } catch (e) {
-      // Add a more helpful error message if no compose window is active.
+      console.error("kurl: Insert failed", e);
+      // The original error message is appropriate if no compose window is found.
       setMsg(browser.i18n.getMessage("popupErrorNoCompose"));
     }
   });

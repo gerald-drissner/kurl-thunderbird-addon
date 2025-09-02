@@ -100,6 +100,10 @@
     "message": "Long URL",
     "description": "Label for the long URL input."
   },
+  "popupAdvancedOptions": {
+    "message": "Advanced Options",
+    "description": "Label for the collapsible advanced options section in the popup."
+  },
   "popupKeywordLabel": {
     "message": "Custom keyword (optional)",
     "description": "Label for the custom keyword input."
@@ -120,6 +124,10 @@
     "message": "Copy",
     "description": "Copy button text."
   },
+  "popupBtnCopyClose": {
+    "message": "Copy & Close",
+    "description": "Copy and Close button text."
+  },
   "popupBtnInsert": {
     "message": "Insert",
     "description": "Insert button text."
@@ -131,6 +139,10 @@
   "popupBtnConfirmDelete": {
     "message": "Confirm?",
     "description": "Delete button confirmation text."
+  },
+  "popupBtnGoToSettings": {
+    "message": "Go to Settings",
+    "description": "Button text in the popup to open the options page."
   },
   "popupBtnShowQr": {
     "message": "Show QR Code",
@@ -295,25 +307,25 @@
     "message": "Short URL deleted.",
     "description": "Notification message for deleted URL."
   },
+  "toastQrAttached": {
+    "message": "QR code attached.",
+    "description": "Notification message when a QR code has been attached to the email."
+  },
+  "toastUrlPrimed": {
+    "message": "URL primed. Click the kurl icon in the message header.",
+    "description": "Notification message after priming the URL from the 3-pane view."
+  },
   "menuItemShortenSelection": {
     "message": "kurl: Shorten selection…",
     "description": "The title of the context menu item for shortening a selection."
-  },
-  "commandShortenDescription": {
-    "message": "Open the kurl shortener popup.",
-    "description": "Description for the keyboard shortcut."
-  },
-  "popupBtnCopyClose": {
-    "message": "Copy & Close",
-    "description": "Copy and Close button text."
   },
   "menuItemPrimeUrl": {
     "message": "kurl: Copy URL to prime (no popup)",
     "description": "The title of the context menu item for the 3-pane view."
   },
-  "toastUrlPrimed": {
-    "message": "URL primed. Click the kurl icon in the message header.",
-    "description": "Notification message after priming the URL from the 3-pane view."
+  "commandShortenDescription": {
+    "message": "Open the kurl shortener popup.",
+    "description": "Description for the keyboard shortcut."
   },
   "commandOpenReaderDescription": {
     "message": "Open kurl in message reader",

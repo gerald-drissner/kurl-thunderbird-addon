@@ -1,59 +1,45 @@
 {
   "extensionName": {
-    "message": "kurl - YOURLS Shortener",
-    "description": "Name of the extension."
+    "message": "kurl - Encurtador YOURLS"
   },
   "extensionDescription": {
-    "message": "Encurte links com sua instância YOURLS e insira o link curto diretamente no editor de composição.",
-    "description": "Description of the extension."
+    "message": "Encurte links com sua instância YOURLS e insira o link curto diretamente no editor de composição."
   },
   "optionsTitle": {
-    "message": "Configurações do YOURLS",
-    "description": "Title for the options page."
+    "message": "Configurações do YOURLS"
   },
   "optionsYourlsUrlLabel": {
-    "message": "URL do YOURLS (sem barra final)",
-    "description": "Label for the YOURLS URL input."
+    "message": "URL do YOURLS (sem barra no final)"
   },
   "optionsApiSignatureLabel": {
-    "message": "Token de assinatura de API",
-    "description": "Label for the API signature token input."
+    "message": "Token de assinatura da API"
   },
   "optionsAutoCopyLabel": {
-    "message": "Copiar link curto para a área de transferência automaticamente",
-    "description": "Label for the auto-copy checkbox."
+    "message": "Copiar link curto para a área de transferência automaticamente"
   },
   "optionsBtnSave": {
-    "message": "Salvar",
-    "description": "Save button text."
+    "message": "Salvar"
   },
   "optionsBtnTest": {
-    "message": "Testar Conexão",
-    "description": "Test connection button text."
+    "message": "Testar conexão"
   },
   "optionsBtnRemovePerm": {
-    "message": "Remover Permissão de Host",
-    "description": "Remove host permission button text."
+    "message": "Remover permissão de host"
   },
   "optionsStatusLoaded": {
-    "message": "Configurações salvas carregadas. Clique em “Testar Conexão”.",
-    "description": "Initial status message on options page."
+    "message": "Configurações salvas carregadas. Clique em \"Testar conexão\"."
   },
   "optionsStatusEnterUrlAndToken": {
-    "message": "Por favor, insira sua URL YOURLS e token de API.",
-    "description": "Error message when URL or token is missing."
+    "message": "Por favor, insira a URL do seu YOURLS e o token da API."
   },
   "optionsStatusPermNotGranted": {
-    "message": "A permissão de host não foi concedida.",
-    "description": "Error message when host permission is denied."
+    "message": "A permissão de host não foi concedida."
   },
   "optionsStatusPermRequestError": {
-    "message": "Não foi possível solicitar a permissão de host: ",
-    "description": "Error message when requesting host permission fails."
+    "message": "Não foi possível solicitar a permissão de host: "
   },
   "optionsStatusConnOk": {
     "message": "Conexão OK (Total de links: $total$)",
-    "description": "Success message for connection test.",
     "placeholders": {
       "total": {
         "content": "$1"
@@ -61,132 +47,109 @@
     }
   },
   "optionsStatusConnFailed": {
-    "message": "Conexão falhou.",
-    "description": "Error message for failed connection test."
+    "message": "A conexão falhou."
   },
   "optionsStatusSaved": {
-    "message": "Configurações salvas. Você pode querer testar a conexão novamente.",
-    "description": "Status message after saving settings."
+    "message": "Configurações salvas. Você pode querer testar a conexão novamente."
   },
   "optionsStatusEnterUrlToRemove": {
-    "message": "Insira uma URL para remover sua permissão.",
-    "description": "Message when trying to remove permission without a URL."
+    "message": "Insira uma URL para remover sua permissão."
   },
   "optionsStatusPermRemoveError": {
-    "message": "Não foi possível remover a permissão: ",
-    "description": "Error message when removing host permission fails."
+    "message": "Não foi possível remover a permissão: "
   },
   "optionsStatusPermRemoved": {
-    "message": "Permissão de host removida para esta origem.",
-    "description": "Success message when permission is removed."
+    "message": "Permissão de host removida para esta origem."
   },
   "optionsShortcutTitle": {
-    "message": "Usando o Atalho",
-    "description": "Title for the shortcut information box in options."
+    "message": "Usando o atalho"
   },
   "optionsShortcutDescription": {
-    "message": "Você pode abrir rapidamente o encurtador selecionando uma URL no editor de composição e pressionando",
-    "description": "Description of how to use the keyboard shortcut."
+    "message": "Você pode abrir rapidamente o encurtador selecionando uma URL no editor de composição e pressionando"
   },
   "optionsShortcutChange": {
-    "message": "Você pode alterar este atalho no Gerenciador de Complementos do Thunderbird, no menu ⚙️ para kurl.",
-    "description": "Instructions on how to change the default keyboard shortcut."
+    "message": "Você pode alterar este atalho no Gerenciador de Add-ons do Thunderbird no menu ⚙️ para kurl."
   },
   "popupTitle": {
-    "message": "Encurtador de YOURLS",
-    "description": "Title for the popup window."
+    "message": "Encurtador YOURLS"
   },
   "popupLongUrlLabel": {
-    "message": "URL longa",
-    "description": "Label for the long URL input."
+    "message": "URL longa"
+  },
+  "popupAdvancedOptions": {
+    "message": "Opções avançadas"
   },
   "popupKeywordLabel": {
-    "message": "Palavra-chave personalizada (opcional)",
-    "description": "Label for the custom keyword input."
+    "message": "Palavra-chave personalizada (opcional)"
   },
   "popupTitleLabel": {
-    "message": "Título (opcional)",
-    "description": "Label for the URL title input."
+    "message": "Título (opcional)"
   },
   "popupBtnShorten": {
-    "message": "Encurtar",
-    "description": "Shorten button text."
+    "message": "Encurtar"
   },
   "popupShortUrlLabel": {
-    "message": "URL curta",
-    "description": "Label for the short URL output."
+    "message": "URL curta"
   },
   "popupBtnCopy": {
-    "message": "Copiar",
-    "description": "Copy button text."
+    "message": "Copiar"
+  },
+  "popupBtnCopyClose": {
+    "message": "Copiar e fechar"
   },
   "popupBtnInsert": {
-    "message": "Inserir",
-    "description": "Insert button text."
+    "message": "Inserir"
   },
   "popupBtnDelete": {
-    "message": "Excluir",
-    "description": "Delete button text."
+    "message": "Excluir"
   },
   "popupBtnConfirmDelete": {
-    "message": "Confirmar?",
-    "description": "Delete button confirmation text."
+    "message": "Confirmar?"
+  },
+  "popupBtnGoToSettings": {
+    "message": "Ir para Configurações"
   },
   "popupBtnShowQr": {
-    "message": "Mostrar Código QR",
-    "description": "Button to show the QR code."
+    "message": "Mostrar código QR"
   },
   "popupBtnDownloadQr": {
-    "message": "Baixar",
-    "description": "Button to download the QR code image."
+    "message": "Baixar"
   },
   "popupBtnAttachQr": {
-    "message": "Anexar Código QR",
-    "description": "Button to attach the QR code to an email."
+    "message": "Anexar código QR"
   },
   "popupStatsLabel": {
-    "message": "Estatísticas para (URL curta ou palavra-chave)",
-    "description": "Label for the stats input."
+    "message": "Estatísticas para (URL curta ou palavra-chave)"
   },
   "popupBtnStats": {
-    "message": "Estatísticas",
-    "description": "Get stats button text."
+    "message": "Estatísticas"
   },
   "popupBtnToggleJson": {
-    "message": "Alternar JSON",
-    "description": "Toggle JSON view button text."
+    "message": "Alternar JSON"
   },
   "popupStatusReady": {
-    "message": "Pronto.",
-    "description": "Initial status message in popup."
+    "message": "Pronto."
   },
   "popupStatusShortening": {
-    "message": "Encurtando…",
-    "description": "Status message while shortening."
+    "message": "Encurtando..."
   },
   "popupStatusCreated": {
-    "message": "URL curta criada.",
-    "description": "Success message when URL is shortened."
+    "message": "URL curta criada."
   },
   "popupStatusAlreadyShortened": {
-    "message": "URL já encurtada.",
-    "description": "Message when URL already exists."
+    "message": "A URL já foi encurtada."
   },
   "popupStatusCopied": {
-    "message": "Copiado para a área de transferência.",
-    "description": "Message when text is copied."
+    "message": "Copiado para a área de transferência."
   },
   "popupStatusInserted": {
-    "message": "URL curta inserida na composição.",
-    "description": "Message when short URL is inserted."
+    "message": "URL curta inserida na mensagem."
   },
   "popupStatusFetchingStats": {
-    "message": "Buscando estatísticas…",
-    "description": "Status message while fetching stats."
+    "message": "Buscando estatísticas..."
   },
   "popupStatusStatsResult": {
-    "message": "Curto: $shorturl$\\nAlvo: $longurl$\\nCliques: $clicks$",
-    "description": "Formatted stats result.",
+    "message": "Curta: $shorturl$\nAlvo: $longurl$\nCliques: $clicks$",
     "placeholders": {
       "shorturl": {
         "content": "$1"
@@ -200,123 +163,93 @@
     }
   },
   "popupStatusDeleting": {
-    "message": "Excluindo…",
-    "description": "Status message while deleting."
+    "message": "Excluindo..."
   },
   "popupStatusDeleted": {
-    "message": "URL curta excluída.",
-    "description": "Success message when URL is deleted."
+    "message": "URL curta excluída."
   },
   "popupStatusAttachingQr": {
-    "message": "Anexando código QR...",
-    "description": "Status message when attaching a QR code."
+    "message": "Anexando código QR..."
   },
   "popupStatusQrAttached": {
-    "message": "Código QR anexado com sucesso.",
-    "description": "Success message when QR code is attached."
+    "message": "Código QR anexado com sucesso."
   },
   "popupInfoAlreadyShortened": {
-    "message": "URL já encurtada. Você pode ver as estatísticas ou excluí-la abaixo.",
-    "description": "Informational message for an existing URL."
+    "message": "A URL já foi encurtada. Você pode ver as estatísticas ou excluí-la abaixo."
   },
   "popupInfoAutoStats": {
-    "message": "Esta já é uma URL curta. Buscando estatísticas automaticamente.",
-    "description": "Message when auto-fetching stats for a selected short URL."
+    "message": "Esta já é uma URL curta. Buscando estatísticas automaticamente."
   },
   "popupErrorInvalidUrl": {
-    "message": "Por favor, insira uma URL http(s) válida.",
-    "description": "Error for invalid URL format."
+    "message": "Por favor, insira uma URL http(s) válida."
   },
   "popupErrorNothingToCopy": {
-    "message": "Nada para copiar.",
-    "description": "Error when copy button is clicked with no URL."
+    "message": "Nada para copiar."
   },
   "popupErrorCopyFailed": {
-    "message": "A cópia falhou.",
-    "description": "Error when clipboard copy fails."
+    "message": "A cópia falhou."
   },
   "popupErrorNothingToInsert": {
-    "message": "Nada para inserir.",
-    "description": "Error when insert button is clicked with no URL."
+    "message": "Nada para inserir."
   },
   "popupErrorNothingToAttach": {
-    "message": "Nada para anexar.",
-    "description": "Error when attach button is clicked with no URL."
+    "message": "Nada para anexar."
   },
   "popupErrorAttachFailed": {
-    "message": "Falha ao anexar o código QR.",
-    "description": "Error when QR code attachment fails."
+    "message": "Falha ao anexar o código QR."
   },
   "popupErrorNoCompose": {
-    "message": "Não foi possível encontrar uma janela de composição ativa.",
-    "description": "Error when trying to insert without a compose window."
+    "message": "Não foi possível encontrar uma janela de composição ativa."
   },
   "popupErrorEnterUrlForStats": {
-    "message": "Insira uma URL curta ou uma palavra-chave para obter estatísticas.",
-    "description": "Error when stats button is clicked with no input."
+    "message": "Insira uma URL curta ou palavra-chave para obter estatísticas."
   },
   "popupErrorProvideUrlToDelete": {
-    "message": "Forneça uma URL curta ou uma palavra-chave para excluir.",
-    "description": "Error when delete is clicked with no URL."
+    "message": "Forneça uma URL curta ou palavra-chave para excluir."
   },
   "popupErrorStatsNotFound": {
-    "message": "URL curta não encontrada.",
-    "description": "Error when stats are requested for a non-existent URL."
+    "message": "URL curta não encontrada."
   },
   "errorShortenFailed": {
-    "message": "O encurtamento falhou.",
-    "description": "Generic error for shortening."
+    "message": "O encurtamento falhou."
   },
   "errorStatsFailed": {
-    "message": "Falha ao buscar estatísticas.",
-    "description": "Generic error for fetching stats."
+    "message": "Falha ao buscar estatísticas."
   },
   "errorDeleteFailed": {
-    "message": "A exclusão falhou",
-    "description": "Generic error for deleting."
+    "message": "A exclusão falhou"
   },
   "errorEnterKeywordToDelete": {
-    "message": "Por favor, insira uma URL curta ou uma palavra-chave para excluir.",
-    "description": "Error in background script if keyword is missing for delete."
+    "message": "Por favor, insira uma URL curta ou palavra-chave para excluir."
   },
   "errorNoSettings": {
-    "message": "Por favor, configure o YOURLS primeiro nas configurações do complemento.",
-    "description": "Error when settings are not configured."
+    "message": "Por favor, configure o YOURLS primeiro nas configurações do add-on."
   },
   "toastUrlCreated": {
-    "message": "URL curta criada.",
-    "description": "Notification message for success."
+    "message": "URL curta criada."
   },
   "toastUrlExists": {
-    "message": "URL já encurtada.",
-    "description": "Notification message for existing URL."
+    "message": "A URL já foi encurtada."
   },
   "toastUrlDeleted": {
-    "message": "URL curta excluída.",
-    "description": "Notification message for deleted URL."
+    "message": "URL curta excluída."
   },
-  "menuItemShortenSelection": {
-    "message": "kurl: Encurtar seleção…",
-    "description": "The title of the context menu item for shortening a selection."
-  },
-  "commandShortenDescription": {
-    "message": "Abrir o popup do encurtador kurl.",
-    "description": "Description for the keyboard shortcut."
-  },
-  "popupBtnCopyClose": {
-    "message": "Copiar e Fechar",
-    "description": "Copy and Close button text."
-  },
-  "menuItemPrimeUrl": {
-    "message": "kurl: Copiar URL para preparar (sem popup)",
-    "description": "The title of the context menu item for the 3-pane view."
+  "toastQrAttached": {
+    "message": "Código QR anexado."
   },
   "toastUrlPrimed": {
-    "message": "URL preparada. Clique no ícone kurl no cabeçalho da mensagem.",
-    "description": "Notification message after priming the URL from the 3-pane view."
+    "message": "URL preparada. Clique no ícone kurl no cabeçalho da mensagem."
+  },
+  "menuItemShortenSelection": {
+    "message": "kurl: Encurtar seleção..."
+  },
+  "menuItemPrimeUrl": {
+    "message": "kurl: Copiar URL para preparar (sem pop-up)"
+  },
+  "commandShortenDescription": {
+    "message": "Abrir o pop-up do encurtador kurl."
   },
   "commandOpenReaderDescription": {
-    "message": "Abrir kurl no leitor de mensagens",
-    "description": "Description for the message reader keyboard shortcut."
+    "message": "Abrir kurl no leitor de mensagens"
   }
 }

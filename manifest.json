@@ -2,10 +2,10 @@
   "manifest_version": 3,
   "name": "kurl - YOURLS Shortener",
   "short_name": "kurl",
-  "version": "1.7",
+  "version": "1.8",
   "author": "Gerald Drißner",
   "default_locale": "en",
-  "description": "Shorten links with your YOURLS instance and insert the short link directly into the compose editor.",
+  "description": "__MSG_extensionDescription__",
   "browser_specific_settings": {
     "gecko": {
       "id": "yourls@drissner.me",
@@ -33,7 +33,7 @@
       "suggested_key": {
         "default": "Ctrl+Alt+K"
       },
-      "description": "Open kurl in message reader"
+      "description": "__MSG_commandOpenReaderDescription__"
     }
   },
   "options_ui": {
