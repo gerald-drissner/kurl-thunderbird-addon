@@ -142,9 +142,11 @@ function displaySetupMessage() {
 
 // --- QR Code Functions ---
 function generateQrCode(url) {
-  qrcodeDisplay.innerHTML = "";
+  // Use the safe replaceChildren() method to clear the element
+  qrcodeDisplay.replaceChildren();
   new QRCode(qrcodeDisplay, { text: url, width: 128, height: 128, colorDark: "#000000", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.H });
 }
+
 async function attachQrCodeToEmail(url) {
   const { lastActiveComposeTabId } = await browser.storage.local.get("lastActiveComposeTabId");
   if (!lastActiveComposeTabId) {
@@ -215,11 +217,14 @@ if (btnInsert) {
     const v = shortUrl.value.trim();
     if (!v) return setMsg(browser.i18n.getMessage("popupErrorNothingToInsert"));
     try {
-      const { lastActiveComposeTabId } = await browser.storage.local.get("lastActiveComposeTabId");
-      if (!lastActiveComposeTabId) return setMsg(browser.i18n.getMessage("popupErrorNoCompose"));
-      await browser.compose.insertText(lastActiveComposeTabId, v);
+      // No need to get the tab ID here anymore for this specific action.
+      // The API call is now simpler and correct.
+      await browser.compose.insertText(v);
       setMsg(browser.i18n.getMessage("popupStatusInserted"), "ok");
-    } catch (e) { setMsg(String(e)); }
+    } catch (e) {
+      // Add a more helpful error message if no compose window is active.
+      setMsg(browser.i18n.getMessage("popupErrorNoCompose"));
+    }
   });
 }
 
@@ -275,13 +280,17 @@ btnDownloadQr.addEventListener("click", () => {
 if (btnAttachQr) {
   btnAttachQr.addEventListener("click", async () => {
     const v = shortUrl.value.trim();
-    if (!v) return setMsg("Nothing to attach.");
-    setMsg("Attaching QR code...");
+    // Use the internationalized message key instead
+    if (!v) return setMsg(browser.i18n.getMessage("popupErrorNothingToAttach"));
+    setMsg(browser.i18n.getMessage("popupStatusAttachingQr"));
+    // ...
     try {
       await attachQrCodeToEmail(v);
-      setMsg("QR code attached successfully.", "ok");
+      setMsg(browser.i18n.getMessage("popupStatusQrAttached"), "ok");
     } catch (e) {
-      setMsg(`Failed to attach QR code: ${e.message}`);
+      // Use the internationalized message and append the specific error
+      const errorMessage = browser.i18n.getMessage("popupErrorAttachFailed");
+      setMsg(`${errorMessage}: ${e.message}`);
     }
   });
 }
