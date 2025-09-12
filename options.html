@@ -6,11 +6,16 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="options-body">
-  <div class="card">
-    <h1 data-i18n-key="optionsTitle">YOURLS Settings</h1>
+<div class="card">
+  <h1 data-i18n-key="optionsTitle">YOURLS Settings</h1>
 
-    <label data-i18n-key="optionsYourlsUrlLabel">YOURLS URL (no trailing slash)</label>
-    <input id="yourlsUrl" type="url" placeholder="https://kurlxy.at">
+  <div class="nav-tabs">
+    <a href="options.html" class="nav-tab active" data-i18n-key="optionsTitle">Settings</a>
+    <a href="dashboard.html" class="nav-tab">Dashboard</a>
+  </div>
+
+  <label data-i18n-key="optionsYourlsUrlLabel">YOURLS URL (no trailing slash)</label>
+  <input id="yourlsUrl" type="url" placeholder="https://kurlxy.at">
 
     <label data-i18n-key="optionsApiSignatureLabel">API signature token</label>
     <input id="apiSignature" type="password" placeholder="••••••••••">

@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>kurl - Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="options-body">
+  <div class="card">
+<div class="nav-tabs">
+      <a href="options.html" class="nav-tab" data-i18n-key="optionsTitle">Settings</a>
+      <a href="dashboard.html" class="nav-tab active" data-i18n-key="dashboardTitle">Dashboard</a>
+    </div>
+
+    <div class="dashboard-header">
+      <h1 data-i18n-key="dashboardTitle">Dashboard</h1>
+      <button id="refresh-btn" class="secondary" data-i18n-key="dashboardBtnRefresh">Refresh</button>
+    </div>
+
+    <div class="dashboard-grid">
+      <div class="stat-card">
+        <span class="stat-value" id="total-links">--</span>
+        <span class="stat-label" data-i18n-key="dashboardLabelTotalLinks">Total Links</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="total-clicks">--</span>
+        <span class="stat-label" data-i18n-key="dashboardLabelTotalClicks">Total Clicks</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="avg-clicks">--</span>
+        <span class="stat-label" data-i18n-key="dashboardLabelAvgClicks">Avg. Clicks</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value status-online" id="server-status">--</span>
+        <span class="stat-label" data-i18n-key="dashboardLabelServerStatus">Server Status</span>
+      </div>
+    </div>
+
+    <h2 data-i18n-key="dashboardTitleRecentLinks">Recent Links</h2>
+    <div id="recent-links-container">
+      <p>Loading...</p>
+    </div>
+
+    <div id="view-more-container" style="margin-top: 16px;"></div>
+
+  </div>
+
+  <script src="JS/helpers.js"></script>
+  <script src="JS/dashboard.js"></script>
+</body>
+</html>

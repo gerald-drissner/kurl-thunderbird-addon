@@ -1,45 +1,59 @@
 {
   "extensionName": {
-    "message": "kurl - YOURLS مختصر"
+    "message": "kurl - YOURLS Shortener",
+    "description": "Name of the extension."
   },
   "extensionDescription": {
-    "message": "اختصر الروابط باستخدام مثيل YOURLS الخاص بك وأدرج الرابط القصير مباشرة في محرر الإنشاء."
+    "message": "اختصر الروابط باستخدام YOURLS وأدخل الرابط المختصر مباشرة في محرر الإنشاء.",
+    "description": "Description of the extension."
   },
   "optionsTitle": {
-    "message": "إعدادات YOURLS"
+    "message": "إعدادات YOURLS",
+    "description": "Title for the options page."
   },
   "optionsYourlsUrlLabel": {
-    "message": "YOURLS URL (بدون شرطة مائلة في النهاية)"
+    "message": "رابط YOURLS (بدون شرطة مائلة في النهاية)",
+    "description": "Label for the YOURLS URL input."
   },
   "optionsApiSignatureLabel": {
-    "message": "رمز توقيع API"
+    "message": "رمز التوقيع API",
+    "description": "Label for the API signature token input."
   },
   "optionsAutoCopyLabel": {
-    "message": "نسخ الرابط القصير إلى الحافظة تلقائيًا"
+    "message": "نسخ الرابط المختصر إلى الحافظة تلقائيًا",
+    "description": "Label for the auto-copy checkbox."
   },
   "optionsBtnSave": {
-    "message": "حفظ"
+    "message": "حفظ",
+    "description": "Save button text."
   },
   "optionsBtnTest": {
-    "message": "اختبار الاتصال"
+    "message": "اختبار الاتصال",
+    "description": "Test connection button text."
   },
   "optionsBtnRemovePerm": {
-    "message": "إزالة إذن المضيف"
+    "message": "إزالة إذن المضيف",
+    "description": "Remove host permission button text."
   },
   "optionsStatusLoaded": {
-    "message": "تم تحميل الإعدادات المحفوظة. انقر على \"اختبار الاتصال\"."
+    "message": "تم تحميل الإعدادات المحفوظة. انقر “اختبار الاتصال”.",
+    "description": "Initial status message on options page."
   },
   "optionsStatusEnterUrlAndToken": {
-    "message": "الرجاء إدخال YOURLS URL ورمز API الخاص بك."
+    "message": "الرجاء إدخال رابط YOURLS ورمز API.",
+    "description": "Error message when URL or token is missing."
   },
   "optionsStatusPermNotGranted": {
-    "message": "لم يتم منح إذن المضيف."
+    "message": "لم يتم منح إذن المضيف.",
+    "description": "Error message when host permission is denied."
   },
   "optionsStatusPermRequestError": {
-    "message": "تعذر طلب إذن المضيف: "
+    "message": "تعذر طلب إذن المضيف: ",
+    "description": "Error message when requesting host permission fails."
   },
   "optionsStatusConnOk": {
     "message": "الاتصال جيد (إجمالي الروابط: $total$)",
+    "description": "Success message for connection test.",
     "placeholders": {
       "total": {
         "content": "$1"
@@ -47,109 +61,144 @@
     }
   },
   "optionsStatusConnFailed": {
-    "message": "فشل الاتصال."
+    "message": "فشل الاتصال.",
+    "description": "Error message for failed connection test."
   },
   "optionsStatusSaved": {
-    "message": "تم حفظ الإعدادات. قد ترغب في اختبار الاتصال مرة أخرى."
+    "message": "تم حفظ الإعدادات. قد ترغب في اختبار الاتصال مرة أخرى.",
+    "description": "Status message after saving settings."
   },
   "optionsStatusEnterUrlToRemove": {
-    "message": "أدخل عنوان URL لإزالة إذنه."
+    "message": "أدخل رابطًا لإزالة إذن المضيف الخاص به.",
+    "description": "Message when trying to remove permission without a URL."
   },
   "optionsStatusPermRemoveError": {
-    "message": "تعذرت إزالة الإذن: "
+    "message": "تعذر إزالة الإذن: ",
+    "description": "Error message when removing host permission fails."
   },
   "optionsStatusPermRemoved": {
-    "message": "تمت إزالة إذن المضيف لهذا الأصل."
+    "message": "تمت إزالة إذن المضيف لهذا المصدر.",
+    "description": "Success message when permission is removed."
   },
   "optionsShortcutTitle": {
-    "message": "استخدام الاختصار"
+    "message": "استخدام الاختصار",
+    "description": "Title for the shortcut information box in options."
   },
   "optionsShortcutDescription": {
-    "message": "يمكنك فتح المختصر بسرعة عن طريق تحديد عنوان URL في محرر الإنشاء والضغط على"
+    "message": "يمكنك فتح أداة الاختصار بسرعة عن طريق تحديد رابط في محرر الإنشاء والضغط على",
+    "description": "Description of how to use the keyboard shortcut."
   },
   "optionsShortcutChange": {
-    "message": "يمكنك تغيير هذا الاختصار في مدير الإضافات في Thunderbird تحت قائمة ⚙️ الخاصة بـ kurl."
+    "message": "يمكنك تغيير هذا الاختصار في مدير إضافات Thunderbird ضمن قائمة ⚙️ لـ kurl.",
+    "description": "Instructions on how to change the default keyboard shortcut."
   },
   "popupTitle": {
-    "message": "YOURLS مختصر"
+    "message": "أداة اختصار YOURLS",
+    "description": "Title for the popup window."
   },
   "popupLongUrlLabel": {
-    "message": "الرابط الطويل"
+    "message": "الرابط الطويل",
+    "description": "Label for the long URL input."
   },
   "popupAdvancedOptions": {
-    "message": "خيارات متقدمة"
+    "message": "خيارات متقدمة",
+    "description": "Label for the collapsible advanced options section in the popup."
   },
   "popupKeywordLabel": {
-    "message": "كلمة مفتاحية مخصصة (اختياري)"
+    "message": "كلمة مخصصة (اختياري)",
+    "description": "Label for the custom keyword input."
   },
   "popupTitleLabel": {
-    "message": "العنوان (اختياري)"
+    "message": "عنوان (اختياري)",
+    "description": "Label for the URL title input."
   },
   "popupBtnShorten": {
-    "message": "اختصر"
+    "message": "اختصر",
+    "description": "Shorten button text."
   },
   "popupShortUrlLabel": {
-    "message": "الرابط القصير"
+    "message": "الرابط المختصر",
+    "description": "Label for the short URL output."
   },
   "popupBtnCopy": {
-    "message": "نسخ"
+    "message": "نسخ",
+    "description": "Copy button text."
   },
   "popupBtnCopyClose": {
-    "message": "نسخ وإغلاق"
+    "message": "نسخ وإغلاق",
+    "description": "Copy and Close button text."
   },
   "popupBtnInsert": {
-    "message": "إدراج"
+    "message": "إدراج",
+    "description": "Insert button text."
   },
   "popupBtnDelete": {
-    "message": "حذف"
+    "message": "حذف",
+    "description": "Delete button text."
   },
   "popupBtnConfirmDelete": {
-    "message": "تأكيد؟"
+    "message": "تأكيد؟",
+    "description": "Delete button confirmation text."
   },
   "popupBtnGoToSettings": {
-    "message": "اذهب إلى الإعدادات"
+    "message": "اذهب إلى الإعدادات",
+    "description": "Button text in the popup to open the options page."
   },
   "popupBtnShowQr": {
-    "message": "إظهار رمز الاستجابة السريعة"
+    "message": "إظهار رمز QR",
+    "description": "Button to show the QR code."
   },
   "popupBtnDownloadQr": {
-    "message": "تنزيل"
+    "message": "تنزيل",
+    "description": "Button to download the QR code image."
   },
   "popupBtnAttachQr": {
-    "message": "إرفاق رمز الاستجابة السريعة"
+    "message": "إرفاق رمز QR",
+    "description": "Button to attach the QR code to an email."
   },
   "popupStatsLabel": {
-    "message": "إحصائيات لـ (رابط قصير أو كلمة مفتاحية)"
+    "message": "إحصائيات (رابط مختصر أو كلمة)",
+    "description": "Label for the stats input."
   },
   "popupBtnStats": {
-    "message": "إحصائيات"
+    "message": "إحصائيات",
+    "description": "Get stats button text."
   },
   "popupBtnToggleJson": {
-    "message": "تبديل JSON"
+    "message": "تبديل JSON",
+    "description": "Toggle JSON view button text."
   },
   "popupStatusReady": {
-    "message": "جاهز."
+    "message": "جاهز.",
+    "description": "Initial status message in popup."
   },
   "popupStatusShortening": {
-    "message": "جاري الاختصار..."
+    "message": "جارٍ الاختصار…",
+    "description": "Status message while shortening."
   },
   "popupStatusCreated": {
-    "message": "تم إنشاء الرابط القصير."
+    "message": "تم إنشاء الرابط المختصر.",
+    "description": "Success message when URL is shortened."
   },
   "popupStatusAlreadyShortened": {
-    "message": "الرابط مختصر بالفعل."
+    "message": "تم اختصار الرابط بالفعل.",
+    "description": "Message when URL already exists."
   },
   "popupStatusCopied": {
-    "message": "تم النسخ إلى الحافظة."
+    "message": "تم النسخ إلى الحافظة.",
+    "description": "Message when text is copied."
   },
   "popupStatusInserted": {
-    "message": "تم إدراج الرابط القصير في الرسالة."
+    "message": "تم إدراج الرابط المختصر في الإنشاء.",
+    "description": "Message when short URL is inserted."
   },
   "popupStatusFetchingStats": {
-    "message": "جاري جلب الإحصائيات..."
+    "message": "جلب الإحصائيات…",
+    "description": "Status message while fetching stats."
   },
   "popupStatusStatsResult": {
-    "message": "القصير: $shorturl$\nالهدف: $longurl$\nالنقرات: $clicks$",
+    "message": "مختصر: $shorturl$\nالهدف: $longurl$\nالنقرات: $clicks$",
+    "description": "Formatted stats result.",
     "placeholders": {
       "shorturl": {
         "content": "$1"
@@ -163,93 +212,175 @@
     }
   },
   "popupStatusDeleting": {
-    "message": "جاري الحذف..."
+    "message": "جارٍ الحذف…",
+    "description": "Status message while deleting."
   },
   "popupStatusDeleted": {
-    "message": "تم حذف الرابط القصير."
+    "message": "تم حذف الرابط المختصر.",
+    "description": "Success message when URL is deleted."
   },
   "popupStatusAttachingQr": {
-    "message": "جاري إرفاق رمز الاستجابة السريعة..."
+    "message": "جارٍ إرفاق رمز QR...",
+    "description": "Status message when attaching a QR code."
   },
   "popupStatusQrAttached": {
-    "message": "تم إرفاق رمز الاستجابة السريعة بنجاح."
+    "message": "تم إرفاق رمز QR بنجاح.",
+    "description": "Success message when QR code is attached."
   },
   "popupInfoAlreadyShortened": {
-    "message": "الرابط مختصر بالفعل. يمكنك عرض الإحصائيات أو حذفه أدناه."
+    "message": "تم اختصار الرابط بالفعل. يمكنك عرض الإحصائيات أو حذفه أدناه.",
+    "description": "Informational message for an existing URL."
   },
   "popupInfoAutoStats": {
-    "message": "هذا رابط قصير بالفعل. جاري جلب الإحصائيات تلقائيًا."
+    "message": "هذا رابط مختصر بالفعل. جارٍ جلب الإحصائيات تلقائيًا.",
+    "description": "Message when auto-fetching stats for a selected short URL."
   },
   "popupErrorInvalidUrl": {
-    "message": "الرجاء إدخال عنوان URL http(s) صالح."
+    "message": "الرجاء إدخال رابط http(s) صالح.",
+    "description": "Error for invalid URL format."
   },
   "popupErrorNothingToCopy": {
-    "message": "لا يوجد شيء لنسخه."
+    "message": "لا يوجد شيء للنسخ.",
+    "description": "Error when copy button is clicked with no URL."
   },
   "popupErrorCopyFailed": {
-    "message": "فشل النسخ."
+    "message": "فشل النسخ.",
+    "description": "Error when clipboard copy fails."
   },
   "popupErrorNothingToInsert": {
-    "message": "لا يوجد شيء لإدراجه."
+    "message": "لا يوجد شيء للإدراج.",
+    "description": "Error when insert button is clicked with no URL."
   },
   "popupErrorNothingToAttach": {
-    "message": "لا يوجد شيء لإرفاقه."
+    "message": "لا يوجد شيء للإرفاق.",
+    "description": "Error when attach button is clicked with no URL."
   },
   "popupErrorAttachFailed": {
-    "message": "فشل إرفاق رمز الاستجابة السريعة."
+    "message": "فشل إرفاق رمز QR.",
+    "description": "Error when QR code attachment fails."
   },
   "popupErrorNoCompose": {
-    "message": "تعذر العثور على نافذة إنشاء نشطة."
+    "message": "تعذر العثور على نافذة إنشاء نشطة.",
+    "description": "Error when trying to insert without a compose window."
   },
   "popupErrorEnterUrlForStats": {
-    "message": "أدخل رابطًا قصيرًا أو كلمة مفتاحية للحصول على إحصائيات."
+    "message": "أدخل رابطًا مختصرًا أو كلمة للحصول على الإحصائيات.",
+    "description": "Error when stats button is clicked with no input."
   },
   "popupErrorProvideUrlToDelete": {
-    "message": "قدم رابطًا قصيرًا أو كلمة مفتاحية للحذف."
+    "message": "قدم رابطًا مختصرًا أو كلمة للحذف.",
+    "description": "Error when delete is clicked with no URL."
   },
   "popupErrorStatsNotFound": {
-    "message": "لم يتم العثور على الرابط القصير."
+    "message": "لم يتم العثور على الرابط المختصر.",
+    "description": "Error when stats are requested for a non-existent URL."
   },
   "errorShortenFailed": {
-    "message": "فشل الاختصار."
+    "message": "فشل الاختصار.",
+    "description": "Generic error for shortening."
   },
   "errorStatsFailed": {
-    "message": "فشل جلب الإحصائيات."
+    "message": "فشل جلب الإحصائيات.",
+    "description": "Generic error for fetching stats."
   },
   "errorDeleteFailed": {
-    "message": "فشل الحذف"
+    "message": "فشل الحذف",
+    "description": "Generic error for deleting."
   },
   "errorEnterKeywordToDelete": {
-    "message": "الرجاء إدخال رابط قصير أو كلمة مفتاحية للحذف."
+    "message": "الرجاء إدخال رابط مختصر أو كلمة للحذف.",
+    "description": "Error in background script if keyword is missing for delete."
   },
   "errorNoSettings": {
-    "message": "الرجاء تكوين YOURLS أولاً في إعدادات الإضافة."
+    "message": "الرجاء تهيئة YOURLS أولًا في إعدادات الإضافة.",
+    "description": "Error when settings are not configured."
   },
   "toastUrlCreated": {
-    "message": "تم إنشاء الرابط القصير."
+    "message": "تم إنشاء الرابط المختصر.",
+    "description": "Notification message for success."
   },
   "toastUrlExists": {
-    "message": "الرابط مختصر بالفعل."
+    "message": "تم اختصار الرابط بالفعل.",
+    "description": "Notification message for existing URL."
   },
   "toastUrlDeleted": {
-    "message": "تم حذف الرابط القصير."
+    "message": "تم حذف الرابط المختصر.",
+    "description": "Notification message for deleted URL."
   },
   "toastQrAttached": {
-    "message": "تم إرفاق رمز الاستجابة السريعة."
+    "message": "تم إرفاق رمز QR.",
+    "description": "Notification message when a QR code has been attached to the email."
   },
   "toastUrlPrimed": {
-    "message": "تم تجهيز الرابط. انقر على أيقونة kurl في رأس الرسالة."
+    "message": "تم تهيئة الرابط. انقر على أيقونة kurl في رأس الرسالة.",
+    "description": "Notification message after priming the URL from the 3-pane view."
   },
   "menuItemShortenSelection": {
-    "message": "kurl: اختصار التحديد..."
+    "message": "kurl: اختصار التحديد…",
+    "description": "The title of the context menu item for shortening a selection."
   },
   "menuItemPrimeUrl": {
-    "message": "kurl: نسخ الرابط للتحضير (بدون نافذة منبثقة)"
+    "message": "kurl: نسخ الرابط للتهيئة (لا يوجد نافذة منبثقة)",
+    "description": "The title of the context menu item for the 3-pane view."
   },
   "commandShortenDescription": {
-    "message": "فتح نافذة kurl المنبثقة للمختصر."
+    "message": "فتح النافذة المنبثقة لاختصار kurl.",
+    "description": "Description for the keyboard shortcut."
   },
   "commandOpenReaderDescription": {
-    "message": "فتح kurl في قارئ الرسائل"
+    "message": "فتح kurl في قارئ الرسائل",
+    "description": "Description for the message reader keyboard shortcut."
+  },
+  "dashboardTitle": {
+    "message": "لوحة التحكم",
+    "description": "The main title for the dashboard page and tab."
+  },
+  "dashboardBtnRefresh": {
+    "message": "تحديث",
+    "description": "Text for the refresh button on the dashboard."
+  },
+  "dashboardLabelTotalLinks": {
+    "message": "إجمالي الروابط",
+    "description": "Label for the total links stat card."
+  },
+  "dashboardLabelTotalClicks": {
+    "message": "إجمالي النقرات",
+    "description": "Label for the total clicks stat card."
+  },
+  "dashboardLabelAvgClicks": {
+    "message": "متوسط النقرات",
+    "description": "Label for the average clicks stat card."
+  },
+  "dashboardLabelServerStatus": {
+    "message": "حالة الخادم",
+    "description": "Label for the server status stat card."
+  },
+  "dashboardTitleRecentLinks": {
+    "message": "الروابط الأخيرة",
+    "description": "The title for the recent links section."
+  },
+  "dashboardStatusOnline": {
+    "message": "متصل",
+    "description": "Server status text for when the connection is OK."
+  },
+  "dashboardStatusOffline": {
+    "message": "غير متصل",
+    "description": "Server status text for when there is no connection."
+  },
+  "dashboardStatusError": {
+    "message": "خطأ",
+    "description": "Server status text for when an error occurs."
+  },
+  "dashboardStatusLoading": {
+    "message": "جارٍ التحميل...",
+    "description": "Generic loading text."
+  },
+  "dashboardNoLinksFound": {
+    "message": "لم يتم العثور على روابط حديثة.",
+    "description": "Message shown when the recent links list is empty."
+  },
+  "dashboardBtnViewMore": {
+    "message": "عرض المزيد",
+    "description": "Text for the 'View More' button to load more links."
   }
 }

@@ -7,7 +7,7 @@
 
 const H = window.Helpers;
 
-// --- API Action Implementations (from your working file) ---
+// --- API Action Implementations ---
 async function apiStats(shortOrKeyword) {
   const { yourlsUrl, apiSignature } = await H.getSettings();
   const base = H.sanitizeBaseUrl(yourlsUrl);
@@ -91,6 +91,32 @@ async function handleAttachQrCode(payload) {
   toast(browser.i18n.getMessage("extensionName"), browser.i18n.getMessage("toastQrAttached"));
 }
 
+// --- Dashboard API Functions ---
+async function apiGetDashboardStats() {
+  const { yourlsUrl, apiSignature } = await H.getSettings();
+  const base = H.sanitizeBaseUrl(yourlsUrl);
+  const { res, json } = await yourlsFetch(base, { action: "stats", format: "json", signature: apiSignature });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return json;
+}
+
+
+async function apiGetRecentLinks(limit = 10, start = 0) {
+  const { yourlsUrl, apiSignature } = await H.getSettings();
+  const base = H.sanitizeBaseUrl(yourlsUrl);
+  // This API call now supports 'start' for pagination
+  const { res, json } = await yourlsFetch(base, {
+    action: "stats",
+    filter: "last",
+    limit: limit,
+    start: start,
+    format: "json",
+      signature: apiSignature
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return json;
+}
+
 // --- Add-on Integration & Event Listeners ---
 browser.runtime.onMessage.addListener(async (msg) => {
   try {
@@ -102,7 +128,8 @@ browser.runtime.onMessage.addListener(async (msg) => {
       case "ATTACH_QR_CODE":
         await handleAttachQrCode(msg);
         return { ok: true };
-      default: return { ok: false, reason: "Unknown message type" };
+      case "GET_DASHBOARD_STATS": return { ok: true, data: await apiGetDashboardStats() };
+      case "GET_RECENT_LINKS": return { ok: true, data: await apiGetRecentLinks(msg.limit, msg.start) };      default: return { ok: false, reason: "Unknown message type" };
     }
   } catch (e) {
     return { ok: false, reason: String(e?.message || e) };

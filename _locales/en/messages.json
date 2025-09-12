@@ -330,5 +330,57 @@
   "commandOpenReaderDescription": {
     "message": "Open kurl in message reader",
     "description": "Description for the message reader keyboard shortcut."
+  },
+  "dashboardTitle": {
+    "message": "Dashboard",
+    "description": "The main title for the dashboard page and tab."
+  },
+  "dashboardBtnRefresh": {
+    "message": "Refresh",
+    "description": "Text for the refresh button on the dashboard."
+  },
+  "dashboardLabelTotalLinks": {
+    "message": "Total Links",
+    "description": "Label for the total links stat card."
+  },
+  "dashboardLabelTotalClicks": {
+    "message": "Total Clicks",
+    "description": "Label for the total clicks stat card."
+  },
+  "dashboardLabelAvgClicks": {
+    "message": "Avg. Clicks",
+    "description": "Label for the average clicks stat card."
+  },
+  "dashboardLabelServerStatus": {
+    "message": "Server Status",
+    "description": "Label for the server status stat card."
+  },
+  "dashboardTitleRecentLinks": {
+    "message": "Recent Links",
+    "description": "The title for the recent links section."
+  },
+  "dashboardStatusOnline": {
+    "message": "Online",
+    "description": "Server status text for when the connection is OK."
+  },
+  "dashboardStatusOffline": {
+    "message": "Offline",
+    "description": "Server status text for when there is no connection."
+  },
+  "dashboardStatusError": {
+    "message": "Error",
+    "description": "Server status text for when an error occurs."
+  },
+  "dashboardStatusLoading": {
+    "message": "Loading...",
+    "description": "Generic loading text."
+  },
+  "dashboardNoLinksFound": {
+    "message": "No recent links found.",
+    "description": "Message shown when the recent links list is empty."
+  },
+  "dashboardBtnViewMore": {
+    "message": "View More",
+    "description": "Text for the 'View More' button to load more links."
   }
 }

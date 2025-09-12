@@ -252,3 +252,143 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+
+/* --- Navigation Tabs for Options/Dashboard --- */
+.nav-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+  margin-top: 16px; /* This adds space above the tabs */
+  margin-left: -16px;
+  margin-right: -16px;
+  padding: 0 12px;
+}
+.nav-tab {
+  padding: 8px 16px;
+  border-radius: 6px 6px 0 0;
+  text-decoration: none;
+  color: var(--muted);
+  font-weight: 500;
+  border: 1px solid transparent;
+  border-bottom: 0;
+}
+.nav-tab:hover {
+  background-color: var(--field);
+  color: var(--text);
+}
+.nav-tab.active {
+  background: var(--panel);
+  border-color: var(--border);
+  color: var(--text);
+  border-bottom: 1px solid var(--panel); /* Hides the parent border underneath */
+  position: relative;
+  top: 1px;
+}
+
+/* --- Dashboard Specific --- */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--field);
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+}
+.stat-label {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.stat-value.status-online {
+  color: var(--ok);
+}
+
+#recent-links-container {
+display: flex;
+flex-direction: column;
+gap: 8px;
+}
+.link-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--field);
+}
+.link-urls {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.link-short {
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+}
+.link-short:hover {
+  text-decoration: underline;
+}
+.link-long {
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 400px; /* Adjust as needed */
+}
+.link-clicks {
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--bg);
+  padding: 4px 8px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  margin-left: 16px;
+}
+.error-message {
+  color: var(--bad);
+  background-color: color-mix(in srgb, var(--bad) 15%, transparent);
+  border: 1px dashed var(--bad);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+/* --- Popup Dashboard Footer Link --- */
+#popup-footer {
+margin-top: 16px;
+padding-top: 12px;
+border-top: 1px solid var(--border);
+text-align: center;
+}
+
+#popup-footer a {
+color: var(--muted);
+text-decoration: none;
+font-size: 13px;
+}
+
+#popup-footer a:hover {
+color: var(--text);
+text-decoration: underline;
+}
