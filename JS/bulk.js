@@ -21,9 +21,9 @@ function parseRows() {
   if (raw.length > MAX_ROWS) throw new Error("Maximum " + MAX_ROWS + " URLs per run.");
   const found = new Set();
   const list = [];
-  for (const entry of raw) {
+  for (const [index, entry] of raw.entries()) {
     const url = H.validHttpUrl(entry);
-    if (!url) throw new Error("Invalid URL on line " + (list.length + 1) + ": " + entry.slice(0, 80));
+    if (!url) throw new Error("Invalid URL on line " + (index + 1) + ": " + entry.slice(0, 80));
     if (!found.has(url)) { found.add(url); list.push(url); }
   }
   return list;
@@ -68,6 +68,11 @@ $("bulk-start").addEventListener("click", async () => {
   let urls;
   try { urls = parseRows(); } catch (error) { return status(error.message); }
   if (!urls.length) return status("Enter at least one URL.");
+  // Fail once, before a large batch, when credentials or host access are unavailable.
+  try {
+    const connection = await browser.runtime.sendMessage({ type: "CHECK_CONNECTION" });
+    if (!connection?.ok) throw new Error(connection?.reason || "Cannot connect to YOURLS.");
+  } catch (error) { return status("Connection check failed: " + error.message); }
   running = true;
   stopRequested = false;
   results = [];
