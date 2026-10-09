@@ -10,10 +10,13 @@ A Thunderbird Manifest V3 extension for shortening links with a self-hosted [YOU
 - **Compose:** Right-click a selected link and choose **kURL: Shorten and insert**, or use the compose toolbar popup's **Shorten & Insert** action. Replaces an active compose selection or appends to the message if no editor selection remains.
 - **Main window, message view and composer:** Main-toolbar, message-display and compose-toolbar popups all provide an editable manual URL field. Compose popups additionally expose insertion and QR attachment controls.
 - **Custom keywords and titles**, with validation.
-- **Dashboard:** Server status, YOURLS version, kURL Helper state, instance-wide link/click counts, manual shortener, top links, newest links, filtering of loaded rows, individual stats, copy and guarded deletion.
+- **WordPress kURL dashboard parity:** Connection state, YOURLS version, helper status, instance-wide link/click totals, recent operation count, top 10 and newest YOURLS links with titles/dates, filtering, individual click statistics and copying.
+- **WordPress manual link workflow:** **Check YOURLS** finds existing links with kURL Helper 1.1.5; **Generate / Update** creates or safely edits in place; **Regenerate safely** supports a new slug when confirmed. **New link** resets the form. Remote deletion requires the same helper.
+- **Bulk URL generation:** Paste up to 250 unique target URLs, preview validation, process in configurable batches, stop cleanly and copy tab-separated URL mappings. Existing links are reused; this does not modify WordPress posts.
+- **Local activity log:** Last seven days of success/failure action types, capped at 100 records, without storing long URLs, email contents or tokens.
 - **QR codes:** Show, save or (in a compose window) attach as PNG.
 - **Optional automatic copying** after shortening via the popup.
-- **Ten existing locale bundles.** New dashboard/shortcut strings are available in English and German; the other locales currently use the default English fallback for those additions.
+- **Ten existing locale bundles.** New dashboard, bulk, logging and shortcut strings are in English and German; other locales currently display their hardcoded English fallback for new strings.
 
 ## Setup
 
@@ -33,7 +36,9 @@ If you change the server URL, re-enter a signature for the new server; kURL will
 
 **Remote deletion** requires the optional **kURL Helper 1.1.5** installed on YOURLS. This version check occurs before every deletion. Deleting a remote URL can break links used by WordPress posts or already-sent emails. Unlike the WordPress plugin, the Thunderbird extension cannot inspect WordPress post references. Only delete links you know are not in use.
 
-WordPress-only operations (editor post metadata, post bulk generation, WordPress migration, reconciliation, server-side logs) are not present in Thunderbird because the extension has no access to the WordPress database.
+WordPress-only operations (editor post metadata, post bulk generation **by post type**, Better YOURLS migration and WordPress reconciliation) are not present in Thunderbird because the extension has no access to the WordPress database. The Thunderbird **Bulk** page is instead designed for arbitrary pasted URLs.
+
+The Thunderbird **Logs** page stores only local action types and timestamps, not WordPress server-side logs. No WordPress installation or plugin connection is needed to use these shared YOURLS API features.
 
 ## Build and development
 
