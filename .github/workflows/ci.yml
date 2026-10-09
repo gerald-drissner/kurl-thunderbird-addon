@@ -22,7 +22,7 @@ jobs:
           python3 - <<'PY'
           import pathlib, zipfile
           root = pathlib.Path(".")
-          keep = ["manifest.json", "popup.html", "options.html", "dashboard.html", "styles.css"]
+          keep = ["manifest.json", "popup.html", "options.html", "dashboard.html", "bulk.html", "logs.html", "styles.css"]
           dirs = ["JS", "_locales", "images"]
           paths = [pathlib.Path(name) for name in keep]
           paths += [p for d in dirs for p in pathlib.Path(d).rglob("*") if p.is_file()]
