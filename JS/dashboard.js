@@ -18,6 +18,10 @@ function formatNumber(value) {
   return (Number(value) || 0).toLocaleString();
 }
 function i18n() {
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+    const translated = browser.i18n.getMessage(el.dataset.i18nPlaceholder);
+    if (translated) el.placeholder = translated;
+  });
   document.querySelectorAll("[data-i18n-key]").forEach(el => {
     const translated = browser.i18n.getMessage(el.dataset.i18nKey);
     if (translated) el.textContent = translated;
@@ -74,7 +78,7 @@ function makeLinkRow(link) {
   clicks.textContent = formatNumber(link.clicks) + " clicks";
   actions.appendChild(clicks);
   if (short) {
-    actions.appendChild(makeButton("Copy", async () => {
+    actions.appendChild(makeButton(t("popupBtnCopy", "Copy"), async () => {
       try {
         await navigator.clipboard.writeText(short);
         message($("dashboard-feedback"), "Copied: " + short);
@@ -82,7 +86,7 @@ function makeLinkRow(link) {
         message($("dashboard-feedback"), "Cannot copy to clipboard: " + error.message, true);
       }
     }));
-    actions.appendChild(makeButton("Stats", async () => {
+    actions.appendChild(makeButton(t("popupBtnStats", "Stats"), async () => {
       try {
         const result = await send("GET_STATS", { shortUrl: short });
         const data = result.data?.link || result.data?.url || {};
@@ -92,7 +96,7 @@ function makeLinkRow(link) {
       }
     }));
     if (helperReady) {
-      actions.appendChild(makeButton("Delete", async () => {
+      actions.appendChild(makeButton(t("popupBtnDelete", "Delete"), async () => {
         const question = "Delete " + short +
           " from YOURLS permanently? This could break links referenced by WordPress posts or emails.";
         if (!window.confirm(question)) return;
