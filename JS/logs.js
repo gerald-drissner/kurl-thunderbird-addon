@@ -21,9 +21,16 @@ async function load() {
       const when = document.createElement("time");
       when.textContent = Number.isNaN(+date) ? "Unknown date" : date.toLocaleString();
       const action = document.createElement("span");
-      action.textContent = entry.action;
+      const names = {
+        SHORTEN_URL: "Short URL generated / reused",
+        DELETE_SHORTURL: "Short URL deletion",
+        LOOKUP_URL: "Existing URL lookup",
+        UPDATE_URL: "Short URL updated",
+        REGENERATE_URL: "Short URL regenerated"
+      };
+      action.textContent = names[entry.action] || String(entry.action);
       const level = document.createElement("span");
-      level.textContent = entry.level;
+      level.textContent = entry.level === "error" ? "Failed" : "Completed";
       row.append(when, action, level);
       area.appendChild(row);
     }
