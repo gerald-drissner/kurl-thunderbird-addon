@@ -196,6 +196,7 @@ async function refresh() {
     if (generation !== viewGeneration) return;
     const info = response.data;
     helperReady = info.helperReady;
+    $("manual-lookup").disabled = !helperReady;
     $("manual-regenerate").disabled = !helperReady || !$("manual-result").value;
     $("total-links").textContent = formatNumber(info.totalLinks);
     $("total-clicks").textContent = formatNumber(info.totalClicks);
@@ -316,9 +317,14 @@ $("refresh-btn").addEventListener("click", refresh);
 $("manual-form").addEventListener("submit", generateOrUpdate);
 $("manual-lookup").addEventListener("click", lookup);
 $("manual-regenerate").addEventListener("click", regenerate);
-$("manual-long").addEventListener("input", () => {
+$("manual-reset").addEventListener("click", () => {
+  $("manual-long").value = "";
+  $("manual-keyword").value = "";
+  $("manual-title-input").value = "";
   $("manual-result").value = "";
   updateManualButtons();
+  message($("manual-status"), t("dashNewReady", "Ready for a new short URL."));
+  $("manual-long").focus();
 });
 $("manual-copy").addEventListener("click", async () => {
   try {
