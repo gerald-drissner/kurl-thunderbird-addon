@@ -1,50 +1,85 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>kurl - Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>kURL Dashboard</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="options-body">
-  <div class="card">
-<div class="nav-tabs">
+  <main class="card">
+    <nav class="nav-tabs" aria-label="kURL">
       <a href="options.html" class="nav-tab" data-i18n-key="optionsTitle">Settings</a>
-      <a href="dashboard.html" class="nav-tab active" data-i18n-key="dashboardTitle">Dashboard</a>
-    </div>
-
+      <a href="dashboard.html" class="nav-tab active" aria-current="page" data-i18n-key="dashboardTitle">Dashboard</a>
+    </nav>
     <div class="dashboard-header">
       <h1 data-i18n-key="dashboardTitle">Dashboard</h1>
-      <button id="refresh-btn" class="secondary" data-i18n-key="dashboardBtnRefresh">Refresh</button>
+      <button id="refresh-btn" class="secondary" type="button" data-i18n-key="dashboardBtnRefresh">Refresh</button>
     </div>
+    <p id="dashboard-feedback" class="info" role="status" aria-live="polite">Loading…</p>
 
-    <div class="dashboard-grid">
-      <div class="stat-card">
-        <span class="stat-value" id="total-links">--</span>
-        <span class="stat-label" data-i18n-key="dashboardLabelTotalLinks">Total Links</span>
+    <section aria-labelledby="overview-title">
+      <h2 id="overview-title">YOURLS overview</h2>
+      <div class="dashboard-grid">
+        <div class="stat-card">
+          <span id="total-links" class="stat-value">—</span>
+          <span class="stat-label" data-i18n-key="dashboardLabelTotalLinks">Total links</span>
+        </div>
+        <div class="stat-card">
+          <span id="total-clicks" class="stat-value">—</span>
+          <span class="stat-label" data-i18n-key="dashboardLabelTotalClicks">Total clicks</span>
+        </div>
+        <div class="stat-card">
+          <span id="avg-clicks" class="stat-value">—</span>
+          <span class="stat-label" data-i18n-key="dashboardLabelAvgClicks">Average clicks</span>
+        </div>
+        <div class="stat-card">
+          <span id="server-status" class="stat-value">—</span>
+          <span class="stat-label" data-i18n-key="dashboardLabelServerStatus">Connection</span>
+        </div>
       </div>
-      <div class="stat-card">
-        <span class="stat-value" id="total-clicks">--</span>
-        <span class="stat-label" data-i18n-key="dashboardLabelTotalClicks">Total Clicks</span>
+      <dl class="kurl-details">
+        <dt>Server</dt><dd id="info-server">—</dd>
+        <dt>YOURLS version</dt><dd id="info-version">—</dd>
+        <dt>kURL Helper</dt><dd id="info-helper">—</dd>
+      </dl>
+    </section>
+
+    <section class="kurl-panel" aria-labelledby="manual-title">
+      <h2 id="manual-title">Create a short URL</h2>
+      <form id="manual-form">
+        <label for="manual-long">Target URL</label>
+        <input id="manual-long" type="url" required placeholder="https://example.com/article" autocomplete="off">
+        <label for="manual-keyword">Custom keyword (optional)</label>
+        <input id="manual-keyword" type="text" autocomplete="off" maxlength="100" placeholder="my-article">
+        <label for="manual-title-input">Title (optional)</label>
+        <input id="manual-title-input" type="text" autocomplete="off" maxlength="300">
+        <div class="row">
+          <button type="submit" id="manual-submit">Shorten URL</button>
+          <button type="button" id="manual-copy" class="secondary" disabled>Copy result</button>
+        </div>
+        <label for="manual-result">Short URL</label>
+        <input id="manual-result" type="text" readonly>
+        <p id="manual-status" class="info" role="status" aria-live="polite">Ready.</p>
+      </form>
+    </section>
+
+    <section aria-labelledby="top-title">
+      <h2 id="top-title">Most clicked YOURLS links</h2>
+      <div id="top-links-container" class="kurl-link-list" aria-live="polite"></div>
+    </section>
+    <section aria-labelledby="recent-title">
+      <div class="dashboard-header">
+        <h2 id="recent-title" data-i18n-key="dashboardTitleRecentLinks">Recent links</h2>
+        <div>
+          <label for="filter-links" class="kurl-inline-label">Filter loaded links</label>
+          <input id="filter-links" type="search" placeholder="Search URL or keyword">
+        </div>
       </div>
-      <div class="stat-card">
-        <span class="stat-value" id="avg-clicks">--</span>
-        <span class="stat-label" data-i18n-key="dashboardLabelAvgClicks">Avg. Clicks</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-value status-online" id="server-status">--</span>
-        <span class="stat-label" data-i18n-key="dashboardLabelServerStatus">Server Status</span>
-      </div>
-    </div>
-
-    <h2 data-i18n-key="dashboardTitleRecentLinks">Recent Links</h2>
-    <div id="recent-links-container">
-      <p>Loading...</p>
-    </div>
-
-    <div id="view-more-container" style="margin-top: 16px;"></div>
-
-  </div>
-
+      <div id="recent-links-container" class="kurl-link-list" aria-live="polite"></div>
+      <div id="view-more-container" class="row"></div>
+    </section>
+  </main>
   <script src="JS/helpers.js"></script>
   <script src="JS/dashboard.js"></script>
 </body>
