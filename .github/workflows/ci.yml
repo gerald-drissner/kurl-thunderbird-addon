@@ -1,0 +1,36 @@
+name: Validate Thunderbird extension
+on:
+  push:
+    branches: [main, "audit/**"]
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: JavaScript syntax
+        run: npm run check
+      - name: Regression tests
+        run: npm test
+      - name: Package extension
+        run: |
+          python3 - <<'PY'
+          import pathlib, zipfile
+          root = pathlib.Path(".")
+          keep = ["manifest.json", "popup.html", "options.html", "dashboard.html", "styles.css"]
+          dirs = ["JS", "_locales", "images"]
+          paths = [pathlib.Path(name) for name in keep]
+          paths += [p for d in dirs for p in pathlib.Path(d).rglob("*") if p.is_file()]
+          with zipfile.ZipFile("kurl-thunderbird-2.0.0-test.xpi", "w", zipfile.ZIP_DEFLATED) as z:
+              for p in paths:
+                  z.write(p, p.as_posix())
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kurl-thunderbird-test-xpi
+          path: kurl-thunderbird-2.0.0-test.xpi
