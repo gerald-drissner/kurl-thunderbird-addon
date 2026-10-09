@@ -269,11 +269,11 @@ browser.runtime.onMessage.addListener(async message => {
 
 /* Register menus once per event-page start; never remove all menus on right-click. */
 browser.menus.create({
-  id: "kurl-quick-copy", title: "kURL: Shorten and copy",
+  id: "kurl-quick-copy", title: i18n("menuQuickCopy", "kURL: Shorten and copy"),
   contexts: ["link", "selection"]
 });
 browser.menus.create({
-  id: "kurl-quick-insert", title: "kURL: Shorten and insert",
+  id: "kurl-quick-insert", title: i18n("menuQuickInsert", "kURL: Shorten and insert"),
   contexts: ["link", "selection", "compose_body"], visible: false
 });
 
