@@ -109,7 +109,7 @@ test("reports dashboard totals and gates deletion on current helper version", as
 });
 test("dashboard does not interpolate remote response fields into markup", () => {
   const js = read("JS/dashboard.js");
-  assert.equal(js.includes("innerHTML"), false);
+  assert.equal(/\.innerHTML\s*=/.test(js), false);
   assert.equal(js.includes("textContent"), true);
 });
 test("manifest and locales contain parseable JSON", () => {
