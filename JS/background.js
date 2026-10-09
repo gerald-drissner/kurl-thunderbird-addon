@@ -162,20 +162,121 @@ async function info() {
     totalClicks: Number(db.total_clicks ?? db["db-stats"]?.total_clicks ?? 0) || 0
   };
 }
+
+/* WordPress kURL feature parity: safe reverse lookup and non-destructive edits. */
+async function requireHelper(capability) {
+  const ping = success(await request("kurl_ping"));
+  const abilities = Array.isArray(ping.kurl_capabilities) ? ping.kurl_capabilities : [];
+  if (String(ping.kurl_helper_version || "") !== HELPER_VERSION ||
+      !["delete", "find_by_url", "regenerate"].every(c => abilities.includes(c)) ||
+      !abilities.includes(capability)) {
+    throw new Error("This operation needs kURL Helper " + HELPER_VERSION + " on YOURLS.");
+  }
+}
+
+function isHelperNotFound(r) {
+  const data = r.json || {};
+  return Number(data.statusCode) === 404 &&
+    /^not found$/i.test(String(data.message || "").trim());
+}
+
+async function lookupUrl(rawUrl, preferredShort = "") {
+  const url = requireTarget(rawUrl);
+  await requireHelper("find_by_url");
+  const base = H.sanitizeBaseUrl((await H.getSettings()).yourlsUrl);
+  const preferredKw = preferredShort ? H.extractKeyword(base, preferredShort) : "";
+  if (preferredShort && !preferredKw) throw new Error("Invalid preferred short URL.");
+  const r = await request("kurl_find_by_url", {
+    url, ...(preferredKw ? { preferred_shorturl: base + "/" + preferredKw } : {})
+  });
+  if (isHelperNotFound(r)) return { found: false, shortUrl: "", keyword: "", target: url };
+  const json = success(r);
+  const shortUrl = H.extractShort(json, base);
+  if (!shortUrl) throw new Error("Lookup returned no usable short URL.");
+  return { found: true, shortUrl, keyword: H.extractKeyword(base, shortUrl),
+    target: H.validHttpUrl(json.longurl || url) || url,
+    title: typeof json.title === "string" ? json.title : "" };
+}
+
+async function expandUrl(input) {
+  const base = H.sanitizeBaseUrl((await H.getSettings()).yourlsUrl);
+  const kw = H.extractKeyword(base, input);
+  if (!kw) throw new Error("Enter a short URL from your configured YOURLS server.");
+  const r = await request("expand", { shorturl: base + "/" + kw });
+  const json = success(r);
+  const target = H.validHttpUrl(
+    typeof json.longurl === "string" ? json.longurl :
+    typeof json.url === "string" ? json.url : json.link?.url
+  );
+  if (!target) throw new Error("YOURLS returned no valid destination for that short URL.");
+  return { shortUrl: base + "/" + kw, target };
+}
+
+async function regenerateUrl(rawUrl, existing, rawKeyword = "", title = "") {
+  const target = requireTarget(rawUrl);
+  const base = H.sanitizeBaseUrl((await H.getSettings()).yourlsUrl);
+  const oldKeyword = H.extractKeyword(base, existing);
+  if (!oldKeyword) throw new Error("Choose an existing short URL on your YOURLS server.");
+  const keyword = String(rawKeyword || "").trim();
+  if (keyword && !H.validKeyword(keyword)) {
+    throw new Error("Invalid keyword: use letters, numbers, hyphens and underscores.");
+  }
+  await requireHelper("regenerate");
+  // kurl_regenerate calls yourls_edit_link, preserving the existing row/click history.
+  const r = await request("kurl_regenerate", {
+    url: target, shorturl: base + "/" + oldKeyword,
+    ...(keyword ? { keyword } : {}),
+    ...(title ? { title: String(title).slice(0, 300) } : {})
+  });
+  const data = success(r);
+  const result = H.extractShort(data, base);
+  if (!result) throw new Error("YOURLS did not return the edited short URL.");
+  return { ok: true, shortUrl: result, keyword: H.extractKeyword(base, result) };
+}
+
+/* Seven-day, bounded, local operation history. Never store URL targets or tokens. */
+const LOG_WINDOW = 7 * 24 * 60 * 60 * 1000;
+const LOG_MAX = 100;
+let logQueue = Promise.resolve();
+function writeLog(action, level = "info") {
+  logQueue = logQueue.catch(() => {}).then(async () => {
+    const { kurlActivityLog } = await browser.storage.local.get("kurlActivityLog");
+    const now = Date.now();
+    const current = Array.isArray(kurlActivityLog) ? kurlActivityLog : [];
+    const entries = current.filter(row => row && Number.isFinite(row.time) &&
+      row.time > now - LOG_WINDOW && row.time <= now && typeof row.action === "string");
+    entries.push({ time: now, action: String(action).slice(0, 64),
+      level: level === "error" ? "error" : "info" });
+    await browser.storage.local.set({ kurlActivityLog: entries.slice(-LOG_MAX) });
+  });
+  return logQueue.catch(() => {});
+}
+async function listLog() {
+  await logQueue.catch(() => {});
+  const { kurlActivityLog } = await browser.storage.local.get("kurlActivityLog");
+  const now = Date.now();
+  const entries = (Array.isArray(kurlActivityLog) ? kurlActivityLog : [])
+    .filter(row => row && row.time > now - LOG_WINDOW && row.time <= now)
+    .slice(-LOG_MAX).reverse();
+  return entries.map(row => ({ time: row.time,
+    action: String(row.action).slice(0, 64),
+    level: row.level === "error" ? "error" : "info" }));
+}
+async function clearLog() {
+  await logQueue.catch(() => {});
+  await browser.storage.local.remove("kurlActivityLog");
+  return { ok: true };
+}
+
 async function deleteLink(input) {
   const config = await H.getSettings();
   const base = H.sanitizeBaseUrl(config.yourlsUrl);
   const kw = H.extractKeyword(base, input);
-  if (!kw) throw new Error("This is not a valid short URL from your configured YOURLS server.");
-  const ping = success(await request("kurl_ping"));
-  if (String(ping.kurl_helper_version || "") !== HELPER_VERSION ||
-      !Array.isArray(ping.kurl_capabilities) ||
-      !ping.kurl_capabilities.includes("delete")) {
-    throw new Error("Remote deletion requires the current kURL Helper " + HELPER_VERSION + ".");
-  }
+  if (!kw) throw new Error("This is not a short URL from your configured YOURLS server.");
+  await requireHelper("delete");
   const r = await request("kurl_delete", { shorturl: base + "/" + kw });
-  success(r);
-  return { ok: true };
+  if (!isHelperNotFound(r)) success(r);
+  return { ok: true, alreadyMissing: isHelperNotFound(r) };
 }
 
 async function attachQr(dataUrl, tabId, filename) {
@@ -247,6 +348,25 @@ async function insertUrl(tabId, value) {
 browser.runtime.onMessage.addListener(async message => {
   try {
     if (!message || typeof message.type !== "string") return { ok: false, reason: "Invalid request." };
+    // Log read-only requests only on explicit failure, never their URLs or tokens.
+    const eventTypes = new Set(["SHORTEN_URL", "DELETE_SHORTURL", "LOOKUP_URL", "UPDATE_URL", "REGENERATE_URL"]);
+    try {
+      const response = await dispatch(message);
+      if (eventTypes.has(message.type)) {
+        await writeLog(message.type, response?.ok ? "info" : "error");
+      }
+      return response;
+    } catch (error) {
+      if (eventTypes.has(message.type)) await writeLog(message.type, "error");
+      throw error;
+    }
+  } catch (error) {
+    console.warn("kURL:", error?.message || "Request failed");
+    return { ok: false, reason: String(error?.message || "Request failed") };
+  }
+});
+
+async function dispatch(message) {
     switch (message.type) {
       case "CHECK_CONNECTION": return await checkConnection(message.settings || null);
       case "SHORTEN_URL": return await shorten(message.longUrl, message.keyword, message.title);
@@ -259,13 +379,17 @@ browser.runtime.onMessage.addListener(async message => {
       case "ATTACH_QR_CODE": return await attachQr(message.dataUrl, message.tabId, message.name);
       case "GET_SELECTED_URL": return { ok: true, url: await selectedUrl(message.tabId) };
       case "INSERT_URL": return await insertUrl(message.tabId, requireTarget(message.url));
+      case "LOOKUP_URL": return { ok: true, data: await lookupUrl(message.longUrl, message.preferredShort) };
+      case "EXPAND_URL": return { ok: true, data: await expandUrl(message.shortUrl) };
+      case "UPDATE_URL": return await regenerateUrl(message.longUrl, message.shortUrl,
+        message.keyword || H.extractKeyword(H.sanitizeBaseUrl((await H.getSettings()).yourlsUrl), message.shortUrl),
+        message.title);
+      case "REGENERATE_URL": return await regenerateUrl(message.longUrl, message.shortUrl, message.keyword, message.title);
+      case "GET_LOG": return { ok: true, data: await listLog() };
+      case "CLEAR_LOG": return await clearLog();
       default: return { ok: false, reason: "Unknown request." };
     }
-  } catch (error) {
-    console.warn("kURL:", error?.message || "Request failed");
-    return { ok: false, reason: String(error?.message || "Request failed") };
-  }
-});
+}
 
 /* Register menus once per event-page start; never remove all menus on right-click. */
 browser.menus.create({
