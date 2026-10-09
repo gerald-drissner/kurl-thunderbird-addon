@@ -45,7 +45,7 @@
     $("btnQrCode").style.display = hasShort ? "inline-block" : "none";
     if (reset) {
       $("btnDownloadQr").style.display = "none";
-      $("btnAttachQr").style.display = "none";
+      if ($("btnAttachQr")) $("btnAttachQr").style.display = "none";
       $("qrcode-display").style.display = "none";
       $("qrcode-display").replaceChildren();
     }
