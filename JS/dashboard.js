@@ -51,7 +51,7 @@ function makeLinkRow(link) {
   const texts = document.createElement("div");
   texts.className = "link-urls";
   const short = H.validHttpUrl(link.shorturl);
-  const target = H.validHttpUrl(link.url);
+  const target = H.validHttpUrl(link.url || link.longurl);
   if (short) {
     const anchor = document.createElement("a");
     anchor.href = short;
@@ -67,9 +67,22 @@ function makeLinkRow(link) {
   }
   const long = document.createElement("span");
   long.className = "link-long";
-  long.title = target || String(link.url || "");
-  long.textContent = target || "No valid target URL";
+  long.title = target || String(link.url || link.longurl || "");
+  long.textContent = String(link.title || target || "No valid target URL");
+  if (link.title && target) {
+    const detail = document.createElement("small");
+    detail.className = "link-long";
+    detail.textContent = target;
+    texts.appendChild(detail);
+  }
   texts.appendChild(long);
+  const created = link.timestamp || link.date;
+  if (created) {
+    const date = document.createElement("small");
+    date.className = "kurl-date";
+    date.textContent = String(created).slice(0, 32);
+    texts.appendChild(date);
+  }
   row.appendChild(texts);
   const actions = document.createElement("div");
   actions.className = "kurl-actions";
@@ -129,7 +142,8 @@ function filterRecent() {
   const query = $("filter-links").value.trim().toLowerCase();
   const visible = recentLinks.filter(link =>
     String(link.shorturl || "").toLowerCase().includes(query) ||
-    String(link.url || "").toLowerCase().includes(query) ||
+    String(link.url || link.longurl || "").toLowerCase().includes(query) ||
+    String(link.title || "").toLowerCase().includes(query) ||
     String(link.keyword || "").toLowerCase().includes(query)
   );
   renderRows($("recent-links-container"), visible,
@@ -182,6 +196,7 @@ async function refresh() {
     if (generation !== viewGeneration) return;
     const info = response.data;
     helperReady = info.helperReady;
+    $("manual-regenerate").disabled = !helperReady || !$("manual-result").value;
     $("total-links").textContent = formatNumber(info.totalLinks);
     $("total-clicks").textContent = formatNumber(info.totalClicks);
     $("avg-clicks").textContent = info.totalLinks > 0
@@ -194,6 +209,8 @@ async function refresh() {
       ? "Ready (" + info.helperVersion + ")"
       : info.helperVersion ? "Outdated (" + info.helperVersion + ")" : "Not installed / unavailable";
     message($("dashboard-feedback"), "Connected to " + info.base);
+    try { $("info-activity").textContent = formatNumber((await send("GET_LOG")).data.length); }
+    catch { $("info-activity").textContent = "—"; }
   } catch (error) {
     if (generation !== viewGeneration) return;
     helperReady = false;
@@ -218,34 +235,91 @@ async function refresh() {
   await Promise.all([topTask, recentTask]);
   if (generation === viewGeneration) $("refresh-btn").disabled = false;
 }
-async function shorten(event) {
+function selectedShort() {
+  const value = $("manual-result").value.trim();
+  if (!value) return "";
+  const base = $("info-server").textContent;
+  return H.extractKeyword(base, value) ? value : "";
+}
+function updateManualButtons() {
+  $("manual-copy").disabled = !selectedShort();
+  $("manual-regenerate").disabled = !helperReady || !selectedShort();
+}
+async function lookup() {
+  const input = H.validHttpUrl($("manual-long").value);
+  if (!input) return message($("manual-status"), "Enter a valid target URL.", true);
+  $("manual-lookup").disabled = true;
+  try {
+    const r = await send("LOOKUP_URL", { longUrl: input, preferredShort: selectedShort() });
+    $("manual-result").value = r.data.found ? r.data.shortUrl : "";
+    if (r.data.found) $("manual-keyword").value = r.data.keyword;
+    updateManualButtons();
+    message($("manual-status"), r.data.found
+      ? t("dashFound", "Existing short URL found.")
+      : t("dashNotFound", "No existing short URL found. You can create one."));
+  } catch (error) {
+    message($("manual-status"), error.message, true);
+  } finally { $("manual-lookup").disabled = false; }
+}
+async function generateOrUpdate(event) {
   event.preventDefault();
   const input = H.validHttpUrl($("manual-long").value);
-  if (!input) return message($("manual-status"), "Enter a valid HTTP(S) URL.", true);
+  if (!input) return message($("manual-status"), "Enter a valid target URL.", true);
+  const previous = selectedShort();
+  if (previous && !helperReady) {
+    return message($("manual-status"), "Updating existing links requires kURL Helper 1.1.5.", true);
+  }
+  if (previous && !confirm("Update the existing YOURLS short URL? The target or keyword may be used in existing WordPress posts and emails.")) return;
   $("manual-submit").disabled = true;
-  $("manual-copy").disabled = true;
-  $("manual-result").value = "";
-  message($("manual-status"), "Shortening…");
+  message($("manual-status"), previous ? "Updating existing link…" : "Creating short URL…");
   try {
-    const response = await send("SHORTEN_URL", {
-      longUrl: input,
+    const response = await send(previous ? "UPDATE_URL" : "SHORTEN_URL", {
+      longUrl: input, shortUrl: previous,
       keyword: $("manual-keyword").value.trim(),
       title: $("manual-title-input").value.trim()
     });
     $("manual-result").value = response.shortUrl;
-    $("manual-copy").disabled = false;
-    message($("manual-status"),
-      response.already ? "This URL already has a short link." : "Short link created.");
-    refresh();
+    $("manual-keyword").value = H.extractKeyword($("info-server").textContent, response.shortUrl);
+    updateManualButtons();
+    message($("manual-status"), previous ? "Existing short URL updated safely." :
+      response.already ? "This URL already has a short link." : "Short URL created.");
+    void refresh();
   } catch (error) {
     message($("manual-status"), error.message, true);
-  } finally {
-    $("manual-submit").disabled = false;
-  }
+  } finally { $("manual-submit").disabled = false; }
 }
+async function regenerate() {
+  const input = H.validHttpUrl($("manual-long").value);
+  const short = selectedShort();
+  if (!helperReady || !short || !input) return message($("manual-status"),
+    "Choose an existing short URL and valid target first.", true);
+  if (!confirm("Regenerate this short URL? A new keyword can BREAK existing links in WordPress and emails. Continue?")) return;
+  $("manual-regenerate").disabled = true;
+  try {
+    const response = await send("REGENERATE_URL", {
+      longUrl: input, shortUrl: short,
+      // An empty keyword tells kURL Helper to generate a random one.
+      keyword: $("manual-keyword").value.trim(),
+      title: $("manual-title-input").value.trim()
+    });
+    $("manual-result").value = response.shortUrl;
+    $("manual-keyword").value = response.keyword;
+    message($("manual-status"), "Existing short URL regenerated safely.");
+    void refresh();
+  } catch (error) {
+    message($("manual-status"), error.message, true);
+  } finally { updateManualButtons(); }
+}
+
 i18n();
 $("refresh-btn").addEventListener("click", refresh);
-$("manual-form").addEventListener("submit", shorten);
+$("manual-form").addEventListener("submit", generateOrUpdate);
+$("manual-lookup").addEventListener("click", lookup);
+$("manual-regenerate").addEventListener("click", regenerate);
+$("manual-long").addEventListener("input", () => {
+  $("manual-result").value = "";
+  updateManualButtons();
+});
 $("manual-copy").addEventListener("click", async () => {
   try {
     await navigator.clipboard.writeText($("manual-result").value);
