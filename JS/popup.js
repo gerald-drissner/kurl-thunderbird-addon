@@ -1,375 +1,233 @@
-/**
- * kurl - popup.js
- *
- * This script controls the user interface and logic within the main popup window.
- */
-
+/* kURL popup: bound to the originating Thunderbird tab, not global prefill storage. */
 (() => {
   "use strict";
-
   const H = window.Helpers;
-  const $ = (id) => document.getElementById(id);
+  const $ = id => document.getElementById(id);
+  const t = (key, fallback, replacements) =>
+    browser.i18n.getMessage(key, replacements) || fallback;
+  let composeTabId = null;
+  let isBusy = false;
 
-  async function getSelectedUrlFromActiveTab() {
-    const [tab] = await browser.tabs.query({ active: true, lastFocusedWindow: true });
-    if (!tab) return '';
-    const results = await browser.scripting.executeScript({
-      target: { tabId: tab.id, allFrames: true },
-      func: () => {
-        try {
-          const sel = window.getSelection?.();
-          let text = sel ? String(sel).trim() : '';
-          const node = sel?.anchorNode?.parentElement;
-          const a = node?.closest?.('a');
-          if (a?.href) return a.href;
-          if (text) {
-            const m = text.match(/https?:\/\/\S+/i);
-            if (m) return m[0];
-          }
-          return '';
-        } catch { return ''; }
-      }
-    });
-    const hit = (results || []).find(r => r && r.result && r.result.trim());
-    return hit ? hit.result.trim() : '';
+  function status(value, success = false) {
+    $("msg").textContent = value;
+    $("msg").className = success ? "info ok" : "info";
   }
-
-  // --- Element references ---
-  const longUrl = $("longUrl");
-  const keyword = $("keyword");
-  const title = $("title");
-  const shortUrl = $("shortUrl");
-  const statsInput = $("statsInput");
-  const btnShorten = $("btnShorten");
-  const btnCopy = $("btnCopy");
-  const btnCopyClose = $("btnCopyClose");
-  const btnInsert = $("btnInsert");
-  const btnDelete = $("btnDelete");
-  const btnStats = $("btnStats");
-  const btnDetails = $("btnDetails");
-  const btnQrCode = $("btnQrCode");
-  const btnDownloadQr = $("btnDownloadQr");
-  const btnAttachQr = $("btnAttachQr");
-  const qrcodeDisplay = $("qrcode-display");
-  const msg = $("msg");
-  const jsonBox = $("json");
-  const setupMessage = $("setup-message");
-  const mainContent = $("main-content");
-  const openOptionsBtn = $("open-options");
-
-  // --- UI Helper Functions ---
-  function internationalize() {
-    document.querySelectorAll('[data-i18n-key]').forEach(el => {
-      const key = el.getAttribute('data-i18n-key');
-      const message = browser.i18n.getMessage(key);
-      if (message) {
-        if (el.placeholder) el.placeholder = message;
-        else el.textContent = message;
+  function translate() {
+    document.querySelectorAll("[data-i18n-key]").forEach(el => {
+      const translated = browser.i18n.getMessage(el.dataset.i18nKey);
+      if (translated) {
+        if (el.hasAttribute("placeholder")) el.placeholder = translated;
+        else el.textContent = translated;
       }
     });
   }
-  function setMsg(text, cls = "") { msg.className = "info " + cls; msg.textContent = text; }
-  function toggleJson(show, data) {
-    jsonBox.style.display = show ? "block" : "none";
-    if (show && data) {
-      jsonBox.textContent = typeof data === "string" ? data : JSON.stringify(data, null, 2);
+  async function send(type, params = {}) {
+    const response = await browser.runtime.sendMessage({ type, ...params });
+    if (!response?.ok) throw new Error(response?.reason || "Request failed.");
+    return response;
+  }
+  async function busy(action) {
+    if (isBusy) return;
+    isBusy = true;
+    $("btnShorten").disabled = true;
+    const quick = $("btnShortenInsert");
+    if (quick) quick.disabled = true;
+    try { await action(); }
+    catch (error) { status(String(error?.message || error)); }
+    finally {
+      isBusy = false;
+      $("btnShorten").disabled = false;
+      if (quick) quick.disabled = false;
     }
   }
-  function displaySetupMessage() {
-    mainContent.style.display = "none";
-    setupMessage.style.display = "block";
-  }
-
-  function updateQrButtonVisibility() {
-    const isShortUrlPresent = shortUrl.value.trim() !== '';
-    btnQrCode.style.display = isShortUrlPresent ? 'inline-block' : 'none';
-    // Always hide the secondary buttons and display; they are shown on btnQrCode click
-    btnDownloadQr.style.display = 'none';
-    if (btnAttachQr) btnAttachQr.style.display = 'none';
-    qrcodeDisplay.style.display = 'none';
-  }
-
-  // --- QR Code Functions ---
-  function generateQrCode(url) {
-    qrcodeDisplay.replaceChildren();
-    new QRCode(qrcodeDisplay, { text: url, width: 128, height: 128, colorDark: "#000000", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.H });
-  }
-
-  async function attachQrCodeToEmail(url) {
-    const { lastActiveComposeTabId } = await browser.storage.local.get("lastActiveComposeTabId");
-    if (!lastActiveComposeTabId) {
-      throw new Error("Invalid tab ID");
+  function qrVisibility(reset = true) {
+    const hasShort = !!$("shortUrl").value.trim();
+    $("btnQrCode").style.display = hasShort ? "inline-block" : "none";
+    if (reset) {
+      $("btnDownloadQr").style.display = "none";
+      $("btnAttachQr").style.display = "none";
+      $("qrcode-display").style.display = "none";
+      $("qrcode-display").replaceChildren();
     }
-    const qrContainer = document.createElement('div');
-    document.body.appendChild(qrContainer);
-    new QRCode(qrContainer, { text: url, width: 512, height: 512, correctLevel: QRCode.CorrectLevel.H });
-    const canvas = qrContainer.querySelector('canvas');
-    if (!canvas) { qrContainer.remove(); throw new Error("Could not create QR code canvas."); }
-    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-    qrContainer.remove();
-    const r = await browser.runtime.sendMessage({ type: "ATTACH_QR_CODE", blob: blob, name: 'kurl-qrcode.png' });
-    if (!r?.ok) { throw new Error(r?.reason || "Failed to attach QR code."); }
   }
-
-  // --- Button Event Listeners ---
-  btnShorten.addEventListener("click", async () => {
-    const url = longUrl.value.trim();
-    if (!/^https?:\/\//i.test(url)) return setMsg(browser.i18n.getMessage("popupErrorInvalidUrl"));
-
-      setMsg(browser.i18n.getMessage("popupStatusShortening"));
-    toggleJson(false);
-    btnDetails.style.visibility = 'hidden';
-    shortUrl.value = "";
-    statsInput.value = "";
-    updateQrButtonVisibility();
-
-    const r = await browser.runtime.sendMessage({ type: "SHORTEN_URL", longUrl: url, keyword: keyword.value.trim(), title: title.value.trim() });
-
-    if (!r || !r.ok) return setMsg(r?.reason || browser.i18n.getMessage("errorShortenFailed"));
-
-    setMsg(r.already ? browser.i18n.getMessage("popupInfoAlreadyShortened") : browser.i18n.getMessage("popupStatusCreated"), "ok");
-    shortUrl.value = r.shortUrl || "";
-    statsInput.value = r.shortUrl || "";
-    btnDelete.disabled = !r.shortUrl;
-
-    const settings = await H.getSettings();
-    if (settings.autoCopy && r.shortUrl) {
+  function renderQr(target, value, size) {
+    target.replaceChildren();
+    new QRCode(target, {
+      text: value, width: size, height: size,
+      colorDark: "#000000", colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+    return target.querySelector("canvas");
+  }
+  function clearResults() {
+    $("shortUrl").value = "";
+    $("statsInput").value = "";
+    $("btnDelete").disabled = true;
+    $("json").textContent = "";
+    $("json").style.display = "none";
+    $("btnDetails").style.visibility = "hidden";
+    qrVisibility();
+  }
+  async function insertCurrent() {
+    if (!composeTabId) throw new Error(t("popupErrorNoCompose", "Open a compose window."));
+    const url = H.validHttpUrl($("shortUrl").value);
+    if (!url) throw new Error("There is no valid short URL to insert.");
+    await send("INSERT_URL", { tabId: composeTabId, url });
+    status(t("popupStatusInserted", "Short URL inserted."), true);
+  }
+  async function shortenAndMaybeInsert(insert = false) {
+    const url = H.validHttpUrl($("longUrl").value);
+    if (!url) throw new Error(t("popupErrorInvalidUrl", "Enter a valid HTTP(S) URL."));
+    clearResults();
+    status(t("popupStatusShortening", "Shortening…"));
+    const response = await send("SHORTEN_URL", {
+      longUrl: url,
+      keyword: $("keyword").value.trim(),
+      title: $("title").value.trim()
+    });
+    if (!H.validHttpUrl(response.shortUrl)) throw new Error("YOURLS returned an invalid short URL.");
+    $("shortUrl").value = response.shortUrl;
+    $("statsInput").value = response.shortUrl;
+    $("btnDelete").disabled = false;
+    qrVisibility();
+    status(response.already
+      ? t("popupInfoAlreadyShortened", "This URL already has a short link.")
+      : t("popupStatusCreated", "Short URL created."), true);
+    if (insert) {
+      await insertCurrent();
+    } else if ((await H.getSettings()).autoCopy) {
       try {
-        await navigator.clipboard.writeText(r.shortUrl);
-        setMsg(msg.textContent + " " + browser.i18n.getMessage("popupStatusCopied"), "ok");
-      } catch (err) {
-        console.error("kurl: Auto-copy failed", err);
+        await navigator.clipboard.writeText(response.shortUrl);
+        status(t("popupStatusCopied", "Copied to clipboard."), true);
+      } catch (error) {
+        console.warn("kURL: Auto-copy unavailable:", error.message);
       }
     }
-    updateQrButtonVisibility();
-  });
+  }
 
-  btnCopy.addEventListener("click", async () => {
-    const v = shortUrl.value.trim();
-    if (!v) return setMsg(browser.i18n.getMessage("popupErrorNothingToCopy"));
-    try {
-      await navigator.clipboard.writeText(v);
-      setMsg(browser.i18n.getMessage("popupStatusCopied"), "ok");
-    } catch (err) {
-      console.error("kurl: Copy failed", err);
-      setMsg(browser.i18n.getMessage("popupErrorCopyFailed"));
-    }
-  });
+  $("btnShorten").addEventListener("click", () => busy(() => shortenAndMaybeInsert()));
+  $("btnShortenInsert")?.addEventListener("click", () => busy(() => shortenAndMaybeInsert(true)));
+  $("btnInsert")?.addEventListener("click", () => busy(insertCurrent));
 
-  btnCopyClose.addEventListener("click", async () => {
-    const v = shortUrl.value.trim();
-    if (!v) return setMsg(browser.i18n.getMessage("popupErrorNothingToCopy"));
+  $("btnCopy").addEventListener("click", async () => {
     try {
-      await navigator.clipboard.writeText(v);
+      const url = H.validHttpUrl($("shortUrl").value);
+      if (!url) throw new Error(t("popupErrorNothingToCopy", "Nothing to copy."));
+      await navigator.clipboard.writeText(url);
+      status(t("popupStatusCopied", "Copied to clipboard."), true);
+    } catch (error) { status(error.message); }
+  });
+  $("btnCopyClose").addEventListener("click", async () => {
+    try {
+      const url = H.validHttpUrl($("shortUrl").value);
+      if (!url) throw new Error(t("popupErrorNothingToCopy", "Nothing to copy."));
+      await navigator.clipboard.writeText(url);
       window.close();
-    } catch (err) {
-      console.error("kurl: Copy failed", err);
-      // If copy fails, at least let the user know before closing.
-      setMsg(browser.i18n.getMessage("popupErrorCopyFailed"));
-    }
+    } catch (error) { status(error.message); }
   });
-
-  if (btnInsert) {
-    btnInsert.addEventListener("click", async () => {
-      const textToInsert = shortUrl.value.trim();
-      if (!textToInsert) return setMsg(browser.i18n.getMessage("popupErrorNothingToInsert"));
-
-      try {
-        const [tab] = await browser.tabs.query({ active: true, lastFocusedWindow: true, type: "messageCompose" });
-        if (!tab) {
-          throw new Error("No active compose tab found.");
-        }
-
-        await browser.scripting.executeScript({
-          target: { tabId: tab.id },
-          func: (text) => {
-            // Note: document.execCommand is obsolete in web contexts but is a reliable
-            // method for inserting text into Thunderbird's legacy compose window.
-            document.execCommand('insertText', false, text);
-          },
-          args: [textToInsert],
-        });
-
-        setMsg(browser.i18n.getMessage("popupStatusInserted"), "ok");
-      } catch (e) {
-        console.error("kurl: Insert failed", e);
-        setMsg(browser.i18n.getMessage("popupErrorNoCompose"));
-      }
-    });
-  }
-
-  btnStats.addEventListener("click", async () => {
-    const q = (statsInput.value || shortUrl.value).trim();
-    if (!q) return setMsg(browser.i18n.getMessage("popupErrorEnterUrlForStats"));
-    setMsg(browser.i18n.getMessage("popupStatusFetchingStats"));
-    toggleJson(false);
-    btnDetails.style.visibility = 'hidden';
-    const r = await browser.runtime.sendMessage({ type: "GET_STATS", shortUrl: q });
-    if (!r || !r.ok) return setMsg(r?.reason || browser.i18n.getMessage("errorStatsFailed"));
-    const l = r.data?.link || r.data?.url || {};
-    const message = browser.i18n.getMessage("popupStatusStatsResult", [l.shorturl || "?", l.url || "?", l.clicks ?? "?"]);
-    setMsg(message, "ok");
-    jsonBox.textContent = JSON.stringify(r.data, null, 2);
-    btnDetails.style.visibility = 'visible';
+  $("btnStats").addEventListener("click", () => busy(async () => {
+    const query = ($("statsInput").value || $("shortUrl").value).trim();
+    if (!query) throw new Error(t("popupErrorEnterUrlForStats", "Enter a short URL or keyword."));
+    status(t("popupStatusFetchingStats", "Fetching stats…"));
+    const result = await send("GET_STATS", { shortUrl: query });
+    const item = result.data?.link || result.data?.url || {};
+    status(t("popupStatusStatsResult",
+      String(item.shorturl || query) + ": " + String(item.clicks ?? "?") + " clicks",
+      [String(item.shorturl || query), String(item.url || "?"), String(item.clicks ?? "?")]), true);
+    $("json").textContent = JSON.stringify(result.data, null, 2);
+    $("btnDetails").style.visibility = "visible";
+  }));
+  $("btnDetails").addEventListener("click", () => {
+    $("json").style.display = $("json").style.display === "block" ? "none" : "block";
   });
-
-  btnDetails.addEventListener("click", () => {
-    toggleJson(jsonBox.style.display !== "block");
-  });
-
-  btnQrCode.addEventListener("click", () => {
-    if (qrcodeDisplay.style.display === "block") {
-      qrcodeDisplay.style.display = "none";
-      btnDownloadQr.style.display = 'none';
-      if(btnAttachQr) btnAttachQr.style.display = 'none';
+  $("btnQrCode").addEventListener("click", () => {
+    const panel = $("qrcode-display");
+    if (panel.style.display !== "block") {
+      renderQr(panel, $("shortUrl").value, 128);
+      panel.style.display = "block";
+      $("btnDownloadQr").style.display = "inline-block";
+      if (composeTabId) $("btnAttachQr").style.display = "inline-block";
     } else {
-      generateQrCode(shortUrl.value);
-      qrcodeDisplay.style.display = "block";
-      btnDownloadQr.style.display = 'inline-block';
-      if(btnAttachQr) btnAttachQr.style.display = 'inline-block';
+      qrVisibility();
     }
   });
-
-  // Future optimization: To avoid re-generating the QR code, the high-res version could be
-  // created once when the main QR button is clicked, stored, and then reused for display,
-  // download, and attachment.
-  btnDownloadQr.addEventListener("click", () => {
-    const v = shortUrl.value.trim();
-    if (!v) return;
-    const qrContainer = document.createElement('div');
-    new QRCode(qrContainer, { text: v, width: 512, height: 512, correctLevel: QRCode.CorrectLevel.H });
-    const canvas = qrContainer.querySelector('canvas');
-    if (canvas) {
-      const dataUrl = canvas.toDataURL("image/png");
-      const link = document.createElement('a');
-      link.href = dataUrl;
-      link.download = 'kurl-qrcode.png';
-      link.click();
-    }
+  $("btnDownloadQr").addEventListener("click", () => {
+    const holder = document.createElement("div");
+    const canvas = renderQr(holder, $("shortUrl").value, 512);
+    if (!canvas) return status("Could not generate QR code.");
+    const link = document.createElement("a");
+    link.href = canvas.toDataURL("image/png");
+    link.download = "kurl-qrcode.png";
+    link.click();
   });
-
-  if (btnAttachQr) {
-    btnAttachQr.addEventListener("click", async () => {
-      const v = shortUrl.value.trim();
-      if (!v) return setMsg(browser.i18n.getMessage("popupErrorNothingToAttach"));
-      setMsg(browser.i18n.getMessage("popupStatusAttachingQr"));
-      try {
-        await attachQrCodeToEmail(v);
-        setMsg(browser.i18n.getMessage("popupStatusQrAttached"), "ok");
-      } catch (e) {
-        const errorMessage = browser.i18n.getMessage("popupErrorAttachFailed");
-        setMsg(`${errorMessage}: ${e.message}`);
-      }
+  $("btnAttachQr").addEventListener("click", () => busy(async () => {
+    if (!composeTabId) throw new Error(t("popupErrorNoCompose", "No compose window."));
+    const url = H.validHttpUrl($("shortUrl").value);
+    if (!url) throw new Error(t("popupErrorNothingToAttach", "Nothing to attach."));
+    status(t("popupStatusAttachingQr", "Attaching QR code…"));
+    const holder = document.createElement("div");
+    const canvas = renderQr(holder, url, 512);
+    if (!canvas) throw new Error("Unable to generate QR image.");
+    await send("ATTACH_QR_CODE", {
+      tabId: composeTabId,
+      dataUrl: canvas.toDataURL("image/png"),
+      name: "kurl-qrcode.png"
     });
-  }
+    status(t("popupStatusQrAttached", "QR code attached."), true);
+  }));
+  $("btnDelete").addEventListener("click", () => busy(async () => {
+    const value = ($("statsInput").value || $("shortUrl").value).trim();
+    if (!value) throw new Error(t("popupErrorProvideUrlToDelete", "Enter a short URL."));
+    if (!window.confirm("Permanently delete this short URL on YOURLS? It may be referenced by WordPress posts or existing emails.")) return;
+    status(t("popupStatusDeleting", "Deleting…"));
+    await send("DELETE_SHORTURL", { shortUrl: value });
+    clearResults();
+    status(t("popupStatusDeleted", "Link deleted."), true);
+  }));
+  $("open-options").addEventListener("click", () => browser.runtime.openOptionsPage());
+  $("open-dashboard-link")?.addEventListener("click", event => {
+    event.preventDefault();
+    browser.tabs.create({ url: browser.runtime.getURL("dashboard.html") });
+    window.close();
+  });
 
-  btnDelete.addEventListener("click", async () => {
-    const v = (statsInput.value || shortUrl.value).trim();
-    if (!v) return setMsg(browser.i18n.getMessage("popupErrorProvideUrlToDelete"));
-
-    if (!btnDelete.classList.contains('confirm-delete')) {
-      btnDelete.textContent = browser.i18n.getMessage("popupBtnConfirmDelete");
-      btnDelete.classList.add('confirm-delete');
-      setTimeout(() => {
-        btnDelete.textContent = browser.i18n.getMessage("popupBtnDelete");
-        btnDelete.classList.remove('confirm-delete');
-      }, 4000);
+  async function init() {
+    translate();
+    clearResults();
+    status(t("popupStatusReady", "Ready."));
+    const config = await H.getSettings();
+    if (!config.yourlsUrl || !config.apiSignature) {
+      $("setup-message").style.display = "block";
       return;
     }
-
-    btnDelete.classList.remove('confirm-delete');
-    btnDelete.textContent = browser.i18n.getMessage("popupBtnDelete");
-    setMsg(browser.i18n.getMessage("popupStatusDeleting"));
-    toggleJson(false);
-    btnDetails.style.visibility = 'hidden';
-
-    const r = await browser.runtime.sendMessage({ type: "DELETE_SHORTURL", shortUrl: v });
-    if (!r || !r.ok) return setMsg(r?.reason || browser.i18n.getMessage("errorDeleteFailed"));
-
-    setMsg(browser.i18n.getMessage("popupStatusDeleted"), "ok");
-    shortUrl.value = "";
-    statsInput.value = "";
-    updateQrButtonVisibility(); // Use helper to clean up QR UI
-    btnDelete.disabled = true;
-  });
-
-  openOptionsBtn.addEventListener("click", () => {
-    browser.runtime.openOptionsPage();
-  });
-
-  const openDashboardLink = $("open-dashboard-link");
-  if (openDashboardLink) {
-    openDashboardLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      browser.tabs.create({ url: browser.runtime.getURL("dashboard.html") });
-      window.close();
-    });
-  }
-
-  async function initializePopup() {
-    internationalize();
-    setMsg(browser.i18n.getMessage("popupStatusReady"));
-    btnDetails.style.visibility = 'hidden';
-
+    $("main-content").style.display = "block";
+    const [tab] = await browser.tabs.query({ active: true, lastFocusedWindow: true });
+    if (tab?.type === "messageCompose") composeTabId = tab.id;
+    if (!composeTabId) {
+      $("btnInsert")?.remove();
+      $("btnShortenInsert")?.remove();
+      $("btnAttachQr")?.remove();
+    }
+    if (!tab) return;
     try {
-      const settings = await H.getSettings();
-      if (!settings.yourlsUrl || !settings.apiSignature) {
-        displaySetupMessage();
-        return;
+      const selected = await send("GET_SELECTED_URL", { tabId: tab.id });
+      const url = H.validHttpUrl(selected.url);
+      if (!url) return;
+      const base = H.sanitizeBaseUrl(config.yourlsUrl);
+      if (H.extractKeyword(base, url)) {
+        $("shortUrl").value = url;
+        $("statsInput").value = url;
+        $("btnDelete").disabled = false;
+        qrVisibility();
+        $("btnStats").click();
+      } else {
+        $("longUrl").value = url;
       }
-      mainContent.style.display = 'block';
-
-      const storageData = await browser.storage.local.get([
-        "yourls_prefill_long",
-        "yourls_prefill_short",
-        "popup_context"
-      ]);
-
-      const popupContext = storageData.popup_context || "default";
-      if (popupContext !== 'compose') {
-        btnInsert?.remove();
-        btnAttachQr?.remove();
-      }
-
-      let url = storageData.yourls_prefill_long || storageData.yourls_prefill_short;
-      const isShort = !!storageData.yourls_prefill_short;
-      if (!url) {
-        url = await getSelectedUrlFromActiveTab();
-      }
-
-      if (url) {
-        const { yourlsUrl } = await H.getSettings();
-        const base = H.sanitizeBaseUrl(yourlsUrl);
-        const isAlreadyShort = isShort || (base && url.startsWith(base) && url.length > base.length + 1);
-        if (isAlreadyShort) {
-          shortUrl.value = url;
-          statsInput.value = url;
-          btnDelete.disabled = false;
-          longUrl.disabled = true;
-          keyword.disabled = true;
-          title.disabled = true;
-          btnShorten.disabled = true;
-          setMsg(browser.i18n.getMessage("popupInfoAutoStats"), "ok");
-          btnStats.click();
-        } else {
-          longUrl.value = url;
-        }
-      }
-
-      await browser.storage.local.remove(["yourls_prefill_long", "yourls_prefill_short", "popup_context"]);
-
-      if (popupContext === 'compose') {
-        const [tab] = await browser.tabs.query({ active: true, lastFocusedWindow: true, type: "messageCompose" });
-        if (tab) {
-          await browser.storage.local.set({ lastActiveComposeTabId: tab.id });
-        }
-      }
-    } catch (e) {
-      console.warn('kurl: Popup initialization failed', e);
-      setMsg(browser.i18n.getMessage("errorGeneric"));
+    } catch (error) {
+      console.warn("kURL: Unable to inspect selection:", error.message);
     }
   }
-
-  document.addEventListener('DOMContentLoaded', initializePopup);
-
+  document.addEventListener("DOMContentLoaded", () => {
+    init().catch(error => status(String(error.message || error)));
+  });
 })();
