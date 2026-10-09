@@ -6,7 +6,7 @@ const t = (key, fallback) => browser.i18n.getMessage(key) || fallback;
 const PAGE_SIZE = 10;
 let currentOffset = 0;
 let recentLinks = [];
-let loadingMore = false;
+let loadingMoreGeneration = -1;
 let viewGeneration = 0;
 let helperReady = false;
 
@@ -136,8 +136,8 @@ function filterRecent() {
     query ? "No matching links in the loaded pages." : t("dashboardNoLinksFound", "No links found."));
 }
 async function loadMore(generation) {
-  if (loadingMore) return;
-  loadingMore = true;
+  if (loadingMoreGeneration === generation) return;
+  loadingMoreGeneration = generation;
   const area = $("view-more-container");
   area.replaceChildren();
   const loading = document.createElement("span");
@@ -165,7 +165,7 @@ async function loadMore(generation) {
     message($("dashboard-feedback"), "Recent links: " + error.message, true);
     area.appendChild(makeButton("Retry", () => loadMore(viewGeneration)));
   } finally {
-    loadingMore = false;
+    if (loadingMoreGeneration === generation) loadingMoreGeneration = -1;
   }
 }
 async function refresh() {
@@ -201,19 +201,22 @@ async function refresh() {
     $("server-status").classList.remove("status-online");
     message($("dashboard-feedback"), error.message, true);
   }
-  try {
-    const top = await send("GET_TOP_LINKS", { limit: 10 });
-    if (generation === viewGeneration) {
-      renderRows($("top-links-container"), parseLinks(top.data), "No top links found.");
+  const topTask = (async () => {
+    try {
+      const top = await send("GET_TOP_LINKS", { limit: 10 });
+      if (generation === viewGeneration) {
+        renderRows($("top-links-container"), parseLinks(top.data), "No top links found.");
+      }
+    } catch (error) {
+      if (generation === viewGeneration) {
+        renderRows($("top-links-container"), [], "Could not load top links: " + error.message);
+      }
     }
-  } catch (error) {
-    if (generation === viewGeneration) {
-      renderRows($("top-links-container"), [], "Could not load top links: " + error.message);
-    }
-  } finally {
-    if (generation === viewGeneration) $("refresh-btn").disabled = false;
-  }
-  if (generation === viewGeneration) await loadMore(generation);
+  })();
+  const recentTask = generation === viewGeneration
+    ? loadMore(generation) : Promise.resolve();
+  await Promise.all([topTask, recentTask]);
+  if (generation === viewGeneration) $("refresh-btn").disabled = false;
 }
 async function shorten(event) {
   event.preventDefault();
