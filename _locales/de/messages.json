@@ -433,5 +433,80 @@
   },
   "menuQuickInsert": {
     "message": "kURL: Kürzen und einfügen"
+  },
+  "dashBulk": {
+    "message": "Stapelverarbeitung"
+  },
+  "dashLogs": {
+    "message": "Protokoll"
+  },
+  "dashLookup": {
+    "message": "YOURLS prüfen"
+  },
+  "dashRegenerate": {
+    "message": "Sicher neu erzeugen"
+  },
+  "dashManualHelp": {
+    "message": "Prüfe vor dem Erstellen, ob schon ein Link existiert. Änderungen und Neugenerierung benötigen kURL Helper 1.1.5. Bestehende WordPress-Beiträge oder E-Mails können auf den Link verweisen."
+  },
+  "dashActivity": {
+    "message": "Vorgänge (letzte 7 Tage)"
+  },
+  "dashEdit": {
+    "message": "Bearbeiten"
+  },
+  "dashEditReady": {
+    "message": "Bestehender Link ausgewählt. Mit „Erzeugen / Aktualisieren“ wird er bearbeitet."
+  },
+  "dashFound": {
+    "message": "Vorhandene Kurz-URL gefunden."
+  },
+  "dashNotFound": {
+    "message": "Keine bestehende Kurz-URL gefunden. Du kannst eine erstellen."
+  },
+  "bulkHeading": {
+    "message": "Mehrere URLs kürzen"
+  },
+  "bulkExplanation": {
+    "message": "Eine vollständige HTTP(S)-URL pro Zeile einfügen. Vorhandene YOURLS-Links werden wiederverwendet. WordPress-Inhalte bleiben unverändert. Höchstens 250 unterschiedliche URLs pro Durchlauf."
+  },
+  "bulkInput": {
+    "message": "Zu kürzende URLs"
+  },
+  "bulkSize": {
+    "message": "Stapelgröße"
+  },
+  "bulkPreview": {
+    "message": "Vorschau"
+  },
+  "bulkStart": {
+    "message": "Starten"
+  },
+  "bulkStop": {
+    "message": "Nach aktueller Anfrage stoppen"
+  },
+  "bulkCopy": {
+    "message": "Ergebnisse kopieren"
+  },
+  "bulkExisting": {
+    "message": "Vorhanden"
+  },
+  "bulkCreated": {
+    "message": "Erstellt"
+  },
+  "logHeading": {
+    "message": "Letzte kURL-Aktivitäten"
+  },
+  "logExplanation": {
+    "message": "Lokales Protokoll der letzten sieben Tage (höchstens 100 Einträge). API-Schlüssel, E-Mail-Inhalte und URLs werden nicht gespeichert."
+  },
+  "logClear": {
+    "message": "Protokoll löschen"
+  },
+  "logConfirmClear": {
+    "message": "Das lokale kURL-Protokoll löschen?"
+  },
+  "logEntries": {
+    "message": "Einträge der letzten 7 Tage"
   }
 }
