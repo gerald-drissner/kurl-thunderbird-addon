@@ -1,113 +1,92 @@
+/* kURL settings: test exactly what is entered; do not reuse tokens across hosts. */
+"use strict";
 const H = window.Helpers;
-const $ = (id) => document.getElementById(id);
+const $ = id => document.getElementById(id);
+const t = (key, fallback) => browser.i18n.getMessage(key) || fallback;
+let saved = { yourlsUrl: "", apiSignature: "", autoCopy: true };
 
-// Element references
-const urlEl = $("yourlsUrl");
-const keyEl = $("apiSignature");
-const autoEl = $("autoCopy");
-const btnSave = $("save");
-const btnTest = $("test");
-const btnRemove = $("removePerm");
-const statusBox = $("status");
-
-/**
- * Updates all text content in the document based on the browser's locale.
- */
+function status(message, good = false) {
+  $("status").textContent = message;
+  $("status").className = good ? "info ok" : "info";
+}
+function connection() {
+  const base = H.sanitizeBaseUrl($("yourlsUrl").value);
+  const token = $("apiSignature").value.trim();
+  if (!base || !token) throw new Error(t("optionsStatusEnterUrlAndToken", "Enter a valid URL and API token."));
+  if (base !== saved.yourlsUrl && token === saved.apiSignature) {
+    throw new Error("Server changed. Enter its own API signature; the previous token cannot be reused.");
+  }
+  return { yourlsUrl: base, apiSignature: token };
+}
+async function hostPermission(base) {
+  const pattern = new URL(base).origin + "/*";
+  const granted = await browser.permissions.request({ origins: [pattern] });
+  if (!granted) throw new Error(t("optionsStatusPermNotGranted", "Host permission not granted."));
+}
+async function test() {
+  let config;
+  try { config = connection(); } catch (error) { return status(error.message); }
+  try {
+    // Request immediately in a click handler while user activation is available.
+    await hostPermission(config.yourlsUrl);
+    status(t("dashboardStatusLoading", "Checking connection..."));
+    const result = await browser.runtime.sendMessage({
+      type: "CHECK_CONNECTION", settings: config
+    });
+    if (!result?.ok) throw new Error(result?.reason || t("optionsStatusConnFailed", "Connection failed."));
+    status(t("optionsStatusConnOk", "Connected. Total links: " + result.total)
+      .replace("$1", String(result.total)), true);
+  } catch (error) {
+    status(String(error.message || error));
+  }
+}
+async function save() {
+  let config;
+  try { config = connection(); } catch (error) { return status(error.message); }
+  try {
+    await hostPermission(config.yourlsUrl);
+    await H.setSettings({ ...config, autoCopy: $("autoCopy").checked });
+    saved = { ...config, autoCopy: $("autoCopy").checked };
+    status(t("optionsStatusSaved", "Settings saved."), true);
+  } catch (error) {
+    status(String(error.message || error));
+  }
+}
+async function revoke() {
+  const base = H.sanitizeBaseUrl($("yourlsUrl").value);
+  if (!base) return status(t("optionsStatusEnterUrlToRemove", "Enter your YOURLS URL."));
+  try {
+    await browser.permissions.remove({ origins: [new URL(base).origin + "/*"] });
+    status(t("optionsStatusPermRemoved", "Permission removed."));
+  } catch (error) {
+    status(t("optionsStatusPermRemoveError", "Could not remove permission: ") + error.message);
+  }
+}
 function internationalize() {
-  document.querySelectorAll('[data-i18n-key]').forEach(el => {
-    const key = el.getAttribute('data-i18n-key');
-    const message = browser.i18n.getMessage(key);
-    if (message) {
-      // For input placeholders
-      if (el.placeholder) el.placeholder = message;
-      // For other elements
-      else el.textContent = message;
+  document.querySelectorAll("[data-i18n-key]").forEach(el => {
+    const translated = browser.i18n.getMessage(el.dataset.i18nKey);
+    if (translated) {
+      if (el.hasAttribute("placeholder")) el.placeholder = translated;
+      else el.textContent = translated;
     }
   });
 }
-
-/**
- * Sets the status message text and appearance.
- * @param {string} text - The message to display.
- * @param {string} [cls=""] - An optional class to add (e.g., "ok").
- */
-function setStatus(text, cls = "") {
-  statusBox.className = "info " + cls;
-  statusBox.textContent = text;
-}
-
-/**
- * Handles the connection test logic.
- */
-async function testConnection() {
-  const base = H.sanitizeBaseUrl(urlEl.value);
-  const key = keyEl.value.trim();
-  if (!base || !key) {
-    setStatus(browser.i18n.getMessage("optionsStatusEnterUrlAndToken"));
-    return;
-  }
-
-  // Request host permission from this page to ensure it's a user gesture.
-  try {
-    const origin = new URL(base).origin + "/*";
-    const ok = await browser.permissions.request({ origins: [origin] });
-    if (!ok) {
-      setStatus(browser.i18n.getMessage("optionsStatusPermNotGranted"));
-      return;
-    }
-  } catch (e) {
-    setStatus(browser.i18n.getMessage("optionsStatusPermRequestError") + e);
-    return;
-  }
-
-  // Send message to background script to perform the API check.
-  const s = await browser.runtime.sendMessage({ type: "CHECK_CONNECTION" });
-  if (s?.ok) {
-    const total = s.total ?? "?";
-    setStatus(browser.i18n.getMessage("optionsStatusConnOk", total), "ok");
-  } else {
-    setStatus(s?.reason || browser.i18n.getMessage("optionsStatusConnFailed"));
-  }
-}
-
-// Event Listeners
-btnSave.addEventListener("click", async () => {
-  const base = H.sanitizeBaseUrl(urlEl.value);
-  await H.setSettings({
-    yourlsUrl: base,
-    apiSignature: keyEl.value.trim(),
-                      autoCopy: autoEl.checked
-  });
-  setStatus(browser.i18n.getMessage("optionsStatusSaved"));
-});
-
-btnTest.addEventListener("click", testConnection);
-
-btnRemove.addEventListener("click", async () => {
-  const base = H.sanitizeBaseUrl(urlEl.value);
-  if (!base) {
-    return setStatus(browser.i18n.getMessage("optionsStatusEnterUrlToRemove"));
-  }
-  try {
-    const origin = new URL(base).origin + "/*";
-    await browser.permissions.remove({ origins: [origin] });
-    setStatus(browser.i18n.getMessage("optionsStatusPermRemoved"));
-  } catch (e) {
-    setStatus(browser.i18n.getMessage("optionsStatusPermRemoveError") + e);
-  }
-});
-
-/**
- * Initializes the options page by loading saved settings.
- */
 async function init() {
   internationalize();
-  const s = await H.getSettings();
-  urlEl.value = s.yourlsUrl || "";
-  keyEl.value = s.apiSignature || "";
-  autoEl.checked = s.autoCopy; // Defaults to true in helpers
-  setStatus(browser.i18n.getMessage("optionsStatusLoaded"));
+  saved = await H.getSettings();
+  $("yourlsUrl").value = saved.yourlsUrl;
+  $("apiSignature").value = saved.apiSignature;
+  $("autoCopy").checked = saved.autoCopy;
+  status(t("optionsStatusLoaded", "Settings loaded."));
 }
-
-// Run initialization when the script loads.
-init();
+$("test").addEventListener("click", test);
+$("save").addEventListener("click", save);
+$("removePerm").addEventListener("click", revoke);
+$("yourlsUrl").addEventListener("input", () => {
+  const base = H.sanitizeBaseUrl($("yourlsUrl").value);
+  if (base !== saved.yourlsUrl && $("apiSignature").value === saved.apiSignature) {
+    $("apiSignature").value = "";
+    status("Server changed. Enter the API signature for the new server.");
+  }
+});
+init().catch(error => status(String(error.message || error)));
