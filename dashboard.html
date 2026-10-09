@@ -58,7 +58,10 @@
         <label for="manual-title-input" data-i18n-key="dashTitleInput">Title (optional)</label>
         <input id="manual-title-input" type="text" autocomplete="off" maxlength="300">
         <div class="row">
-          <button type="submit" id="manual-submit" data-i18n-key="dashShorten">Shorten URL</button>
+          <button type="button" id="manual-reset" class="secondary" data-i18n-key="dashNew">New link</button>
+          <button type="button" id="manual-lookup" class="secondary" data-i18n-key="dashLookup">Check YOURLS</button>
+          <button type="submit" id="manual-submit" data-i18n-key="dashShorten">Generate / Update</button>
+          <button type="button" id="manual-regenerate" class="secondary" disabled data-i18n-key="dashRegenerate">Regenerate safely</button>
           <button type="button" id="manual-copy" class="secondary" disabled data-i18n-key="dashCopyResult">Copy result</button>
         </div>
         <label for="manual-result" data-i18n-key="dashShortUrl">Short URL</label>
