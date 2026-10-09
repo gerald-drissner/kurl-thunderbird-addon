@@ -34,8 +34,8 @@ async function test() {
       type: "CHECK_CONNECTION", settings: config
     });
     if (!result?.ok) throw new Error(result?.reason || t("optionsStatusConnFailed", "Connection failed."));
-    status(t("optionsStatusConnOk", "Connected. Total links: " + result.total)
-      .replace("$1", String(result.total)), true);
+    status(browser.i18n.getMessage("optionsStatusConnOk", String(result.total)) ||
+      ("Connected. Total links: " + result.total), true);
   } catch (error) {
     status(String(error.message || error));
   }
