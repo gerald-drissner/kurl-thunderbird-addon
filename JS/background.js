@@ -137,31 +137,31 @@ async function listLinks(filter, limit, start = 0) {
 
 async function info() {
   const config = await H.getSettings();
-  const db = success(await request("db-stats"));
-  let yourlsVersion = "", helperVersion = "", capabilities = [];
-  try {
-    const version = success(await request("version"));
-    yourlsVersion = String(version.version || version.version_number || "");
-  } catch {}
-  try {
-    const ping = success(await request("kurl_ping"));
-    if (ping.kurl_extended === true || ping.kurl_extended === "1" ||
-        ping.kurl_extended === 1) {
-      helperVersion = String(ping.kurl_helper_version || "");
-      capabilities = Array.isArray(ping.kurl_capabilities)
-        ? ping.kurl_capabilities.filter(v => typeof v === "string") : [];
-    }
-  } catch {}
+  // These are independent read-only requests. Run them concurrently.
+  const [dbResult, versionResult, pingResult] = await Promise.allSettled([
+    request("db-stats").then(success),
+    request("version").then(success),
+    request("kurl_ping").then(success)
+  ]);
+  if (dbResult.status !== "fulfilled") throw dbResult.reason;
+  const db = dbResult.value;
+  const version = versionResult.status === "fulfilled" ? versionResult.value : {};
+  const ping = pingResult.status === "fulfilled" ? pingResult.value : {};
+  const extended = ping.kurl_extended === true || ping.kurl_extended === "1" ||
+    ping.kurl_extended === 1;
+  const helperVersion = extended ? String(ping.kurl_helper_version || "") : "";
+  const capabilities = extended && Array.isArray(ping.kurl_capabilities)
+    ? ping.kurl_capabilities.filter(v => typeof v === "string") : [];
   return {
     base: H.sanitizeBaseUrl(config.yourlsUrl),
-    yourlsVersion, helperVersion,
+    yourlsVersion: String(version.version || version.version_number || ""),
+    helperVersion,
     helperReady: helperVersion === HELPER_VERSION &&
-      ["delete", "find_by_url", "regenerate"].every(c => capabilities.includes(c)),
+      ["delete", "find_by_url", "regenerate"].every(cap => capabilities.includes(cap)),
     totalLinks: Number(db.total_links ?? db["db-stats"]?.total_links ?? 0) || 0,
     totalClicks: Number(db.total_clicks ?? db["db-stats"]?.total_clicks ?? 0) || 0
   };
 }
-
 async function deleteLink(input) {
   const config = await H.getSettings();
   const base = H.sanitizeBaseUrl(config.yourlsUrl);
