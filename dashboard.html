@@ -11,6 +11,8 @@
     <nav class="nav-tabs" aria-label="kURL">
       <a href="options.html" class="nav-tab" data-i18n-key="optionsTitle">Settings</a>
       <a href="dashboard.html" class="nav-tab active" aria-current="page" data-i18n-key="dashboardTitle">Dashboard</a>
+      <a href="bulk.html" class="nav-tab" data-i18n-key="dashBulk">Bulk</a>
+      <a href="logs.html" class="nav-tab" data-i18n-key="dashLogs">Logs</a>
     </nav>
     <div class="dashboard-header">
       <h1 data-i18n-key="dashboardTitle">Dashboard</h1>
@@ -42,6 +44,7 @@
         <dt data-i18n-key="dashServer">Server</dt><dd id="info-server">—</dd>
         <dt data-i18n-key="dashYourlsVersion">YOURLS version</dt><dd id="info-version">—</dd>
         <dt data-i18n-key="dashHelper">kURL Helper</dt><dd id="info-helper">—</dd>
+        <dt data-i18n-key="dashActivity">Recent operations (7 days)</dt><dd id="info-activity">—</dd>
       </dl>
     </section>
 
@@ -60,6 +63,7 @@
         </div>
         <label for="manual-result" data-i18n-key="dashShortUrl">Short URL</label>
         <input id="manual-result" type="text" readonly>
+        <p class="kurl-help" data-i18n-key="dashManualHelp">Check an existing target before creating. Editing and regeneration require kURL Helper 1.1.5 and can change links used elsewhere.</p>
         <p id="manual-status" class="info" role="status" aria-live="polite">Ready.</p>
       </form>
     </section>
