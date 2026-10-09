@@ -398,7 +398,7 @@ browser.menus.create({
 });
 browser.menus.create({
   id: "kurl-quick-insert", title: i18n("menuQuickInsert", "kURL: Shorten and insert"),
-  contexts: ["link", "selection", "compose_body"], visible: false
+  contexts: ["link", "selection"], visible: false
 });
 
 browser.menus.onShown.addListener(async (info, tab) => {
