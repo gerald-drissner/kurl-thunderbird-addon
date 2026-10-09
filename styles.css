@@ -448,3 +448,22 @@ text-decoration: underline;
 @media (prefers-reduced-motion: reduce) {
   button, .slider { transition: none; }
 }
+/* Import/bulk operation controls */
+textarea, select {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--field);
+  color: var(--text);
+  font: inherit;
+}
+textarea { display: block; width: 100%; padding: 10px; resize: vertical; }
+select { padding: 7px; }
+textarea:focus-visible, select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+progress { display: block; width: 100%; height: 14px; margin: 16px 0 8px; accent-color: var(--accent); }
+.kurl-help, .kurl-date { color: var(--muted); font-size: 12px; }
+.nav-tabs { overflow-x: auto; margin-bottom: 18px; }
+.nav-tab { flex-shrink: 0; }
+.link-item a { overflow-wrap: anywhere; }
