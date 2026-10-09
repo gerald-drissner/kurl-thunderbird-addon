@@ -382,5 +382,56 @@
   "dashboardBtnViewMore": {
     "message": "Mehr anzeigen",
     "description": "Text for the 'View More' button to load more links."
+  },
+  "dashOverview": {
+    "message": "YOURLS-Übersicht"
+  },
+  "dashCreate": {
+    "message": "Kurz-URL erstellen"
+  },
+  "dashTop": {
+    "message": "Meistgeklickte YOURLS-Links"
+  },
+  "dashFilter": {
+    "message": "Geladene Links filtern"
+  },
+  "dashSearch": {
+    "message": "URL oder Kürzel suchen"
+  },
+  "dashTarget": {
+    "message": "Ziel-URL"
+  },
+  "dashKeyword": {
+    "message": "Eigenes Kürzel (optional)"
+  },
+  "dashTitleInput": {
+    "message": "Titel (optional)"
+  },
+  "dashShorten": {
+    "message": "URL kürzen"
+  },
+  "dashCopyResult": {
+    "message": "Ergebnis kopieren"
+  },
+  "dashShortUrl": {
+    "message": "Kurz-URL"
+  },
+  "dashServer": {
+    "message": "Server"
+  },
+  "dashYourlsVersion": {
+    "message": "YOURLS-Version"
+  },
+  "dashHelper": {
+    "message": "kURL Helper"
+  },
+  "popupBtnShortenInsert": {
+    "message": "Kürzen & einfügen"
+  },
+  "menuQuickCopy": {
+    "message": "kURL: Kürzen und kopieren"
+  },
+  "menuQuickInsert": {
+    "message": "kURL: Kürzen und einfügen"
   }
 }
