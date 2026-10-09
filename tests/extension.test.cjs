@@ -174,3 +174,18 @@ test("manifest and locales contain parseable JSON", () => {
     assert.doesNotThrow(() => JSON.parse(read("_locales/" + dir + "/messages.json")));
   }
 });
+test("every JS-referenced DOM element exists in the matching page", () => {
+  for (const [html, js] of [
+    ["dashboard.html", "JS/dashboard.js"],
+    ["popup.html", "JS/popup.js"],
+    ["options.html", "JS/options.js"],
+    ["bulk.html", "JS/bulk.js"],
+    ["logs.html", "JS/logs.js"]
+  ]) {
+    const markup = read(html);
+    const script = read(js);
+    const defined = new Set([...markup.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]));
+    const used = [...script.matchAll(/\$\("([^"]+)"\)/g)].map(m => m[1]);
+    for (const id of used) assert.ok(defined.has(id), js + " references missing #" + id);
+  }
+});
