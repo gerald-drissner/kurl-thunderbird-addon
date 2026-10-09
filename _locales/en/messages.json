@@ -508,5 +508,11 @@
   },
   "logEntries": {
     "message": "entries in the last 7 days"
+  },
+  "dashNew": {
+    "message": "New link"
+  },
+  "dashNewReady": {
+    "message": "Ready for a new short URL."
   }
 }
