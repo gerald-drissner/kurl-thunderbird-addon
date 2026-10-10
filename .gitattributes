@@ -1,0 +1,16 @@
+# Keep third-party source byte-for-byte identical on Windows, macOS and Linux.
+# Git's Windows autocrlf otherwise rewrites the released QR distribution.
+* text=auto
+*.js text eol=lf
+*.cjs text eol=lf
+*.json text eol=lf
+*.php text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.py text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.png binary
+*.zip binary
+*.xpi binary

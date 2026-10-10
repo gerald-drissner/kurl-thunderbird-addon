@@ -7,7 +7,7 @@ window.Helpers = (() => {
       const raw = String(input || "").trim();
       if (!raw || /\s/.test(raw)) return "";
       const url = new URL(raw);
-      if (!["https:", "http:"].includes(url.protocol) || url.username || url.password ||
+      if (url.protocol !== "https:" || url.username || url.password ||
           url.search || url.hash) return "";
       let path = url.pathname.replace(/\/+$/, "");
       path = path.replace(/\/yourls-api\.php$/i, "").replace(/\/admin$/i, "");
@@ -20,11 +20,11 @@ window.Helpers = (() => {
   function validHttpUrl(input) {
     try {
       const raw = String(input || "").trim();
-      if (!raw || /\s/.test(raw) || raw.length > 8192) return "";
+      if (!raw || /[\s\\]/.test(raw) || raw.length > 8192) return "";
       const url = new URL(raw);
       if (!["https:", "http:"].includes(url.protocol) || !url.hostname ||
           url.username || url.password) return "";
-      return url.href;
+      return raw;
     } catch {
       return "";
     }
@@ -52,6 +52,46 @@ window.Helpers = (() => {
     }
   }
 
+  // Lookup accepts alternate spellings of short URLs from this server. This
+  // intentionally does NOT change extractKeyword(), which validates canonical
+  // URLs for write operations (edit, regenerate, delete).
+  function classifyLookupInput(base, input) {
+    const serverBase = sanitizeBaseUrl(base);
+    const raw = String(input || "").trim();
+    if (!serverBase || !raw) return null;
+    const keyword = validKeyword(raw);
+    if (keyword) return { kind: "short", shortUrl: serverBase + "/" + keyword };
+
+    const hasScheme = /^https?:\/\//i.test(raw);
+    const schemelessHost = !hasScheme && /^[^\s/?#]+\.[^\s/?#]+(?:[/?#]|$)/.test(raw);
+    const candidate = schemelessHost ? "https://" + raw : raw;
+    const urlText = validHttpUrl(candidate);
+    if (!urlText) return null;
+    const parsed = new URL(urlText);
+    const server = new URL(serverBase);
+    if (parsed.hostname.toLowerCase() !== server.hostname.toLowerCase()) {
+      // Never present a schemeless foreign URL as an arbitrary destination.
+      return hasScheme ? { kind: "long", target: urlText } : null;
+    }
+    // Only the configured YOURLS path is reserved for short URLs. When YOURLS
+    // lives in a subfolder, a different page on the same website is a normal
+    // destination URL, not an invalid short link. Scheme-less destinations are
+    // still refused because they are ambiguous without an explicit scheme.
+    const rootPath = server.pathname.replace(/\/+$/, "") + "/";
+    if (parsed.port !== server.port) return { kind: "own-invalid" };
+    if (rootPath !== "/" && parsed.pathname !== rootPath.slice(0, -1) &&
+        !parsed.pathname.startsWith(rootPath))
+      return hasScheme ? { kind: "long", target: urlText } : null;
+    // The short-link namespace itself must not be shortened a second time.
+    if (!parsed.pathname.startsWith(rootPath)) return { kind: "own-invalid" };
+    const slug = parsed.pathname.slice(rootPath.length).replace(/\/+$/, "");
+    const ownKeyword = validKeyword(slug);
+    if (!ownKeyword) return { kind: "own-invalid" };
+    // Ignore a trailing slash, query string and fragment when looking up an
+    // already shortened link. The request uses the canonical HTTPS URL.
+    return { kind: "short", shortUrl: serverBase + "/" + ownKeyword };
+  }
+
   function extractShort(json, base) {
     const candidates = [json?.shorturl, json?.url?.shorturl, json?.link?.shorturl];
     for (const candidate of candidates) {
@@ -73,12 +113,13 @@ window.Helpers = (() => {
 
   async function getSettings() {
     const data = await browser.storage.local.get({
-      yourlsUrl: "", apiSignature: "", autoCopy: true
+      yourlsUrl: "", apiSignature: "", autoCopy: true, showCopyNotifications: true
     });
     return {
       yourlsUrl: sanitizeBaseUrl(data.yourlsUrl),
       apiSignature: String(data.apiSignature || ""),
-      autoCopy: data.autoCopy !== false
+      autoCopy: data.autoCopy !== false,
+      showCopyNotifications: data.showCopyNotifications !== false
     };
   }
 
@@ -96,7 +137,7 @@ window.Helpers = (() => {
   }
 
   return {
-    sanitizeBaseUrl, validHttpUrl, validKeyword, extractKeyword, extractShort,
+    sanitizeBaseUrl, validHttpUrl, validKeyword, extractKeyword, classifyLookupInput, extractShort,
     toFormData, getSettings, setSettings, parseMaybeJson
   };
 })();

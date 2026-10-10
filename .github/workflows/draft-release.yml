@@ -1,0 +1,66 @@
+name: Prepare draft GitHub release
+
+# When a version change reaches main, prepare its GitHub release as a DRAFT.
+# Publishing the release and submitting to Thunderbird Add-ons are explicit
+# maintainer decisions after native Thunderbird platform checks.
+on:
+  push:
+    branches: [main]
+    paths:
+      - manifest.json
+      - .github/workflows/draft-release.yml
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Check source and YOURLS Helper
+        run: |
+          npm run check
+          npm test
+          php -l helper/kurl-helper/plugin.php
+      - name: Package exactly the committed sources
+        id: pkg
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="$(node -p "require('./manifest.json').version")"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          python3 scripts/build-xpi.py "kurl-thunderbird-${version}.xpi"
+          git archive --format=zip --output="kurl-thunderbird-${version}-source.zip" HEAD
+          sha256sum "kurl-thunderbird-${version}.xpi" "kurl-thunderbird-${version}-source.zip" > SHA256SUMS.txt
+      - name: Create draft release with version notes and assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.pkg.outputs.version }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="v${VERSION}"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "Release $tag already exists: no duplicate created."
+            exit 0
+          fi
+          gh release create "$tag" \
+            --target "$GITHUB_SHA" \
+            --title "kURL for Thunderbird ${VERSION}" \
+            --notes-file RELEASE_NOTES.md \
+            --draft \
+            "kurl-thunderbird-${VERSION}.xpi" \
+            "kurl-thunderbird-${VERSION}-source.zip" \
+            SHA256SUMS.txt

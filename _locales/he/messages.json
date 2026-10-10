@@ -36,7 +36,7 @@
     "description": "Remove host permission button text."
   },
   "optionsStatusLoaded": {
-    "message": "הגדרות שמורות נטענו. לחץ “בדוק חיבור”.",
+    "message": "ההגדרות השמורות נטענו.",
     "description": "Initial status message on options page."
   },
   "optionsStatusEnterUrlAndToken": {
@@ -46,10 +46,6 @@
   "optionsStatusPermNotGranted": {
     "message": "הרשאת מארח לא ניתנה.",
     "description": "Error message when host permission is denied."
-  },
-  "optionsStatusPermRequestError": {
-    "message": "לא ניתן היה לבקש הרשאת מארח: ",
-    "description": "Error message when requesting host permission fails."
   },
   "optionsStatusConnOk": {
     "message": "חיבור תקין (סה\"כ קישורים: $total$)",
@@ -83,10 +79,6 @@
   "optionsShortcutTitle": {
     "message": "שימוש בקיצור הדרך",
     "description": "Title for the shortcut information box in options."
-  },
-  "optionsShortcutDescription": {
-    "message": "באפשרותך לפתוח במהירות את המקצר על ידי בחירת URL בעורך הכתיבה ולחיצה על",
-    "description": "Description of how to use the keyboard shortcut."
   },
   "optionsShortcutChange": {
     "message": "באפשרותך לשנות קיצור דרך זה במנהל התוספים של Thunderbird תחת תפריט ⚙️ עבור kurl.",
@@ -136,10 +128,6 @@
     "message": "מחק",
     "description": "Delete button text."
   },
-  "popupBtnConfirmDelete": {
-    "message": "אשר?",
-    "description": "Delete button confirmation text."
-  },
   "popupBtnGoToSettings": {
     "message": "עבור להגדרות",
     "description": "Button text in the popup to open the options page."
@@ -179,10 +167,6 @@
   "popupStatusCreated": {
     "message": "נוצר קישור מקוצר.",
     "description": "Success message when URL is shortened."
-  },
-  "popupStatusAlreadyShortened": {
-    "message": "ה-URL כבר מקוצר.",
-    "description": "Message when URL already exists."
   },
   "popupStatusCopied": {
     "message": "הועתק ללוח.",
@@ -231,10 +215,6 @@
     "message": "ה-URL כבר מקוצר. באפשרותך להציג סטטיסטיקות או למחוק אותו למטה.",
     "description": "Informational message for an existing URL."
   },
-  "popupInfoAutoStats": {
-    "message": "זה כבר URL קצר. מאחזר סטטיסטיקות באופן אוטומטי.",
-    "description": "Message when auto-fetching stats for a selected short URL."
-  },
   "popupErrorInvalidUrl": {
     "message": "אנא הזן כתובת http(s) תקינה.",
     "description": "Error for invalid URL format."
@@ -243,21 +223,9 @@
     "message": "אין מה להעתיק.",
     "description": "Error when copy button is clicked with no URL."
   },
-  "popupErrorCopyFailed": {
-    "message": "ההעתקה נכשלה.",
-    "description": "Error when clipboard copy fails."
-  },
-  "popupErrorNothingToInsert": {
-    "message": "אין מה להכניס.",
-    "description": "Error when insert button is clicked with no URL."
-  },
   "popupErrorNothingToAttach": {
     "message": "אין מה לצרף.",
     "description": "Error when attach button is clicked with no URL."
-  },
-  "popupErrorAttachFailed": {
-    "message": "נכשל צירוף קוד ה-QR.",
-    "description": "Error when QR code attachment fails."
   },
   "popupErrorNoCompose": {
     "message": "לא ניתן היה למצוא חלון כתיבה פעיל.",
@@ -271,57 +239,9 @@
     "message": "ספק URL קצר או מילת מפתח למחיקה.",
     "description": "Error when delete is clicked with no URL."
   },
-  "popupErrorStatsNotFound": {
-    "message": "URL מקוצר לא נמצא.",
-    "description": "Error when stats are requested for a non-existent URL."
-  },
-  "errorShortenFailed": {
-    "message": "קיצור נכשל.",
-    "description": "Generic error for shortening."
-  },
-  "errorStatsFailed": {
-    "message": "אחזור הסטטיסטיקות נכשל.",
-    "description": "Generic error for fetching stats."
-  },
-  "errorDeleteFailed": {
-    "message": "מחיקה נכשלה",
-    "description": "Generic error for deleting."
-  },
-  "errorEnterKeywordToDelete": {
-    "message": "אנא הזן URL מקוצר או מילת מפתח למחיקה.",
-    "description": "Error in background script if keyword is missing for delete."
-  },
   "errorNoSettings": {
     "message": "אנא הגדר את YOURLS קודם בהגדרות התוסף.",
     "description": "Error when settings are not configured."
-  },
-  "toastUrlCreated": {
-    "message": "נוצר URL מקוצר.",
-    "description": "Notification message for success."
-  },
-  "toastUrlExists": {
-    "message": "ה-URL כבר מקוצר.",
-    "description": "Notification message for existing URL."
-  },
-  "toastUrlDeleted": {
-    "message": "URL מקוצר נמחק.",
-    "description": "Notification message for deleted URL."
-  },
-  "toastQrAttached": {
-    "message": "קוד QR צורף.",
-    "description": "Notification message when a QR code has been attached to the email."
-  },
-  "toastUrlPrimed": {
-    "message": "ה-URL מוכן. לחץ על סמל kurl בכותרת ההודעה.",
-    "description": "Notification message after priming the URL from the 3-pane view."
-  },
-  "menuItemShortenSelection": {
-    "message": "kurl: קצר בחירה…",
-    "description": "The title of the context menu item for shortening a selection."
-  },
-  "menuItemPrimeUrl": {
-    "message": "kurl: העתק URL להכנה (ללא חלון קופץ)",
-    "description": "The title of the context menu item for the 3-pane view."
   },
   "commandShortenDescription": {
     "message": "פתח את החלון הקופץ של מקצר kurl.",
@@ -363,10 +283,6 @@
     "message": "מחובר",
     "description": "Server status text for when the connection is OK."
   },
-  "dashboardStatusOffline": {
-    "message": "מנותק",
-    "description": "Server status text for when there is no connection."
-  },
   "dashboardStatusError": {
     "message": "שגיאה",
     "description": "Server status text for when an error occurs."
@@ -382,5 +298,182 @@
   "dashboardBtnViewMore": {
     "message": "הצג עוד",
     "description": "Text for the 'View More' button to load more links."
+  },
+  "apiAuthRejected": {
+    "message": "YOURLS דחה את חתימת ה־API. ייתכן שאסימון החתימה השתנה לאחר עדכון השרת. יש להתחבר לממשק הניהול של YOURLS בדפדפן, לפתוח ניהול ← כלים, להעתיק את החתימה הנוכחית להגדרות kURL ולבחור ״בדיקת חיבור ושמירה״. אין צורך בשם משתמש או בסיסמה בתוך kURL. אם התקלה נמשכת, יש לבדוק את שעון המחשב והשרת ואת כללי הגישה ל־API."
+  },
+  "apiAccessDenied": {
+    "message": "השרת סירב לגישה ל־API ‏(HTTP 401/403). בדקו את החתימה בניהול YOURLS ← כלים ונסו שוב. אם החתימה עדכנית, בדקו את הגבלות הגישה ואת שעוני המערכות. אין צורך להתחבר דרך kURL."
+  },
+  "apiInvalidResponse": {
+    "message": "YOURLS לא החזיר תשובת API תקינה (HTTP $status$). בדקו את כתובת השרת, HTTPS והפניות לדף התחברות.",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "apiOpenTools": {
+    "message": "פתיחת ניהול YOURLS ← כלים והעתקת חתימת ה־API הנוכחית"
+  },
+  "optionsBtnTestAndSave": {
+    "message": "בדיקת חיבור ושמירה"
+  },
+  "contextSelectUrl": {
+    "message": "יש לבחור כתובת HTTP(S) מלאה."
+  },
+  "contextInserted": {
+    "message": "✓ הקישור המקוצר נוסף: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextCopied": {
+    "message": "✓ הועתק ללוח: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextShorteningFailed": {
+    "message": "קיצור הקישור נכשל"
+  },
+  "dashboardLabelClicks": {
+    "message": "לחיצות: $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "insertAmbiguousLink": {
+    "message": "כמה קישורים משתמשים בכתובת הזאת. יש ללחוץ בתוך הקישור הרצוי ולנסות שוב."
+  },
+  "insertClickedLinkMissing": {
+    "message": "הקישור שנלחץ לא נמצא בגוף ההודעה."
+  },
+  "insertPlainTextSelectUrl": {
+    "message": "במצב טקסט פשוט, יש לבחור את כתובת ה־URL לפני השימוש ב״kURL: קיצור והוספה״."
+  },
+  "optionsOldTokenHint": {
+    "message": "אסימון זה, בן עשרה תווים, עשוי להיות מגרסת YOURLS ישנה. יש להעתיק את חתימת ה־API הנוכחית מניהול ← כלים."
+  },
+  "menuQuickCopy": {
+    "message": "kURL: קיצור והעתקה"
+  },
+  "menuQuickInsert": {
+    "message": "kURL: קיצור והוספה"
+  },
+  "insertCannotSafely": {
+    "message": "לא ניתן להוסיף את הקישור המקוצר בבטחה."
+  },
+  "lookupHeading": {
+    "message": "חיפוש קישור קיים"
+  },
+  "lookupHelp": {
+    "message": "יש להזין כתובת מקוצרת, מילת מפתח או כתובת יעד. ניתן לראות יעד וקליקים של קישור מקוצר, או לבדוק אם לכתובת יעד כבר יש קישור מקוצר."
+  },
+  "lookupQueryLabel": {
+    "message": "כתובת מקוצרת, מילת מפתח או כתובת יעד"
+  },
+  "lookupQueryPlaceholder": {
+    "message": "$short$ או https://example.com/article",
+    "placeholders": {
+      "short": {
+        "content": "$1"
+      }
+    }
+  },
+  "lookupSearch": {
+    "message": "חיפוש ב־YOURLS"
+  },
+  "lookupResultHeading": {
+    "message": "הקישור נמצא"
+  },
+  "lookupClicks": {
+    "message": "קליקים"
+  },
+  "lookupCreateInstead": {
+    "message": "יצירת כתובת מקוצרת"
+  },
+  "lookupInvalid": {
+    "message": "יש להזין כתובת יעד תקינה, כתובת מקוצרת מהשרת הזה או מילת מפתח."
+  },
+  "lookupNeedsHelper": {
+    "message": "חיפוש לפי כתובת יעד מחייב את התוסף האופציונלי YOURLS Helper. חיפוש כתובות מקוצרות פועל גם בלעדיו."
+  },
+  "lookupSearching": {
+    "message": "מחפש ב־YOURLS…"
+  },
+  "lookupFound": {
+    "message": "הקישור נמצא בשרת YOURLS."
+  },
+  "lookupNotFound": {
+    "message": "לא נמצאה כתובת מקוצרת"
+  },
+  "lookupNotFoundHelp": {
+    "message": "לא נמצאה כתובת מקוצרת ליעד הזה. אפשר ליצור אחת."
+  },
+  "helperCompactOk": {
+    "message": "Helper מותקן"
+  },
+  "helperShowDetails": {
+    "message": "פרטי התקנה וקוד מקור"
+  },
+  "dashFilter": {
+    "message": "סינון הקישורים האחרונים שמוצגים"
+  },
+  "dashSearch": {
+    "message": "חיפוש בקישורים המוצגים"
+  },
+  "dashFilterHelp": {
+    "message": "הסינון חל רק על הקישורים האחרונים שכבר מוצגים. יש ללחוץ על ״$button$״ כדי לכלול קישורים ישנים.",
+    "placeholders": {
+      "button": {
+        "content": "$1"
+      }
+    }
+  },
+  "dashFilterNoMatch": {
+    "message": "אין התאמות בקישורים האחרונים שמוצגים."
+  },
+  "lookupOwnInvalid": {
+    "message": "כתובת זו שייכת לשרת YOURLS שלך, אך אינה קישור מקוצר תקין. יש להזין מילת מפתח או כתובת מקוצרת מהשרת הזה."
+  },
+  "dashboardSetupHeading": {
+    "message": "חיבור לשרת YOURLS"
+  },
+  "dashboardSetupHelp": {
+    "message": "יש להזין את כתובת השרת ואת חתימת ה־API בהגדרות YOURLS, ואז לבדוק את החיבור ולשמור."
+  },
+  "dashboardSetupButton": {
+    "message": "פתיחת הגדרות YOURLS"
+  },
+  "dashboardSetupStatus": {
+    "message": "יש לחבר את שרת YOURLS כדי להתחיל."
+  },
+  "connectionNotConfigured": {
+    "message": "החיבור לא הוגדר"
+  },
+  "connectionNotChecked": {
+    "message": "החיבור לא נבדק עבור הגדרות אלה"
+  },
+  "connectionChecking": {
+    "message": "בודק את החיבור ל־YOURLS…"
+  },
+  "connectionOnline": {
+    "message": "מחובר — ממשק ה־API של YOURLS מגיב"
+  },
+  "connectionFailed": {
+    "message": "בדיקת החיבור נכשלה — יש לבדוק את השרת והאסימון"
+  },
+  "connectionPermissionMissing": {
+    "message": "חסרה הרשאת גישה לשרת YOURLS"
+  },
+  "confirmDelete": {
+    "message": "למחוק את הקישור המקוצר לצמיתות? קישורים באתרי אינטרנט ובהודעות דוא״ל שכבר נשלחו עלולים להפסיק לפעול."
   }
 }

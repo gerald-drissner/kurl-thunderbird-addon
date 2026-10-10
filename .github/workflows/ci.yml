@@ -1,36 +1,36 @@
-name: Validate Thunderbird extension
+name: Validate Thunderbird kURL
 on:
   push:
-    branches: [main, "audit/**"]
+    branches: [main, "audit/**", "feature/**"]
   pull_request:
 jobs:
   test:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: "22"
+          package-manager-cache: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
       - name: JavaScript syntax
         run: npm run check
       - name: Regression tests
         run: npm test
-      - name: Package extension
-        run: |
-          python3 - <<'PY'
-          import pathlib, zipfile
-          root = pathlib.Path(".")
-          keep = ["manifest.json", "popup.html", "options.html", "dashboard.html", "bulk.html", "logs.html", "styles.css"]
-          dirs = ["JS", "_locales", "images"]
-          paths = [pathlib.Path(name) for name in keep]
-          paths += [p for d in dirs for p in pathlib.Path(d).rglob("*") if p.is_file()]
-          with zipfile.ZipFile("kurl-thunderbird-2.0.0-test.xpi", "w", zipfile.ZIP_DEFLATED) as z:
-              for p in paths:
-                  z.write(p, p.as_posix())
-          PY
-      - uses: actions/upload-artifact@v4
+      - name: YOURLS Helper PHP syntax
+        if: runner.os == 'Linux'
+        run: php -l helper/kurl-helper/plugin.php
+      - name: Build and validate test XPI
+        run: python3 scripts/build-xpi.py
+      - uses: actions/upload-artifact@v7
         with:
-          name: kurl-thunderbird-test-xpi
-          path: kurl-thunderbird-2.0.0-test.xpi
+          name: kurl-thunderbird-${{ matrix.os }}-test-xpi
+          path: kurl-thunderbird-*-test.xpi

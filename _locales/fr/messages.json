@@ -36,7 +36,7 @@
     "description": "Remove host permission button text."
   },
   "optionsStatusLoaded": {
-    "message": "Paramètres sauvegardés chargés. Cliquez sur “Tester la connexion”.",
+    "message": "Paramètres enregistrés chargés.",
     "description": "Initial status message on options page."
   },
   "optionsStatusEnterUrlAndToken": {
@@ -46,10 +46,6 @@
   "optionsStatusPermNotGranted": {
     "message": "La permission d'hôte n'a pas été accordée.",
     "description": "Error message when host permission is denied."
-  },
-  "optionsStatusPermRequestError": {
-    "message": "Impossible de demander la permission d'hôte : ",
-    "description": "Error message when requesting host permission fails."
   },
   "optionsStatusConnOk": {
     "message": "Connexion OK (Total de liens : $total$)",
@@ -83,10 +79,6 @@
   "optionsShortcutTitle": {
     "message": "Utilisation du raccourci",
     "description": "Title for the shortcut information box in options."
-  },
-  "optionsShortcutDescription": {
-    "message": "Vous pouvez ouvrir rapidement le raccourcisseur en sélectionnant une URL dans l'éditeur de composition et en appuyant sur",
-    "description": "Description of how to use the keyboard shortcut."
   },
   "optionsShortcutChange": {
     "message": "Vous pouvez changer ce raccourci dans le gestionnaire d'extensions de Thunderbird, sous le menu ⚙️ pour kurl.",
@@ -136,10 +128,6 @@
     "message": "Supprimer",
     "description": "Delete button text."
   },
-  "popupBtnConfirmDelete": {
-    "message": "Confirmer ?",
-    "description": "Delete button confirmation text."
-  },
   "popupBtnGoToSettings": {
     "message": "Aller aux paramètres",
     "description": "Button text in the popup to open the options page."
@@ -179,10 +167,6 @@
   "popupStatusCreated": {
     "message": "URL courte créée.",
     "description": "Success message when URL is shortened."
-  },
-  "popupStatusAlreadyShortened": {
-    "message": "URL déjà raccourcie.",
-    "description": "Message when URL already exists."
   },
   "popupStatusCopied": {
     "message": "Copié dans le presse-papiers.",
@@ -231,10 +215,6 @@
     "message": "URL déjà raccourcie. Vous pouvez voir les statistiques ou la supprimer ci-dessous.",
     "description": "Informational message for an existing URL."
   },
-  "popupInfoAutoStats": {
-    "message": "C'est déjà une URL courte. Récupération des statistiques automatiquement.",
-    "description": "Message when auto-fetching stats for a selected short URL."
-  },
   "popupErrorInvalidUrl": {
     "message": "Veuillez entrer une URL http(s) valide.",
     "description": "Error for invalid URL format."
@@ -243,21 +223,9 @@
     "message": "Rien à copier.",
     "description": "Error when copy button is clicked with no URL."
   },
-  "popupErrorCopyFailed": {
-    "message": "Échec de la copie.",
-    "description": "Error when clipboard copy fails."
-  },
-  "popupErrorNothingToInsert": {
-    "message": "Rien à insérer.",
-    "description": "Error when insert button is clicked with no URL."
-  },
   "popupErrorNothingToAttach": {
     "message": "Rien à joindre.",
     "description": "Error when attach button is clicked with no URL."
-  },
-  "popupErrorAttachFailed": {
-    "message": "Échec de la jointure du code QR.",
-    "description": "Error when QR code attachment fails."
   },
   "popupErrorNoCompose": {
     "message": "Impossible de trouver une fenêtre de composition active.",
@@ -271,57 +239,9 @@
     "message": "Fournissez une URL courte ou un mot-clé à supprimer.",
     "description": "Error when delete is clicked with no URL."
   },
-  "popupErrorStatsNotFound": {
-    "message": "URL courte non trouvée.",
-    "description": "Error when stats are requested for a non-existent URL."
-  },
-  "errorShortenFailed": {
-    "message": "Échec du raccourcissement.",
-    "description": "Generic error for shortening."
-  },
-  "errorStatsFailed": {
-    "message": "Échec de la récupération des statistiques.",
-    "description": "Generic error for fetching stats."
-  },
-  "errorDeleteFailed": {
-    "message": "Échec de la suppression",
-    "description": "Generic error for deleting."
-  },
-  "errorEnterKeywordToDelete": {
-    "message": "Veuillez entrer une URL courte ou un mot-clé à supprimer.",
-    "description": "Error in background script if keyword is missing for delete."
-  },
   "errorNoSettings": {
     "message": "Veuillez d'abord configurer YOURLS dans les paramètres de l'extension.",
     "description": "Error when settings are not configured."
-  },
-  "toastUrlCreated": {
-    "message": "URL courte créée.",
-    "description": "Notification message for success."
-  },
-  "toastUrlExists": {
-    "message": "URL déjà raccourcie.",
-    "description": "Notification message for existing URL."
-  },
-  "toastUrlDeleted": {
-    "message": "URL courte supprimée.",
-    "description": "Notification message for deleted URL."
-  },
-  "toastQrAttached": {
-    "message": "Code QR joint.",
-    "description": "Notification message when a QR code has been attached to the email."
-  },
-  "toastUrlPrimed": {
-    "message": "URL préparée. Cliquez sur l'icône kurl dans l'en-tête du message.",
-    "description": "Notification message after priming the URL from the 3-pane view."
-  },
-  "menuItemShortenSelection": {
-    "message": "kurl : Raccourcir la sélection…",
-    "description": "The title of the context menu item for shortening a selection."
-  },
-  "menuItemPrimeUrl": {
-    "message": "kurl : Copier l'URL à préparer (sans popup)",
-    "description": "The title of the context menu item for the 3-pane view."
   },
   "commandShortenDescription": {
     "message": "Ouvrir la fenêtre popup du raccourcisseur kurl.",
@@ -363,10 +283,6 @@
     "message": "En ligne",
     "description": "Server status text for when the connection is OK."
   },
-  "dashboardStatusOffline": {
-    "message": "Hors ligne",
-    "description": "Server status text for when there is no connection."
-  },
   "dashboardStatusError": {
     "message": "Erreur",
     "description": "Server status text for when an error occurs."
@@ -382,5 +298,182 @@
   "dashboardBtnViewMore": {
     "message": "Voir plus",
     "description": "Text for the 'View More' button to load more links."
+  },
+  "apiAuthRejected": {
+    "message": "YOURLS a refusé la signature de l’API. Le jeton a peut-être changé après la mise à jour du serveur. Connectez-vous à l’administration de YOURLS dans votre navigateur, ouvrez Administration → Outils, copiez la signature actuelle dans les paramètres de kURL, puis choisissez « Tester la connexion et enregistrer ». kURL ne demande ni identifiant ni mot de passe. Si le problème persiste, vérifiez les horloges et les règles d’accès à l’API."
+  },
+  "apiAccessDenied": {
+    "message": "Le serveur refuse l’accès à l’API (HTTP 401/403). Vérifiez la signature dans YOURLS → Administration → Outils, puis réessayez. Si elle est correcte, vérifiez les restrictions du serveur et les horloges. Aucune connexion n’est nécessaire dans kURL."
+  },
+  "apiInvalidResponse": {
+    "message": "YOURLS n’a pas renvoyé de réponse API valide (HTTP $status$). Vérifiez l’adresse du serveur, HTTPS et les redirections éventuelles vers une page de connexion.",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "apiOpenTools": {
+    "message": "Ouvrir YOURLS → Administration → Outils pour copier la signature actuelle"
+  },
+  "optionsBtnTestAndSave": {
+    "message": "Tester la connexion et enregistrer"
+  },
+  "contextSelectUrl": {
+    "message": "Sélectionnez une URL HTTP(S) complète."
+  },
+  "contextInserted": {
+    "message": "✓ URL courte insérée : $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextCopied": {
+    "message": "✓ Copiée dans le presse-papiers : $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextShorteningFailed": {
+    "message": "Échec du raccourcissement"
+  },
+  "dashboardLabelClicks": {
+    "message": "Clics : $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "insertAmbiguousLink": {
+    "message": "Plusieurs liens utilisent cette URL. Cliquez dans le lien voulu, puis réessayez."
+  },
+  "insertClickedLinkMissing": {
+    "message": "Le lien sélectionné est introuvable dans le corps du message."
+  },
+  "insertPlainTextSelectUrl": {
+    "message": "En mode texte brut, sélectionnez l’URL avant de choisir « kURL : Raccourcir et insérer »."
+  },
+  "optionsOldTokenHint": {
+    "message": "Ce jeton de dix caractères peut provenir d’une ancienne version de YOURLS. Copiez la signature API actuelle dans Administration → Outils."
+  },
+  "menuQuickCopy": {
+    "message": "kURL : Raccourcir et copier"
+  },
+  "menuQuickInsert": {
+    "message": "kURL : Raccourcir et insérer"
+  },
+  "insertCannotSafely": {
+    "message": "Impossible d’insérer le lien raccourci en toute sécurité."
+  },
+  "lookupHeading": {
+    "message": "Rechercher un lien existant"
+  },
+  "lookupHelp": {
+    "message": "Saisissez une URL courte, son mot-clé ou une URL de destination. Retrouvez la destination et les clics d’un lien court, ou vérifiez si une destination possède déjà un lien."
+  },
+  "lookupQueryLabel": {
+    "message": "URL courte, mot-clé ou URL de destination"
+  },
+  "lookupQueryPlaceholder": {
+    "message": "$short$ ou https://example.com/article",
+    "placeholders": {
+      "short": {
+        "content": "$1"
+      }
+    }
+  },
+  "lookupSearch": {
+    "message": "Rechercher dans YOURLS"
+  },
+  "lookupResultHeading": {
+    "message": "Lien trouvé"
+  },
+  "lookupClicks": {
+    "message": "Clics"
+  },
+  "lookupCreateInstead": {
+    "message": "Créer une URL courte"
+  },
+  "lookupInvalid": {
+    "message": "Saisissez une URL de destination valide, une URL courte de ce serveur ou un mot-clé."
+  },
+  "lookupNeedsHelper": {
+    "message": "La recherche par destination nécessite le module facultatif YOURLS Helper. La recherche par URL courte fonctionne sans lui."
+  },
+  "lookupSearching": {
+    "message": "Recherche dans YOURLS…"
+  },
+  "lookupFound": {
+    "message": "Lien trouvé sur votre serveur YOURLS."
+  },
+  "lookupNotFound": {
+    "message": "Aucune URL courte trouvée"
+  },
+  "lookupNotFoundHelp": {
+    "message": "Aucune URL courte n’a été trouvée pour cette destination. Vous pouvez en créer une."
+  },
+  "helperCompactOk": {
+    "message": "Helper installé"
+  },
+  "helperShowDetails": {
+    "message": "Installation et code source"
+  },
+  "dashFilter": {
+    "message": "Filtrer les liens récents affichés"
+  },
+  "dashSearch": {
+    "message": "Filtrer les liens affichés"
+  },
+  "dashFilterHelp": {
+    "message": "Filtre uniquement les liens récents déjà affichés. Utilisez « $button$ » pour inclure les plus anciens.",
+    "placeholders": {
+      "button": {
+        "content": "$1"
+      }
+    }
+  },
+  "dashFilterNoMatch": {
+    "message": "Aucun résultat parmi les liens récents affichés."
+  },
+  "lookupOwnInvalid": {
+    "message": "Cette adresse appartient à votre serveur YOURLS, mais ce n’est pas une URL courte valide. Saisissez un mot-clé ou une URL courte de ce serveur."
+  },
+  "dashboardSetupHeading": {
+    "message": "Connecter le serveur YOURLS"
+  },
+  "dashboardSetupHelp": {
+    "message": "Saisissez l’adresse du serveur YOURLS et la signature API dans les paramètres, puis testez la connexion pour les enregistrer."
+  },
+  "dashboardSetupButton": {
+    "message": "Ouvrir les paramètres YOURLS"
+  },
+  "dashboardSetupStatus": {
+    "message": "Connectez votre serveur YOURLS pour commencer."
+  },
+  "connectionNotConfigured": {
+    "message": "Connexion non configurée"
+  },
+  "connectionNotChecked": {
+    "message": "Connexion non vérifiée avec ces paramètres"
+  },
+  "connectionChecking": {
+    "message": "Vérification de la connexion YOURLS…"
+  },
+  "connectionOnline": {
+    "message": "Connecté — l’API YOURLS répond"
+  },
+  "connectionFailed": {
+    "message": "Échec de connexion — vérifiez le serveur et le jeton"
+  },
+  "connectionPermissionMissing": {
+    "message": "Autorisation d’accès au serveur YOURLS manquante"
+  },
+  "confirmDelete": {
+    "message": "Supprimer définitivement ce lien court ? Les liens présents sur des sites web et dans des courriels déjà envoyés risquent de ne plus fonctionner."
   }
 }

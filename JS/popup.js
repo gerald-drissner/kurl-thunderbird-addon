@@ -7,12 +7,15 @@
     browser.i18n.getMessage(key, replacements) || fallback;
   let composeTabId = null;
   let isBusy = false;
+  let lastShortenedPair = null;
 
   function status(value, success = false) {
     $("msg").textContent = value;
     $("msg").className = success ? "info ok" : "info";
   }
   function translate() {
+    document.documentElement.lang = browser.i18n.getUILanguage().split("-")[0];
+    document.documentElement.dir = browser.i18n.getMessage("@@bidi_dir") || "ltr";
     document.querySelectorAll("[data-i18n-key]").forEach(el => {
       const translated = browser.i18n.getMessage(el.dataset.i18nKey);
       if (translated) {
@@ -50,16 +53,45 @@
       $("qrcode-display").replaceChildren();
     }
   }
+  // qrcode-generator 2.0.4 (unmodified vendor code in JS/qrcode.js).
+  // Render the QR modules ourselves; the 4-module white quiet zone is part of the PNG.
   function renderQr(target, value, size) {
     target.replaceChildren();
-    new QRCode(target, {
-      text: value, width: size, height: size,
-      colorDark: "#000000", colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.H
-    });
-    return target.querySelector("canvas");
+    const qr = qrcode(0, "H");
+    // Encode the browser-equivalent ASCII URI for reliable cross-device QR
+    // scanning (percent-encoded UTF-8 paths and punycode hostnames).
+    // This does not modify the original URL stored in YOURLS or the UI.
+    qr.addData(new URL(value).href, "Byte");
+    qr.make();
+
+    const count = qr.getModuleCount();
+    const marginModules = 4;
+    const minimumSide = count + 2 * marginModules;
+    const side = Math.max(size, minimumSide);
+    const step = Math.max(1, Math.floor(side / minimumSide));
+    const quiet = (side - count * step) / 2;
+    const canvas = document.createElement("canvas");
+    canvas.width = side;
+    canvas.height = side;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) throw new Error("Could not create QR drawing context.");
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, side, side);
+    ctx.fillStyle = "#000000";
+    const x0 = Math.floor(quiet);
+    const y0 = Math.floor(quiet);
+    for (let row = 0; row < count; row++) {
+      for (let col = 0; col < count; col++) {
+        if (qr.isDark(row, col)) {
+          ctx.fillRect(x0 + col * step, y0 + row * step, step, step);
+        }
+      }
+    }
+    target.appendChild(canvas);
+    return canvas;
   }
   function clearResults() {
+    lastShortenedPair = null;
     $("shortUrl").value = "";
     $("statsInput").value = "";
     $("btnDelete").disabled = true;
@@ -72,7 +104,14 @@
     if (!composeTabId) throw new Error(t("popupErrorNoCompose", "Open a compose window."));
     const url = H.validHttpUrl($("shortUrl").value);
     if (!url) throw new Error("There is no valid short URL to insert.");
-    await send("INSERT_URL", { tabId: composeTabId, url });
+    if (!lastShortenedPair || lastShortenedPair.shortUrl !== url) {
+      throw new Error(t("popupErrorNoOriginal", "Shorten the target URL first before inserting it."));
+    }
+    if (H.validHttpUrl($("longUrl").value) !== lastShortenedPair.longUrl) {
+      throw new Error(t("popupErrorTargetChanged", "Target URL changed. Shorten again before inserting."));
+    }
+    await send("INSERT_URL", { tabId: composeTabId, url,
+      original: lastShortenedPair.longUrl });
     status(t("popupStatusInserted", "Short URL inserted."), true);
   }
   async function shortenAndMaybeInsert(insert = false) {
@@ -86,6 +125,7 @@
       title: $("title").value.trim()
     });
     if (!H.validHttpUrl(response.shortUrl)) throw new Error("YOURLS returned an invalid short URL.");
+    lastShortenedPair = { longUrl: url, shortUrl: response.shortUrl };
     $("shortUrl").value = response.shortUrl;
     $("statsInput").value = response.shortUrl;
     $("btnDelete").disabled = false;
@@ -93,6 +133,7 @@
     status(response.already
       ? t("popupInfoAlreadyShortened", "This URL already has a short link.")
       : t("popupStatusCreated", "Short URL created."), true);
+    if (response.keywordAdjusted && !response.already) status(t("keywordAdjusted", "YOURLS changed your custom keyword; the returned short URL was used."), true);
     if (insert) {
       await insertCurrent();
     } else if ((await H.getSettings()).autoCopy) {
@@ -143,22 +184,29 @@
   $("btnQrCode").addEventListener("click", () => {
     const panel = $("qrcode-display");
     if (panel.style.display !== "block") {
-      renderQr(panel, $("shortUrl").value, 128);
-      panel.style.display = "block";
-      $("btnDownloadQr").style.display = "inline-block";
-      if (composeTabId) $("btnAttachQr").style.display = "inline-block";
+      try {
+        renderQr(panel, $("shortUrl").value, 128);
+        panel.style.display = "block";
+        $("btnDownloadQr").style.display = "inline-block";
+        if (composeTabId && $("btnAttachQr")) $("btnAttachQr").style.display = "inline-block";
+      } catch (error) {
+        status(t("popupErrorQrGeneration", "Could not generate QR code.") + " " + error.message);
+      }
     } else {
       qrVisibility();
     }
   });
   $("btnDownloadQr").addEventListener("click", () => {
     const holder = document.createElement("div");
-    const canvas = renderQr(holder, $("shortUrl").value, 512);
-    if (!canvas) return status("Could not generate QR code.");
-    const link = document.createElement("a");
-    link.href = canvas.toDataURL("image/png");
-    link.download = "kurl-qrcode.png";
-    link.click();
+    try {
+      const canvas = renderQr(holder, $("shortUrl").value, 512);
+      const link = document.createElement("a");
+      link.href = canvas.toDataURL("image/png");
+      link.download = "kurl-qrcode.png";
+      link.click();
+    } catch (error) {
+      status(t("popupErrorQrGeneration", "Could not generate QR code.") + " " + error.message);
+    }
   });
   $("btnAttachQr").addEventListener("click", () => busy(async () => {
     if (!composeTabId) throw new Error(t("popupErrorNoCompose", "No compose window."));
@@ -167,7 +215,7 @@
     status(t("popupStatusAttachingQr", "Attaching QR code…"));
     const holder = document.createElement("div");
     const canvas = renderQr(holder, url, 512);
-    if (!canvas) throw new Error("Unable to generate QR image.");
+
     await send("ATTACH_QR_CODE", {
       tabId: composeTabId,
       dataUrl: canvas.toDataURL("image/png"),
@@ -178,13 +226,21 @@
   $("btnDelete").addEventListener("click", () => busy(async () => {
     const value = ($("statsInput").value || $("shortUrl").value).trim();
     if (!value) throw new Error(t("popupErrorProvideUrlToDelete", "Enter a short URL."));
-    if (!window.confirm("Permanently delete this short URL on YOURLS? It may be referenced by WordPress posts or existing emails.")) return;
+    if (!window.confirm(t("confirmDelete", "Delete this YOURLS short URL permanently? Links in websites and sent emails may stop working."))) return;
     status(t("popupStatusDeleting", "Deleting…"));
     await send("DELETE_SHORTURL", { shortUrl: value });
     clearResults();
     status(t("popupStatusDeleted", "Link deleted."), true);
   }));
-  $("open-options").addEventListener("click", () => browser.runtime.openOptionsPage());
+  $("open-options").addEventListener("click", async () => {
+    try {
+      // openOptionsPage() points to the dashboard; onboarding needs the token form.
+      await browser.tabs.create({ url: browser.runtime.getURL("options.html") });
+      window.close();
+    } catch (error) {
+      status(String(error?.message || error));
+    }
+  });
   $("open-dashboard-link")?.addEventListener("click", event => {
     event.preventDefault();
     browser.tabs.create({ url: browser.runtime.getURL("dashboard.html") });

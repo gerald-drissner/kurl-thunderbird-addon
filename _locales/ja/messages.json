@@ -36,7 +36,7 @@
     "description": "Remove host permission button text."
   },
   "optionsStatusLoaded": {
-    "message": "保存された設定を読み込みました。「接続をテスト」をクリックしてください。",
+    "message": "保存済みの設定を読み込みました。",
     "description": "Initial status message on options page."
   },
   "optionsStatusEnterUrlAndToken": {
@@ -46,10 +46,6 @@
   "optionsStatusPermNotGranted": {
     "message": "ホスト権限が付与されませんでした。",
     "description": "Error message when host permission is denied."
-  },
-  "optionsStatusPermRequestError": {
-    "message": "ホスト権限を要求できませんでした：",
-    "description": "Error message when requesting host permission fails."
   },
   "optionsStatusConnOk": {
     "message": "接続OK（合計リンク数：$total$）",
@@ -84,17 +80,9 @@
     "message": "ショートカットの使用",
     "description": "Title for the shortcut information box in options."
   },
-  "optionsShortcutDescription": {
-    "message": "作成エディタでURLを選択し、キーを押すことで、短縮ツールを素早く開くことができます。",
-    "description": "Description of how to use the keyboard shortcut."
-  },
   "optionsShortcutChange": {
     "message": "このショートカットは、Thunderbirdのアドオンマネージャーにあるkurlの⚙️メニューで変更できます。",
     "description": "Instructions on how to change the default keyboard shortcut."
-  },
-  "popupTitle": {
-    "message": "YOURLS Shortener",
-    "description": "Title for the popup window."
   },
   "popupLongUrlLabel": {
     "message": "長いURL",
@@ -136,10 +124,6 @@
     "message": "削除",
     "description": "Delete button text."
   },
-  "popupBtnConfirmDelete": {
-    "message": "確認？",
-    "description": "Delete button confirmation text."
-  },
   "popupBtnGoToSettings": {
     "message": "設定へ移動",
     "description": "Button text in the popup to open the options page."
@@ -179,10 +163,6 @@
   "popupStatusCreated": {
     "message": "短いURLが作成されました。",
     "description": "Success message when URL is shortened."
-  },
-  "popupStatusAlreadyShortened": {
-    "message": "URLはすでに短縮されています。",
-    "description": "Message when URL already exists."
   },
   "popupStatusCopied": {
     "message": "クリップボードにコピーされました。",
@@ -231,10 +211,6 @@
     "message": "URLはすでに短縮されています。下記で統計情報を表示または削除できます。",
     "description": "Informational message for an existing URL."
   },
-  "popupInfoAutoStats": {
-    "message": "これはすでに短いURLです。統計情報を自動的に取得しています。",
-    "description": "Message when auto-fetching stats for a selected short URL."
-  },
   "popupErrorInvalidUrl": {
     "message": "有効なhttp(s) URLを入力してください。",
     "description": "Error for invalid URL format."
@@ -243,21 +219,9 @@
     "message": "コピーするものはありません。",
     "description": "Error when copy button is clicked with no URL."
   },
-  "popupErrorCopyFailed": {
-    "message": "コピーに失敗しました。",
-    "description": "Error when clipboard copy fails."
-  },
-  "popupErrorNothingToInsert": {
-    "message": "挿入するものはありません。",
-    "description": "Error when insert button is clicked with no URL."
-  },
   "popupErrorNothingToAttach": {
     "message": "添付するものはありません。",
     "description": "Error when attach button is clicked with no URL."
-  },
-  "popupErrorAttachFailed": {
-    "message": "QRコードの添付に失敗しました。",
-    "description": "Error when QR code attachment fails."
   },
   "popupErrorNoCompose": {
     "message": "アクティブな作成ウィンドウが見つかりませんでした。",
@@ -271,57 +235,9 @@
     "message": "削除する短いURLまたはキーワードを入力してください。",
     "description": "Error when delete is clicked with no URL."
   },
-  "popupErrorStatsNotFound": {
-    "message": "短いURLが見つかりませんでした。",
-    "description": "Error when stats are requested for a non-existent URL."
-  },
-  "errorShortenFailed": {
-    "message": "短縮に失敗しました。",
-    "description": "Generic error for shortening."
-  },
-  "errorStatsFailed": {
-    "message": "統計情報の取得に失敗しました。",
-    "description": "Generic error for fetching stats."
-  },
-  "errorDeleteFailed": {
-    "message": "削除に失敗しました",
-    "description": "Generic error for deleting."
-  },
-  "errorEnterKeywordToDelete": {
-    "message": "削除する短いURLまたはキーワードを入力してください。",
-    "description": "Error in background script if keyword is missing for delete."
-  },
   "errorNoSettings": {
     "message": "まず、アドオン設定でYOURLSを構成してください。",
     "description": "Error when settings are not configured."
-  },
-  "toastUrlCreated": {
-    "message": "短いURLが作成されました。",
-    "description": "Notification message for success."
-  },
-  "toastUrlExists": {
-    "message": "URLはすでに短縮されています。",
-    "description": "Notification message for existing URL."
-  },
-  "toastUrlDeleted": {
-    "message": "短いURLが削除されました。",
-    "description": "Notification message for deleted URL."
-  },
-  "toastQrAttached": {
-    "message": "QRコードが添付されました。",
-    "description": "Notification message when a QR code has been attached to the email."
-  },
-  "toastUrlPrimed": {
-    "message": "URLの準備ができました。メッセージヘッダーにあるkurlアイコンをクリックしてください。",
-    "description": "Notification message after priming the URL from the 3-pane view."
-  },
-  "menuItemShortenSelection": {
-    "message": "kurl：選択範囲を短縮…",
-    "description": "The title of the context menu item for shortening a selection."
-  },
-  "menuItemPrimeUrl": {
-    "message": "kurl：準備のためにURLをコピー（ポップアップなし）",
-    "description": "The title of the context menu item for the 3-pane view."
   },
   "commandShortenDescription": {
     "message": "kurl短縮ポップアップを開きます。",
@@ -363,10 +279,6 @@
     "message": "オンライン",
     "description": "Server status text for when the connection is OK."
   },
-  "dashboardStatusOffline": {
-    "message": "オフライン",
-    "description": "Server status text for when there is no connection."
-  },
   "dashboardStatusError": {
     "message": "エラー",
     "description": "Server status text for when an error occurs."
@@ -382,5 +294,182 @@
   "dashboardBtnViewMore": {
     "message": "さらに表示",
     "description": "Text for the 'View More' button to load more links."
+  },
+  "apiAuthRejected": {
+    "message": "YOURLS が API 署名を拒否しました。サーバーの更新後に署名トークンが変わった可能性があります。ブラウザーで YOURLS の管理画面にログインして「管理 → ツール」を開き、現在の署名を kURL の設定に貼り付けて「接続をテストして保存」を選んでください。kURL にユーザー名やパスワードを入力する必要はありません。解決しない場合は端末とサーバーの時刻、および API アクセス制限を確認してください。"
+  },
+  "apiAccessDenied": {
+    "message": "サーバーが API アクセスを拒否しました (HTTP 401/403)。YOURLS の「管理 → ツール」で署名を確認して再テストしてください。署名が正しい場合はアクセス制限と時刻を確認してください。kURL 内でのログインは不要です。"
+  },
+  "apiInvalidResponse": {
+    "message": "YOURLS から有効な API 応答が返されませんでした (HTTP $status$)。サーバーの URL、HTTPS、ログインページへのリダイレクトを確認してください。",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "apiOpenTools": {
+    "message": "YOURLS の「管理 → ツール」を開いて現在の API 署名をコピー"
+  },
+  "optionsBtnTestAndSave": {
+    "message": "接続をテストして保存"
+  },
+  "contextSelectUrl": {
+    "message": "HTTP(S) の完全な URL を選択してください。"
+  },
+  "contextInserted": {
+    "message": "✓ 短縮 URL を挿入しました: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextCopied": {
+    "message": "✓ クリップボードにコピーしました: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextShorteningFailed": {
+    "message": "URL の短縮に失敗しました"
+  },
+  "dashboardLabelClicks": {
+    "message": "クリック数: $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "insertAmbiguousLink": {
+    "message": "この URL を使うリンクが複数あります。目的のリンク内をクリックしてからやり直してください。"
+  },
+  "insertClickedLinkMissing": {
+    "message": "クリックしたリンクがメール本文に見つかりませんでした。"
+  },
+  "insertPlainTextSelectUrl": {
+    "message": "プレーンテキストモードでは、「kURL: 短縮して挿入」を使用する前に URL を選択してください。"
+  },
+  "optionsOldTokenHint": {
+    "message": "この10文字のトークンは古い YOURLS のものかもしれません。管理 → ツールから現在の API 署名をコピーしてください。"
+  },
+  "menuQuickCopy": {
+    "message": "kURL: 短縮してコピー"
+  },
+  "menuQuickInsert": {
+    "message": "kURL: 短縮して挿入"
+  },
+  "insertCannotSafely": {
+    "message": "短縮 URL を安全に挿入できませんでした。"
+  },
+  "lookupHeading": {
+    "message": "既存のリンクを検索"
+  },
+  "lookupHelp": {
+    "message": "短縮URL、キーワード、または転送先URLを入力してください。短縮URLから転送先とクリック数を確認したり、転送先から既存の短縮URLを検索したりできます。"
+  },
+  "lookupQueryLabel": {
+    "message": "短縮URL・キーワード・転送先URL"
+  },
+  "lookupQueryPlaceholder": {
+    "message": "$short$ または https://example.com/article",
+    "placeholders": {
+      "short": {
+        "content": "$1"
+      }
+    }
+  },
+  "lookupSearch": {
+    "message": "YOURLSを検索"
+  },
+  "lookupResultHeading": {
+    "message": "リンクが見つかりました"
+  },
+  "lookupClicks": {
+    "message": "クリック数"
+  },
+  "lookupCreateInstead": {
+    "message": "短縮URLを作成"
+  },
+  "lookupInvalid": {
+    "message": "有効な転送先URL、このサーバーの短縮URL、またはキーワードを入力してください。"
+  },
+  "lookupNeedsHelper": {
+    "message": "転送先URLからの検索には任意のYOURLS Helperが必要です。短縮URLからの検索には不要です。"
+  },
+  "lookupSearching": {
+    "message": "YOURLSを検索しています…"
+  },
+  "lookupFound": {
+    "message": "YOURLSサーバーでリンクが見つかりました。"
+  },
+  "lookupNotFound": {
+    "message": "短縮URLが見つかりません"
+  },
+  "lookupNotFoundHelp": {
+    "message": "この転送先に対応する既存の短縮URLはありません。新しく作成できます。"
+  },
+  "helperCompactOk": {
+    "message": "Helperインストール済み"
+  },
+  "helperShowDetails": {
+    "message": "インストール方法とソースコード"
+  },
+  "dashFilter": {
+    "message": "表示中の最近のリンクを絞り込む"
+  },
+  "dashSearch": {
+    "message": "表示中のリンクを検索"
+  },
+  "dashFilterHelp": {
+    "message": "すでに表示されている最近のリンクのみを対象にします。「$button$」で古いリンクも表示できます。",
+    "placeholders": {
+      "button": {
+        "content": "$1"
+      }
+    }
+  },
+  "dashFilterNoMatch": {
+    "message": "表示中の最近のリンクに一致するものはありません。"
+  },
+  "lookupOwnInvalid": {
+    "message": "このアドレスはご利用の YOURLS サーバーに属していますが、有効な短縮URLではありません。このサーバーのキーワードまたは短縮URLを入力してください。"
+  },
+  "dashboardSetupHeading": {
+    "message": "YOURLS サーバーに接続"
+  },
+  "dashboardSetupHelp": {
+    "message": "設定画面で YOURLS の URL と API 署名を入力し、接続をテストして保存してください。"
+  },
+  "dashboardSetupButton": {
+    "message": "YOURLS の設定を開く"
+  },
+  "dashboardSetupStatus": {
+    "message": "最初に YOURLS サーバーを接続してください。"
+  },
+  "connectionNotConfigured": {
+    "message": "接続が設定されていません"
+  },
+  "connectionNotChecked": {
+    "message": "現在の設定では接続を確認していません"
+  },
+  "connectionChecking": {
+    "message": "YOURLS への接続を確認中…"
+  },
+  "connectionOnline": {
+    "message": "接続済み — YOURLS API が応答しました"
+  },
+  "connectionFailed": {
+    "message": "接続確認に失敗 — サーバーとトークンを確認してください"
+  },
+  "connectionPermissionMissing": {
+    "message": "YOURLS サーバーへのアクセス権がありません"
+  },
+  "confirmDelete": {
+    "message": "この短縮URLを完全に削除しますか？ウェブサイトや送信済みメールに含まれるリンクが機能しなくなる可能性があります。"
   }
 }
