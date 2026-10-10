@@ -52,15 +52,36 @@ jobs:
         run: |
           set -euo pipefail
           tag="v${VERSION}"
-          if gh release view "$tag" >/dev/null 2>&1; then
-            echo "Release $tag already exists: no duplicate created."
-            exit 0
+          # Draft releases are not always returned by the tag lookup endpoint.
+          # List releases to identify a draft by its requested tag name instead.
+          release_id="$(gh api "repos/$GITHUB_REPOSITORY/releases?per_page=100" \
+            --jq ".[] | select(.tag_name == \"$tag\") | .id" | head -n 1)"
+          if [[ -n "$release_id" ]]; then
+            draft="$(gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" --jq '.draft')"
+            if [[ "$draft" != "true" ]]; then
+              echo "Release $tag is already published; refusing to replace its assets."
+              exit 0
+            fi
+            gh api -X PATCH "repos/$GITHUB_REPOSITORY/releases/$release_id" \
+              -f name="kURL for Thunderbird ${VERSION}" \
+              -f body="$(cat RELEASE_NOTES.md)" \
+              -f target_commitish="$GITHUB_SHA" >/dev/null
+            # Refresh only the draft's own assets; never rewrite a published release.
+            for asset_id in $(gh api "repos/$GITHUB_REPOSITORY/releases/$release_id/assets?per_page=100" --jq '.[].id'); do
+              gh api -X DELETE "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" >/dev/null
+            done
+            for file in "kurl-thunderbird-${VERSION}.xpi" "kurl-thunderbird-${VERSION}-source.zip" SHA256SUMS.txt; do
+              gh api -X POST -H 'Content-Type: application/octet-stream' \
+                --input "$file" \
+                "https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$release_id/assets?name=$file" >/dev/null
+            done
+          else
+            gh release create "$tag" \
+              --target "$GITHUB_SHA" \
+              --title "kURL for Thunderbird ${VERSION}" \
+              --notes-file RELEASE_NOTES.md \
+              --draft \
+              "kurl-thunderbird-${VERSION}.xpi" \
+              "kurl-thunderbird-${VERSION}-source.zip" \
+              SHA256SUMS.txt
           fi
-          gh release create "$tag" \
-            --target "$GITHUB_SHA" \
-            --title "kURL for Thunderbird ${VERSION}" \
-            --notes-file RELEASE_NOTES.md \
-            --draft \
-            "kurl-thunderbird-${VERSION}.xpi" \
-            "kurl-thunderbird-${VERSION}-source.zip" \
-            SHA256SUMS.txt
