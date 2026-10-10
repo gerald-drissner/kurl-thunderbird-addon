@@ -1,7 +1,7 @@
 name: Validate Thunderbird extension
 on:
   push:
-    branches: [main, "audit/**"]
+    branches: [main, "audit/**", "feature/**"]
   pull_request:
 jobs:
   test:
@@ -23,7 +23,7 @@ jobs:
           import pathlib, zipfile
           root = pathlib.Path(".")
           keep = ["manifest.json", "popup.html", "options.html", "dashboard.html", "bulk.html", "logs.html", "styles.css"]
-          dirs = ["JS", "_locales", "images"]
+          dirs = ["JS", "_locales", "images", "helper"]
           paths = [pathlib.Path(name) for name in keep]
           paths += [p for d in dirs for p in pathlib.Path(d).rglob("*") if p.is_file()]
           with zipfile.ZipFile("kurl-thunderbird-2.0.0-test.xpi", "w", zipfile.ZIP_DEFLATED) as z:
