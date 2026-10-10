@@ -356,9 +356,18 @@
     "message": "在邮件正文中找不到所点击的链接。"
   },
   "insertPlainTextSelectUrl": {
-    "message": "在纯文本模式下，请先选中网址，再执行缩短并插入。"
+    "message": "在纯文本模式下，请先选中网址，再使用“kURL：缩短并插入”。"
   },
   "optionsOldTokenHint": {
     "message": "此十字符令牌可能来自旧版 YOURLS。请从“管理 → 工具”复制当前 API 签名。"
+  },
+  "menuQuickCopy": {
+    "message": "kURL：缩短并复制"
+  },
+  "menuQuickInsert": {
+    "message": "kURL：缩短并插入"
+  },
+  "insertCannotSafely": {
+    "message": "无法安全地插入短链接。"
   }
 }

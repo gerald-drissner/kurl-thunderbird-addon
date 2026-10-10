@@ -352,9 +352,18 @@
     "message": "クリックしたリンクがメール本文に見つかりませんでした。"
   },
   "insertPlainTextSelectUrl": {
-    "message": "プレーンテキストモードでは、短縮して挿入する前に URL を選択してください。"
+    "message": "プレーンテキストモードでは、「kURL: 短縮して挿入」を使用する前に URL を選択してください。"
   },
   "optionsOldTokenHint": {
     "message": "この10文字のトークンは古い YOURLS のものかもしれません。管理 → ツールから現在の API 署名をコピーしてください。"
+  },
+  "menuQuickCopy": {
+    "message": "kURL: 短縮してコピー"
+  },
+  "menuQuickInsert": {
+    "message": "kURL: 短縮して挿入"
+  },
+  "insertCannotSafely": {
+    "message": "短縮 URL を安全に挿入できませんでした。"
   }
 }

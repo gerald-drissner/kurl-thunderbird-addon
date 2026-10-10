@@ -2,7 +2,7 @@
 /*
 Plugin Name: kURL Helper
 Description: Adds safe lookup, editing, regeneration and deletion to YOURLS for kURL clients.
-Version: 1.1.6
+Version: 1.1.7
 Author: Gerald Drißner
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -41,7 +41,7 @@ function kurl_api_ping() {
         'status'              => 'success',
         'message'             => 'success',
         'kurl_extended'       => true,
-        'kurl_helper_version' => '1.1.6',
+        'kurl_helper_version' => '1.1.7',
         'kurl_capabilities'   => [ 'delete', 'find_by_url', 'regenerate' ],
     ];
 }
@@ -107,7 +107,7 @@ function kurl_api_shorturl_belongs_to_installation( $shorturl, $keyword ) {
     $canonical_port = isset( $canonical['port'] ) ? (int) $canonical['port'] : ( $canonical_scheme === 'https' ? 443 : 80 );
     $ports_match = $given_port === $canonical_port;
     if ( $https_upgrade && ! isset( $given['port'] ) && ! isset( $canonical['port'] ) ) {
-        $ports_match = true; // standard 443 externally / standard 80 internally
+        $ports_match = true; // default HTTPS 443 externally / HTTP 80 internally; equal explicit ports are also allowed
     }
     $given_path = rawurldecode( rtrim( (string) $given['path'], '/' ) );
     $canonical_path = rawurldecode( rtrim( (string) $canonical['path'], '/' ) );

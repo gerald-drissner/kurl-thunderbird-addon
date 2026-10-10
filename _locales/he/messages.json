@@ -356,9 +356,18 @@
     "message": "הקישור שנלחץ לא נמצא בגוף ההודעה."
   },
   "insertPlainTextSelectUrl": {
-    "message": "במצב טקסט פשוט יש לבחור את הכתובת לפני קיצור והוספה."
+    "message": "במצב טקסט פשוט, יש לבחור את כתובת ה־URL לפני השימוש ב״kURL: קיצור והוספה״."
   },
   "optionsOldTokenHint": {
     "message": "אסימון זה, בן עשרה תווים, עשוי להיות מגרסת YOURLS ישנה. יש להעתיק את חתימת ה־API הנוכחית מניהול ← כלים."
+  },
+  "menuQuickCopy": {
+    "message": "kURL: קיצור והעתקה"
+  },
+  "menuQuickInsert": {
+    "message": "kURL: קיצור והוספה"
+  },
+  "insertCannotSafely": {
+    "message": "לא ניתן להוסיף את הקישור המקוצר בבטחה."
   }
 }

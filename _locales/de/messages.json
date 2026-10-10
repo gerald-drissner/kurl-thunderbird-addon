@@ -678,9 +678,12 @@
     "message": "Der angeklickte Link wurde im Nachrichtentext nicht gefunden."
   },
   "insertPlainTextSelectUrl": {
-    "message": "Markieren Sie im Nur-Text-Modus zuerst die URL, bevor Sie „Kürzen und einfügen“ verwenden."
+    "message": "Markieren Sie im Reintextmodus die URL, bevor Sie „kURL: Kürzen und einfügen“ auswählen."
   },
   "optionsOldTokenHint": {
     "message": "Dieses zehnstellige Token könnte aus einer älteren YOURLS-Version stammen. Kopieren Sie die aktuelle API-Signatur unter Admin → Tools."
+  },
+  "insertCannotSafely": {
+    "message": "Die Kurz-URL konnte nicht sicher eingefügt werden."
   }
 }

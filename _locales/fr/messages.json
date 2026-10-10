@@ -356,9 +356,18 @@
     "message": "Le lien sélectionné est introuvable dans le corps du message."
   },
   "insertPlainTextSelectUrl": {
-    "message": "En mode texte brut, sélectionnez l’URL avant de raccourcir et insérer."
+    "message": "En mode texte brut, sélectionnez l’URL avant de choisir « kURL : Raccourcir et insérer »."
   },
   "optionsOldTokenHint": {
     "message": "Ce jeton de dix caractères peut provenir d’une ancienne version de YOURLS. Copiez la signature API actuelle dans Administration → Outils."
+  },
+  "menuQuickCopy": {
+    "message": "kURL : Raccourcir et copier"
+  },
+  "menuQuickInsert": {
+    "message": "kURL : Raccourcir et insérer"
+  },
+  "insertCannotSafely": {
+    "message": "Impossible d’insérer le lien raccourci en toute sécurité."
   }
 }

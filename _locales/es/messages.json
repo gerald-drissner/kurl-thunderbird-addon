@@ -352,9 +352,18 @@
     "message": "No se encontró el enlace pulsado en el cuerpo del mensaje."
   },
   "insertPlainTextSelectUrl": {
-    "message": "En modo texto sin formato, selecciona la URL antes de acortarla e insertarla."
+    "message": "En modo texto sin formato, selecciona la URL antes de usar «kURL: Acortar e insertar»."
   },
   "optionsOldTokenHint": {
     "message": "Este token de diez caracteres podría pertenecer a una versión anterior de YOURLS. Copia la firma API actual desde Administración → Herramientas."
+  },
+  "menuQuickCopy": {
+    "message": "kURL: Acortar y copiar"
+  },
+  "menuQuickInsert": {
+    "message": "kURL: Acortar e insertar"
+  },
+  "insertCannotSafely": {
+    "message": "No se puede insertar la URL corta de forma segura."
   }
 }

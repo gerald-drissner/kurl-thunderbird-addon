@@ -120,7 +120,7 @@ test('bulk creates links sequentially and skips invalid lines',()=>{
 });
 test('package metadata and page references',()=>{
  const manifest=JSON.parse(source('manifest.json'));
- assert.equal(manifest.version,'2.0.13');
+ assert.equal(manifest.version,'2.0.14');
  assert.equal(manifest.browser_specific_settings.gecko.strict_min_version,'140.0');
  assert.deepEqual(manifest.optional_host_permissions,['https://*/*']);
  assert.ok(!manifest.permissions.includes('tabs'));
@@ -337,7 +337,7 @@ test('German localized insertion and shortcut terms match buttons',()=>{
 
 test('released QR generator, ASCII-canonical QR payload, four-module quiet zone',()=>{
  const lib=source('JS/qrcode.js'), pop=source('JS/popup.js');
- assert.equal(JSON.parse(source('package.json')).version,'2.0.13');
+ assert.equal(JSON.parse(source('package.json')).version,'2.0.14');
  assert.match(lib,/QR Code Generator for JavaScript/);
  assert.match(pop,/qrcode\(0, "H"\)/);
  assert.match(pop,/qr\.addData\(new URL\(value\)\.href, \"Byte\"\)/);
@@ -417,7 +417,7 @@ test('2.0.6 optional copy edits match visible controls and released vendoring me
  const vendor=source('VENDOR.md');
  assert.doesNotMatch(vendor,/external reviewer|independently compared/i);
  assert.match(vendor,/SHA-256 of bundled file/);
- assert.equal(JSON.parse(source('manifest.json')).version,'2.0.13');
+ assert.equal(JSON.parse(source('manifest.json')).version,'2.0.14');
 });
 
 test('2.0.7 opens settings dashboard as a full tab with helper onboarding',()=>{
@@ -486,7 +486,7 @@ test('old hidden 2.0.7 menu is upgraded to a visible 2.0.8 insert menu',async()=
 test('2.0.9 bundles the independent YOURLS Helper with valid plugin metadata',()=>{
  const php=source('helper/kurl-helper/plugin.php');
  assert.match(php,/^<\?php\n\/\*\nPlugin Name: kURL Helper\n/);
- assert.match(php,/Version: 1\.1\.6\n/);
+ assert.match(php,/Version: 1\.1\.7\n/);
  assert.doesNotMatch(php.split('*/')[0],/WordPress/i);
  for(const action of ['kurl_ping','kurl_delete','kurl_find_by_url','kurl_regenerate'])
    assert.ok(php.includes("'api_action_"+action+"'"),action+' API missing');
@@ -616,9 +616,9 @@ test('all ten locales explain API token recovery and provide an accessible Tools
  assert.match(source('JS/options.js'),/false, true, error.code\)/);
  assert.match(source('JS/dashboard.js'),/showAuthRecovery\(error.code\)/);
 });
-test('bundled YOURLS Helper 1.1.6 authenticates destructive operations',()=>{
+test('bundled YOURLS Helper 1.1.7 authenticates destructive operations',()=>{
  const php=source('helper/kurl-helper/plugin.php');
- assert.match(php,/Version: 1\.1\.6/);
+ assert.match(php,/Version: 1\.1\.7/);
  assert.match(php,/function kurl_api_require_auth\(\)/);
  for(const fn of ['kurl_api_delete','kurl_api_find_by_url','kurl_api_regenerate']){
    const pos=php.indexOf('function '+fn+'()');
@@ -720,4 +720,40 @@ test('insertion reason codes are translated in background after frame execution'
   await assert.rejects(vm.runInContext('insertUrl(1,"https://sho.rt/new","https://example.com",true)',x.ctx),
    error=>error.message===german[['insertAmbiguousLink','insertClickedLinkMissing','insertPlainTextSelectUrl'][index]].message);
  }
+});
+
+
+test('Helper 1.1.7 is versioned independently while add-on accepts secure 1.1.6',async()=>{
+ const sourcePHP=source('helper/kurl-helper/plugin.php');
+ assert.match(sourcePHP,/Version: 1\.1\.7/);
+ assert.match(sourcePHP,/'kurl_helper_version' => '1\.1\.7'/);
+ assert.match(source('JS/background.js'),/HELPER_VERSION = "1\.1\.6"/);
+ for(const helperVersion of ['1.1.6','1.1.7']) {
+  const x=newContext({helperVersion});
+  const result=await x.send({type:'GET_INFO'});
+  assert.equal(result.data.helperReady,true,helperVersion);
+ }
+});
+
+test('all right-click labels and safe insertion errors localized explicitly',()=>{
+ const locales=['en','de','ar','es','fr','he','ja','pt','ru','zh_CN'];
+ for(const lang of locales){
+  const entries=JSON.parse(source('_locales/'+lang+'/messages.json'));
+  for(const key of ['menuQuickCopy','menuQuickInsert','insertCannotSafely']){
+   assert.ok(entries[key]?.message?.length>5,lang+':'+key);
+   assert.ok(entries[key].message.toLowerCase().includes('kurl') || key==='insertCannotSafely',lang+':'+key);
+  }
+ }
+ const ar=JSON.parse(source('_locales/ar/messages.json'));
+ assert.equal(ar.menuQuickCopy.message,'kURL: اختصار ونسخ');
+ assert.equal(ar.menuQuickInsert.message,'kURL: اختصار وإدراج');
+ assert.ok(ar.insertPlainTextSelectUrl.message.includes('«'+ar.menuQuickInsert.message+'»'));
+});
+
+test('legacy token hint is shown only after authentication rejection, never on initial load',()=>{
+ const s=source('JS/options.js');
+ const init=s.slice(s.indexOf('async function init() {'),s.indexOf('$("showCopyNotifications").addEventListener'));
+ assert.doesNotMatch(init,/optionsOldTokenHint/);
+ assert.match(s,/authDenied && config\.apiSignature\.length === 10/);
+ assert.match(init,/optionsStatusLoaded/);
 });

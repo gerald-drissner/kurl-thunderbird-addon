@@ -1,4 +1,4 @@
-"""Non-blocking legacy-token advice in initial settings and on failed auth."""
+"""Non-blocking legacy-token advice after failed auth, never on initial settings."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 root=Path(__file__).resolve().parents[1]
@@ -18,10 +18,11 @@ with sync_playwright() as p:
  }''')
  pg.add_script_tag(content=(root/'JS/helpers.js').read_text())
  pg.add_script_tag(content=(root/'JS/options.js').read_text())
- pg.wait_for_function('document.querySelector("#status").textContent.includes("ten-character")')
+ pg.wait_for_function('document.querySelector("#status").textContent.includes("Settings loaded")')
+ assert 'ten-character' not in pg.locator('#status').inner_text()
  pg.click('#test')
  pg.wait_for_function('document.querySelector("#options-auth-recovery").hidden === false')
  assert 'ten-character' in pg.locator('#status').inner_text()
  assert pg.evaluate('window.__writes')==0
- print('Legacy 10-character signature hint + failed test not saved: PASS')
+ print('Legacy signature warning only after failed auth; no invalid token saved: PASS')
  browser.close()

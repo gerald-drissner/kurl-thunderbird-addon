@@ -124,9 +124,7 @@ async function init() {
   $("showCopyNotifications").checked = saved.showCopyNotifications;
   status(old.startsWith("http://") ?
     "Old HTTP connection detected. HTTPS has been filled in; test the connection and save the updated settings." :
-    saved.apiSignature.length === 10
-      ? t("optionsOldTokenHint", "This ten-character token may be from an older YOURLS version. Copy the current API signature from Admin → Tools.")
-      : t("optionsStatusLoaded", "Settings loaded."));
+    t("optionsStatusLoaded", "Settings loaded."));
 }
 $("showCopyNotifications").addEventListener("change", async () => {
   const box = $("showCopyNotifications");

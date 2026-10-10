@@ -1,10 +1,10 @@
-# kURL for Thunderbird 2.0.13 (test build)
+# kURL for Thunderbird 2.0.14 (test build)
 
 This MailExtension shortens and manages links on a user-controlled HTTPS YOURLS server, with an integrated Thunderbird compose workflow. The optional YOURLS Helper is bundled here, separately from other kURL projects.
 
 ## Installation
 
-In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.13-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
+In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.14-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
 
 Configure your HTTPS YOURLS server and signature token under kURL settings. Assign keyboard shortcuts via **Manage Extension Shortcuts**; this build installs without default key bindings.
 
@@ -97,7 +97,7 @@ Signature checks use time-limited SHA-256 tokens over HTTPS and the add-on never
 stores an invalid replacement following a failed connection test. Errors from
 reverse proxies or clock skew may also require server-side fixes. A 401/403
 is not proof the secret alone is wrong. A public YOURLS server should use the
-included **Helper 1.1.6** for authenticated remote editing/deletion.
+included **Helper 1.1.7** for authenticated remote editing/deletion (minimum supported: 1.1.6).
 
 ## 2.0.13: installer fixes and release preparation
 
@@ -116,6 +116,13 @@ included **Helper 1.1.6** for authenticated remote editing/deletion.
 - RTL toggle switches keep their visible knob in Arabic and Hebrew.
 - Insertion refusals for ambiguous links, missing links and plain-text selections are localized.
 - Toolbar badge clearing handles rejected tab API calls without unhandled promises; removed the background tab-close listener.
-- The Helper accepts HTTPS access to an internally HTTP-configured YOURLS installation when the host and path match and both ports are standard (never accepts a downgrade).
-- Settings display a non-blocking warning for a possibly obsolete ten-character API token.
+- The Helper accepts HTTPS access to an internally HTTP-configured YOURLS installation when host and path match and either both ports are defaults (HTTPS 443 / HTTP 80) or explicitly set to the same custom port (never accepts a downgrade).
+- Settings show a contextual warning about possibly obsolete ten-character API tokens **only after an authentication failure**, never upon opening Settings. Ten-character tokens are valid on older YOURLS releases.
 - Bundled Helper source verification tolerates CRLF line endings.
+
+## Version 2.0.14 changes
+
+- Bundled YOURLS Helper is now **1.1.7** because address matching was changed in 2.0.13. The add-on still accepts **1.1.6+** with the expected capabilities; no unnecessary server upgrade is required.
+- The legacy ten-character token hint is shown only when a connection test reports an authentication error. Opening Settings does not imply valid older tokens are obsolete.
+- All ten languages explicitly provide both right-click menu labels and the generic safe-insertion error. The Arabic plain-text warning quotes the actual Arabic menu label.
+- Helper documentation explains HTTPS reverse proxies with either default ports or matching explicit custom ports.
