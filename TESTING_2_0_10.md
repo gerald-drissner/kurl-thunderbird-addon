@@ -11,3 +11,4 @@
 - GitHub Actions validates Node code and builds on Ubuntu, Windows and macOS runners. This demonstrates build/test portability but **does not mean Thunderbird was opened on all three platforms**.
 
 Live Thunderbird platform checks are listed in `PLATFORM_TESTING.md`. The user has tested 2.0.9 on Linux; 2.0.10 should be tested on Linux and ideally Windows/macOS before publication. OS notification settings can suppress system toasts independently of this extension preference.
+- The first Windows matrix run exposed checkout CRLF conversion of `JS/qrcode.js` and `helper/kurl-helper/plugin.php`. `.gitattributes` now explicitly preserves LF line endings for vendored and source files; the original content checksum assertion remains enforced.
