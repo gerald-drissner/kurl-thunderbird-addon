@@ -73,11 +73,17 @@ window.Helpers = (() => {
       // Never present a schemeless foreign URL as an arbitrary destination.
       return hasScheme ? { kind: "long", target: urlText } : null;
     }
-    // Same host: under no circumstances offer Create, even when the short link
-    // cannot be matched safely (wrong port, extra path, malformed keyword).
+    // Only the configured YOURLS path is reserved for short URLs. When YOURLS
+    // lives in a subfolder, a different page on the same website is a normal
+    // destination URL, not an invalid short link. Scheme-less destinations are
+    // still refused because they are ambiguous without an explicit scheme.
     const rootPath = server.pathname.replace(/\/+$/, "") + "/";
-    if (parsed.port !== server.port || !parsed.pathname.startsWith(rootPath))
-      return { kind: "own-invalid" };
+    if (parsed.port !== server.port) return { kind: "own-invalid" };
+    if (rootPath !== "/" && parsed.pathname !== rootPath.slice(0, -1) &&
+        !parsed.pathname.startsWith(rootPath))
+      return hasScheme ? { kind: "long", target: urlText } : null;
+    // The short-link namespace itself must not be shortened a second time.
+    if (!parsed.pathname.startsWith(rootPath)) return { kind: "own-invalid" };
     const slug = parsed.pathname.slice(rootPath.length).replace(/\/+$/, "");
     const ownKeyword = validKeyword(slug);
     if (!ownKeyword) return { kind: "own-invalid" };

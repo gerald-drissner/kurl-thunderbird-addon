@@ -1,10 +1,10 @@
-# kURL for Thunderbird 2.0.16 (test build)
+# kURL for Thunderbird 2.0.17 (test build)
 
 This MailExtension shortens and manages links on a user-controlled HTTPS YOURLS server, with an integrated Thunderbird compose workflow. The optional YOURLS Helper is bundled here, separately from other kURL projects.
 
 ## Installation
 
-In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.16-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
+In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.17-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
 
 Configure your HTTPS YOURLS server and signature token under kURL settings. Assign keyboard shortcuts via **Manage Extension Shortcuts**; this build installs without default key bindings.
 
@@ -142,3 +142,7 @@ Run `python3 tests/browser-lookup-check.py` for two-way lookup and compact Helpe
 - The lookup placeholder uses the configured YOURLS base URL rather than a developer-specific domain. The loaded-list filter hint uses the actual localized **View More** label.
 - Corrected Arabic lookup grammar and terminology. All ten language bundles contain the new same-host validation message.
 - Helper 1.1.7 is unchanged. No server-side update is required for this release.
+
+## New in 2.0.17: subfolder-safe lookup
+
+For YOURLS installed below a prefix (for example, `https://example.com/go`), an explicitly qualified URL on the same host **outside** that prefix (such as `https://example.com/blog/post`) is a normal destination eligible for read-only reverse lookup. Inside `/go/`, alternate short-URL spellings are still normalized, and unsafe paths are still refused. Root-level YOURLS installations retain their existing same-host protection. Arabic popup keyword terminology and French filter-help punctuation are aligned with the dashboard. The bundled Helper 1.1.7 is unchanged.

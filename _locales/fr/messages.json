@@ -430,7 +430,7 @@
     "message": "Filtrer les liens affichés"
   },
   "dashFilterHelp": {
-    "message": "Filtre uniquement les liens récents déjà affichés. Utilisez «$button$» pour inclure les plus anciens.",
+    "message": "Filtre uniquement les liens récents déjà affichés. Utilisez « $button$ » pour inclure les plus anciens.",
     "placeholders": {
       "button": {
         "content": "$1"

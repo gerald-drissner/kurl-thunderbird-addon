@@ -94,7 +94,7 @@
     "description": "Label for the collapsible advanced options section in the popup."
   },
   "popupKeywordLabel": {
-    "message": "كلمة مخصصة (اختياري)",
+    "message": "كلمة مفتاحية مخصصة (اختياري)",
     "description": "Label for the custom keyword input."
   },
   "popupTitleLabel": {
@@ -137,7 +137,7 @@
     "message": "أرفق رمز QR"
   },
   "popupStatsLabel": {
-    "message": "إحصاءات (رابط مختصر أو كلمة)",
+    "message": "إحصاءات (رابط مختصر أو كلمة مفتاحية)",
     "description": "Label for the stats input."
   },
   "popupBtnStats": {
@@ -221,11 +221,11 @@
     "description": "Error when trying to insert without a compose window."
   },
   "popupErrorEnterUrlForStats": {
-    "message": "أدخل رابطا مختصرا أو كلمة للحصول على الإحصاءات.",
+    "message": "أدخل رابطا مختصرا أو كلمة مفتاحية للحصول على الإحصاءات.",
     "description": "Error when stats button is clicked with no input."
   },
   "popupErrorProvideUrlToDelete": {
-    "message": "قدم رابطا مختصرا أو كلمة للحذف.",
+    "message": "قدم رابطا مختصرا أو كلمة مفتاحية للحذف.",
     "description": "Error when delete is clicked with no URL."
   },
   "errorNoSettings": {
@@ -466,7 +466,7 @@
     "message": "البحث في YOURLS"
   },
   "lookupResultHeading": {
-    "message": "عثر على الرابط"
+    "message": "تم العثور على الرابط"
   },
   "lookupClicks": {
     "message": "النقرات"

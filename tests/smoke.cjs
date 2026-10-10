@@ -122,7 +122,7 @@ test('bulk creates links sequentially and skips invalid lines',()=>{
 });
 test('package metadata and page references',()=>{
  const manifest=JSON.parse(source('manifest.json'));
- assert.equal(manifest.version,'2.0.16');
+ assert.equal(manifest.version,'2.0.17');
  assert.equal(manifest.browser_specific_settings.gecko.strict_min_version,'140.0');
  assert.deepEqual(manifest.optional_host_permissions,['https://*/*']);
  assert.ok(!manifest.permissions.includes('tabs'));
@@ -318,7 +318,7 @@ test('Arabic localized wording and selective vocalization',()=>{
  assert.equal(dict.popupBtnDownloadQr,'نزّل رمز QR');
  assert.ok(dict.popupStatusShortening.startsWith('جارٍ '));
  assert.ok(dict.popupStatusFetchingStats.startsWith('جارٍ '));
- assert.equal(dict.popupStatsLabel,'إحصاءات (رابط مختصر أو كلمة)');
+ assert.equal(dict.popupStatsLabel,'إحصاءات (رابط مختصر أو كلمة مفتاحية)');
  assert.ok(dict.extensionDescription.includes('نافذة كتابة الرسالة'));
  assert.ok(dict.popupStatusInserted.includes('نافذة كتابة الرسالة'));
  assert.ok(dict.optionsShortcutUnassigned.includes('شريط الأدوات'));
@@ -339,7 +339,7 @@ test('German localized insertion and shortcut terms match buttons',()=>{
 
 test('released QR generator, ASCII-canonical QR payload, four-module quiet zone',()=>{
  const lib=source('JS/qrcode.js'), pop=source('JS/popup.js');
- assert.equal(JSON.parse(source('package.json')).version,'2.0.16');
+ assert.equal(JSON.parse(source('package.json')).version,'2.0.17');
  assert.match(lib,/QR Code Generator for JavaScript/);
  assert.match(pop,/qrcode\(0, "H"\)/);
  assert.match(pop,/qr\.addData\(new URL\(value\)\.href, \"Byte\"\)/);
@@ -419,7 +419,7 @@ test('2.0.6 optional copy edits match visible controls and released vendoring me
  const vendor=source('VENDOR.md');
  assert.doesNotMatch(vendor,/external reviewer|independently compared/i);
  assert.match(vendor,/SHA-256 of bundled file/);
- assert.equal(JSON.parse(source('manifest.json')).version,'2.0.16');
+ assert.equal(JSON.parse(source('manifest.json')).version,'2.0.17');
 });
 
 test('2.0.7 opens settings dashboard as a full tab with helper onboarding',()=>{
@@ -828,7 +828,8 @@ test('same-host invalid or ambiguous addresses never become destinations that ca
   else assert.equal(got.kind,'own-invalid',input);
  }
  const nested=H.classifyLookupInput('https://sho.rt/go','https://sho.rt/other');
- assert.equal(nested.kind,'own-invalid');
+ assert.deepEqual(JSON.parse(JSON.stringify(nested)),
+  {kind:'long',target:'https://sho.rt/other'});
  assert.equal(H.classifyLookupInput('https://sho.rt/go','http://sho.rt/go/AbC/?q=1').shortUrl,
   'https://sho.rt/go/AbC');
 });
@@ -856,4 +857,43 @@ test('lookup translations quote the actual View More label and accept configured
  assert.match(ar.lookupQueryLabel.message,/الكلمة المفتاحية/);
  assert.match(ar.lookupInvalid.message,/رابطا أصليا صالحا/);
  assert.match(ar.lookupFound.message,/تم العثور/);
+});
+
+// 2.0.17: YOURLS may occupy a subfolder while the same host serves normal pages.
+test('subfolder YOURLS treats outside-of-installation pages as destinations', () => {
+ const H=newContext().ctx.Helpers;
+ const base='https://example.com/go';
+ for(const input of [
+  'https://example.com/blog/post',
+  'http://example.com/blog/post?ref=1',
+  'https://example.com/gopher?utm=1',
+  'https://example.com/',
+ ]) {
+  assert.deepEqual(JSON.parse(JSON.stringify(H.classifyLookupInput(base,input))),
+   {kind:'long',target:input},input);
+ }
+ assert.equal(H.classifyLookupInput(base,'example.com/blog/post'),null,
+  'scheme-less non-short URLs on the configured hostname remain ambiguous');
+ for(const input of ['goSlug', 'https://example.com/go/goSlug',
+   'http://example.com/go/goSlug/?utm=1#x']) {
+  assert.equal(H.classifyLookupInput(base,input)?.shortUrl,'https://example.com/go/'+(input==='goSlug'?'goSlug':'goSlug'));
+ }
+ for(const input of ['https://example.com/go/admin/tools.php',
+   'https://example.com/go/abc/def',
+   'https://example.com:8443/blog/post',
+   'https://example.com/go']) {
+  assert.equal(H.classifyLookupInput(base,input)?.kind,'own-invalid',input);
+ }
+ assert.equal(H.classifyLookupInput('https://example.com','https://example.com/blog/post')?.kind,'own-invalid',
+  'a root install still owns the complete host URL namespace');
+});
+
+test('Arabic popup lookup terminology and French typographic button quotes are consistent',()=>{
+ const ar=JSON.parse(source('_locales/ar/messages.json'));
+ for(const key of ['popupKeywordLabel','popupStatsLabel','popupErrorEnterUrlForStats','popupErrorProvideUrlToDelete']) {
+  assert.match(ar[key].message,/كلمة مفتاحية/,key);
+ }
+ assert.equal(ar.lookupResultHeading.message,'تم العثور على الرابط');
+ const fr=JSON.parse(source('_locales/fr/messages.json'));
+ assert.match(fr.dashFilterHelp.message,/« \$button\$ »/);
 });
