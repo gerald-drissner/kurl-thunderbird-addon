@@ -7,7 +7,7 @@ window.Helpers = (() => {
       const raw = String(input || "").trim();
       if (!raw || /\s/.test(raw)) return "";
       const url = new URL(raw);
-      if (!["https:", "http:"].includes(url.protocol) || url.username || url.password ||
+      if (url.protocol !== "https:" || url.username || url.password ||
           url.search || url.hash) return "";
       let path = url.pathname.replace(/\/+$/, "");
       path = path.replace(/\/yourls-api\.php$/i, "").replace(/\/admin$/i, "");
@@ -20,11 +20,11 @@ window.Helpers = (() => {
   function validHttpUrl(input) {
     try {
       const raw = String(input || "").trim();
-      if (!raw || /\s/.test(raw) || raw.length > 8192) return "";
+      if (!raw || /[\s\\]/.test(raw) || raw.length > 8192) return "";
       const url = new URL(raw);
       if (!["https:", "http:"].includes(url.protocol) || !url.hostname ||
           url.username || url.password) return "";
-      return url.href;
+      return raw;
     } catch {
       return "";
     }

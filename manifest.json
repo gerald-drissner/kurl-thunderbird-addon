@@ -1,20 +1,22 @@
 {
   "manifest_version": 3,
-  "name": "kurl - YOURLS Shortener",
-  "short_name": "kurl",
-  "version": "2.0.0",
-  "author": "Gerald Drißner",
+  "name": "__MSG_extensionName__",
+  "short_name": "kURL",
+  "version": "2.0.9",
+  "author": "Gerald Dri\u00dfner",
   "default_locale": "en",
   "description": "__MSG_extensionDescription__",
   "browser_specific_settings": {
     "gecko": {
       "id": "yourls@drissner.me",
-      "strict_min_version": "128.0"
+      "strict_min_version": "140.0"
     }
   },
   "icons": {
     "48": "images/kurl-icon-48.png",
-    "96": "images/kurl-icon-96.png"
+    "96": "images/kurl-icon-96.png",
+    "16": "images/kurl-icon-16.png",
+    "32": "images/kurl-icon-32.png"
   },
   "background": {
     "scripts": [
@@ -24,31 +26,31 @@
   },
   "commands": {
     "_execute_compose_action": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+K"
-      },
       "description": "__MSG_commandShortenDescription__"
     },
     "_execute_message_display_action": {
-      "suggested_key": {
-        "default": "Ctrl+Alt+K"
-      },
       "description": "__MSG_commandOpenReaderDescription__"
     }
   },
   "options_ui": {
     "page": "options.html",
-    "open_in_tab": false
+    "open_in_tab": true
   },
   "compose_action": {
-    "default_title": "kurl",
+    "default_title": "kURL",
     "default_popup": "popup.html",
-    "default_icon": "images/kurl-icon-48.png"
+    "default_icon": {
+      "16": "images/kurl-icon-16.png",
+      "32": "images/kurl-icon-32.png"
+    }
   },
   "message_display_action": {
-    "default_title": "kurl",
+    "default_title": "kURL",
     "default_popup": "popup.html",
-    "default_icon": "images/kurl-icon-48.png"
+    "default_icon": {
+      "16": "images/kurl-icon-16.png",
+      "32": "images/kurl-icon-32.png"
+    }
   },
   "permissions": [
     "storage",
@@ -56,20 +58,18 @@
     "compose",
     "menus",
     "notifications",
-    "tabs",
     "scripting",
     "messagesRead"
   ],
   "optional_host_permissions": [
-    "http://*/*",
     "https://*/*"
   ],
-  "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'; base-uri 'none';"
-  },
   "action": {
     "default_title": "kURL",
     "default_popup": "popup.html",
-    "default_icon": "images/kurl-icon-48.png"
+    "default_icon": {
+      "16": "images/kurl-icon-16.png",
+      "32": "images/kurl-icon-32.png"
+    }
   }
 }

@@ -47,10 +47,6 @@
     "message": "主机权限未被授予。",
     "description": "Error message when host permission is denied."
   },
-  "optionsStatusPermRequestError": {
-    "message": "无法请求主机权限：",
-    "description": "Error message when requesting host permission fails."
-  },
   "optionsStatusConnOk": {
     "message": "连接正常 (总链接数: $total$)",
     "description": "Success message for connection test.",
@@ -83,10 +79,6 @@
   "optionsShortcutTitle": {
     "message": "使用快捷方式",
     "description": "Title for the shortcut information box in options."
-  },
-  "optionsShortcutDescription": {
-    "message": "您可以通过在撰写编辑器中选择一个 URL 并按下快捷键来快速打开缩短器",
-    "description": "Description of how to use the keyboard shortcut."
   },
   "optionsShortcutChange": {
     "message": "您可以在 Thunderbird 的附加组件管理器中，在 kurl 的 ⚙️ 菜单下更改此快捷方式。",
@@ -136,10 +128,6 @@
     "message": "删除",
     "description": "Delete button text."
   },
-  "popupBtnConfirmDelete": {
-    "message": "确认？",
-    "description": "Delete button confirmation text."
-  },
   "popupBtnGoToSettings": {
     "message": "前往设置",
     "description": "Button text in the popup to open the options page."
@@ -179,10 +167,6 @@
   "popupStatusCreated": {
     "message": "短 URL 已创建。",
     "description": "Success message when URL is shortened."
-  },
-  "popupStatusAlreadyShortened": {
-    "message": "URL 已被缩短。",
-    "description": "Message when URL already exists."
   },
   "popupStatusCopied": {
     "message": "已复制到剪贴板。",
@@ -231,10 +215,6 @@
     "message": "URL 已被缩短。您可以在下方查看统计或删除它。",
     "description": "Informational message for an existing URL."
   },
-  "popupInfoAutoStats": {
-    "message": "这本身就是一个短 URL。正在自动获取统计。",
-    "description": "Message when auto-fetching stats for a selected short URL."
-  },
   "popupErrorInvalidUrl": {
     "message": "请输入有效的 http(s) URL。",
     "description": "Error for invalid URL format."
@@ -243,21 +223,9 @@
     "message": "无可复制。",
     "description": "Error when copy button is clicked with no URL."
   },
-  "popupErrorCopyFailed": {
-    "message": "复制失败。",
-    "description": "Error when clipboard copy fails."
-  },
-  "popupErrorNothingToInsert": {
-    "message": "无可插入。",
-    "description": "Error when insert button is clicked with no URL."
-  },
   "popupErrorNothingToAttach": {
     "message": "无可附加。",
     "description": "Error when attach button is clicked with no URL."
-  },
-  "popupErrorAttachFailed": {
-    "message": "附加二维码失败。",
-    "description": "Error when QR code attachment fails."
   },
   "popupErrorNoCompose": {
     "message": "找不到活动的撰写窗口。",
@@ -271,57 +239,9 @@
     "message": "提供一个短 URL 或关键词以删除。",
     "description": "Error when delete is clicked with no URL."
   },
-  "popupErrorStatsNotFound": {
-    "message": "未找到短 URL。",
-    "description": "Error when stats are requested for a non-existent URL."
-  },
-  "errorShortenFailed": {
-    "message": "缩短失败。",
-    "description": "Generic error for shortening."
-  },
-  "errorStatsFailed": {
-    "message": "获取统计失败。",
-    "description": "Generic error for fetching stats."
-  },
-  "errorDeleteFailed": {
-    "message": "删除失败",
-    "description": "Generic error for deleting."
-  },
-  "errorEnterKeywordToDelete": {
-    "message": "请输入一个短 URL 或关键词以删除。",
-    "description": "Error in background script if keyword is missing for delete."
-  },
   "errorNoSettings": {
     "message": "请先在附加组件设置中配置 YOURLS。",
     "description": "Error when settings are not configured."
-  },
-  "toastUrlCreated": {
-    "message": "短 URL 已创建。",
-    "description": "Notification message for success."
-  },
-  "toastUrlExists": {
-    "message": "URL 已被缩短。",
-    "description": "Notification message for existing URL."
-  },
-  "toastUrlDeleted": {
-    "message": "短 URL 已删除。",
-    "description": "Notification message for deleted URL."
-  },
-  "toastQrAttached": {
-    "message": "二维码已附加。",
-    "description": "Notification message when a QR code has been attached to the email."
-  },
-  "toastUrlPrimed": {
-    "message": "URL 已准备就绪。点击消息头部的 kurl 图标。",
-    "description": "Notification message after priming the URL from the 3-pane view."
-  },
-  "menuItemShortenSelection": {
-    "message": "kurl: 缩短选中项…",
-    "description": "The title of the context menu item for shortening a selection."
-  },
-  "menuItemPrimeUrl": {
-    "message": "kurl: 复制 URL 以准备 (无弹窗)",
-    "description": "The title of the context menu item for the 3-pane view."
   },
   "commandShortenDescription": {
     "message": "打开 kurl 缩短器弹窗。",
@@ -362,10 +282,6 @@
   "dashboardStatusOnline": {
     "message": "在线",
     "description": "Server status text for when the connection is OK."
-  },
-  "dashboardStatusOffline": {
-    "message": "离线",
-    "description": "Server status text for when there is no connection."
   },
   "dashboardStatusError": {
     "message": "错误",

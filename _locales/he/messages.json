@@ -47,10 +47,6 @@
     "message": "הרשאת מארח לא ניתנה.",
     "description": "Error message when host permission is denied."
   },
-  "optionsStatusPermRequestError": {
-    "message": "לא ניתן היה לבקש הרשאת מארח: ",
-    "description": "Error message when requesting host permission fails."
-  },
   "optionsStatusConnOk": {
     "message": "חיבור תקין (סה\"כ קישורים: $total$)",
     "description": "Success message for connection test.",
@@ -83,10 +79,6 @@
   "optionsShortcutTitle": {
     "message": "שימוש בקיצור הדרך",
     "description": "Title for the shortcut information box in options."
-  },
-  "optionsShortcutDescription": {
-    "message": "באפשרותך לפתוח במהירות את המקצר על ידי בחירת URL בעורך הכתיבה ולחיצה על",
-    "description": "Description of how to use the keyboard shortcut."
   },
   "optionsShortcutChange": {
     "message": "באפשרותך לשנות קיצור דרך זה במנהל התוספים של Thunderbird תחת תפריט ⚙️ עבור kurl.",
@@ -136,10 +128,6 @@
     "message": "מחק",
     "description": "Delete button text."
   },
-  "popupBtnConfirmDelete": {
-    "message": "אשר?",
-    "description": "Delete button confirmation text."
-  },
   "popupBtnGoToSettings": {
     "message": "עבור להגדרות",
     "description": "Button text in the popup to open the options page."
@@ -179,10 +167,6 @@
   "popupStatusCreated": {
     "message": "נוצר קישור מקוצר.",
     "description": "Success message when URL is shortened."
-  },
-  "popupStatusAlreadyShortened": {
-    "message": "ה-URL כבר מקוצר.",
-    "description": "Message when URL already exists."
   },
   "popupStatusCopied": {
     "message": "הועתק ללוח.",
@@ -231,10 +215,6 @@
     "message": "ה-URL כבר מקוצר. באפשרותך להציג סטטיסטיקות או למחוק אותו למטה.",
     "description": "Informational message for an existing URL."
   },
-  "popupInfoAutoStats": {
-    "message": "זה כבר URL קצר. מאחזר סטטיסטיקות באופן אוטומטי.",
-    "description": "Message when auto-fetching stats for a selected short URL."
-  },
   "popupErrorInvalidUrl": {
     "message": "אנא הזן כתובת http(s) תקינה.",
     "description": "Error for invalid URL format."
@@ -243,21 +223,9 @@
     "message": "אין מה להעתיק.",
     "description": "Error when copy button is clicked with no URL."
   },
-  "popupErrorCopyFailed": {
-    "message": "ההעתקה נכשלה.",
-    "description": "Error when clipboard copy fails."
-  },
-  "popupErrorNothingToInsert": {
-    "message": "אין מה להכניס.",
-    "description": "Error when insert button is clicked with no URL."
-  },
   "popupErrorNothingToAttach": {
     "message": "אין מה לצרף.",
     "description": "Error when attach button is clicked with no URL."
-  },
-  "popupErrorAttachFailed": {
-    "message": "נכשל צירוף קוד ה-QR.",
-    "description": "Error when QR code attachment fails."
   },
   "popupErrorNoCompose": {
     "message": "לא ניתן היה למצוא חלון כתיבה פעיל.",
@@ -271,57 +239,9 @@
     "message": "ספק URL קצר או מילת מפתח למחיקה.",
     "description": "Error when delete is clicked with no URL."
   },
-  "popupErrorStatsNotFound": {
-    "message": "URL מקוצר לא נמצא.",
-    "description": "Error when stats are requested for a non-existent URL."
-  },
-  "errorShortenFailed": {
-    "message": "קיצור נכשל.",
-    "description": "Generic error for shortening."
-  },
-  "errorStatsFailed": {
-    "message": "אחזור הסטטיסטיקות נכשל.",
-    "description": "Generic error for fetching stats."
-  },
-  "errorDeleteFailed": {
-    "message": "מחיקה נכשלה",
-    "description": "Generic error for deleting."
-  },
-  "errorEnterKeywordToDelete": {
-    "message": "אנא הזן URL מקוצר או מילת מפתח למחיקה.",
-    "description": "Error in background script if keyword is missing for delete."
-  },
   "errorNoSettings": {
     "message": "אנא הגדר את YOURLS קודם בהגדרות התוסף.",
     "description": "Error when settings are not configured."
-  },
-  "toastUrlCreated": {
-    "message": "נוצר URL מקוצר.",
-    "description": "Notification message for success."
-  },
-  "toastUrlExists": {
-    "message": "ה-URL כבר מקוצר.",
-    "description": "Notification message for existing URL."
-  },
-  "toastUrlDeleted": {
-    "message": "URL מקוצר נמחק.",
-    "description": "Notification message for deleted URL."
-  },
-  "toastQrAttached": {
-    "message": "קוד QR צורף.",
-    "description": "Notification message when a QR code has been attached to the email."
-  },
-  "toastUrlPrimed": {
-    "message": "ה-URL מוכן. לחץ על סמל kurl בכותרת ההודעה.",
-    "description": "Notification message after priming the URL from the 3-pane view."
-  },
-  "menuItemShortenSelection": {
-    "message": "kurl: קצר בחירה…",
-    "description": "The title of the context menu item for shortening a selection."
-  },
-  "menuItemPrimeUrl": {
-    "message": "kurl: העתק URL להכנה (ללא חלון קופץ)",
-    "description": "The title of the context menu item for the 3-pane view."
   },
   "commandShortenDescription": {
     "message": "פתח את החלון הקופץ של מקצר kurl.",
@@ -362,10 +282,6 @@
   "dashboardStatusOnline": {
     "message": "מחובר",
     "description": "Server status text for when the connection is OK."
-  },
-  "dashboardStatusOffline": {
-    "message": "מנותק",
-    "description": "Server status text for when there is no connection."
   },
   "dashboardStatusError": {
     "message": "שגיאה",

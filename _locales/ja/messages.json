@@ -47,10 +47,6 @@
     "message": "ホスト権限が付与されませんでした。",
     "description": "Error message when host permission is denied."
   },
-  "optionsStatusPermRequestError": {
-    "message": "ホスト権限を要求できませんでした：",
-    "description": "Error message when requesting host permission fails."
-  },
   "optionsStatusConnOk": {
     "message": "接続OK（合計リンク数：$total$）",
     "description": "Success message for connection test.",
@@ -84,17 +80,9 @@
     "message": "ショートカットの使用",
     "description": "Title for the shortcut information box in options."
   },
-  "optionsShortcutDescription": {
-    "message": "作成エディタでURLを選択し、キーを押すことで、短縮ツールを素早く開くことができます。",
-    "description": "Description of how to use the keyboard shortcut."
-  },
   "optionsShortcutChange": {
     "message": "このショートカットは、Thunderbirdのアドオンマネージャーにあるkurlの⚙️メニューで変更できます。",
     "description": "Instructions on how to change the default keyboard shortcut."
-  },
-  "popupTitle": {
-    "message": "YOURLS Shortener",
-    "description": "Title for the popup window."
   },
   "popupLongUrlLabel": {
     "message": "長いURL",
@@ -136,10 +124,6 @@
     "message": "削除",
     "description": "Delete button text."
   },
-  "popupBtnConfirmDelete": {
-    "message": "確認？",
-    "description": "Delete button confirmation text."
-  },
   "popupBtnGoToSettings": {
     "message": "設定へ移動",
     "description": "Button text in the popup to open the options page."
@@ -179,10 +163,6 @@
   "popupStatusCreated": {
     "message": "短いURLが作成されました。",
     "description": "Success message when URL is shortened."
-  },
-  "popupStatusAlreadyShortened": {
-    "message": "URLはすでに短縮されています。",
-    "description": "Message when URL already exists."
   },
   "popupStatusCopied": {
     "message": "クリップボードにコピーされました。",
@@ -231,10 +211,6 @@
     "message": "URLはすでに短縮されています。下記で統計情報を表示または削除できます。",
     "description": "Informational message for an existing URL."
   },
-  "popupInfoAutoStats": {
-    "message": "これはすでに短いURLです。統計情報を自動的に取得しています。",
-    "description": "Message when auto-fetching stats for a selected short URL."
-  },
   "popupErrorInvalidUrl": {
     "message": "有効なhttp(s) URLを入力してください。",
     "description": "Error for invalid URL format."
@@ -243,21 +219,9 @@
     "message": "コピーするものはありません。",
     "description": "Error when copy button is clicked with no URL."
   },
-  "popupErrorCopyFailed": {
-    "message": "コピーに失敗しました。",
-    "description": "Error when clipboard copy fails."
-  },
-  "popupErrorNothingToInsert": {
-    "message": "挿入するものはありません。",
-    "description": "Error when insert button is clicked with no URL."
-  },
   "popupErrorNothingToAttach": {
     "message": "添付するものはありません。",
     "description": "Error when attach button is clicked with no URL."
-  },
-  "popupErrorAttachFailed": {
-    "message": "QRコードの添付に失敗しました。",
-    "description": "Error when QR code attachment fails."
   },
   "popupErrorNoCompose": {
     "message": "アクティブな作成ウィンドウが見つかりませんでした。",
@@ -271,57 +235,9 @@
     "message": "削除する短いURLまたはキーワードを入力してください。",
     "description": "Error when delete is clicked with no URL."
   },
-  "popupErrorStatsNotFound": {
-    "message": "短いURLが見つかりませんでした。",
-    "description": "Error when stats are requested for a non-existent URL."
-  },
-  "errorShortenFailed": {
-    "message": "短縮に失敗しました。",
-    "description": "Generic error for shortening."
-  },
-  "errorStatsFailed": {
-    "message": "統計情報の取得に失敗しました。",
-    "description": "Generic error for fetching stats."
-  },
-  "errorDeleteFailed": {
-    "message": "削除に失敗しました",
-    "description": "Generic error for deleting."
-  },
-  "errorEnterKeywordToDelete": {
-    "message": "削除する短いURLまたはキーワードを入力してください。",
-    "description": "Error in background script if keyword is missing for delete."
-  },
   "errorNoSettings": {
     "message": "まず、アドオン設定でYOURLSを構成してください。",
     "description": "Error when settings are not configured."
-  },
-  "toastUrlCreated": {
-    "message": "短いURLが作成されました。",
-    "description": "Notification message for success."
-  },
-  "toastUrlExists": {
-    "message": "URLはすでに短縮されています。",
-    "description": "Notification message for existing URL."
-  },
-  "toastUrlDeleted": {
-    "message": "短いURLが削除されました。",
-    "description": "Notification message for deleted URL."
-  },
-  "toastQrAttached": {
-    "message": "QRコードが添付されました。",
-    "description": "Notification message when a QR code has been attached to the email."
-  },
-  "toastUrlPrimed": {
-    "message": "URLの準備ができました。メッセージヘッダーにあるkurlアイコンをクリックしてください。",
-    "description": "Notification message after priming the URL from the 3-pane view."
-  },
-  "menuItemShortenSelection": {
-    "message": "kurl：選択範囲を短縮…",
-    "description": "The title of the context menu item for shortening a selection."
-  },
-  "menuItemPrimeUrl": {
-    "message": "kurl：準備のためにURLをコピー（ポップアップなし）",
-    "description": "The title of the context menu item for the 3-pane view."
   },
   "commandShortenDescription": {
     "message": "kurl短縮ポップアップを開きます。",
@@ -362,10 +278,6 @@
   "dashboardStatusOnline": {
     "message": "オンライン",
     "description": "Server status text for when the connection is OK."
-  },
-  "dashboardStatusOffline": {
-    "message": "オフライン",
-    "description": "Server status text for when there is no connection."
   },
   "dashboardStatusError": {
     "message": "エラー",

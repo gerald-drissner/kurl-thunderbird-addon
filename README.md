@@ -1,62 +1,76 @@
-# kURL for Thunderbird
+# kURL for Thunderbird 2.0.9 (test build)
 
-A Thunderbird Manifest V3 extension for shortening links with a self-hosted [YOURLS](https://yourls.org/) server.
+This MailExtension shortens and manages links on a user-controlled HTTPS YOURLS server, with an integrated Thunderbird compose workflow. The optional YOURLS Helper is bundled here, separately from other kURL projects.
 
-**Status: version 2.0.0 development branch — not yet a verified release.** The code uses Thunderbird's current MailExtension APIs. Minimum declared version remains Thunderbird 128, the first official Thunderbird MV3 release. Test in the current release (157.0.1 as of 9 October 2026) and current ESR before publishing.
+## Installation
 
-## Features
+In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.6-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
 
-- **Shorten in a click:** Right-click a selected HTTP(S) URL or a link and choose **kURL: Shorten and copy**.
-- **Compose:** Right-click a selected link and choose **kURL: Shorten and insert**, or use the compose toolbar popup's **Shorten & Insert** action. Replaces an active compose selection or appends to the message if no editor selection remains.
-- **Main window, message view and composer:** Main-toolbar, message-display and compose-toolbar popups all provide an editable manual URL field. Compose popups additionally expose insertion and QR attachment controls.
-- **Custom keywords and titles**, with validation.
-- **WordPress kURL dashboard parity:** Connection state, YOURLS version, helper status, instance-wide link/click totals, recent operation count, top 10 and newest YOURLS links with titles/dates, filtering, individual click statistics and copying.
-- **WordPress manual link workflow:** **Check YOURLS** finds existing links with kURL Helper 1.1.5; **Generate / Update** creates or safely edits in place; **Regenerate safely** supports a new slug when confirmed. **New link** resets the form. Remote deletion requires the same helper.
-- **Bulk URL generation:** Paste up to 250 unique target URLs, preview validation, process in configurable batches, stop cleanly and copy tab-separated URL mappings. Existing links are reused; this does not modify WordPress posts.
-- **Local activity log:** Last seven days of success/failure action types, capped at 100 records, without storing long URLs, email contents or tokens.
-- **QR codes:** Show, save or (in a compose window) attach as PNG.
-- **Optional automatic copying** after shortening via the popup.
-- **Ten existing locale bundles.** New dashboard, bulk, logging and shortcut strings are in English and German; other locales currently display their hardcoded English fallback for new strings.
+Configure your HTTPS YOURLS server and signature token under kURL settings. Assign keyboard shortcuts via **Manage Extension Shortcuts**; this build installs without default key bindings.
 
-## Setup
+## Corrections retained from 2.0.3
 
-1. Install or update your own [YOURLS](https://yourls.org/).
-2. In YOURLS Admin → Tools, copy the passwordless API signature.
-3. Open kURL Settings in Thunderbird, enter your YOURLS base URL and signature, then click **Test Connection** or **Save**. Grant the host permission for that server.
-4. Prefer an HTTPS YOURLS endpoint. HTTP would transmit the API signature without transport encryption; only use it on explicitly trusted development networks.
-5. Use the toolbar popup or right-click actions to shorten a URL.
+- Compose editor insertion uses **raw DOM Text.data slice and Range offsets** rather than whitespace-normalized `Selection.toString()` to locate a URL within selected quoted HTML.
+- The popup retains the exact source URL and short URL pair from the successful shortening request, and refuses to insert a stale result when the source field changes.
+- Creating a URL in the dashboard clears the one-time custom keyword, avoiding collisions on the next Create. The explicit **Edit** and **Update existing link** flow continues to prefill the proper keyword.
+- Arabic UI uses minimal distinguishing vowel marks; action verbs, shortcut instructions and terminology are consistent, including *جارٍ*, *عدّل*, *نزّل* and *إحصاءات*.
+- German fixes **„in das Verfassenfenster“** and consistently uses *Tastenkürzel*, *Kürzel* (slug) and *Kurz-URL*.
 
-The add-on sends the URL, optional title/keyword and signature **only** to the YOURLS server you configure. Requests use POST, avoid cookies and redirects, and have a 15-second timeout. The token is kept in extension local storage, not a website page or query string.
+## Verification and outstanding review work
 
-If you change the server URL, re-enter a signature for the new server; kURL will not silently send the previous server's token to the new endpoint.
+Run `npm test` (Node.js 22+) for offline regression tests. Chromium integration checks are in `tests/browser-compose-check.py` and `tests/browser-qr-check.py` (Playwright, OpenCV).
 
-## Integration with the WordPress kURL plugin
+The 2015 untagged QR library has been replaced by **qrcode-generator 2.0.4**, sourced from its release-versioned upstream distribution. Its source file and SHA-256 are declared in `VENDOR.md`; the app-side canvas renderer is independently maintained. In a browser engine, generated PNGs have been QR-decoded successfully for ASCII, accented and Arabic short URLs; non-ASCII URL paths use their browser-equivalent percent-encoded representation in the QR code. An external independent reviewer has since confirmed a byte-for-byte match with the published npm 2.0.4 tarball.
 
-[WordPress kURL](https://github.com/gerald-drissner/kurl-wordpress) uses the same YOURLS installation. Dashboard statistics and links therefore reflect the whole YOURLS database, not just links made in Thunderbird.
+**Not yet fully release-tested:** Live Thunderbird compose, right-click, clipboard and QR attachment tests are outstanding. Seven non-English locale bundles still rely on English fallback for many new strings, and some runtime messages remain hard-coded English. Documentation of permissions for eventual ATN review is in `REVIEWER_NOTES.md` (not packaged).
+The `.xpi` is a zip archive containing only runtime files and vendor declaration; the separate source `.zip` contains tests, reproducible packing script and documentation.
 
-**Remote deletion** requires the optional **kURL Helper 1.1.5** installed on YOURLS. This version check occurs before every deletion. Deleting a remote URL can break links used by WordPress posts or already-sent emails. Unlike the WordPress plugin, the Thunderbird extension cannot inspect WordPress post references. Only delete links you know are not in use.
+## kURL 2.0.4
 
-WordPress-only operations (editor post metadata, post bulk generation **by post type**, Better YOURLS migration and WordPress reconciliation) are not present in Thunderbird because the extension has no access to the WordPress database. The Thunderbird **Bulk** page is instead designed for arbitrary pasted URLs.
+- Updated Arabic and German interface wording.
+- Replaced the 2015 untagged QR library with qrcode-generator 2.0.4; our code renders the module matrix onto a white PNG canvas with 4-module quiet zone.
+- Still requires live Thunderbird testing before release.
 
-The Thunderbird **Logs** page stores only local action types and timestamps, not WordPress server-side logs. No WordPress installation or plugin connection is needed to use these shared YOURLS API features.
+## kURL 2.0.6
 
-## Build and development
+- Corrected the translated dashboard help text so it accurately explains Create → Edit/Check YOURLS → Update and is not replaced at load by outdated translations.
+- Corrected Arabic UI descriptions of the active compose window, API signature token, and kURL shortcut.
+- Harmonized German shortening terminology, loading/empty states and the local-log privacy wording.
+- Standardized remaining English kURL capitalization.
+- Updated `VENDOR.md` with the exact npm CDN reference and independent byte-comparison report; QR source bytes are unchanged.
+- No changes to network, compose editor, QR renderer or data handling. Live Thunderbird tests still required.
 
-- JavaScript and static syntax: \`npm run check\`
-- Unit tests for validation, API responses and destructive-operation gating: \`npm test\`
-- GitHub Actions runs these checks on each push and pull request and packages a test \`.xpi\`.
-- Manual testing is required before releasing. See [TESTING.md](TESTING.md).
+## 2.0.6
 
-The ZIP/XPI must have \`manifest.json\` at its root along with \`JS/\`, \`_locales/\`, \`images/\` and the three HTML files/CSS. Do not package repository screenshots, test code or a checkout's \`.git/\` directory.
+This is a localized-copy-only follow-up to 2.0.5. It updates the shortcut guidance, adds the Arabic dashboard instructions, standardizes several German labels, removes a redundant reviewer attribution from the third-party library declaration, and leaves JS behavior and the QR library unchanged. Live Thunderbird 153 ESR / 157 testing is still required before submission.
 
-## Privacy, permissions and security
+## Thunderbird 2.0.8 usability update
 
-The add-on needs **compose** to insert text/attach a QR image, **scripting**, **tabs** and **messagesRead** to retrieve text selected in mail views, **menus** for context actions, **notifications** for status, **clipboardWrite** for copying, and **storage** for settings. Network access is optional host permission for the configured YOURLS origin.
+The extension settings open in a full Thunderbird tab (`options_ui.open_in_tab = true`), rather than the narrow Add-ons Manager inline preferences panel. From there open **Dashboard**, **Bulk**, or **Logs**. The dashboard uses a wide, two-column layout on large screens and collapses into one column on small screens; server details are tucked into an expandable section.
 
-In the dashboard, received titles and URLs are rendered as text, never assembled into HTML strings. Only HTTP(S) links may be opened. API response sizes are capped at 1 MiB. Server response bodies are not included verbatim in user-facing errors, reducing inadvertent secret disclosure.
+The optional kURL Helper is now maintained independently in the **Thunderbird repository** under `helper/kurl-helper/plugin.php`. It is also bundled in the XPI, and the dashboard offers **Show full PHP source**, **Copy PHP source**, and **Save plugin.php**. It must be installed in `user/plugins/kurl-helper/plugin.php` on the **YOURLS server** and activated in **Manage Plugins**, not installed in Thunderbird. Existing installations of kURL Helper 1.1.5 are compatible, and one server-side installation suffices for multiple clients. The dashboard's Helper status remains visible, with instructions available even when the Helper is installed.
 
-## Legacy and distribution
+Right-click shortening now attempts a transient, unobtrusive confirmation in the Thunderbird message/compose content. When content injection is not available, the existing Thunderbird desktop notification is used; operating-system notification policies still apply. Both success and error states have feedback.
 
-- Source: https://github.com/gerald-drissner/kurl-thunderbird-addon
-- Published add-on: https://addons.thunderbird.net/thunderbird/addon/kurl-yourls-shortener/
-- License: [MIT](LICENSE)
+### Manual test checklist
+
+1. Open Add-ons → kURL → Settings: verify a full Thunderbird tab, then navigate to the Dashboard. Confirm the wide layout and the collapsible connection details.
+2. With the helper absent, confirm that the onboarding card appears, but ordinary shorten/copy/statistics still work.
+3. Right-click a URL in the compose editor → Shorten and copy. Confirm the clipboard contents and toast or Thunderbird notification; repeat from a read-only message.
+4. Install the helper on YOURLS, refresh the dashboard, then verify helper state changes to Ready and helper-only controls are enabled.
+5. Repeat HTML/plain-text insertion, QR attachment, and reading historical URLs. No live Thunderbird tests are represented by the automated Node regression suite.
+
+## New in 2.0.8
+
+Right-click menus now register on extension background startup; context shortening attempts a native confirmation and a temporary toolbar badge. The dashboard displays a persistent Helper status, rank numbers for popular links and highlighted click counts. The redundant list Stats button is removed. The local log supports pagination, clipboard copying and `.txt` export. **Test connection & save** is now the primary setup action; credentials are committed only after the live YOURLS check succeeds, while **Save without testing** remains available explicitly.
+
+The YOURLS server-side kURL Helper must be installed separately. A malformed plugin name in YOURLS cannot be repaired from Thunderbird; use the clean `helper/kurl-helper/plugin.php` from this repository and ensure the top PHP comment contains `Plugin Name: kURL Helper`.
+
+
+## 2.0.9: standalone YOURLS Helper
+
+- Standalone Helper lives in `helper/kurl-helper/plugin.php` in the Thunderbird repository and is packaged as a static, unexecuted file inside the XPI.
+- Dashboard installer works offline: copy complete PHP file, save as `plugin.php`, or show the source inside an expandable, scrollable block.
+- Source link points to an immutable commit in the Thunderbird repository; the WordPress plugin repository is no longer needed for Thunderbird setup.
+- Updated EN/DE labels and warnings use neutral client names; unchanged YOURLS API.
+- Verify installation in YOURLS by refreshing the dashboard. Downloading a PHP file does not install it on the server automatically.

@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <title data-i18n-key="optionsTitle">kurl - Settings</title>
@@ -17,13 +17,13 @@
   </div>
 
   <label for="yourlsUrl" data-i18n-key="optionsYourlsUrlLabel">YOURLS URL (no trailing slash)</label>
-  <input id="yourlsUrl" type="url" placeholder="https://kurlxy.at">
+  <input id="yourlsUrl" type="url" placeholder="https://kurlxy.at" required>
 
     <label for="apiSignature" data-i18n-key="optionsApiSignatureLabel">API signature token</label>
     <input id="apiSignature" type="password" placeholder="••••••••••">
 
     <div class="toggle-container">
-      <span data-i18n-key="optionsAutoCopyLabel">Copy short link to clipboard automatically</span>
+      <label for="autoCopy" data-i18n-key="optionsAutoCopyLabel">Copy short link to clipboard automatically</label>
       <label class="switch">
         <input id="autoCopy" type="checkbox">
         <span class="slider round"></span>
@@ -31,19 +31,19 @@
     </div>
 
     <div class="row">
-      <button id="save" data-i18n-key="optionsBtnSave">Save</button>
-      <button id="test" class="secondary" data-i18n-key="optionsBtnTest">Test Connection</button>
+      <button id="test" data-i18n-key="optionsBtnTestAndSave">Test connection &amp; save</button>
+      <button id="save" class="secondary" data-i18n-key="optionsBtnSaveUnverified">Save without testing</button>
       <button id="removePerm" class="secondary danger" data-i18n-key="optionsBtnRemovePerm">Remove Host Permission</button>
     </div>
 
-    <div id="status" class="info" data-i18n-key="optionsStatusLoaded">Saved settings loaded. Click “Test Connection”.</div>
+    <p class="settings-hint" data-i18n-key="optionsOpenDashboardHint">Open Dashboard in its own tab for link statistics, link management and Helper installation instructions.</p>
+    <div id="status" class="info" role="status" aria-live="polite" data-i18n-key="optionsStatusLoaded">Saved settings loaded. Click “Test Connection”.</div>
 
-    <div class="shortcut-info">
+    <p id="privacy-info" data-i18n-key="optionsPrivacyNotice">kURL sends the target URL, optional keyword/title, and API authentication data to your configured YOURLS server over HTTPS. Dashboard actions retrieve statistics and link information from that server. API settings and a seven-day activity log remain local to Thunderbird; no data is sent to the add-on developer.</p>
+  <div class="shortcut-info">
       <h2 data-i18n-key="optionsShortcutTitle">Using the Shortcut</h2>
-      <p>
-        <span data-i18n-key="optionsShortcutDescription">You can quickly open the shortener by selecting a URL in the compose editor and pressing</span>
-        <code class="copyTag">Ctrl+Shift+K</code>.
-      </p>
+      <p id="shortcut-text"></p>
+      <button type="button" id="edit-shortcuts" class="secondary" data-i18n-key="optionsBtnEditShortcuts">Configure shortcuts</button>
       <p data-i18n-key="optionsShortcutChange">You can change this shortcut in Thunderbird's Add-ons Manager under the ⚙️ menu for kurl.</p>
     </div>
   </div>

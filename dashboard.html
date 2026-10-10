@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="options-body">
-  <main class="card">
+  <main class="card dashboard-shell">
     <nav class="nav-tabs" aria-label="kURL">
       <a href="options.html" class="nav-tab" data-i18n-key="optionsTitle">Settings</a>
       <a href="dashboard.html" class="nav-tab active" aria-current="page" data-i18n-key="dashboardTitle">Dashboard</a>
@@ -20,6 +20,8 @@
     </div>
     <p id="dashboard-feedback" class="info" role="status" aria-live="polite">Loading…</p>
 
+    <div class="dashboard-workspace">
+    <div class="dashboard-overview-column">
     <section aria-labelledby="overview-title">
       <h2 id="overview-title" data-i18n-key="dashOverview">YOURLS overview</h2>
       <div class="dashboard-grid">
@@ -40,13 +42,17 @@
           <span class="stat-label" data-i18n-key="dashboardLabelServerStatus">Connection</span>
         </div>
       </div>
+      <div id="helper-indicator" class="helper-indicator" role="status" aria-live="polite">Checking Helper…</div>
+      <details class="server-details"><summary data-i18n-key="dashTechnical">Connection details</summary>
       <dl class="kurl-details">
         <dt data-i18n-key="dashServer">Server</dt><dd id="info-server">—</dd>
         <dt data-i18n-key="dashYourlsVersion">YOURLS version</dt><dd id="info-version">—</dd>
         <dt data-i18n-key="dashHelper">kURL Helper</dt><dd id="info-helper">—</dd>
         <dt data-i18n-key="dashActivity">Recent operations (7 days)</dt><dd id="info-activity">—</dd>
-      </dl>
+      </dl></details>
     </section>
+    </div>
+    <div class="dashboard-create-column">
 
     <section class="kurl-panel" aria-labelledby="manual-title">
       <h2 id="manual-title" data-i18n-key="dashCreate">Create a short URL</h2>
@@ -60,20 +66,53 @@
         <div class="row">
           <button type="button" id="manual-reset" class="secondary" data-i18n-key="dashNew">New link</button>
           <button type="button" id="manual-lookup" class="secondary" data-i18n-key="dashLookup">Check YOURLS</button>
-          <button type="submit" id="manual-submit" data-i18n-key="dashShorten">Generate / Update</button>
+          <button type="submit" id="manual-submit" data-i18n-key="dashCreateNew">Create short URL</button>
+          <button type="button" id="manual-update" class="secondary" disabled data-i18n-key="dashUpdateExisting">Update existing link</button>
           <button type="button" id="manual-regenerate" class="secondary" disabled data-i18n-key="dashRegenerate">Regenerate safely</button>
           <button type="button" id="manual-copy" class="secondary" disabled data-i18n-key="dashCopyResult">Copy result</button>
         </div>
         <label for="manual-result" data-i18n-key="dashShortUrl">Short URL</label>
         <input id="manual-result" type="text" readonly>
-        <p class="kurl-help" data-i18n-key="dashManualHelp">Check an existing target before creating. Editing and regeneration require kURL Helper 1.1.5 and can change links used elsewhere.</p>
+        <p class="kurl-help" data-i18n-key="dashManualHelp">Create generates a link for the target. To change a saved link, select Edit in a list or Check YOURLS, then use Update existing link. Edits can affect links already shared.</p>
         <p id="manual-status" class="info" role="status" aria-live="polite">Ready.</p>
       </form>
     </section>
 
+    </div>
+    </div>
+    <aside id="helper-setup" class="helper-setup" aria-labelledby="helper-setup-title">
+      <div class="helper-lead">
+        <div>
+          <h2 id="helper-setup-title" data-i18n-key="helperSetupTitle">kURL Helper for YOURLS</h2>
+          <p data-i18n-key="helperSetupSummary">The optional server-side plugin adds lookup, editing, regeneration and remote deletion. It is installed on YOURLS, not Thunderbird.</p>
+        </div>
+        <span class="helper-pill" data-i18n-key="helperOptional">Optional</span>
+      </div>
+      <details id="helper-instructions">
+        <summary data-i18n-key="helperInstructions">Installation guide and download</summary>
+        <ol>
+          <li data-i18n-key="helperStep1">Download plugin.php here or copy the full PHP source code below.</li>
+          <li data-i18n-key="helperStep2">On your YOURLS server create user/plugins/kurl-helper/ and save plugin.php in that folder (not plugin.php.txt).</li>
+          <li data-i18n-key="helperStep3">In YOURLS → Manage Plugins, activate kURL Helper.</li>
+          <li data-i18n-key="helperStep4">Return to this dashboard and click Refresh. Version 1.1.5 or newer enables advanced actions.</li>
+        </ol>
+        <div class="helper-actions row">
+          <button id="helper-download" type="button" class="secondary" data-i18n-key="helperDownload">Save plugin.php</button>
+          <button id="helper-copy" type="button" class="secondary" data-i18n-key="helperCopy">Copy PHP code</button>
+          <a id="helper-source-link" href="https://github.com/gerald-drissner/kurl-thunderbird-addon/blob/e6422d74838b38cd566f17be2232c6fefbc5c2dd/helper/kurl-helper/plugin.php" target="_blank" rel="noopener noreferrer" data-i18n-key="helperSource">View the helper on GitHub</a>
+        </div>
+        <details id="helper-code-details" class="helper-code-details">
+          <summary data-i18n-key="helperShowCode">Show full PHP source</summary>
+          <pre class="helper-source"><code id="helper-code" dir="ltr" data-i18n-key="helperLoadOnOpen">Open to load the code.</code></pre>
+        </details>
+        <p id="helper-file-status" role="status" aria-live="polite" class="kurl-help"></p>
+        <p class="helper-warning" data-i18n-key="helperSafety">One YOURLS Helper installation can serve multiple clients. Changes and deletions can break URLs already shared on websites or in sent emails.</p>
+      </details>
+    </aside>
+    <div class="dashboard-list-columns">
     <section aria-labelledby="top-title">
       <h2 id="top-title" data-i18n-key="dashTop">Most clicked YOURLS links</h2>
-      <div id="top-links-container" class="kurl-link-list" aria-live="polite"></div>
+      <div id="top-links-container" class="kurl-link-list" ></div>
     </section>
     <section aria-labelledby="recent-title">
       <div class="dashboard-header">
@@ -83,9 +122,10 @@
           <input id="filter-links" type="search" data-i18n-placeholder="dashSearch" placeholder="Search URL or keyword">
         </div>
       </div>
-      <div id="recent-links-container" class="kurl-link-list" aria-live="polite"></div>
+      <div id="recent-links-container" class="kurl-link-list" ></div>
       <div id="view-more-container" class="row"></div>
     </section>
+    </div>
   </main>
   <script src="JS/helpers.js"></script>
   <script src="JS/dashboard.js"></script>

@@ -9,6 +9,8 @@ let recentLinks = [];
 let loadingMoreGeneration = -1;
 let viewGeneration = 0;
 let helperReady = false;
+let helperSourcePromise = null;
+let helperInitialState = true;
 
 function message(el, value, error = false) {
   el.textContent = String(value);
@@ -18,6 +20,8 @@ function formatNumber(value) {
   return (Number(value) || 0).toLocaleString();
 }
 function i18n() {
+  document.documentElement.lang = browser.i18n.getUILanguage().split("-")[0];
+  document.documentElement.dir = browser.i18n.getMessage("@@bidi_dir") || "ltr";
   document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
     const translated = browser.i18n.getMessage(el.dataset.i18nPlaceholder);
     if (translated) el.placeholder = translated;
@@ -45,11 +49,19 @@ function makeButton(title, callback, className = "secondary") {
   button.addEventListener("click", callback);
   return button;
 }
-function makeLinkRow(link) {
+function makeLinkRow(link, rank = null) {
   const row = document.createElement("article");
   row.className = "link-item";
   const texts = document.createElement("div");
   texts.className = "link-urls";
+  if (Number.isInteger(rank)) {
+    const rankBadge = document.createElement("span");
+    rankBadge.className = "link-rank";
+    rankBadge.textContent = String(rank);
+    rankBadge.setAttribute("aria-label", t("dashRank", "Rank") + " " + rank);
+    row.appendChild(rankBadge);
+    row.classList.add("ranked-link");
+  }
   const short = H.validHttpUrl(link.shorturl);
   const target = H.validHttpUrl(link.url || link.longurl);
   if (short) {
@@ -88,7 +100,7 @@ function makeLinkRow(link) {
   actions.className = "kurl-actions";
   const clicks = document.createElement("span");
   clicks.className = "link-clicks";
-  clicks.textContent = formatNumber(link.clicks) + " clicks";
+  clicks.textContent = formatNumber(link.clicks) + " " + t("dashboardLabelClicks", "clicks");
   actions.appendChild(clicks);
   if (short) {
     actions.appendChild(makeButton(t("popupBtnCopy", "Copy"), async () => {
@@ -99,19 +111,22 @@ function makeLinkRow(link) {
         message($("dashboard-feedback"), "Cannot copy to clipboard: " + error.message, true);
       }
     }));
-    actions.appendChild(makeButton(t("popupBtnStats", "Stats"), async () => {
-      try {
-        const result = await send("GET_STATS", { shortUrl: short });
-        const data = result.data?.link || result.data?.url || {};
-        message($("dashboard-feedback"), short + " — " + formatNumber(data.clicks) + " clicks");
-      } catch (error) {
-        message($("dashboard-feedback"), error.message, true);
-      }
-    }));
+    if (helperReady && target) {
+      actions.appendChild(makeButton(t("dashEdit", "Edit"), () => {
+        $("manual-long").value = target;
+        $("manual-result").value = short;
+        $("manual-keyword").value = H.extractKeyword($("info-server").textContent,short);
+        $("manual-title-input").value = String(link.title || "").slice(0,300);
+        updateManualButtons();
+        $("manual-long").focus();
+        message($("manual-status"),t("dashEditReady","Selected an existing link. Use Update existing link to change its destination."));
+        $("manual-form").scrollIntoView({block:"center",behavior:"smooth"});
+      }));
+    }
     if (helperReady) {
       actions.appendChild(makeButton(t("popupBtnDelete", "Delete"), async () => {
         const question = "Delete " + short +
-          " from YOURLS permanently? This could break links referenced by WordPress posts or emails.";
+          " from YOURLS permanently? This could break links referenced by websites or sent emails.";
         if (!window.confirm(question)) return;
         try {
           await send("DELETE_SHORTURL", { shortUrl: short });
@@ -126,7 +141,7 @@ function makeLinkRow(link) {
   row.appendChild(actions);
   return row;
 }
-function renderRows(container, items, emptyText) {
+function renderRows(container, items, emptyText, ranked = false) {
   container.replaceChildren();
   if (!items.length) {
     const p = document.createElement("p");
@@ -135,7 +150,7 @@ function renderRows(container, items, emptyText) {
     return;
   }
   const fragment = document.createDocumentFragment();
-  for (const item of items) fragment.appendChild(makeLinkRow(item));
+  for (const [i, item] of items.entries()) fragment.appendChild(makeLinkRow(item, ranked ? i + 1 : null));
   container.appendChild(fragment);
 }
 function filterRecent() {
@@ -182,7 +197,7 @@ async function loadMore(generation) {
     if (loadingMoreGeneration === generation) loadingMoreGeneration = -1;
   }
 }
-async function refresh() {
+async function refresh(forceHelper = false) {
   const generation = ++viewGeneration;
   currentOffset = 0;
   recentLinks = [];
@@ -192,12 +207,26 @@ async function refresh() {
   $("refresh-btn").disabled = true;
   message($("dashboard-feedback"), t("dashboardStatusLoading", "Loading…"));
   try {
-    const response = await send("GET_INFO");
+    const response = await send("GET_INFO",{forceHelper});
     if (generation !== viewGeneration) return;
     const info = response.data;
     helperReady = info.helperReady;
+    // The installer remains available even when the helper is already installed.
+    // Open it automatically only on the first missing/outdated status check.
+    if (helperInitialState) {
+      $("helper-instructions").open = !info.helperReady;
+      helperInitialState = false;
+    }
+    const state = $("helper-indicator");
+    state.className = "helper-indicator " + (info.helperReady ? "helper-ok" : "helper-missing");
+    state.textContent = info.helperReady
+      ? t("helperFound", "Helper plugin: INSTALLED / OK") + " (" + info.helperVersion + ")"
+      : info.helperVersion
+        ? t("helperOutdated", "Helper plugin: UPDATE REQUIRED") + " (" + info.helperVersion + ")"
+        : t("helperMissing", "Helper plugin: NOT FOUND");
+    $("helper-setup").dataset.state = info.helperVersion ? "outdated" : "missing";
     $("manual-lookup").disabled = !helperReady;
-    $("manual-regenerate").disabled = !helperReady || !$("manual-result").value;
+    updateManualButtons();
     $("total-links").textContent = formatNumber(info.totalLinks);
     $("total-clicks").textContent = formatNumber(info.totalClicks);
     $("avg-clicks").textContent = info.totalLinks > 0
@@ -215,6 +244,9 @@ async function refresh() {
   } catch (error) {
     if (generation !== viewGeneration) return;
     helperReady = false;
+    // Keep the local installation instructions available if the connection fails.
+    $("helper-indicator").textContent = t("helperUnknown", "Helper plugin: status unknown");
+    $("helper-indicator").className = "helper-indicator helper-missing";
     $("server-status").textContent = t("dashboardStatusError", "Error");
     $("server-status").classList.remove("status-online");
     message($("dashboard-feedback"), error.message, true);
@@ -223,7 +255,7 @@ async function refresh() {
     try {
       const top = await send("GET_TOP_LINKS", { limit: 10 });
       if (generation === viewGeneration) {
-        renderRows($("top-links-container"), parseLinks(top.data), "No top links found.");
+        renderRows($("top-links-container"), parseLinks(top.data), "No top links found.", true);
       }
     } catch (error) {
       if (generation === viewGeneration) {
@@ -245,6 +277,7 @@ function selectedShort() {
 function updateManualButtons() {
   $("manual-copy").disabled = !selectedShort();
   $("manual-regenerate").disabled = !helperReady || !selectedShort();
+  $("manual-update").disabled = !helperReady || !selectedShort();
 }
 async function lookup() {
   const input = H.validHttpUrl($("manual-long").value);
@@ -262,39 +295,57 @@ async function lookup() {
     message($("manual-status"), error.message, true);
   } finally { $("manual-lookup").disabled = false; }
 }
-async function generateOrUpdate(event) {
+async function createNew(event) {
   event.preventDefault();
   const input = H.validHttpUrl($("manual-long").value);
   if (!input) return message($("manual-status"), "Enter a valid target URL.", true);
-  const previous = selectedShort();
-  if (previous && !helperReady) {
-    return message($("manual-status"), "Updating existing links requires kURL Helper 1.1.5.", true);
-  }
-  if (previous && !confirm("Update the existing YOURLS short URL? The target or keyword may be used in existing WordPress posts and emails.")) return;
   $("manual-submit").disabled = true;
-  message($("manual-status"), previous ? "Updating existing link…" : "Creating short URL…");
+  message($("manual-status"),t("dashCreating","Creating short URL…"));
   try {
-    const response = await send(previous ? "UPDATE_URL" : "SHORTEN_URL", {
-      longUrl: input, shortUrl: previous,
-      keyword: $("manual-keyword").value.trim(),
+    const response = await send("SHORTEN_URL", {
+      longUrl: input, keyword: $("manual-keyword").value.trim(),
       title: $("manual-title-input").value.trim()
     });
     $("manual-result").value = response.shortUrl;
-    $("manual-keyword").value = H.extractKeyword($("info-server").textContent, response.shortUrl);
+    // A custom slug applies to this creation only. Never carry it into the next Create.
+    // Existing-link edits get their keyword again when the user clicks Edit.
+    $("manual-keyword").value = "";
     updateManualButtons();
-    message($("manual-status"), previous ? "Existing short URL updated safely." :
-      response.already ? "This URL already has a short link." : "Short URL created.");
+    message($("manual-status"), response.already
+      ? t("popupInfoAlreadyShortened","This URL already has a short link.")
+      : t("popupStatusCreated","Short URL created."));
+    if (response.keywordAdjusted && !response.already)
+      message($("manual-status"),t("keywordAdjusted","YOURLS changed your keyword."));
     void refresh();
   } catch (error) {
     message($("manual-status"), error.message, true);
   } finally { $("manual-submit").disabled = false; }
+}
+async function updateExisting() {
+  const input = H.validHttpUrl($("manual-long").value);
+  const previous = selectedShort();
+  if (!helperReady || !input || !previous)
+    return message($("manual-status"),t("dashSelectToEdit","Choose an existing short URL and a valid target first."),true);
+  if (!confirm(t("confirmUpdate","Update this existing short URL? Its target might already be used in websites and sent emails."))) return;
+  $("manual-update").disabled = true;
+  try {
+    const response = await send("UPDATE_URL", {
+      longUrl:input,shortUrl:previous,keyword:$("manual-keyword").value.trim(),
+      title:$("manual-title-input").value.trim()
+    });
+    $("manual-result").value=response.shortUrl;
+    $("manual-keyword").value=H.extractKeyword($("info-server").textContent,response.shortUrl);
+    message($("manual-status"),t("dashUpdated","Existing short URL updated."));
+    void refresh();
+  } catch(error) {message($("manual-status"),error.message,true);}
+  finally {updateManualButtons();}
 }
 async function regenerate() {
   const input = H.validHttpUrl($("manual-long").value);
   const short = selectedShort();
   if (!helperReady || !short || !input) return message($("manual-status"),
     "Choose an existing short URL and valid target first.", true);
-  if (!confirm("Regenerate this short URL? A new keyword can BREAK existing links in WordPress and emails. Continue?")) return;
+  if (!confirm(t("confirmRegenerate", "Regenerate this short URL? Changing its keyword can break links in websites and sent emails."))) return;
   $("manual-regenerate").disabled = true;
   try {
     const response = await send("REGENERATE_URL", {
@@ -312,9 +363,67 @@ async function regenerate() {
   } finally { updateManualButtons(); }
 }
 
+// Read only our bundled, static helper file. Never load executable code from a remote server.
+async function getBundledHelperCode() {
+  if (!helperSourcePromise) {
+    helperSourcePromise = (async () => {
+      const response = await fetch(browser.runtime.getURL("helper/kurl-helper/plugin.php"), {
+        redirect: "error", credentials: "omit", cache: "no-store"
+      });
+      if (!response.ok) throw new Error("Bundled helper file unavailable.");
+      const code = await response.text();
+      if (!code.startsWith("<?php\n/*\nPlugin Name: kURL Helper\n") || code.length > 100000) {
+        throw new Error("Invalid bundled Helper source.");
+      }
+      return code;
+    })().catch(error => { helperSourcePromise = null; throw error; });
+  }
+  return helperSourcePromise;
+}
+function helperFeedback(value, error = false) {
+  const node = $("helper-file-status");
+  node.textContent = value;
+  node.className = error ? "kurl-help error-message" : "kurl-help";
+}
+async function withHelperButton(button, action) {
+  button.disabled = true;
+  try { await action(await getBundledHelperCode()); }
+  catch (error) { helperFeedback(String(error.message || error), true); }
+  finally { button.disabled = false; }
+}
+$("helper-copy").addEventListener("click", () => withHelperButton($("helper-copy"), async code => {
+  await navigator.clipboard.writeText(code);
+  helperFeedback(t("helperCopyDone", "Complete plugin.php source copied to clipboard."));
+}));
+$("helper-download").addEventListener("click", () => withHelperButton($("helper-download"), async code => {
+  const blob = new Blob([code], { type: "text/x-php;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  try {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "plugin.php";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    helperFeedback(t("helperDownloadStarted", "plugin.php download requested. Verify its filename in the downloads folder."));
+  } finally {
+    // Delay revocation to give Thunderbird's download manager time to open the blob URL.
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  }
+}));
+$("helper-code-details").addEventListener("toggle", async event => {
+  if (!event.target.open || $("helper-code").dataset.loaded) return;
+  try {
+    $("helper-code").textContent = await getBundledHelperCode();
+    $("helper-code").dataset.loaded = "true";
+  } catch (error) {
+    helperFeedback(String(error.message || error), true);
+  }
+});
 i18n();
-$("refresh-btn").addEventListener("click", refresh);
-$("manual-form").addEventListener("submit", generateOrUpdate);
+$("refresh-btn").addEventListener("click", () => refresh(true));
+$("manual-form").addEventListener("submit", createNew);
+$("manual-update").addEventListener("click",updateExisting);
 $("manual-lookup").addEventListener("click", lookup);
 $("manual-regenerate").addEventListener("click", regenerate);
 $("manual-reset").addEventListener("click", () => {
@@ -336,3 +445,5 @@ $("manual-copy").addEventListener("click", async () => {
 });
 $("filter-links").addEventListener("input", filterRecent);
 refresh();
+// The target field may change while an existing short URL stays selected.
+// Create and Update are separate explicit actions: never infer update from text changes.

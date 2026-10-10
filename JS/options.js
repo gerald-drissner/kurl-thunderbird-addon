@@ -13,7 +13,7 @@ function connection() {
   const base = H.sanitizeBaseUrl($("yourlsUrl").value);
   const token = $("apiSignature").value.trim();
   if (!base || !token) throw new Error(t("optionsStatusEnterUrlAndToken", "Enter a valid URL and API token."));
-  if (base !== saved.yourlsUrl && token === saved.apiSignature) {
+  if (base && saved.yourlsUrl && new URL(base).host !== new URL(saved.yourlsUrl).host && token === saved.apiSignature) {
     throw new Error("Server changed. Enter its own API signature; the previous token cannot be reused.");
   }
   return { yourlsUrl: base, apiSignature: token };
@@ -23,9 +23,13 @@ async function hostPermission(base) {
   const granted = await browser.permissions.request({ origins: [pattern] });
   if (!granted) throw new Error(t("optionsStatusPermNotGranted", "Host permission not granted."));
 }
+let testing = false;
 async function test() {
   let config;
   try { config = connection(); } catch (error) { return status(error.message); }
+  if (testing) return;
+  testing = true;
+  $("test").disabled = true;
   try {
     // Request immediately in a click handler while user activation is available.
     await hostPermission(config.yourlsUrl);
@@ -34,10 +38,19 @@ async function test() {
       type: "CHECK_CONNECTION", settings: config
     });
     if (!result?.ok) throw new Error(result?.reason || t("optionsStatusConnFailed", "Connection failed."));
-    status(browser.i18n.getMessage("optionsStatusConnOk", String(result.total)) ||
-      ("Connected. Total links: " + result.total), true);
+    // Commit only AFTER the API actually accepted the credentials.
+    const finalSettings = { ...config, autoCopy: $("autoCopy").checked };
+    await H.setSettings(finalSettings);
+    saved = finalSettings;
+    status(t("optionsStatusVerifiedSaved", "Connection verified and settings saved. " ) +
+      (browser.i18n.getMessage("optionsStatusConnOk", String(result.total)) ||
+        ("Total links: " + result.total)), true);
   } catch (error) {
-    status(String(error.message || error));
+    status(t("optionsStatusNotSaved", "Connection failed. Settings were not saved. ") +
+      String(error.message || error));
+  } finally {
+    testing = false;
+    $("test").disabled = false;
   }
 }
 async function save() {
@@ -47,7 +60,7 @@ async function save() {
     await hostPermission(config.yourlsUrl);
     await H.setSettings({ ...config, autoCopy: $("autoCopy").checked });
     saved = { ...config, autoCopy: $("autoCopy").checked };
-    status(t("optionsStatusSaved", "Settings saved."), true);
+    status(t("optionsStatusSavedUnchecked", "Settings saved without connection verification. You can test the connection later."));
   } catch (error) {
     status(String(error.message || error));
   }
@@ -73,20 +86,40 @@ function internationalize() {
 }
 async function init() {
   internationalize();
+  document.documentElement.lang = browser.i18n.getUILanguage().split("-")[0];
+  document.documentElement.dir = browser.i18n.getMessage("@@bidi_dir") || "ltr";
+  try {
+    const commands = await browser.commands.getAll();
+    const command = commands.find(x => x.name === "_execute_compose_action");
+    const shortcut = command?.shortcut || "Not set";
+    $("shortcut-text").textContent = command?.shortcut
+      ? browser.i18n.getMessage("optionsShortcutSentence",[shortcut])
+      : t("optionsShortcutUnassigned", "No shortcut assigned. Choose one with Configure shortcuts or use the toolbar button.");
+  } catch { $("shortcut-text").textContent = "Open the kURL toolbar button to shorten a URL."; }
+
   saved = await H.getSettings();
-  $("yourlsUrl").value = saved.yourlsUrl;
+  const raw = await browser.storage.local.get("yourlsUrl");
+  const old = String(raw.yourlsUrl || "").trim();
+  $("yourlsUrl").value = old.startsWith("http://")
+    ? "https://" + old.slice("http://".length) : saved.yourlsUrl;
   $("apiSignature").value = saved.apiSignature;
   $("autoCopy").checked = saved.autoCopy;
-  status(t("optionsStatusLoaded", "Settings loaded."));
+  status(old.startsWith("http://") ?
+    "Old HTTP connection detected. HTTPS has been filled in; test the connection and save the updated settings." :
+    t("optionsStatusLoaded", "Settings loaded."));
 }
 $("test").addEventListener("click", test);
 $("save").addEventListener("click", save);
 $("removePerm").addEventListener("click", revoke);
 $("yourlsUrl").addEventListener("input", () => {
   const base = H.sanitizeBaseUrl($("yourlsUrl").value);
-  if (base !== saved.yourlsUrl && $("apiSignature").value === saved.apiSignature) {
+  if (base && saved.yourlsUrl && new URL(base).host !== new URL(saved.yourlsUrl).host && $("apiSignature").value === saved.apiSignature) {
     $("apiSignature").value = "";
     status("Server changed. Enter the API signature for the new server.");
   }
 });
 init().catch(error => status(String(error.message || error)));
+$("edit-shortcuts")?.addEventListener("click", async () => {
+  try { await browser.commands.openShortcutSettings(); }
+  catch { status("Open the Thunderbird Add-ons Manager and select Manage Extension Shortcuts."); }
+});

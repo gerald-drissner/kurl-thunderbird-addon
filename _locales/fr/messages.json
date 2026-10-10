@@ -47,10 +47,6 @@
     "message": "La permission d'hôte n'a pas été accordée.",
     "description": "Error message when host permission is denied."
   },
-  "optionsStatusPermRequestError": {
-    "message": "Impossible de demander la permission d'hôte : ",
-    "description": "Error message when requesting host permission fails."
-  },
   "optionsStatusConnOk": {
     "message": "Connexion OK (Total de liens : $total$)",
     "description": "Success message for connection test.",
@@ -83,10 +79,6 @@
   "optionsShortcutTitle": {
     "message": "Utilisation du raccourci",
     "description": "Title for the shortcut information box in options."
-  },
-  "optionsShortcutDescription": {
-    "message": "Vous pouvez ouvrir rapidement le raccourcisseur en sélectionnant une URL dans l'éditeur de composition et en appuyant sur",
-    "description": "Description of how to use the keyboard shortcut."
   },
   "optionsShortcutChange": {
     "message": "Vous pouvez changer ce raccourci dans le gestionnaire d'extensions de Thunderbird, sous le menu ⚙️ pour kurl.",
@@ -136,10 +128,6 @@
     "message": "Supprimer",
     "description": "Delete button text."
   },
-  "popupBtnConfirmDelete": {
-    "message": "Confirmer ?",
-    "description": "Delete button confirmation text."
-  },
   "popupBtnGoToSettings": {
     "message": "Aller aux paramètres",
     "description": "Button text in the popup to open the options page."
@@ -179,10 +167,6 @@
   "popupStatusCreated": {
     "message": "URL courte créée.",
     "description": "Success message when URL is shortened."
-  },
-  "popupStatusAlreadyShortened": {
-    "message": "URL déjà raccourcie.",
-    "description": "Message when URL already exists."
   },
   "popupStatusCopied": {
     "message": "Copié dans le presse-papiers.",
@@ -231,10 +215,6 @@
     "message": "URL déjà raccourcie. Vous pouvez voir les statistiques ou la supprimer ci-dessous.",
     "description": "Informational message for an existing URL."
   },
-  "popupInfoAutoStats": {
-    "message": "C'est déjà une URL courte. Récupération des statistiques automatiquement.",
-    "description": "Message when auto-fetching stats for a selected short URL."
-  },
   "popupErrorInvalidUrl": {
     "message": "Veuillez entrer une URL http(s) valide.",
     "description": "Error for invalid URL format."
@@ -243,21 +223,9 @@
     "message": "Rien à copier.",
     "description": "Error when copy button is clicked with no URL."
   },
-  "popupErrorCopyFailed": {
-    "message": "Échec de la copie.",
-    "description": "Error when clipboard copy fails."
-  },
-  "popupErrorNothingToInsert": {
-    "message": "Rien à insérer.",
-    "description": "Error when insert button is clicked with no URL."
-  },
   "popupErrorNothingToAttach": {
     "message": "Rien à joindre.",
     "description": "Error when attach button is clicked with no URL."
-  },
-  "popupErrorAttachFailed": {
-    "message": "Échec de la jointure du code QR.",
-    "description": "Error when QR code attachment fails."
   },
   "popupErrorNoCompose": {
     "message": "Impossible de trouver une fenêtre de composition active.",
@@ -271,57 +239,9 @@
     "message": "Fournissez une URL courte ou un mot-clé à supprimer.",
     "description": "Error when delete is clicked with no URL."
   },
-  "popupErrorStatsNotFound": {
-    "message": "URL courte non trouvée.",
-    "description": "Error when stats are requested for a non-existent URL."
-  },
-  "errorShortenFailed": {
-    "message": "Échec du raccourcissement.",
-    "description": "Generic error for shortening."
-  },
-  "errorStatsFailed": {
-    "message": "Échec de la récupération des statistiques.",
-    "description": "Generic error for fetching stats."
-  },
-  "errorDeleteFailed": {
-    "message": "Échec de la suppression",
-    "description": "Generic error for deleting."
-  },
-  "errorEnterKeywordToDelete": {
-    "message": "Veuillez entrer une URL courte ou un mot-clé à supprimer.",
-    "description": "Error in background script if keyword is missing for delete."
-  },
   "errorNoSettings": {
     "message": "Veuillez d'abord configurer YOURLS dans les paramètres de l'extension.",
     "description": "Error when settings are not configured."
-  },
-  "toastUrlCreated": {
-    "message": "URL courte créée.",
-    "description": "Notification message for success."
-  },
-  "toastUrlExists": {
-    "message": "URL déjà raccourcie.",
-    "description": "Notification message for existing URL."
-  },
-  "toastUrlDeleted": {
-    "message": "URL courte supprimée.",
-    "description": "Notification message for deleted URL."
-  },
-  "toastQrAttached": {
-    "message": "Code QR joint.",
-    "description": "Notification message when a QR code has been attached to the email."
-  },
-  "toastUrlPrimed": {
-    "message": "URL préparée. Cliquez sur l'icône kurl dans l'en-tête du message.",
-    "description": "Notification message after priming the URL from the 3-pane view."
-  },
-  "menuItemShortenSelection": {
-    "message": "kurl : Raccourcir la sélection…",
-    "description": "The title of the context menu item for shortening a selection."
-  },
-  "menuItemPrimeUrl": {
-    "message": "kurl : Copier l'URL à préparer (sans popup)",
-    "description": "The title of the context menu item for the 3-pane view."
   },
   "commandShortenDescription": {
     "message": "Ouvrir la fenêtre popup du raccourcisseur kurl.",
@@ -362,10 +282,6 @@
   "dashboardStatusOnline": {
     "message": "En ligne",
     "description": "Server status text for when the connection is OK."
-  },
-  "dashboardStatusOffline": {
-    "message": "Hors ligne",
-    "description": "Server status text for when there is no connection."
   },
   "dashboardStatusError": {
     "message": "Erreur",

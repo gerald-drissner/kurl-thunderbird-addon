@@ -9,25 +9,27 @@ let results = [];
 const MAX_ROWS = 250;
 function status(value) { $("bulk-status").textContent = value; }
 function localize() {
+  document.documentElement.lang = browser.i18n.getUILanguage().split("-")[0];
+  document.documentElement.dir = browser.i18n.getMessage("@@bidi_dir") || "ltr";
   document.querySelectorAll("[data-i18n-key]").forEach(el => {
     const message = browser.i18n.getMessage(el.dataset.i18nKey);
     if (message) el.textContent = message;
   });
 }
 function parseRows() {
-  const trimmed = $("bulk-input").value.trim();
-  if (!trimmed) return [];
-  const raw = trimmed.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
-  if (raw.length > MAX_ROWS) throw new Error("Maximum " + MAX_ROWS + " URLs per run.");
-  const found = new Set();
-  const list = [];
-  for (const [index, entry] of raw.entries()) {
+  const raw = $("bulk-input").value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+  if (raw.length > MAX_ROWS) throw new Error("Maximum " + MAX_ROWS + " URL lines per run.");
+  const seen = new Set();
+  const rows = [];
+  for (const [i, entry] of raw.entries()) {
     const url = H.validHttpUrl(entry);
-    if (!url) throw new Error("Invalid URL on line " + (index + 1) + ": " + entry.slice(0, 80));
-    if (!found.has(url)) { found.add(url); list.push(url); }
+    if (url && seen.has(url)) continue;
+    if (url) seen.add(url);
+    rows.push({longUrl: url || entry.slice(0, 500), invalid: !url, line: i + 1});
   }
-  return list;
+  return rows;
 }
+
 function render() {
   const container = $("bulk-results");
   container.replaceChildren();
@@ -60,7 +62,7 @@ $("bulk-preview").addEventListener("click", () => {
   if (running) return;
   try {
     const urls = parseRows();
-    status(urls.length + " unique URLs ready. Existing links will be reused.");
+    status(urls.filter(x => !x.invalid).length + " valid unique URLs and " + urls.filter(x => x.invalid).length + " invalid rows. Existing links will be reused.");
   } catch (error) { status(error.message); }
 });
 $("bulk-start").addEventListener("click", async () => {
@@ -85,29 +87,34 @@ $("bulk-start").addEventListener("click", async () => {
   const batchSize = Number($("bulk-size").value) || 10;
   let succeeded = 0, failed = 0, reused = 0;
   try {
-    for (let offset = 0; offset < urls.length && !stopRequested; offset += batchSize) {
-      const slice = urls.slice(offset, offset + batchSize);
-      for (const longUrl of slice) {
-        // Sequential requests avoid hammering small self-hosted YOURLS servers.
-        if (stopRequested) break;
+    // YOURLS allocates keywords non-atomically: never send concurrent creates.
+    // "batchSize" only controls UI refresh frequency, not API concurrency.
+    for (const item of urls) {
+      if (stopRequested) break;
+      let result;
+      if (item.invalid) result={longUrl:item.longUrl,error:"Invalid HTTP(S) URL on line " + item.line};
+      else {
         try {
-          const response = await browser.runtime.sendMessage({ type: "SHORTEN_URL", longUrl });
-          if (!response?.ok || !H.validHttpUrl(response.shortUrl)) {
+          const response=await browser.runtime.sendMessage({type:"SHORTEN_URL",longUrl:item.longUrl,bulk:true});
+          if (!response?.ok || !H.validHttpUrl(response.shortUrl))
             throw new Error(response?.reason || "No valid short URL returned.");
-          }
-          results.push({ longUrl, shortUrl: response.shortUrl, already: !!response.already });
-          succeeded++;
-          if (response.already) reused++;
-        } catch (error) {
-          results.push({ longUrl, error: String(error.message || error).slice(0, 200) });
-          failed++;
-        }
-        $("bulk-progress").value = Math.round((results.length / urls.length) * 100);
-        status(results.length + "/" + urls.length + " processed — " +
-          succeeded + " successful (" + reused + " existing), " + failed + " failed.");
+          result={longUrl:item.longUrl,shortUrl:response.shortUrl,already:!!response.already};
+        } catch(error){result={longUrl:item.longUrl,error:String(error.message||error).slice(0,200)};}
+      }
+      results.push(result);
+      if(result.error) failed++;else {succeeded++;if(result.already)reused++;}
+      // Update after every N entries, but always show last and stop requests promptly.
+      if (results.length % batchSize===0 || results.length===urls.length || stopRequested) {
+        $("bulk-progress").value=Math.round(results.length/urls.length*100);
+        status(results.length+"/"+urls.length+" processed — "+succeeded+
+          " successful ("+reused+" existing), "+failed+" failed.");
         render();
       }
     }
+    $("bulk-progress").value=Math.round(results.length/urls.length*100);
+    render();
+    status(results.length+"/"+urls.length+" processed — "+succeeded+
+      " successful ("+reused+" existing), "+failed+" failed.");
   } finally {
     running = false;
     $("bulk-start").disabled = false;
@@ -115,6 +122,7 @@ $("bulk-start").addEventListener("click", async () => {
     $("bulk-stop").disabled = true;
     $("bulk-size").disabled = false;
     $("bulk-input").disabled = false;
+    await browser.runtime.sendMessage({type:"LOG_BULK", total: results.length, failures: failed}).catch(() => {});
     if (stopRequested) status("Stopped. " + results.length + "/" + urls.length + " URLs processed.");
   }
 });

@@ -5,12 +5,116 @@ const i18n = (key, fallback) => browser.i18n.getMessage(key) || fallback;
 const MAX_BODY = 1048576;
 const TIMEOUT = 15000;
 const HELPER_VERSION = "1.1.5";
+const HELPER_CACHE_MS = 5 * 60 * 1000;
+let helperCache = null;
+function helperVersionAtLeast(found, minimum = HELPER_VERSION) {
+  if (!/^\d+(\.\d+){1,2}$/.test(String(found))) return false;
+  const a = String(found).split(".").map(Number);
+  const b = minimum.split(".").map(Number);
+  for (let i=0;i<3;i++) { if ((a[i]||0)!==(b[i]||0)) return (a[i]||0)>(b[i]||0); }
+  return true;
+}
+function apiError(json, code) {
+  const value = typeof json?.message === "string" ? json.message.trim() : "";
+  return value ? value.slice(0, 300) : `YOURLS request failed (HTTP ${code}).`;
+}
+function extractFirstUrl(raw) {
+  let found = String(raw || "").match(/https?:\/\/[^\s<>"'«»“”]+/i)?.[0] || "";
+  // Closing brackets are meaningful inside Wikipedia-style URLs and query values.
+  // Remove only unmatched trailing brackets (and ordinary prose punctuation).
+  const pairs = {")":"(", "]":"[", "}":"{"};
+  while (found) {
+    const last = found.slice(-1);
+    if (/[.,;:!?»”]/u.test(last)) {found = found.slice(0,-1);continue;}
+    if (pairs[last]) {
+      const count = char => [...found].filter(c => c === char).length;
+      if (count(last) > count(pairs[last])) {found = found.slice(0,-1);continue;}
+    }
+    break;
+  }
+  return H.validHttpUrl(found);
+}
+
+async function getHelperInfo(force = false) {
+  const config = await H.getSettings();
+  const key = config.yourlsUrl + ":" + config.apiSignature;
+  if (!force && helperCache?.key === key && Date.now() - helperCache.time < HELPER_CACHE_MS)
+    return helperCache.info;
+  let ping;
+  try { ping = success(await request("kurl_ping")); }
+  catch { ping = {}; }
+  const caps = Array.isArray(ping.kurl_capabilities)
+    ? ping.kurl_capabilities.filter(x => typeof x === "string") : [];
+  const version = String(ping.kurl_helper_version || "");
+  const info = {version, capabilities: caps,
+    ready: helperVersionAtLeast(version) &&
+      ["delete", "find_by_url", "regenerate"].every(x => caps.includes(x))};
+  helperCache = ping.kurl_helper_version ? {key,time: Date.now(),info} : null;
+  return info;
+}
+
+
+// A brief on-page confirmation complements OS notifications, which users may disable.
+async function contextToast(tabId, message, kind = "success") {
+  if (!Number.isInteger(tabId) || tabId < 0) return false;
+  try {
+    const result = await browser.scripting.executeScript({
+      target: {tabId},
+      func: (text, state) => {
+        const old = document.getElementById("kurl-context-toast");
+        old?.remove();
+        const node = document.createElement("div");
+        node.id = "kurl-context-toast";
+        node.setAttribute("role", "status");
+        node.textContent = text;
+        Object.assign(node.style, {
+          position: "fixed", zIndex: "2147483647", insetInlineEnd: "20px",
+          insetBlockEnd: "24px", maxWidth: "min(420px, 85vw)",
+          padding: "11px 16px", borderRadius: "9px", boxShadow: "0 5px 25px #0007",
+          color: "#fff", backgroundColor: state === "error" ? "#9f2424" : "#176b50",
+          font: "14px system-ui, sans-serif", overflowWrap: "anywhere",
+          pointerEvents: "none"
+        });
+        document.body.appendChild(node);
+        setTimeout(() => {if (node.isConnected) node.remove();}, 3200);
+        return true;
+      },
+      args: [String(message), kind]
+    });
+    return result?.some(frame => frame?.result === true) || false;
+  } catch {return false;}
+}
+let badgeGeneration = 0;
+async function signalToolbar(kind) {
+  const generation = ++badgeGeneration;
+  const value = kind === "error" ? "!" : "✓";
+  const color = kind === "error" ? "#b91c1c" : "#15803d";
+  for (const api of [browser.action, browser.messageDisplayAction, browser.composeAction]) {
+    try {
+      if (api?.setBadgeText) await api.setBadgeText({text: value});
+      if (api?.setBadgeBackgroundColor) await api.setBadgeBackgroundColor({color});
+    } catch { /* A toolbar API may not be available in the current Thunderbird view. */ }
+  }
+  setTimeout(() => {
+    if (generation !== badgeGeneration) return;
+    for (const api of [browser.action, browser.messageDisplayAction, browser.composeAction]) {
+      try { void api?.setBadgeText?.({text:""}); } catch {}
+    }
+  }, 3500);
+}
+async function contextFeedback(tab, message, kind = "success") {
+  // Received-message pages are often inaccessible to scripting. Always request a
+  // native notification and a toolbar signal; use an inline toast when supported.
+  await Promise.allSettled([
+    notify(message), contextToast(tab?.id, message, kind), signalToolbar(kind)
+  ]);
+}
 
 function notify(message) {
   return browser.notifications.create({
     type: "basic", title: "kURL", message: String(message),
-    iconUrl: "images/kurl-icon-48.png"
-  }).catch(() => {});
+    iconUrl: browser.runtime.getURL("images/kurl-icon-48.png")
+  }).catch(error => console.warn("kURL notification unavailable:", error?.message || error));
 }
 
 function requireTarget(value) {
@@ -23,7 +127,8 @@ async function request(action, options = {}, override = null) {
   const settings = override || await H.getSettings();
   const base = H.sanitizeBaseUrl(settings.yourlsUrl);
   const token = String(settings.apiSignature || "").trim();
-  if (!base || !token) throw new Error(i18n("errorNoSettings", "Configure your YOURLS connection first."));
+  if (!base || !token) throw new Error(i18n("errorNoSettings", "Configure an HTTPS YOURLS connection first."));
+  if (!base.startsWith("https://")) throw new Error("An HTTPS YOURLS server is required to protect your API token.");
   const allowed = await browser.permissions.contains({
     origins: [new URL(base).origin + "/*"]
   });
@@ -31,7 +136,12 @@ async function request(action, options = {}, override = null) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), TIMEOUT);
   try {
-    const body = H.toFormData({ ...options, action, format: "json", signature: token });
+    const timestamp = String(Math.floor(Date.now() / 1000));
+    const bytes = new TextEncoder().encode(timestamp + token);
+    const digest = await crypto.subtle.digest("SHA-256", bytes);
+    const signature = Array.from(new Uint8Array(digest), x => x.toString(16).padStart(2, "0")).join("");
+    const body = H.toFormData({ ...options, action, format: "json",
+      signature, timestamp, hash: "sha256" });
     const response = await fetch(base + "/yourls-api.php", {
       method: "POST",
       redirect: "error",
@@ -74,6 +184,7 @@ async function request(action, options = {}, override = null) {
     return { httpOK: response.ok, status: response.status, json };
   } catch (error) {
     if (error.name === "AbortError") throw new Error("YOURLS request timed out (15 s).");
+    if (error instanceof TypeError) throw new Error("Connection failed. Check HTTPS, the YOURLS hostname, certificate and redirects (redirects are not allowed).");
     throw error;
   } finally {
     clearTimeout(timeoutId);
@@ -84,7 +195,7 @@ function success(result) {
   const j = result.json;
   if (!result.httpOK || j?.status === "fail" || j?.status === "error" ||
       j?.statusCode === "error" || Number(j?.statusCode) >= 400) {
-    throw new Error("YOURLS rejected the request (HTTP " + result.status + ").");
+    throw new Error(apiError(j, result.status));
   }
   return j;
 }
@@ -99,7 +210,7 @@ async function shorten(long, keyword = "", title = "") {
   const url = requireTarget(long);
   const rawKeyword = String(keyword || "").trim();
   const cleanKeyword = rawKeyword ? H.validKeyword(rawKeyword) : "";
-  if (rawKeyword && !cleanKeyword) throw new Error("Invalid custom keyword. Use letters, digits, _ or -.");
+  if (rawKeyword && !cleanKeyword) throw new Error("Invalid custom keyword; letters, digits, - and _ are accepted, but YOURLS may adjust unsupported characters.");
   const { yourlsUrl } = await H.getSettings();
   const base = H.sanitizeBaseUrl(yourlsUrl);
   const r = await request("shorturl", {
@@ -107,13 +218,14 @@ async function shorten(long, keyword = "", title = "") {
     ...(title ? { title: String(title).slice(0, 300) } : {})
   });
   const short = H.extractShort(r.json, base);
-  const existing = r.json?.code === "error:url" ||
-    /already exists/i.test(String(r.json?.message || ""));
+  // error:url means the long URL exists; a keyword collision is a real failure.
+  const existing = r.json?.code === "error:url";
   if (short && (existing || (r.httpOK && r.json?.status !== "fail" &&
       r.json?.status !== "error" && Number(r.json?.statusCode || 200) < 400))) {
-    return { ok: true, shortUrl: short, already: existing };
+    return { ok: true, shortUrl: short, already: existing,
+      keywordAdjusted: !existing && !!cleanKeyword && H.extractKeyword(base, short) !== cleanKeyword };
   }
-  throw new Error("Could not create a short URL (HTTP " + r.status + ").");
+  throw new Error(apiError(r.json, r.status));
 }
 
 async function stats(value) {
@@ -135,28 +247,25 @@ async function listLinks(filter, limit, start = 0) {
   return success(r);
 }
 
-async function info() {
+async function info(forceHelper = false) {
   const config = await H.getSettings();
   // These are independent read-only requests. Run them concurrently.
   const [dbResult, versionResult, pingResult] = await Promise.allSettled([
     request("db-stats").then(success),
     request("version").then(success),
-    request("kurl_ping").then(success)
+    getHelperInfo(forceHelper)
   ]);
   if (dbResult.status !== "fulfilled") throw dbResult.reason;
   const db = dbResult.value;
   const version = versionResult.status === "fulfilled" ? versionResult.value : {};
   const ping = pingResult.status === "fulfilled" ? pingResult.value : {};
-  const extended = ping.kurl_extended === true || ping.kurl_extended === "1" ||
-    ping.kurl_extended === 1;
-  const helperVersion = extended ? String(ping.kurl_helper_version || "") : "";
-  const capabilities = extended && Array.isArray(ping.kurl_capabilities)
-    ? ping.kurl_capabilities.filter(v => typeof v === "string") : [];
+  const helperVersion = String(ping.version || "");
+  const capabilities = ping.capabilities || [];
   return {
     base: H.sanitizeBaseUrl(config.yourlsUrl),
     yourlsVersion: String(version.version || version.version_number || ""),
     helperVersion,
-    helperReady: helperVersion === HELPER_VERSION &&
+    helperReady: helperVersionAtLeast(helperVersion) &&
       ["delete", "find_by_url", "regenerate"].every(cap => capabilities.includes(cap)),
     totalLinks: Number(db.total_links ?? db["db-stats"]?.total_links ?? 0) || 0,
     totalClicks: Number(db.total_clicks ?? db["db-stats"]?.total_clicks ?? 0) || 0
@@ -165,19 +274,14 @@ async function info() {
 
 /* WordPress kURL feature parity: safe reverse lookup and non-destructive edits. */
 async function requireHelper(capability) {
-  const ping = success(await request("kurl_ping"));
-  const abilities = Array.isArray(ping.kurl_capabilities) ? ping.kurl_capabilities : [];
-  if (String(ping.kurl_helper_version || "") !== HELPER_VERSION ||
-      !["delete", "find_by_url", "regenerate"].every(c => abilities.includes(c)) ||
-      !abilities.includes(capability)) {
-    throw new Error("This operation needs kURL Helper " + HELPER_VERSION + " on YOURLS.");
-  }
+  const info = await getHelperInfo();
+  if (!info.ready || !info.capabilities.includes(capability))
+    throw new Error("This action requires kURL Helper 1.1.5 or newer with the advertised capabilities.");
 }
 
 function isHelperNotFound(r) {
   const data = r.json || {};
-  return Number(data.statusCode) === 404 &&
-    /^not found$/i.test(String(data.message || "").trim());
+  return Number(data.statusCode) === 404;
 }
 
 async function lookupUrl(rawUrl, preferredShort = "") {
@@ -198,19 +302,6 @@ async function lookupUrl(rawUrl, preferredShort = "") {
     title: typeof json.title === "string" ? json.title : "" };
 }
 
-async function expandUrl(input) {
-  const base = H.sanitizeBaseUrl((await H.getSettings()).yourlsUrl);
-  const kw = H.extractKeyword(base, input);
-  if (!kw) throw new Error("Enter a short URL from your configured YOURLS server.");
-  const r = await request("expand", { shorturl: base + "/" + kw });
-  const json = success(r);
-  const target = H.validHttpUrl(
-    typeof json.longurl === "string" ? json.longurl :
-    typeof json.url === "string" ? json.url : json.link?.url
-  );
-  if (!target) throw new Error("YOURLS returned no valid destination for that short URL.");
-  return { shortUrl: base + "/" + kw, target };
-}
 
 async function regenerateUrl(rawUrl, existing, rawKeyword = "", title = "") {
   const target = requireTarget(rawUrl);
@@ -219,7 +310,7 @@ async function regenerateUrl(rawUrl, existing, rawKeyword = "", title = "") {
   if (!oldKeyword) throw new Error("Choose an existing short URL on your YOURLS server.");
   const keyword = String(rawKeyword || "").trim();
   if (keyword && !H.validKeyword(keyword)) {
-    throw new Error("Invalid keyword: use letters, numbers, hyphens and underscores.");
+    throw new Error("Invalid keyword; letters, digits, hyphens and underscores are permitted by this add-on.");
   }
   await requireHelper("regenerate");
   // kurl_regenerate calls yourls_edit_link, preserving the existing row/click history.
@@ -297,52 +388,142 @@ async function selectedUrl(tabId) {
     const frames = await browser.scripting.executeScript({
       target: { tabId, allFrames: true },
       func: () => {
-        const s = window.getSelection();
-        const text = s ? String(s).trim() : "";
-        const el = s?.anchorNode?.parentElement;
-        const link = el?.closest?.("a[href]");
-        if (link?.href && /^https?:\/\//i.test(link.href)) return link.href;
-        const match = text.match(/https?:\/\/[^\s<>"']+/i);
-        return match ? match[0] : "";
+        const sel = window.getSelection();
+        const text = sel ? String(sel).trim() : "";
+        const element = sel?.anchorNode?.nodeType === 1
+          ? sel.anchorNode : sel?.anchorNode?.parentElement;
+        const link = element?.closest?.("a[href]");
+        if (link?.href && /^https?:\/\//i.test(link.href))
+          return { url: link.href, linked: true };
+        return {text};
       }
     });
-    return frames.find(x => x.result)?.result || "";
-  } catch {
-    return "";
-  }
+    for (const frame of frames) {
+      const value = frame.result;
+      if (value?.linked && H.validHttpUrl(value.url)) return value.url;
+      const extracted = extractFirstUrl(value?.text);
+      if (extracted) return extracted;
+    }
+  } catch { /* compose frame may not be scriptable */ }
+  return "";
 }
 
-async function insertUrl(tabId, value) {
+/* Self-contained function: executeScript serializes it into the compose frame. */
+function performComposeInsertion(url, originalUrl, isPlainText) {
+  const editor = document.body?.isContentEditable ? document.body :
+    document.querySelector('[contenteditable="true"]');
+  if (!editor?.isContentEditable) return {ok:false,reason:"No editable message body."};
+  const sel = window.getSelection();
+  if (!sel?.rangeCount) return {ok:false,reason:"Place the cursor inside the message body."};
+  let range = sel.getRangeAt(0);
+  if (!editor.contains(range.commonAncestorContainer))
+    return {ok:false,reason:"Place the cursor in the message body."};
+  const escape = value => String(value).replace(/&/g,"&amp;").replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  const node = range.commonAncestorContainer;
+  const element = node.nodeType === 1 ? node : node.parentElement;
+  const anchor = element?.closest?.("a[href]");
+  const sameURL = (left,right) => {
+    try {return new URL(left).href === new URL(right).href;} catch{return false;}
+  };
+  if (anchor && (!originalUrl || !sameURL(anchor.getAttribute("href"),originalUrl))) {
+    // A caret in an unrelated link must NEVER rewrite its destination.
+    return {ok:false,reason:"Cursor is inside a different hyperlink. Move it outside that link."};
+  }
+  const chooseRange = r => {sel.removeAllRanges();sel.addRange(r);};
+  if (anchor && !isPlainText && originalUrl && sameURL(anchor.getAttribute("href"),originalUrl)) {
+    const oldLabel = anchor.textContent || "";
+    const looksLikeUrl = /^\S+$/.test(oldLabel.trim()) &&
+      (/^https?:\/\//i.test(oldLabel.trim()) ||
+       /^(?:www\.)?[^\s/]+\.[a-z]{2,}(?:[/:?#]|$)/i.test(oldLabel.trim()));
+    const label = looksLikeUrl ? url : oldLabel || url;
+    const replacement = document.createRange();replacement.selectNode(anchor);chooseRange(replacement);
+    return {ok:document.execCommand("insertHTML",false,
+      '<a href="'+escape(url)+'">'+escape(label)+'</a>')};
+  }
+  if (!range.collapsed) {
+    // A selection can contain more than a URL; do not delete surrounding prose.
+    // Narrow to an unambiguous occurrence in a *single* selected text node.
+    if (!originalUrl) return {ok:false,reason:"Cannot identify the URL to replace safely."};
+    let targetRange = null;
+    const selectedText = sel.toString();
+    if (selectedText === originalUrl) targetRange = range;
+    else if (range.startContainer === range.endContainer && range.startContainer.nodeType === 3) {
+      // Selection.toString() normalizes whitespace in quoted HTML. Use raw
+      // Text.data and the Range offsets to avoid corrupting adjacent text.
+      const rawSelection = range.startContainer.data.slice(range.startOffset, range.endOffset);
+      const found = rawSelection.indexOf(originalUrl);
+      if (found >= 0 && rawSelection.lastIndexOf(originalUrl) === found) {
+        targetRange = document.createRange();
+        targetRange.setStart(range.startContainer,range.startOffset + found);
+        targetRange.setEnd(range.startContainer,range.startOffset + found + originalUrl.length);
+      }
+    } else {
+      // Support cross-node selections, but only when the URL lives in one text node.
+      const scope = range.commonAncestorContainer.nodeType === 1
+        ? range.commonAncestorContainer : range.commonAncestorContainer.parentElement;
+      const walker = document.createTreeWalker(scope,NodeFilter.SHOW_TEXT);
+      let candidate, hits = [];
+      while ((candidate=walker.nextNode())) {
+        const haystack = candidate.textContent || "";
+        let at=haystack.indexOf(originalUrl);
+        while(at!==-1) {
+          const test = document.createRange();test.setStart(candidate,at);
+          test.setEnd(candidate,at+originalUrl.length);
+          if (range.compareBoundaryPoints(Range.START_TO_START,test)<=0 &&
+              range.compareBoundaryPoints(Range.END_TO_END,test)>=0) hits.push(test);
+          at=haystack.indexOf(originalUrl,at+1);
+        }
+      }
+      if(hits.length===1) targetRange=hits[0];
+    }
+    if (!targetRange) return {ok:false,reason:"Select only the URL or place the cursor outside the selected paragraph."};
+    // A paragraph selection can cross a pre-existing hyperlink. Do not insert
+    // an <a> inside another <a>; replace only the matching original link.
+    const textElement = targetRange.startContainer?.nodeType === 3
+      ? targetRange.startContainer.parentElement : targetRange.startContainer;
+    const nestedAnchor = textElement?.closest?.("a[href]");
+    if (nestedAnchor && !isPlainText) {
+      if (!originalUrl || !sameURL(nestedAnchor.getAttribute("href"),originalUrl))
+        return {ok:false,reason:"Selected text belongs to a different hyperlink."};
+      const labelText = (nestedAnchor.textContent || "").trim();
+      const labelIsUrl = /^\S+$/.test(labelText) &&
+        (/^https?:\/\//i.test(labelText) ||
+         /^(?:www\.)?[^\s/]+\.[a-z]{2,}(?:[/:?#]|$)/i.test(labelText));
+      const replacement = document.createRange();replacement.selectNode(nestedAnchor);chooseRange(replacement);
+      return {ok:document.execCommand("insertHTML",false,
+        '<a href="'+escape(url)+'">'+escape(labelIsUrl ? url : labelText || url)+'</a>')};
+    }
+    chooseRange(targetRange);
+  }
+  if (isPlainText) return {ok:document.execCommand("insertText",false,url)};
+  return {ok:document.execCommand("insertHTML",false,
+    '<a href="'+escape(url)+'">'+escape(url)+'</a>')};
+}
+async function insertUrl(tabId, value, original = "") {
   const tab = await browser.tabs.get(tabId);
   if (tab.type !== "messageCompose") throw new Error("Open a compose window first.");
-  const frames = await browser.scripting.executeScript({
-    target: { tabId, allFrames: true },
-    func: (url) => {
-      const editable = document.body?.isContentEditable ? document.body :
+  const details = await browser.compose.getComposeDetails(tabId);
+  const eligible = await browser.scripting.executeScript({
+    target: {tabId,allFrames:true},
+    func: () => {
+      const editor = document.body?.isContentEditable ? document.body :
         document.querySelector('[contenteditable="true"]');
-      if (!editable) return false;
-      const selection = window.getSelection();
-      const range = selection?.rangeCount ? selection.getRangeAt(0) : null;
-      if (range && editable.contains(range.commonAncestorContainer)) {
-        range.deleteContents();
-        const node = document.createTextNode(url);
-        range.insertNode(node);
-        range.setStartAfter(node);
-        range.collapse(true);
-        selection.removeAllRanges();
-        selection.addRange(range);
-      } else {
-        editable.append(document.createTextNode(url));
-      }
-      editable.dispatchEvent(new InputEvent("input", { bubbles: true, inputType: "insertText", data: url }));
-      return true;
-    },
-    args: [value]
+      if (!editor?.isContentEditable) return false;
+      const sel = window.getSelection();
+      return !!(sel?.rangeCount && editor.contains(sel.getRangeAt(0).commonAncestorContainer));
+    }
   });
-  if (!frames.some(x => x.result === true)) {
-    throw new Error("Cannot access the compose editor. The short URL was not inserted.");
-  }
-  return { ok: true };
+  const candidates=eligible.filter(frame=>frame.result===true);
+  if(candidates.length!==1) throw new Error("Select a URL or place the caret in exactly one compose editor.");
+  const frames=await browser.scripting.executeScript({
+    target:{tabId,frameIds:[candidates[0].frameId]},
+    func:performComposeInsertion,
+    args:[value,original,!!details.isPlainText]
+  });
+  const result=frames[0]?.result;
+  if(!result?.ok) throw new Error(result?.reason || "Could not insert the short URL safely.");
+  return {ok:true};
 }
 
 browser.runtime.onMessage.addListener(async message => {
@@ -352,12 +533,12 @@ browser.runtime.onMessage.addListener(async message => {
     const eventTypes = new Set(["SHORTEN_URL", "DELETE_SHORTURL", "LOOKUP_URL", "UPDATE_URL", "REGENERATE_URL"]);
     try {
       const response = await dispatch(message);
-      if (eventTypes.has(message.type)) {
+      if (eventTypes.has(message.type) && !message.bulk) {
         await writeLog(message.type, response?.ok ? "info" : "error");
       }
       return response;
     } catch (error) {
-      if (eventTypes.has(message.type)) await writeLog(message.type, "error");
+      if (eventTypes.has(message.type) && !message.bulk) await writeLog(message.type, "error");
       throw error;
     }
   } catch (error) {
@@ -371,63 +552,87 @@ async function dispatch(message) {
       case "CHECK_CONNECTION": return await checkConnection(message.settings || null);
       case "SHORTEN_URL": return await shorten(message.longUrl, message.keyword, message.title);
       case "GET_STATS": return { ok: true, data: await stats(message.shortUrl) };
-      case "GET_DASHBOARD_STATS": return { ok: true, data: await info() };
-      case "GET_INFO": return { ok: true, data: await info() };
+      case "GET_INFO": return { ok: true, data: await info(!!message.forceHelper) };
       case "GET_RECENT_LINKS": return { ok: true, data: await listLinks("last", message.limit, message.start) };
       case "GET_TOP_LINKS": return { ok: true, data: await listLinks("top", message.limit) };
       case "DELETE_SHORTURL": return await deleteLink(message.shortUrl);
       case "ATTACH_QR_CODE": return await attachQr(message.dataUrl, message.tabId, message.name);
       case "GET_SELECTED_URL": return { ok: true, url: await selectedUrl(message.tabId) };
-      case "INSERT_URL": return await insertUrl(message.tabId, requireTarget(message.url));
+      case "INSERT_URL": return await insertUrl(message.tabId, requireTarget(message.url),
+        message.original ? requireTarget(message.original) : "");
       case "LOOKUP_URL": return { ok: true, data: await lookupUrl(message.longUrl, message.preferredShort) };
-      case "EXPAND_URL": return { ok: true, data: await expandUrl(message.shortUrl) };
       case "UPDATE_URL": return await regenerateUrl(message.longUrl, message.shortUrl,
         message.keyword || H.extractKeyword(H.sanitizeBaseUrl((await H.getSettings()).yourlsUrl), message.shortUrl),
         message.title);
       case "REGENERATE_URL": return await regenerateUrl(message.longUrl, message.shortUrl, message.keyword, message.title);
+      case "LOG_BULK":
+        await writeLog("BULK: " + Math.min(250, Math.max(0, Number(message.total) || 0)) + " URLs",
+          message.failures ? "error" : "info");
+        return {ok:true};
       case "GET_LOG": return { ok: true, data: await listLog() };
       case "CLEAR_LOG": return await clearLog();
       default: return { ok: false, reason: "Unknown request." };
     }
 }
 
-/* Register menus once per event-page start; never remove all menus on right-click. */
-browser.menus.create({
-  id: "kurl-quick-copy", title: i18n("menuQuickCopy", "kURL: Shorten and copy"),
-  contexts: ["link", "selection"]
-});
-browser.menus.create({
-  id: "kurl-quick-insert", title: i18n("menuQuickInsert", "kURL: Shorten and insert"),
-  contexts: ["link", "selection", "compose_body"], visible: false
-});
-
-browser.menus.onShown.addListener(async (info, tab) => {
-  try {
-    await browser.menus.update("kurl-quick-insert", {
-      visible: tab?.type === "messageCompose" && !!(info.linkUrl || info.selectionText)
-    });
-    await browser.menus.refresh();
-  } catch (error) {
-    console.warn("kURL menu update:", error);
-  }
-});
+/* Migrate persistent 2.0.7 menus, including a previously hidden Insert item. */
+const KURL_MENU_COPY = "kurl-quick-copy";
+const KURL_MENU_INSERT = "kurl-quick-insert";
+// Remove and recreate ONLY this extension's IDs; never remove other extensions' menus.
+let menuInitialization = Promise.resolve();
+function ensureMenus() {
+  menuInitialization = menuInitialization.catch(() => {}).then(async () => {
+    const definitions = [
+      {id: KURL_MENU_COPY, title: i18n("menuQuickCopy", "kURL: Shorten and copy"),
+       contexts: ["link", "selection"]},
+      {id: KURL_MENU_INSERT, title: i18n("menuQuickInsert", "kURL: Shorten and insert"),
+       contexts: ["compose_body"], visible: true}
+    ];
+    for (const definition of definitions) {
+      try { await browser.menus.remove(definition.id); }
+      catch { /* absent before initial install */ }
+      try { browser.menus.create(definition); }
+      catch (error) {console.warn("kURL context menu unavailable:", error);}
+    }
+  });
+  return menuInitialization;
+}
+// Event listeners must be registered synchronously in MV3 background pages.
+browser.runtime.onInstalled.addListener(() => { void ensureMenus(); });
+browser.runtime.onStartup?.addListener(() => { void ensureMenus(); });
+void ensureMenus();
 
 browser.menus.onClicked.addListener(async (info, tab) => {
   if (!["kurl-quick-copy", "kurl-quick-insert"].includes(info.menuItemId)) return;
   const raw = info.linkUrl ||
-    (String(info.selectionText || "").match(/https?:\/\/[^\s<>"']+/i) || [])[0];
+    extractFirstUrl(info.selectionText);
   const url = H.validHttpUrl(raw);
-  if (!url) return notify("Select a complete HTTP(S) URL.");
+  if (!url) return contextFeedback(tab, "Select a complete HTTP(S) URL.", "error");
   try {
     const result = await shorten(url);
     if (info.menuItemId === "kurl-quick-insert") {
-      await insertUrl(tab.id, result.shortUrl);
-      await notify("Short URL inserted: " + result.shortUrl);
+      await insertUrl(tab.id, result.shortUrl, url);
+      await writeLog("RIGHT_CLICK_INSERT");
+      await contextFeedback(tab, "✓ Short URL inserted: " + result.shortUrl);
     } else {
-      await navigator.clipboard.writeText(result.shortUrl);
-      await notify("Short URL copied: " + result.shortUrl);
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(result.shortUrl);
+      } else {
+        const field = document.createElement("textarea");
+        field.value = result.shortUrl;
+        field.style.position = "fixed";
+        field.style.opacity = "0";
+        document.body.appendChild(field);
+        field.select();
+        try {
+          if (!document.execCommand("copy")) throw new Error("Clipboard access denied.");
+        } finally { field.remove(); }
+      }
+      await writeLog("RIGHT_CLICK_COPY");
+      await contextFeedback(tab, "✓ Copied to clipboard: " + result.shortUrl);
     }
   } catch (error) {
-    await notify("kURL: " + (error?.message || "Shortening failed"));
+    await writeLog("RIGHT_CLICK_FAILED", "error");
+    await contextFeedback(tab, "kURL: " + (error?.message || "Shortening failed"), "error");
   }
 });
