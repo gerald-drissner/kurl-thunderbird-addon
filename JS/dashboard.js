@@ -186,7 +186,7 @@ function filterRecent() {
     String(link.keyword || "").toLowerCase().includes(query)
   );
   renderRows($("recent-links-container"), visible,
-    query ? "No matching links in the loaded pages." : t("dashboardNoLinksFound", "No links found."));
+    query ? t("dashFilterNoMatch", "No matching links among the currently displayed recent links.") : t("dashboardNoLinksFound", "No links found."));
 }
 async function loadMore(generation) {
   if (loadingMoreGeneration === generation) return;
@@ -246,6 +246,7 @@ async function refresh(forceHelper = false) {
     // Open it automatically only on the first missing/outdated status check.
     if (helperInitialState) {
       $("helper-instructions").open = !info.helperReady;
+      $("helper-panel").open = !info.helperReady;
       helperInitialState = false;
     }
     const state = $("helper-indicator");
@@ -255,9 +256,15 @@ async function refresh(forceHelper = false) {
       : info.helperVersion
         ? t("helperOutdated", "Helper plugin: UPDATE REQUIRED") + " (" + info.helperVersion + ")"
         : t("helperMissing", "Helper plugin: NOT FOUND");
-    $("helper-setup").dataset.state = info.helperVersion ? "outdated" : "missing";
+    $("helper-setup").dataset.state = info.helperReady ? "ready" : info.helperVersion ? "outdated" : "missing";
+    $("helper-indicator").hidden = info.helperReady;
+    $("helper-panel-summary").textContent = info.helperReady
+      ? t("helperCompactOk", "Helper installed") + " (" + info.helperVersion + ") · " + t("helperShowDetails", "Setup and source")
+      : info.helperVersion ? t("helperOutdated", "Helper update required") : t("helperMissing", "Helper not found");
+
     $("manual-lookup").disabled = !helperReady;
     updateManualButtons();
+    if (lookedUp) $("lookup-edit").hidden = !helperReady || !lookedUp.shortUrl;
     $("total-links").textContent = formatNumber(info.totalLinks);
     $("total-clicks").textContent = formatNumber(info.totalClicks);
     $("avg-clicks").textContent = info.totalLinks > 0
@@ -276,6 +283,9 @@ async function refresh(forceHelper = false) {
     if (generation !== viewGeneration) return;
     helperReady = false;
     // Keep the local installation instructions available if the connection fails.
+    $("helper-indicator").hidden = false;
+    $("helper-setup").dataset.state = "unknown";
+    $("helper-panel-summary").textContent = t("helperUnknown", "Helper plugin: status unknown");
     $("helper-indicator").textContent = t("helperUnknown", "Helper plugin: status unknown");
     $("helper-indicator").className = "helper-indicator helper-missing";
     $("server-status").textContent = t("dashboardStatusError", "Error");
@@ -305,6 +315,118 @@ async function refresh(forceHelper = false) {
   await Promise.all([topTask, recentTask]);
   if (generation === viewGeneration) $("refresh-btn").disabled = false;
 }
+// Server-backed lookup is separate from the filter on the already-loaded recent list.
+let lookupGeneration = 0;
+let lookedUp = null;
+function clearLookup() {
+  lookedUp = null;
+  $("lookup-result").hidden = true;
+  $("lookup-copy").hidden = true;
+  $("lookup-edit").hidden = true;
+  $("lookup-create").hidden = true;
+  $("lookup-short").textContent = "—";
+  $("lookup-long").textContent = "—";
+  $("lookup-clicks").textContent = "—";
+  $("lookup-title").textContent = "—";
+}
+function showLookup(data, found = true) {
+  lookedUp = data;
+  $("lookup-result").hidden = false;
+  $("lookup-result-title").textContent = found
+    ? t("lookupResultHeading", "Found link") : t("lookupNotFound", "No short link found");
+  $("lookup-short").textContent = data.shortUrl || "—";
+  $("lookup-long").textContent = data.target || "—";
+  $("lookup-clicks").textContent = data.clicks == null ? "—" : formatNumber(data.clicks);
+  $("lookup-title").textContent = data.title || "—";
+  $("lookup-copy").hidden = !found;
+  $("lookup-edit").hidden = !found || !helperReady || !H.validHttpUrl(data.target);
+  $("lookup-create").hidden = found || !H.validHttpUrl(data.target);
+}
+function determineLookup(raw, base) {
+  const query = String(raw || "").trim();
+  if (!query) return null;
+  // Exact short URLs, user-friendly keyword-only input, or a short URL without scheme.
+  let keyword = H.extractKeyword(base, query);
+  if (!keyword && !/^https?:\/\//i.test(query)) {
+    const candidate = H.validHttpUrl("https://" + query);
+    if (candidate) keyword = H.extractKeyword(base, candidate);
+  }
+  if (keyword) return {kind:"short", shortUrl:base + "/" + keyword};
+  const target = H.validHttpUrl(query);
+  return target ? {kind:"long", target} : null;
+}
+function clickCount(response) {
+  const j = response?.data || {};
+  const item = j.link || j.url || j.stats?.link || {};
+  const numeric = item.clicks ?? j.clicks;
+  return numeric == null || numeric === "" || !Number.isFinite(Number(numeric)) ? null : Number(numeric);
+}
+async function searchLinks(event) {
+  event.preventDefault();
+  const generation = ++lookupGeneration;
+  clearLookup();
+  const base = H.sanitizeBaseUrl($('info-server').textContent);
+  const query = base ? determineLookup($('lookup-query').value, base) : null;
+  if (!query) {
+    $("lookup-message").textContent = t("lookupInvalid", "Enter a valid destination URL, short URL on this server, or keyword.");
+    return;
+  }
+  if (query.kind === "long" && !helperReady) {
+    $("lookup-message").textContent = t("lookupNeedsHelper", "Searching by destination URL requires the optional YOURLS Helper. Short-URL lookup still works without it.");
+    return;
+  }
+  $("lookup-submit").disabled = true;
+  $("lookup-message").textContent = t("lookupSearching", "Searching YOURLS…");
+  try {
+    if (query.kind === "short") {
+      // The core expand API identifies the target; url-stats supplies the click count.
+      // A missing target is a real lookup failure, not an invitation to edit blindly.
+      const expand = await send("EXPAND_URL", {shortUrl:query.shortUrl});
+      if (generation !== lookupGeneration) return;
+      const item = expand.data;
+      let clicks = null;
+      try { clicks = clickCount(await send("GET_STATS", {shortUrl:query.shortUrl})); }
+      catch { /* Keep the valid target visible if statistics are temporarily unavailable. */ }
+      if (generation !== lookupGeneration) return;
+      showLookup({shortUrl:item.shortUrl,target:item.target,title:item.title,clicks});
+      $("lookup-message").textContent = t("lookupFound", "Link found on your YOURLS server.");
+    } else {
+      const result = (await send("LOOKUP_URL", {longUrl:query.target})).data;
+      if (generation !== lookupGeneration) return;
+      if (!result.found) {
+        showLookup({target:query.target}, false);
+        $("lookup-message").textContent = t("lookupNotFoundHelp", "No short link found for this URL. You can create one.");
+      } else {
+        let clicks = null;
+        try { clicks = clickCount(await send("GET_STATS", {shortUrl:result.shortUrl})); }
+        catch { /* Lookup succeeded; preserve result even if stats fail. */ }
+        if (generation !== lookupGeneration) return;
+        showLookup({shortUrl:result.shortUrl,target:result.target || query.target,title:result.title,clicks});
+        $("lookup-message").textContent = t("lookupFound", "Link found on your YOURLS server.");
+      }
+    }
+  } catch (error) {
+    if (generation !== lookupGeneration) return;
+    $("lookup-message").textContent = error.message || String(error);
+  } finally {
+    if (generation === lookupGeneration) $("lookup-submit").disabled = false;
+  }
+}
+function fillManualFromLookup(forEditing) {
+  if (!lookedUp?.target || !H.validHttpUrl(lookedUp.target)) return;
+  $("manual-long").value = lookedUp.target;
+  $("manual-result").value = forEditing ? lookedUp.shortUrl : "";
+  $("manual-keyword").value = forEditing
+    ? H.extractKeyword($("info-server").textContent, lookedUp.shortUrl) : "";
+  $("manual-title-input").value = forEditing ? (lookedUp.title || "").slice(0,300) : "";
+  updateManualButtons();
+  $("manual-long").focus();
+  $("manual-form").scrollIntoView({block:"center",behavior:"smooth"});
+  message($("manual-status"), forEditing
+    ? t("dashEditReady", "Selected an existing link. Use Update to change it.")
+    : t("dashNewReady", "Ready to create a short URL."));
+}
+
 function selectedShort() {
   const value = $("manual-result").value.trim();
   if (!value) return "";
@@ -505,6 +627,15 @@ $("manual-copy").addEventListener("click", async () => {
   }
 });
 $("filter-links").addEventListener("input", filterRecent);
+$("lookup-form").addEventListener("submit", searchLinks);
+$("lookup-query").addEventListener("input", () => { ++lookupGeneration; clearLookup(); $("lookup-message").textContent = ""; $("lookup-submit").disabled = false; });
+$("lookup-copy").addEventListener("click", async () => {
+  if (!lookedUp?.shortUrl) return;
+  try { await navigator.clipboard.writeText(lookedUp.shortUrl); showCopiedToast(lookedUp.shortUrl); }
+  catch (error) { $("lookup-message").textContent = String(error.message || error); }
+});
+$("lookup-edit").addEventListener("click", () => fillManualFromLookup(true));
+$("lookup-create").addEventListener("click", () => fillManualFromLookup(false));
 refresh();
 // The target field may change while an existing short URL stays selected.
 // Create and Update are separate explicit actions: never infer update from text changes.

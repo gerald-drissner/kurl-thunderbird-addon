@@ -308,10 +308,10 @@
     "message": "Most clicked YOURLS links"
   },
   "dashFilter": {
-    "message": "Filter loaded links"
+    "message": "Filter recent links shown below"
   },
   "dashSearch": {
-    "message": "Search URL or keyword"
+    "message": "Filter displayed recent links"
   },
   "dashTarget": {
     "message": "Target URL"
@@ -685,5 +685,59 @@
   },
   "insertCannotSafely": {
     "message": "Could not insert the short URL safely."
+  },
+  "lookupHeading": {
+    "message": "Find an existing link"
+  },
+  "lookupHelp": {
+    "message": "Enter a short URL, its keyword, or a destination URL. Look up short links and their clicks, or check whether a destination was shortened already."
+  },
+  "lookupQueryLabel": {
+    "message": "Short URL, keyword, or destination URL"
+  },
+  "lookupQueryPlaceholder": {
+    "message": "dri.li/example or https://example.com/article"
+  },
+  "lookupSearch": {
+    "message": "Search YOURLS"
+  },
+  "lookupResultHeading": {
+    "message": "Link found"
+  },
+  "lookupClicks": {
+    "message": "Clicks"
+  },
+  "lookupCreateInstead": {
+    "message": "Create a short URL"
+  },
+  "lookupInvalid": {
+    "message": "Enter a valid destination URL, short URL on this server, or keyword."
+  },
+  "lookupNeedsHelper": {
+    "message": "Searching by destination URL requires the optional YOURLS Helper. Looking up short links works without it."
+  },
+  "lookupSearching": {
+    "message": "Searching YOURLS…"
+  },
+  "lookupFound": {
+    "message": "Link found on your YOURLS server."
+  },
+  "lookupNotFound": {
+    "message": "No short link found"
+  },
+  "lookupNotFoundHelp": {
+    "message": "No existing short link was found for that destination. You can create one."
+  },
+  "helperCompactOk": {
+    "message": "Helper installed"
+  },
+  "helperShowDetails": {
+    "message": "Installation details and source"
+  },
+  "dashFilterHelp": {
+    "message": "Filters only the recent links already displayed. Use “Load more” to include older links."
+  },
+  "dashFilterNoMatch": {
+    "message": "No matches among the displayed recent links."
   }
 }

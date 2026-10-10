@@ -361,5 +361,65 @@
   },
   "insertCannotSafely": {
     "message": "Não foi possível inserir o URL curto com segurança."
+  },
+  "lookupHeading": {
+    "message": "Procurar ligação existente"
+  },
+  "lookupHelp": {
+    "message": "Introduza um URL curto, uma palavra-chave ou um URL de destino. Consulte o destino e os cliques de uma ligação curta ou verifique se já existe uma ligação para esse destino."
+  },
+  "lookupQueryLabel": {
+    "message": "URL curto, palavra-chave ou URL de destino"
+  },
+  "lookupQueryPlaceholder": {
+    "message": "dri.li/exemplo ou https://example.com/artigo"
+  },
+  "lookupSearch": {
+    "message": "Procurar no YOURLS"
+  },
+  "lookupResultHeading": {
+    "message": "Ligação encontrada"
+  },
+  "lookupClicks": {
+    "message": "Cliques"
+  },
+  "lookupCreateInstead": {
+    "message": "Criar URL curto"
+  },
+  "lookupInvalid": {
+    "message": "Introduza um URL de destino válido, um URL curto deste servidor ou uma palavra-chave."
+  },
+  "lookupNeedsHelper": {
+    "message": "A pesquisa por URL de destino requer o YOURLS Helper opcional. A pesquisa por URL curto funciona sem ele."
+  },
+  "lookupSearching": {
+    "message": "A procurar no YOURLS…"
+  },
+  "lookupFound": {
+    "message": "Ligação encontrada no servidor YOURLS."
+  },
+  "lookupNotFound": {
+    "message": "Nenhum URL curto encontrado"
+  },
+  "lookupNotFoundHelp": {
+    "message": "Não foi encontrado um URL curto para este destino. Pode criar um."
+  },
+  "helperCompactOk": {
+    "message": "Helper instalado"
+  },
+  "helperShowDetails": {
+    "message": "Instalação e código-fonte"
+  },
+  "dashFilter": {
+    "message": "Filtrar ligações recentes apresentadas"
+  },
+  "dashSearch": {
+    "message": "Pesquisar nas ligações apresentadas"
+  },
+  "dashFilterHelp": {
+    "message": "Filtra apenas as ligações recentes já apresentadas. Utilize «Carregar mais» para incluir as anteriores."
+  },
+  "dashFilterNoMatch": {
+    "message": "Não existem resultados nas ligações recentes apresentadas."
   }
 }

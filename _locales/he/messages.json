@@ -369,5 +369,65 @@
   },
   "insertCannotSafely": {
     "message": "לא ניתן להוסיף את הקישור המקוצר בבטחה."
+  },
+  "lookupHeading": {
+    "message": "חיפוש קישור קיים"
+  },
+  "lookupHelp": {
+    "message": "יש להזין כתובת מקוצרת, מילת מפתח או כתובת יעד. ניתן לראות יעד וקליקים של קישור מקוצר, או לבדוק אם לכתובת יעד כבר יש קישור מקוצר."
+  },
+  "lookupQueryLabel": {
+    "message": "כתובת מקוצרת, מילת מפתח או כתובת יעד"
+  },
+  "lookupQueryPlaceholder": {
+    "message": "dri.li/example או https://example.com/article"
+  },
+  "lookupSearch": {
+    "message": "חיפוש ב־YOURLS"
+  },
+  "lookupResultHeading": {
+    "message": "הקישור נמצא"
+  },
+  "lookupClicks": {
+    "message": "קליקים"
+  },
+  "lookupCreateInstead": {
+    "message": "יצירת כתובת מקוצרת"
+  },
+  "lookupInvalid": {
+    "message": "יש להזין כתובת יעד תקינה, כתובת מקוצרת מהשרת הזה או מילת מפתח."
+  },
+  "lookupNeedsHelper": {
+    "message": "חיפוש לפי כתובת יעד מחייב את התוסף האופציונלי YOURLS Helper. חיפוש כתובות מקוצרות פועל גם בלעדיו."
+  },
+  "lookupSearching": {
+    "message": "מחפש ב־YOURLS…"
+  },
+  "lookupFound": {
+    "message": "הקישור נמצא בשרת YOURLS."
+  },
+  "lookupNotFound": {
+    "message": "לא נמצאה כתובת מקוצרת"
+  },
+  "lookupNotFoundHelp": {
+    "message": "לא נמצאה כתובת מקוצרת ליעד הזה. אפשר ליצור אחת."
+  },
+  "helperCompactOk": {
+    "message": "Helper מותקן"
+  },
+  "helperShowDetails": {
+    "message": "פרטי התקנה וקוד מקור"
+  },
+  "dashFilter": {
+    "message": "סינון הקישורים האחרונים שמוצגים"
+  },
+  "dashSearch": {
+    "message": "חיפוש בקישורים המוצגים"
+  },
+  "dashFilterHelp": {
+    "message": "הסינון חל רק על הקישורים האחרונים שכבר מוצגים. יש ללחוץ על ״טען עוד״ כדי לכלול קישורים ישנים."
+  },
+  "dashFilterNoMatch": {
+    "message": "אין התאמות בקישורים האחרונים שמוצגים."
   }
 }

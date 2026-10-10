@@ -38,6 +38,8 @@ function newContext(opts={}){
   if(action==='kurl_regenerate')Object.assign(expected,{shorturl:'https://sho.rt/AbC'});
   if(action==='db-stats')Object.assign(expected,{total_links:12,total_clicks:24});
   if(action==='version')Object.assign(expected,{version:'1.10'});
+  if(action==='expand')Object.assign(expected,{shorturl:'https://sho.rt/AbC',longurl:'https://example.org/article',title:'Test article'});
+  if(action==='url-stats')Object.assign(expected,{link:{clicks:11,url:'https://example.org/article'}});
   if(opts.errorMessage && action==='shorturl'){expected.status='fail';expected.statusCode=400;expected.message=opts.errorMessage;}
   if(opts.apiFailure && (action === (opts.apiFailure.action || 'db-stats'))) {
     const simulated=opts.apiFailure;
@@ -120,7 +122,7 @@ test('bulk creates links sequentially and skips invalid lines',()=>{
 });
 test('package metadata and page references',()=>{
  const manifest=JSON.parse(source('manifest.json'));
- assert.equal(manifest.version,'2.0.14');
+ assert.equal(manifest.version,'2.0.15');
  assert.equal(manifest.browser_specific_settings.gecko.strict_min_version,'140.0');
  assert.deepEqual(manifest.optional_host_permissions,['https://*/*']);
  assert.ok(!manifest.permissions.includes('tabs'));
@@ -337,7 +339,7 @@ test('German localized insertion and shortcut terms match buttons',()=>{
 
 test('released QR generator, ASCII-canonical QR payload, four-module quiet zone',()=>{
  const lib=source('JS/qrcode.js'), pop=source('JS/popup.js');
- assert.equal(JSON.parse(source('package.json')).version,'2.0.14');
+ assert.equal(JSON.parse(source('package.json')).version,'2.0.15');
  assert.match(lib,/QR Code Generator for JavaScript/);
  assert.match(pop,/qrcode\(0, "H"\)/);
  assert.match(pop,/qr\.addData\(new URL\(value\)\.href, \"Byte\"\)/);
@@ -417,7 +419,7 @@ test('2.0.6 optional copy edits match visible controls and released vendoring me
  const vendor=source('VENDOR.md');
  assert.doesNotMatch(vendor,/external reviewer|independently compared/i);
  assert.match(vendor,/SHA-256 of bundled file/);
- assert.equal(JSON.parse(source('manifest.json')).version,'2.0.14');
+ assert.equal(JSON.parse(source('manifest.json')).version,'2.0.15');
 });
 
 test('2.0.7 opens settings dashboard as a full tab with helper onboarding',()=>{
@@ -756,4 +758,44 @@ test('legacy token hint is shown only after authentication rejection, never on i
  assert.doesNotMatch(init,/optionsOldTokenHint/);
  assert.match(s,/authDenied && config\.apiSignature\.length === 10/);
  assert.match(init,/optionsStatusLoaded/);
+});
+
+// 2.0.15: unified, server-backed link search in both directions.
+test('short-link lookup expands via the standard YOURLS API without requiring Helper', async () => {
+ const a=newContext({helperVersion:'1.0.0'});
+ const found=await a.send({type:'EXPAND_URL',shortUrl:'https://sho.rt/AbC'});
+ assert.equal(found.ok,true);
+ assert.equal(found.data.target,'https://example.org/article');
+ assert.equal(found.data.title,'Test article');
+ assert.ok(a.calls.some(c=>c.action==='expand'&&c.body.get('shorturl')==='AbC'));
+ const stats=await a.send({type:'GET_STATS',shortUrl:'https://sho.rt/AbC'});
+ assert.equal(stats.ok,true);
+ assert.equal(stats.data.link.clicks,11);
+ const foreign=await a.send({type:'EXPAND_URL',shortUrl:'https://foreign.example/AbC'});
+ assert.equal(foreign.ok,false);
+ assert.equal(a.calls.filter(c=>c.action==='expand').length,1);
+});
+test('dashboard has separate two-way server lookup and bounded recent-list filter',()=>{
+ const html=source('dashboard.html'),js=source('JS/dashboard.js');
+ for(const id of ['lookup-form','lookup-query','lookup-result','lookup-long','lookup-short','lookup-clicks',
+                  'lookup-copy','lookup-edit','lookup-create','helper-panel','helper-panel-summary','filter-links']) {
+  assert.ok(html.includes('id="'+id+'"'),id);
+ }
+ assert.match(js,/send\("EXPAND_URL"/);
+ assert.match(js,/send\("LOOKUP_URL"/);
+ assert.match(js,/send\("GET_STATS"/);
+ assert.match(js,/helper-indicator"\)\.hidden = info\.helperReady/);
+ assert.match(js,/recentLinks\.filter/);
+ assert.match(html,/id="filter-links"/);
+});
+test('new lookup and filter labels are explicitly translated in every shipped locale',()=>{
+ const dirs=['en','de','ar','es','fr','he','ja','pt','ru','zh_CN'];
+ const keys=['lookupHeading','lookupHelp','lookupQueryLabel','lookupSearch','lookupResultHeading',
+ 'lookupClicks','lookupCreateInstead','lookupInvalid','lookupNeedsHelper','lookupSearching',
+ 'lookupFound','lookupNotFound','lookupNotFoundHelp','helperCompactOk','helperShowDetails',
+ 'dashFilter','dashSearch','dashFilterHelp','dashFilterNoMatch'];
+ for(const lang of dirs) {
+  const messages=JSON.parse(source('_locales/'+lang+'/messages.json'));
+  for(const key of keys)assert.ok(messages[key]?.message,lang+' missing '+key);
+ }
 });

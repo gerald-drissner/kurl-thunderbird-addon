@@ -365,5 +365,65 @@
   },
   "insertCannotSafely": {
     "message": "短縮 URL を安全に挿入できませんでした。"
+  },
+  "lookupHeading": {
+    "message": "既存のリンクを検索"
+  },
+  "lookupHelp": {
+    "message": "短縮URL、キーワード、または転送先URLを入力してください。短縮URLから転送先とクリック数を確認したり、転送先から既存の短縮URLを検索したりできます。"
+  },
+  "lookupQueryLabel": {
+    "message": "短縮URL・キーワード・転送先URL"
+  },
+  "lookupQueryPlaceholder": {
+    "message": "dri.li/example または https://example.com/article"
+  },
+  "lookupSearch": {
+    "message": "YOURLSを検索"
+  },
+  "lookupResultHeading": {
+    "message": "リンクが見つかりました"
+  },
+  "lookupClicks": {
+    "message": "クリック数"
+  },
+  "lookupCreateInstead": {
+    "message": "短縮URLを作成"
+  },
+  "lookupInvalid": {
+    "message": "有効な転送先URL、このサーバーの短縮URL、またはキーワードを入力してください。"
+  },
+  "lookupNeedsHelper": {
+    "message": "転送先URLからの検索には任意のYOURLS Helperが必要です。短縮URLからの検索には不要です。"
+  },
+  "lookupSearching": {
+    "message": "YOURLSを検索しています…"
+  },
+  "lookupFound": {
+    "message": "YOURLSサーバーでリンクが見つかりました。"
+  },
+  "lookupNotFound": {
+    "message": "短縮URLが見つかりません"
+  },
+  "lookupNotFoundHelp": {
+    "message": "この転送先に対応する既存の短縮URLはありません。新しく作成できます。"
+  },
+  "helperCompactOk": {
+    "message": "Helperインストール済み"
+  },
+  "helperShowDetails": {
+    "message": "インストール方法とソースコード"
+  },
+  "dashFilter": {
+    "message": "表示中の最近のリンクを絞り込む"
+  },
+  "dashSearch": {
+    "message": "表示中のリンクを検索"
+  },
+  "dashFilterHelp": {
+    "message": "すでに表示されている最近のリンクのみを対象にします。「さらに読み込む」で古いリンクも表示できます。"
+  },
+  "dashFilterNoMatch": {
+    "message": "表示中の最近のリンクに一致するものはありません。"
   }
 }

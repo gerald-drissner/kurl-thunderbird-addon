@@ -369,5 +369,65 @@
   },
   "insertCannotSafely": {
     "message": "Не удалось безопасно вставить короткую ссылку."
+  },
+  "lookupHeading": {
+    "message": "Найти существующую ссылку"
+  },
+  "lookupHelp": {
+    "message": "Введите короткую ссылку, её ключевое слово или адрес назначения. По короткой ссылке можно узнать адрес и число переходов, а по адресу — проверить наличие сокращения."
+  },
+  "lookupQueryLabel": {
+    "message": "Короткая ссылка, ключевое слово или адрес назначения"
+  },
+  "lookupQueryPlaceholder": {
+    "message": "dri.li/example или https://example.com/article"
+  },
+  "lookupSearch": {
+    "message": "Искать в YOURLS"
+  },
+  "lookupResultHeading": {
+    "message": "Ссылка найдена"
+  },
+  "lookupClicks": {
+    "message": "Переходы"
+  },
+  "lookupCreateInstead": {
+    "message": "Создать короткую ссылку"
+  },
+  "lookupInvalid": {
+    "message": "Введите допустимый адрес назначения, короткую ссылку с этого сервера или ключевое слово."
+  },
+  "lookupNeedsHelper": {
+    "message": "Для поиска по адресу назначения нужен дополнительный плагин YOURLS Helper. Поиск по короткой ссылке работает без него."
+  },
+  "lookupSearching": {
+    "message": "Поиск в YOURLS…"
+  },
+  "lookupFound": {
+    "message": "Ссылка найдена на сервере YOURLS."
+  },
+  "lookupNotFound": {
+    "message": "Короткая ссылка не найдена"
+  },
+  "lookupNotFoundHelp": {
+    "message": "Для этого адреса короткая ссылка не найдена. Можно создать новую."
+  },
+  "helperCompactOk": {
+    "message": "Helper установлен"
+  },
+  "helperShowDetails": {
+    "message": "Установка и исходный код"
+  },
+  "dashFilter": {
+    "message": "Фильтр отображаемых недавних ссылок"
+  },
+  "dashSearch": {
+    "message": "Поиск по отображаемым ссылкам"
+  },
+  "dashFilterHelp": {
+    "message": "Фильтр работает только по уже отображённым недавним ссылкам. Нажмите «Загрузить ещё», чтобы включить старые ссылки."
+  },
+  "dashFilterNoMatch": {
+    "message": "Совпадений среди отображаемых недавних ссылок нет."
   }
 }

@@ -1,10 +1,10 @@
-# kURL for Thunderbird 2.0.14 (test build)
+# kURL for Thunderbird 2.0.15 (test build)
 
 This MailExtension shortens and manages links on a user-controlled HTTPS YOURLS server, with an integrated Thunderbird compose workflow. The optional YOURLS Helper is bundled here, separately from other kURL projects.
 
 ## Installation
 
-In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.14-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
+In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.15-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
 
 Configure your HTTPS YOURLS server and signature token under kURL settings. Assign keyboard shortcuts via **Manage Extension Shortcuts**; this build installs without default key bindings.
 
@@ -48,7 +48,7 @@ This is a localized-copy-only follow-up to 2.0.5. It updates the shortcut guidan
 
 The extension settings open in a full Thunderbird tab (`options_ui.open_in_tab = true`), rather than the narrow Add-ons Manager inline preferences panel. From there open **Dashboard**, **Bulk**, or **Logs**. The dashboard uses a wide, two-column layout on large screens and collapses into one column on small screens; server details are tucked into an expandable section.
 
-The optional kURL Helper is now maintained independently in the **Thunderbird repository** under `helper/kurl-helper/plugin.php`. It is also bundled in the XPI, and the dashboard offers **Show full PHP source**, **Copy PHP source**, and **Save plugin.php**. It must be installed in `user/plugins/kurl-helper/plugin.php` on the **YOURLS server** and activated in **Manage Plugins**, not installed in Thunderbird. For remote edit, lookup and delete, this build requires Helper **1.1.6 or newer**. Older versions must be updated; there is still only one server-side Helper installation. **Note:** current WordPress kURL versions that compare the Helper version exactly with 1.1.5 may mark 1.1.6 as outdated until their version check is updated. This is a separate WordPress compatibility issue, not a second Helper to install. The dashboard's Helper status remains visible, with instructions available even when the Helper is installed.
+The optional kURL Helper is now maintained independently in the **Thunderbird repository** under `helper/kurl-helper/plugin.php`. It is also bundled in the XPI, and the dashboard offers **Show full PHP source**, **Copy PHP source**, and **Save plugin.php**. It must be installed in `user/plugins/kurl-helper/plugin.php` on the **YOURLS server** and activated in **Manage Plugins**, not installed in Thunderbird. For remote edit, lookup and delete, this build requires Helper **1.1.6 or newer**. Older versions must be updated; there is still only one server-side Helper installation. When the Helper is installed, its status and installation instructions are available in a compact expandable row; otherwise the setup card is prominent.
 
 Right-click shortening uses desktop notifications and a temporary badge on the active Thunderbird tab. It never injects confirmation HTML into the compose editor, because that could become part of a sent message or draft. System notification display depends on operating-system settings.
 
@@ -106,7 +106,7 @@ included **Helper 1.1.7** for authenticated remote editing/deletion (minimum sup
 - Right-click Control-click on macOS matches the clicked link by target URL, regardless of caret location. Ambiguous duplicate links are refused rather than editing the wrong one.
 - Toolbar badges have independent timers per tab and never appear in the outgoing email body.
 - Persistent context menus are registered on install/update and startup, not each background wake.
-- The Helper source link is pinned to an immutable commit containing 1.1.7 (not falsely labeled a tag).
+- The Helper source link is pinned to the immutable 1.1.6-containing revision (not falsely labeled a tag).
 - GitHub Actions updated to current runtimes; local and CI regression tests cover these cases.
 
 **Not yet a published ATN release.** A real macOS Control-click test and a Windows/macOS Thunderbird check are needed. The WordPress client currently uses strict Helper version matching; update it before installing Helper 1.1.6 unless API is publicly accessible.
@@ -126,3 +126,11 @@ included **Helper 1.1.7** for authenticated remote editing/deletion (minimum sup
 - The legacy ten-character token hint is shown only when a connection test reports an authentication error. Opening Settings does not imply valid older tokens are obsolete.
 - All ten languages explicitly provide both right-click menu labels and the generic safe-insertion error. The Arabic plain-text warning quotes the actual Arabic menu label.
 - Helper documentation explains HTTPS reverse proxies with either default ports or matching explicit custom ports.
+
+## New in 2.0.15: find a short URL in either direction
+
+Use **Find an existing link** on the Dashboard to search your YOURLS server by **short URL or keyword** (using the standard `expand` and `url-stats` API), or by **destination URL** (using the optional Helper's `kurl_find_by_url` action). The result shows short URL, destination, title, and click count where available. Copy the result, populate the existing-link editor, or create a new short link for an unshortened destination. The search never edits or deletes anything by itself.
+
+A healthy Helper installation now appears only as a small expandable status row rather than a large installation card. Missing/outdated Helper guidance remains prominent and actionable. The field above **Recent links** is explicitly a filter of *only the entries already loaded into the dashboard*, not a server-wide search; load more entries to extend its scope. All new interface text is localized for the 10 shipped locale bundles.
+
+Run `python3 tests/browser-lookup-check.py` for two-way lookup and compact Helper UI regression checks. Full details in `TESTING_2_0_15.md`.

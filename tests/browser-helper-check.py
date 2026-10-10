@@ -26,9 +26,12 @@ with sync_playwright() as p:
  }""", source)
  page.add_script_tag(content=(root/'JS/helpers.js').read_text())
  page.add_script_tag(content=(root/'JS/dashboard.js').read_text())
- print('dashboard JS loaded',page.locator('#dashboard-feedback').text_content(), flush=True); print('helper status',page.locator('#helper-indicator').text_content(), flush=True); page.locator('#helper-indicator').filter(has_text='INSTALLED / OK').wait_for(timeout=3000)
+ print('dashboard JS loaded',page.locator('#dashboard-feedback').text_content(), flush=True); print('helper status',page.locator('#helper-indicator').text_content(), flush=True); page.wait_for_function("document.querySelector('#helper-indicator').textContent.includes('INSTALLED / OK')")
+ assert not page.locator('#helper-indicator').is_visible(), 'ready Helper must not dominate dashboard'
+ assert not page.locator('#helper-panel').evaluate('(x)=>x.open'), 'installed Helper panel starts collapsed'
  assert page.locator('#helper-setup').is_visible(), 'helper installer hidden on healthy install'
  assert not page.locator('#helper-instructions').evaluate('(x)=>x.open'), 'instructions should be collapsed when Helper exists'
+ page.locator('#helper-panel').evaluate('(e)=>{e.open=true;}')
  print('opening instructions',flush=True)
  page.locator('#helper-instructions').evaluate('(e)=>{e.open=true;}')
  print('opening code',flush=True)
@@ -49,7 +52,7 @@ with sync_playwright() as p:
  download.save_as(str(dl_path))
  assert dl_path.read_text()==source
  dl_path.unlink()
- print('PASS helper status visible, collapsed by default when installed')
+ print('PASS helper ready state compact, expandable on request')
  print('PASS source preview exact bytes',len(source),'characters')
  print('PASS clipboard exact source')
  print('PASS downloaded plugin.php exact source')

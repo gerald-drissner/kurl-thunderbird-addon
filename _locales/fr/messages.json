@@ -369,5 +369,65 @@
   },
   "insertCannotSafely": {
     "message": "Impossible d’insérer le lien raccourci en toute sécurité."
+  },
+  "lookupHeading": {
+    "message": "Rechercher un lien existant"
+  },
+  "lookupHelp": {
+    "message": "Saisissez une URL courte, son mot-clé ou une URL de destination. Retrouvez la destination et les clics d’un lien court, ou vérifiez si une destination possède déjà un lien."
+  },
+  "lookupQueryLabel": {
+    "message": "URL courte, mot-clé ou URL de destination"
+  },
+  "lookupQueryPlaceholder": {
+    "message": "dri.li/exemple ou https://example.com/article"
+  },
+  "lookupSearch": {
+    "message": "Rechercher dans YOURLS"
+  },
+  "lookupResultHeading": {
+    "message": "Lien trouvé"
+  },
+  "lookupClicks": {
+    "message": "Clics"
+  },
+  "lookupCreateInstead": {
+    "message": "Créer une URL courte"
+  },
+  "lookupInvalid": {
+    "message": "Saisissez une URL de destination valide, une URL courte de ce serveur ou un mot-clé."
+  },
+  "lookupNeedsHelper": {
+    "message": "La recherche par destination nécessite le module facultatif YOURLS Helper. La recherche par URL courte fonctionne sans lui."
+  },
+  "lookupSearching": {
+    "message": "Recherche dans YOURLS…"
+  },
+  "lookupFound": {
+    "message": "Lien trouvé sur votre serveur YOURLS."
+  },
+  "lookupNotFound": {
+    "message": "Aucune URL courte trouvée"
+  },
+  "lookupNotFoundHelp": {
+    "message": "Aucune URL courte n’a été trouvée pour cette destination. Vous pouvez en créer une."
+  },
+  "helperCompactOk": {
+    "message": "Helper installé"
+  },
+  "helperShowDetails": {
+    "message": "Installation et code source"
+  },
+  "dashFilter": {
+    "message": "Filtrer les liens récents affichés"
+  },
+  "dashSearch": {
+    "message": "Filtrer les liens affichés"
+  },
+  "dashFilterHelp": {
+    "message": "Filtre uniquement les liens récents déjà affichés. Utilisez « Charger plus » pour inclure les plus anciens."
+  },
+  "dashFilterNoMatch": {
+    "message": "Aucun résultat parmi les liens récents affichés."
   }
 }

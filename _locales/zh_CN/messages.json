@@ -369,5 +369,65 @@
   },
   "insertCannotSafely": {
     "message": "无法安全地插入短链接。"
+  },
+  "lookupHeading": {
+    "message": "查找已有链接"
+  },
+  "lookupHelp": {
+    "message": "输入短链接、关键词或目标网址。可以查看短链接的目标地址和点击次数，也可以检查目标网址是否已有短链接。"
+  },
+  "lookupQueryLabel": {
+    "message": "短链接、关键词或目标网址"
+  },
+  "lookupQueryPlaceholder": {
+    "message": "dri.li/example 或 https://example.com/article"
+  },
+  "lookupSearch": {
+    "message": "搜索 YOURLS"
+  },
+  "lookupResultHeading": {
+    "message": "找到链接"
+  },
+  "lookupClicks": {
+    "message": "点击次数"
+  },
+  "lookupCreateInstead": {
+    "message": "创建短链接"
+  },
+  "lookupInvalid": {
+    "message": "请输入有效的目标网址、此服务器上的短链接或关键词。"
+  },
+  "lookupNeedsHelper": {
+    "message": "按目标网址搜索需要可选的 YOURLS Helper 插件。按短链接搜索则不需要。"
+  },
+  "lookupSearching": {
+    "message": "正在搜索 YOURLS…"
+  },
+  "lookupFound": {
+    "message": "已在 YOURLS 服务器上找到链接。"
+  },
+  "lookupNotFound": {
+    "message": "未找到短链接"
+  },
+  "lookupNotFoundHelp": {
+    "message": "此目标网址没有找到已有短链接。你可以创建一个。"
+  },
+  "helperCompactOk": {
+    "message": "Helper 已安装"
+  },
+  "helperShowDetails": {
+    "message": "安装说明和源代码"
+  },
+  "dashFilter": {
+    "message": "筛选当前显示的最近链接"
+  },
+  "dashSearch": {
+    "message": "在已显示的链接中搜索"
+  },
+  "dashFilterHelp": {
+    "message": "仅筛选当前已显示的最近链接。点击“加载更多”可包含更早的链接。"
+  },
+  "dashFilterNoMatch": {
+    "message": "当前显示的最近链接中没有匹配项。"
   }
 }

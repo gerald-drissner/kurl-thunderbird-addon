@@ -62,6 +62,33 @@
     </div>
     <div class="dashboard-create-column">
 
+    <section class="kurl-panel kurl-lookup-panel" aria-labelledby="lookup-heading">
+      <h2 id="lookup-heading" data-i18n-key="lookupHeading">Find a YOURLS link</h2>
+      <p class="kurl-help" data-i18n-key="lookupHelp">Enter a short URL, its keyword, or a destination URL. Short links show their target and clicks; destination URLs are checked for existing short links.</p>
+      <form id="lookup-form" novalidate>
+        <label for="lookup-query" data-i18n-key="lookupQueryLabel">Short URL, keyword, or destination URL</label>
+        <div class="lookup-controls">
+          <input id="lookup-query" type="text" autocomplete="off" spellcheck="false" data-i18n-placeholder="lookupQueryPlaceholder" placeholder="https://dri.li/example or https://example.com/article">
+          <button type="submit" id="lookup-submit" data-i18n-key="lookupSearch">Find link</button>
+        </div>
+      </form>
+      <p id="lookup-message" class="kurl-help" role="status" aria-live="polite"></p>
+      <section id="lookup-result" class="lookup-result" aria-labelledby="lookup-result-title" hidden>
+        <h3 id="lookup-result-title" data-i18n-key="lookupResultHeading">Found link</h3>
+        <dl class="lookup-details">
+          <dt data-i18n-key="dashShortUrl">Short URL</dt><dd id="lookup-short" dir="auto"></dd>
+          <dt data-i18n-key="dashTarget">Target URL</dt><dd id="lookup-long" dir="auto"></dd>
+          <dt data-i18n-key="lookupClicks">Clicks</dt><dd id="lookup-clicks"></dd>
+          <dt data-i18n-key="dashTitleInput">Title (optional)</dt><dd id="lookup-title"></dd>
+        </dl>
+        <div class="row lookup-actions">
+          <button id="lookup-copy" type="button" class="secondary" data-i18n-key="popupBtnCopy">Copy</button>
+          <button id="lookup-edit" type="button" class="secondary" data-i18n-key="dashEdit">Edit</button>
+          <button id="lookup-create" type="button" class="secondary" data-i18n-key="lookupCreateInstead" hidden>Create a short URL</button>
+        </div>
+      </section>
+    </section>
+
     <section class="kurl-panel" aria-labelledby="manual-title">
       <h2 id="manual-title" data-i18n-key="dashCreate">Create a short URL</h2>
       <form id="manual-form">
@@ -89,6 +116,8 @@
     </div>
     </div>
     <aside id="helper-setup" class="helper-setup" aria-labelledby="helper-setup-title">
+      <details id="helper-panel" class="helper-panel">
+        <summary id="helper-panel-summary" data-i18n-key="helperShowDetails">Helper setup and source code</summary>
       <div class="helper-lead">
         <div>
           <h2 id="helper-setup-title" data-i18n-key="helperSetupTitle">kURL Helper for YOURLS</h2>
@@ -116,6 +145,7 @@
         <p id="helper-file-status" role="status" aria-live="polite" class="kurl-help"></p>
         <p class="helper-warning" data-i18n-key="helperSafety">One YOURLS Helper installation can serve multiple clients. Changes and deletions can break URLs already shared on websites or in sent emails.</p>
       </details>
+      </details>
     </aside>
     <div class="dashboard-list-columns">
     <section aria-labelledby="top-title">
@@ -127,7 +157,8 @@
         <h2 id="recent-title" data-i18n-key="dashboardTitleRecentLinks">Recent links</h2>
         <div>
           <label for="filter-links" class="kurl-inline-label" data-i18n-key="dashFilter">Filter loaded links</label>
-          <input id="filter-links" type="search" data-i18n-placeholder="dashSearch" placeholder="Search URL or keyword">
+          <input id="filter-links" type="search" data-i18n-placeholder="dashSearch" placeholder="Filter recent links">
+          <p class="filter-scope-help" data-i18n-key="dashFilterHelp">Filters only the recent links already displayed. Use “Load more” to include older links.</p>
         </div>
       </div>
       <div id="recent-links-container" class="kurl-link-list" ></div>

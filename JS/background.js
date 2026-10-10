@@ -238,6 +238,20 @@ async function shorten(long, keyword = "", title = "") {
   throw apiFailure(r.json, r.status);
 }
 
+async function expandShort(value) {
+  const settings = await H.getSettings();
+  const base = H.sanitizeBaseUrl(settings.yourlsUrl);
+  const keyword = H.extractKeyword(base, value);
+  if (!keyword) throw new Error(i18n("lookupInvalid", "Enter a short URL from your YOURLS server."));
+  // Use the keyword for YOURLS installations whose public HTTPS endpoint sits
+  // behind a reverse proxy with an internal HTTP base URL.
+  const result = success(await request("expand", {shorturl:keyword}));
+  const target = H.validHttpUrl(result.longurl);
+  if (!target) throw new Error(i18n("lookupNotFound", "Short URL not found."));
+  return {shortUrl:base + "/" + keyword, target,
+    title:typeof result.title === "string" ? result.title : ""};
+}
+
 async function stats(value) {
   const settings = await H.getSettings();
   const base = H.sanitizeBaseUrl(settings.yourlsUrl);
@@ -594,6 +608,7 @@ async function dispatch(message) {
       case "CHECK_CONNECTION": return await checkConnection(message.settings || null);
       case "SHORTEN_URL": return await shorten(message.longUrl, message.keyword, message.title);
       case "GET_STATS": return { ok: true, data: await stats(message.shortUrl) };
+      case "EXPAND_URL": return { ok: true, data: await expandShort(message.shortUrl) };
       case "GET_INFO": return { ok: true, data: await info(!!message.forceHelper) };
       case "GET_RECENT_LINKS": return { ok: true, data: await listLinks("last", message.limit, message.start) };
       case "GET_TOP_LINKS": return { ok: true, data: await listLinks("top", message.limit) };

@@ -365,5 +365,65 @@
   },
   "insertCannotSafely": {
     "message": "No se puede insertar la URL corta de forma segura."
+  },
+  "lookupHeading": {
+    "message": "Buscar un enlace existente"
+  },
+  "lookupHelp": {
+    "message": "Escribe una URL corta, su palabra clave o la URL de destino. Consulta el destino y los clics de un enlace corto, o comprueba si el destino ya tiene un enlace."
+  },
+  "lookupQueryLabel": {
+    "message": "URL corta, palabra clave o URL de destino"
+  },
+  "lookupQueryPlaceholder": {
+    "message": "dri.li/ejemplo o https://example.com/articulo"
+  },
+  "lookupSearch": {
+    "message": "Buscar en YOURLS"
+  },
+  "lookupResultHeading": {
+    "message": "Enlace encontrado"
+  },
+  "lookupClicks": {
+    "message": "Clics"
+  },
+  "lookupCreateInstead": {
+    "message": "Crear URL corta"
+  },
+  "lookupInvalid": {
+    "message": "Introduce una URL de destino válida, una URL corta de este servidor o una palabra clave."
+  },
+  "lookupNeedsHelper": {
+    "message": "La búsqueda por URL de destino requiere el complemento opcional YOURLS Helper. Las URL cortas se pueden consultar sin él."
+  },
+  "lookupSearching": {
+    "message": "Buscando en YOURLS…"
+  },
+  "lookupFound": {
+    "message": "Enlace encontrado en tu servidor YOURLS."
+  },
+  "lookupNotFound": {
+    "message": "No se encontró URL corta"
+  },
+  "lookupNotFoundHelp": {
+    "message": "No se encontró una URL corta para este destino. Puedes crearla."
+  },
+  "helperCompactOk": {
+    "message": "Helper instalado"
+  },
+  "helperShowDetails": {
+    "message": "Instalación y código fuente"
+  },
+  "dashFilter": {
+    "message": "Filtrar enlaces recientes mostrados"
+  },
+  "dashSearch": {
+    "message": "Buscar entre los enlaces mostrados"
+  },
+  "dashFilterHelp": {
+    "message": "Solo filtra los enlaces recientes visibles. Usa «Cargar más» para incluir los anteriores."
+  },
+  "dashFilterNoMatch": {
+    "message": "No hay coincidencias entre los enlaces recientes mostrados."
   }
 }

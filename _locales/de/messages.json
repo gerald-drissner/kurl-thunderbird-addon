@@ -308,10 +308,10 @@
     "message": "Meistgeklickte YOURLS-Links"
   },
   "dashFilter": {
-    "message": "Geladene Links filtern"
+    "message": "Angezeigte letzte Links filtern"
   },
   "dashSearch": {
-    "message": "URL oder Kürzel suchen"
+    "message": "In den angezeigten Links suchen"
   },
   "dashTarget": {
     "message": "Ziel-URL"
@@ -685,5 +685,59 @@
   },
   "insertCannotSafely": {
     "message": "Die Kurz-URL konnte nicht sicher eingefügt werden."
+  },
+  "lookupHeading": {
+    "message": "Vorhandenen Link suchen"
+  },
+  "lookupHelp": {
+    "message": "Kurz-URL, Kürzel oder Zieladresse eingeben. Zu einer Kurz-URL sehen Sie die Zieladresse und Klicks. Zu einer Zieladresse prüfen Sie, ob bereits eine Kurz-URL existiert."
+  },
+  "lookupQueryLabel": {
+    "message": "Kurz-URL, Kürzel oder Zieladresse"
+  },
+  "lookupQueryPlaceholder": {
+    "message": "dri.li/beispiel oder https://example.com/artikel"
+  },
+  "lookupSearch": {
+    "message": "In YOURLS suchen"
+  },
+  "lookupResultHeading": {
+    "message": "Link gefunden"
+  },
+  "lookupClicks": {
+    "message": "Klicks"
+  },
+  "lookupCreateInstead": {
+    "message": "Kurz-URL erstellen"
+  },
+  "lookupInvalid": {
+    "message": "Bitte eine gültige Zieladresse, eine Kurz-URL dieses Servers oder ein Kürzel eingeben."
+  },
+  "lookupNeedsHelper": {
+    "message": "Für die Suche nach einer Zieladresse ist der optionale YOURLS Helper erforderlich. Kurz-URLs können Sie auch ohne Helper nachschlagen."
+  },
+  "lookupSearching": {
+    "message": "YOURLS wird durchsucht …"
+  },
+  "lookupFound": {
+    "message": "Link auf Ihrem YOURLS-Server gefunden."
+  },
+  "lookupNotFound": {
+    "message": "Keine Kurz-URL gefunden"
+  },
+  "lookupNotFoundHelp": {
+    "message": "Für diese Zieladresse wurde keine Kurz-URL gefunden. Sie können jetzt eine erstellen."
+  },
+  "helperCompactOk": {
+    "message": "Helper installiert"
+  },
+  "helperShowDetails": {
+    "message": "Installationshilfe und Quelltext"
+  },
+  "dashFilterHelp": {
+    "message": "Durchsucht nur die bereits angezeigten letzten Links. Mit „Mehr laden“ beziehen Sie ältere Links ein."
+  },
+  "dashFilterNoMatch": {
+    "message": "Keine Treffer unter den angezeigten letzten Links."
   }
 }
