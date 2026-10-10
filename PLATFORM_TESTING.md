@@ -22,3 +22,7 @@ Thunderbird itself must support the host operating system. Thunderbird 157 syste
 8. **Connection:** test HTTPS YOURLS connection and add-on restart/persistence; no OS-specific network utility should be required.
 
 Automated tests exercise logic with mocks and Chromium; they do not certify the native Thunderbird shell or Windows/macOS notification systems. A published listing should say **cross-platform by design, Windows/macOS live verification pending** until an actual smoke test is recorded.
+
+## Windows checkout integrity
+
+Git for Windows may rewrite `*.js` and `*.php` LF endings to CRLF when its `core.autocrlf` setting is enabled. The repository `.gitattributes` forces LF for the vendored QR distribution, helper PHP and other source files. CI verifies the exact published npm QR checksum on all runners, preventing a Windows-built artifact from silently distributing modified third-party source.
