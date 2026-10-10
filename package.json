@@ -1,6 +1,6 @@
 {
   "name": "kurl-thunderbird-addon",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "private": true,
   "scripts": {
     "test": "node --test tests/smoke.cjs",

@@ -296,6 +296,15 @@
     "description": "Text for the 'View More' button to load more links."
   },
   "apiAuthRejected": {
-    "message": "YOURLS が API 署名を拒否しました。更新によって署名トークンが変わった可能性があります。YOURLS にログインし、管理 → ツールで現在の API 署名をコピーして kURL の設定に貼り付け、「接続をテストして保存」を選択してください。"
+    "message": "YOURLS が API 署名を拒否しました。サーバーの更新後に署名トークンが変わった可能性があります。ブラウザーで YOURLS の管理画面にログインして「管理 → ツール」を開き、現在の署名を kURL の設定に貼り付けて「接続をテストして保存」を選んでください。kURL にユーザー名やパスワードを入力する必要はありません。解決しない場合は端末とサーバーの時刻、および API アクセス制限を確認してください。"
+  },
+  "apiAccessDenied": {
+    "message": "サーバーが API アクセスを拒否しました (HTTP 401/403)。YOURLS の「管理 → ツール」で署名を確認して再テストしてください。署名が正しい場合はアクセス制限と時刻を確認してください。kURL 内でのログインは不要です。"
+  },
+  "apiInvalidResponse": {
+    "message": "YOURLS から有効な API 応答が返されませんでした (HTTP $status$)。サーバーの URL、HTTPS、ログインページへのリダイレクトを確認してください。"
+  },
+  "apiOpenTools": {
+    "message": "YOURLS の「管理 → ツール」を開いて現在の API 署名をコピー"
   }
 }

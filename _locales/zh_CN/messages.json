@@ -300,6 +300,15 @@
     "description": "Text for the 'View More' button to load more links."
   },
   "apiAuthRejected": {
-    "message": "YOURLS 拒绝了 API 签名。更新后签名令牌可能已更改。请登录 YOURLS，打开“管理 → 工具”，复制当前 API 签名，将其粘贴到 kURL 设置中，然后选择“测试连接并保存”。"
+    "message": "YOURLS 拒绝了 API 签名。服务器更新后签名令牌可能已改变。请在浏览器中登录 YOURLS 管理界面，打开“管理 → 工具”，将当前签名复制到 kURL 设置中，然后点击“测试连接并保存”。kURL 不需要用户名或密码。如果仍然失败，请检查计算机与服务器的时间以及 API 访问限制。"
+  },
+  "apiAccessDenied": {
+    "message": "服务器拒绝 API 访问（HTTP 401/403）。请在 YOURLS 的“管理 → 工具”检查签名并重新测试。如果签名正确，请检查服务器访问限制和系统时间。无需在 kURL 中登录。"
+  },
+  "apiInvalidResponse": {
+    "message": "YOURLS 未返回有效的 API 响应（HTTP $status$）。请检查服务器地址、HTTPS 以及可能跳转到登录页面的重定向。"
+  },
+  "apiOpenTools": {
+    "message": "打开 YOURLS 的“管理 → 工具”以复制当前 API 签名"
   }
 }

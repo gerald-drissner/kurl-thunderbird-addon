@@ -4,7 +4,7 @@ const H = window.Helpers;
 const i18n = (key, fallback) => browser.i18n.getMessage(key) || fallback;
 const MAX_BODY = 1048576;
 const TIMEOUT = 15000;
-const HELPER_VERSION = "1.1.5";
+const HELPER_VERSION = "1.1.6";
 const HELPER_CACHE_MS = 5 * 60 * 1000;
 let helperCache = null;
 function helperVersionAtLeast(found, minimum = HELPER_VERSION) {
@@ -14,17 +14,33 @@ function helperVersionAtLeast(found, minimum = HELPER_VERSION) {
   for (let i=0;i<3;i++) { if ((a[i]||0)!==(b[i]||0)) return (a[i]||0)>(b[i]||0); }
   return true;
 }
-function apiError(json, code) {
+// YOURLS API does not provide a browser login. A signed read-only db-stats
+// request is our connection/token verification. Classify failures by the
+// structured API error fields first, not just an English server message.
+function apiFailureKind(json, httpStatus) {
   const value = typeof json?.message === "string" ? json.message.trim() : "";
-  // YOURLS 1.10.5+ may invalidate saved signature tokens after an upgrade.
-  // Treat this as an API authentication problem, NOT a browser-login prompt.
-  const authenticationFailure = /^(?:please log in[.!]?|authentication required[.!]?|invalid (?:api )?signature[.!]?)$/i.test(value) ||
-    (!value && Number(code) === 401);
-  if (authenticationFailure) {
-    return i18n("apiAuthRejected",
-      "YOURLS rejected the API signature. After an update, the token may have changed. Sign in to YOURLS, open Admin → Tools, copy the current API signature, paste it into kURL Settings, then select Test connection & save.");
+  const code = Number(json?.errorCode ?? json?.statusCode ?? httpStatus);
+  const explicitAuth = /^(?:please log in[.!]?|authentication required[.!]?|invalid (?:api )?signature[.!]?|invalid username or password[.!]?)$/i.test(value);
+  if (explicitAuth) return "AUTH_REJECTED";
+  if (code === 401 || code === 403) return "ACCESS_DENIED";
+  return "OTHER";
+}
+function apiError(json, code) {
+  const kind = apiFailureKind(json, code);
+  if (kind === "AUTH_REJECTED") {
+    return i18n("apiAuthRejected", "YOURLS rejected API authentication. After an update the signature token may have changed. Sign in to the YOURLS admin page in your browser, open Admin → Tools, copy your current API signature into kURL Settings, then select Test connection & save. kURL does not need your YOURLS username or password. If it still fails, check your computer/server clocks and server access rules.");
   }
+  if (kind === "ACCESS_DENIED") {
+    return i18n("apiAccessDenied", "The server refused API access (HTTP 401/403). Check the signature token in YOURLS Admin → Tools, then test the connection again. If the token is current, check server security rules, API access and system clocks; kURL cannot sign in through the browser for you.");
+  }
+  const value = typeof json?.message === "string" ? json.message.trim() : "";
   return value ? value.slice(0, 300) : `YOURLS request failed (HTTP ${code}).`;
+}
+function apiFailure(json, code) {
+  const e = new Error(apiError(json, code));
+  const kind = apiFailureKind(json, code);
+  if (kind !== "OTHER") e.code = kind;
+  return e;
 }
 function extractFirstUrl(raw) {
   let found = String(raw || "").match(/https?:\/\/[^\s<>"'«»“”]+/i)?.[0] || "";
@@ -62,11 +78,10 @@ async function getHelperInfo(force = false) {
 }
 
 
-// Never inject notifications into a compose editor: Thunderbird could send them
-// as part of the message. Use operating-system notifications and tab-scoped badges.
+// Never insert transient status nodes in a Thunderbird compose editor: they
+// can be serialized into an outgoing message or an autosaved draft.
 let badgeGeneration = 0;
 async function signalToolbar(kind, tabId) {
-  // A badge without tabId appears on every Thunderbird window.
   if (!Number.isInteger(tabId) || tabId < 0) return;
   const generation = ++badgeGeneration;
   const value = kind === "error" ? "!" : "✓";
@@ -76,7 +91,7 @@ async function signalToolbar(kind, tabId) {
     try {
       if (api?.setBadgeText) await api.setBadgeText({text: value, tabId});
       if (api?.setBadgeBackgroundColor) await api.setBadgeBackgroundColor({color, tabId});
-    } catch { /* Unsupported button in this Thunderbird context. */ }
+    } catch { /* This toolbar API may not exist in the current Thunderbird view. */ }
   }
   setTimeout(() => {
     if (generation !== badgeGeneration) return;
@@ -91,7 +106,7 @@ async function contextFeedback(tab, message, kind = "success") {
     const settings = await H.getSettings();
     if (!settings.showCopyNotifications) return;
   }
-  // The OS notification is independent of message content; badge is tab-scoped.
+  // OS notifications and a tab-scoped badge do not modify the email body.
   await Promise.allSettled([notify(message), signalToolbar(kind, tab?.id)]);
 }
 
@@ -165,7 +180,10 @@ async function request(action, options = {}, override = null) {
       if (text.length > MAX_BODY) throw new Error("YOURLS response is too large.");
     }
     const json = H.parseMaybeJson(text);
-    if (!json) throw new Error("YOURLS did not return valid JSON (HTTP " + response.status + ").");
+    if (!json) {
+      if (response.status === 401 || response.status === 403) throw apiFailure(null, response.status);
+      throw new Error(i18n("apiInvalidResponse", "YOURLS did not return a valid API response (HTTP $status$). Check the server URL, HTTPS and any proxy or login redirect.").replace("$status$", String(response.status)));
+    }
     return { httpOK: response.ok, status: response.status, json };
   } catch (error) {
     if (error.name === "AbortError") throw new Error("YOURLS request timed out (15 s).");
@@ -179,8 +197,9 @@ async function request(action, options = {}, override = null) {
 function success(result) {
   const j = result.json;
   if (!result.httpOK || j?.status === "fail" || j?.status === "error" ||
-      j?.statusCode === "error" || Number(j?.statusCode) >= 400) {
-    throw new Error(apiError(j, result.status));
+      j?.statusCode === "error" || Number(j?.statusCode) >= 400 ||
+      Number(j?.errorCode) >= 400) {
+    throw apiFailure(j, result.status);
   }
   return j;
 }
@@ -210,7 +229,7 @@ async function shorten(long, keyword = "", title = "") {
     return { ok: true, shortUrl: short, already: existing,
       keywordAdjusted: !existing && !!cleanKeyword && H.extractKeyword(base, short) !== cleanKeyword };
   }
-  throw new Error(apiError(r.json, r.status));
+  throw apiFailure(r.json, r.status);
 }
 
 async function stats(value) {
@@ -261,7 +280,7 @@ async function info(forceHelper = false) {
 async function requireHelper(capability) {
   const info = await getHelperInfo();
   if (!info.ready || !info.capabilities.includes(capability))
-    throw new Error("This action requires kURL Helper 1.1.5 or newer with the advertised capabilities.");
+    throw new Error("This action requires kURL Helper 1.1.6 or newer with the advertised capabilities.");
 }
 
 function isHelperNotFound(r) {
@@ -528,7 +547,9 @@ browser.runtime.onMessage.addListener(async message => {
     }
   } catch (error) {
     console.warn("kURL:", error?.message || "Request failed");
-    return { ok: false, reason: String(error?.message || "Request failed") };
+    return { ok: false, reason: String(error?.message || "Request failed"),
+      ...(error?.code === "AUTH_REJECTED" || error?.code === "ACCESS_DENIED"
+        ? { errorCode: error.code } : {}) };
   }
 });
 

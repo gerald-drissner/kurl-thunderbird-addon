@@ -52,7 +52,11 @@ function i18n() {
 }
 async function send(type, extra = {}) {
   const response = await browser.runtime.sendMessage({ type, ...extra });
-  if (!response?.ok) throw new Error(response?.reason || "YOURLS request failed.");
+  if (!response?.ok) {
+    const error = new Error(response?.reason || "YOURLS request failed.");
+    error.code = response?.errorCode || "";
+    throw error;
+  }
   return response;
 }
 function parseLinks(raw) {
@@ -216,8 +220,15 @@ async function loadMore(generation) {
     if (loadingMoreGeneration === generation) loadingMoreGeneration = -1;
   }
 }
+function showAuthRecovery(code) {
+  const panel = $("dashboard-auth-recovery");
+  panel.hidden = !["AUTH_REJECTED", "ACCESS_DENIED"].includes(code);
+  const server = H.sanitizeBaseUrl($("info-server").textContent);
+  if (server) $("dashboard-auth-tools").href = server + "/admin/tools.php";
+}
 async function refresh(forceHelper = false) {
   const generation = ++viewGeneration;
+  showAuthRecovery("");
   currentOffset = 0;
   recentLinks = [];
   $("view-more-container").replaceChildren();
@@ -269,8 +280,10 @@ async function refresh(forceHelper = false) {
     $("server-status").textContent = t("dashboardStatusError", "Error");
     $("server-status").classList.remove("status-online");
     message($("dashboard-feedback"), error.message, true);
-    // A single actionable error is clearer than repeating the same API auth
-    // failure under "Top links" and "Recent links".
+    // Do not repeat a rejected signature three times under different headings.
+    const config = await H.getSettings();
+    $("info-server").textContent = config.yourlsUrl || "—";
+    showAuthRecovery(error.code);
     $("refresh-btn").disabled = false;
     return;
   }

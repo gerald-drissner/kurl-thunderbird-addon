@@ -505,7 +505,7 @@
     "message": "Öffnen Sie in YOURLS „Manage Plugins“ und aktivieren Sie kURL Helper."
   },
   "helperStep4": {
-    "message": "Kehren Sie zum Dashboard zurück und klicken Sie auf „Aktualisieren“. Ab Version 1.1.5 stehen die zusätzlichen Funktionen zur Verfügung."
+    "message": "Kehren Sie zum Dashboard zurück und klicken Sie auf „Aktualisieren“. Ab Version 1.1.6 stehen die zusätzlichen Funktionen zur Verfügung."
   },
   "helperSource": {
     "message": "kURL Helper im GitHub-Repository der Thunderbird-Erweiterung ansehen"
@@ -625,6 +625,15 @@
     "message": "In die Zwischenablage kopiert"
   },
   "apiAuthRejected": {
-    "message": "YOURLS hat die API-Signatur abgelehnt. Nach einem Update kann sich das Token geändert haben. Melden Sie sich bei YOURLS an, öffnen Sie Admin → Tools und kopieren Sie die aktuelle API-Signatur. Tragen Sie sie in den kURL-Einstellungen ein und klicken Sie auf „Verbindung testen und speichern“."
+    "message": "YOURLS hat die API-Signatur abgelehnt. Nach einem Update kann sich das Token geändert haben. Melden Sie sich im Browser bei YOURLS an, öffnen Sie Admin → Tools und kopieren Sie die aktuelle API-Signatur in die kURL-Einstellungen. Klicken Sie anschließend auf „Verbindung testen und speichern“. kURL benötigt weder Benutzername noch Passwort. Falls der Fehler bleibt, prüfen Sie die Uhrzeit von Computer und Server sowie die API-Zugriffsregeln."
+  },
+  "apiAccessDenied": {
+    "message": "Der Server verweigert den API-Zugriff (HTTP 401/403). Prüfen Sie die API-Signatur unter YOURLS → Admin → Tools und testen Sie die Verbindung erneut. Ist das Token aktuell, prüfen Sie die Zugriffsregeln und die Systemzeiten. Eine Anmeldung im kURL-Add-on ist nicht erforderlich."
+  },
+  "apiInvalidResponse": {
+    "message": "YOURLS hat keine gültige API-Antwort geliefert (HTTP $status$). Prüfen Sie die Server-URL, HTTPS und mögliche Weiterleitungen oder vorgeschaltete Anmeldeseiten."
+  },
+  "apiOpenTools": {
+    "message": "YOURLS → Admin → Tools öffnen und die aktuelle API-Signatur kopieren"
   }
 }

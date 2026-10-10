@@ -13,10 +13,10 @@
     }
   },
   "icons": {
-    "16": "images/kurl-icon-16.png",
-    "32": "images/kurl-icon-32.png",
     "48": "images/kurl-icon-48.png",
-    "96": "images/kurl-icon-96.png"
+    "96": "images/kurl-icon-96.png",
+    "16": "images/kurl-icon-16.png",
+    "32": "images/kurl-icon-32.png"
   },
   "background": {
     "scripts": [

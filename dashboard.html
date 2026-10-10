@@ -19,12 +19,13 @@
       <div class="dashboard-utilities">
         <label class="copy-notification-setting" for="dash-copy-notifications">
           <input id="dash-copy-notifications" type="checkbox" checked>
-          <span data-i18n-key="optionsCopyFeedbackLabel">Show success notifications</span>
+          <span data-i18n-key="optionsCopyFeedbackLabel">Show copy confirmations</span>
         </label>
         <button id="refresh-btn" class="secondary" type="button" data-i18n-key="dashboardBtnRefresh">Refresh</button>
       </div>
     </div>
     <p id="dashboard-feedback" class="info" role="status" aria-live="polite">Loading…</p>
+    <p id="dashboard-auth-recovery" class="auth-recovery" hidden><a id="dashboard-auth-tools" target="_blank" rel="noopener noreferrer" data-i18n-key="apiOpenTools">Open YOURLS Admin → Tools to copy the current API signature</a></p>
     <div id="copy-toast" class="copy-toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
 
     <div class="dashboard-workspace">
@@ -101,7 +102,7 @@
           <li data-i18n-key="helperStep1">Download plugin.php here or copy the full PHP source code below.</li>
           <li data-i18n-key="helperStep2">On your YOURLS server create user/plugins/kurl-helper/ and save plugin.php in that folder (not plugin.php.txt).</li>
           <li data-i18n-key="helperStep3">In YOURLS → Manage Plugins, activate kURL Helper.</li>
-          <li data-i18n-key="helperStep4">Return to this dashboard and click Refresh. Version 1.1.5 or newer enables advanced actions.</li>
+          <li data-i18n-key="helperStep4">Return to this dashboard and click Refresh. Version 1.1.6 or newer enables advanced actions.</li>
         </ol>
         <div class="helper-actions row">
           <button id="helper-download" type="button" class="secondary" data-i18n-key="helperDownload">Save plugin.php</button>

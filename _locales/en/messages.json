@@ -505,7 +505,7 @@
     "message": "Open YOURLS administration → Manage Plugins and activate kURL Helper."
   },
   "helperStep4": {
-    "message": "Return to the kURL dashboard and select Refresh. Version 1.1.5 or newer enables advanced actions."
+    "message": "Return to the kURL dashboard and select Refresh. Version 1.1.6 or newer enables advanced actions."
   },
   "helperSource": {
     "message": "View the kURL Helper in the Thunderbird GitHub repository"
@@ -625,6 +625,15 @@
     "message": "Copied to clipboard"
   },
   "apiAuthRejected": {
-    "message": "YOURLS rejected the API signature. After an update, the token may have changed. Sign in to YOURLS, open Admin → Tools, copy the current API signature, paste it into kURL Settings, then select Test connection & save."
+    "message": "YOURLS rejected the API signature. An update may have changed your token. Sign in to the YOURLS admin area in a web browser, open Admin → Tools, copy the current API signature to kURL Settings, then choose Test connection & save. No username or password is needed in kURL. If it still fails, check your computer and server clocks and any API access rules."
+  },
+  "apiAccessDenied": {
+    "message": "The server refused API access (HTTP 401/403). Check the API signature in YOURLS Admin → Tools and test again. If it is current, check your server's access restrictions and clocks. kURL does not sign in to the admin interface."
+  },
+  "apiInvalidResponse": {
+    "message": "YOURLS did not return a valid API response (HTTP $status$). Check the server URL, HTTPS and any proxy or login redirect."
+  },
+  "apiOpenTools": {
+    "message": "Open YOURLS Admin → Tools to copy the current API signature"
   }
 }

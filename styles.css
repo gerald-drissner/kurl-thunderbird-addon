@@ -561,3 +561,13 @@ body.options-body:has(.dashboard-shell) { min-width: 0; padding: 24px clamp(14px
 @media (max-width: 660px) {
   .dashboard-utilities { align-items: flex-start; }
 }
+
+/* API connection recovery link appears only after a rejected signature. */
+.auth-recovery:not([hidden]) {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-top: 8px;
+}
+.auth-recovery a { color: var(--accent); font-weight: 600; }
+.auth-recovery[hidden] { display: none !important; }

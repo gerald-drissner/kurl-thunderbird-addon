@@ -292,6 +292,15 @@
     "description": "Text for the 'View More' button to load more links."
   },
   "apiAuthRejected": {
-    "message": "O YOURLS rejeitou a assinatura da API. O token pode ter mudado após a atualização. Inicie sessão no YOURLS, abra Administração → Ferramentas, copie a assinatura atual, cole-a nas definições do kURL e selecione «Testar ligação e guardar»."
+    "message": "O YOURLS rejeitou a assinatura da API. O token pode ter mudado após a atualização do servidor. Inicie sessão na administração do YOURLS através do navegador, abra Administração → Ferramentas, copie a assinatura atual para as definições do kURL e escolha «Testar ligação e guardar». O kURL não precisa de nome de utilizador nem de palavra-passe. Se continuar a falhar, verifique os relógios do computador e do servidor e as regras de acesso à API."
+  },
+  "apiAccessDenied": {
+    "message": "O servidor recusou o acesso à API (HTTP 401/403). Verifique a assinatura em YOURLS → Administração → Ferramentas e tente novamente. Se estiver correta, verifique as restrições de acesso e os relógios. Não é necessário iniciar sessão no kURL."
+  },
+  "apiInvalidResponse": {
+    "message": "O YOURLS não devolveu uma resposta válida da API (HTTP $status$). Verifique o endereço do servidor, HTTPS e eventuais redirecionamentos para páginas de início de sessão."
+  },
+  "apiOpenTools": {
+    "message": "Abrir YOURLS → Administração → Ferramentas para copiar a assinatura atual"
   }
 }

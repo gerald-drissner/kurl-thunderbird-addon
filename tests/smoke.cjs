@@ -39,6 +39,16 @@ function newContext(opts={}){
   if(action==='db-stats')Object.assign(expected,{total_links:12,total_clicks:24});
   if(action==='version')Object.assign(expected,{version:'1.10'});
   if(opts.errorMessage && action==='shorturl'){expected.status='fail';expected.statusCode=400;expected.message=opts.errorMessage;}
+  if(opts.apiFailure && (action === (opts.apiFailure.action || 'db-stats'))) {
+    const simulated=opts.apiFailure;
+    const txt=simulated.html || JSON.stringify({
+      status:simulated.statusText || 'fail',
+      errorCode:simulated.errorCode ?? String(simulated.status || 403),
+      message:simulated.message || ''
+    });
+    return {ok:false,status:simulated.status || 403,headers:{get:()=>String(txt.length)},
+      body:null,text:async()=>txt};
+  }
   const text=JSON.stringify(expected);
   return {ok:expected.status!=='fail',status:expected.status==='fail'?400:200,
     headers:{get:()=>String(text.length)},body:null,text:async()=>text};
@@ -108,7 +118,7 @@ test('bulk creates links sequentially and skips invalid lines',()=>{
 });
 test('package metadata and page references',()=>{
  const manifest=JSON.parse(source('manifest.json'));
- assert.equal(manifest.version,'2.0.10');
+ assert.equal(manifest.version,'2.0.11');
  assert.equal(manifest.browser_specific_settings.gecko.strict_min_version,'140.0');
  assert.deepEqual(manifest.optional_host_permissions,['https://*/*']);
  assert.ok(!manifest.permissions.includes('tabs'));
@@ -325,7 +335,7 @@ test('German localized insertion and shortcut terms match buttons',()=>{
 
 test('released QR generator, ASCII-canonical QR payload, four-module quiet zone',()=>{
  const lib=source('JS/qrcode.js'), pop=source('JS/popup.js');
- assert.equal(JSON.parse(source('package.json')).version,'2.0.10');
+ assert.equal(JSON.parse(source('package.json')).version,'2.0.11');
  assert.match(lib,/QR Code Generator for JavaScript/);
  assert.match(pop,/qrcode\(0, "H"\)/);
  assert.match(pop,/qr\.addData\(new URL\(value\)\.href, \"Byte\"\)/);
@@ -405,7 +415,7 @@ test('2.0.6 optional copy edits match visible controls and released vendoring me
  const vendor=source('VENDOR.md');
  assert.doesNotMatch(vendor,/external reviewer|independently compared/i);
  assert.match(vendor,/SHA-256 of bundled file/);
- assert.equal(JSON.parse(source('manifest.json')).version,'2.0.10');
+ assert.equal(JSON.parse(source('manifest.json')).version,'2.0.11');
 });
 
 test('2.0.7 opens settings dashboard as a full tab with helper onboarding',()=>{
@@ -474,7 +484,7 @@ test('old hidden 2.0.7 menu is upgraded to a visible 2.0.8 insert menu',async()=
 test('2.0.9 bundles the independent YOURLS Helper with valid plugin metadata',()=>{
  const php=source('helper/kurl-helper/plugin.php');
  assert.match(php,/^<\?php\n\/\*\nPlugin Name: kURL Helper\n/);
- assert.match(php,/Version: 1\.1\.5\n/);
+ assert.match(php,/Version: 1\.1\.6\n/);
  assert.doesNotMatch(php.split('*/')[0],/WordPress/i);
  for(const action of ['kurl_ping','kurl_delete','kurl_find_by_url','kurl_regenerate'])
    assert.ok(php.includes("'api_action_"+action+"'"),action+' API missing');
@@ -541,4 +551,83 @@ test('portable WebExtension APIs instead of OS-specific commands',()=>{
  assert.deepEqual(manifest.optional_host_permissions,['https://*/*']);
  assert.ok(manifest.permissions.includes('notifications'));
  assert.ok(manifest.permissions.includes('clipboardWrite'));
+});
+
+// 2.0.11: YOURLS 1.10.5+ signs requests with the new API secret.
+test('recognizes native YOURLS 403 Please log in and does not require a Thunderbird login',async()=>{
+ const x=newContext({apiFailure:{status:403,errorCode:'403',message:'Please log in'}});
+ const result=await x.send({type:'CHECK_CONNECTION'});
+ assert.equal(result.ok,false);
+ assert.equal(result.errorCode,'AUTH_REJECTED');
+ assert.match(result.reason,/Admin/);
+ assert.match(result.reason,/Tools/);
+ assert.match(result.reason,/kURL/);
+ assert.doesNotMatch(result.reason,/Please log in/);
+ assert.equal(x.calls[0].body.get('hash'),'sha256');
+ assert.notEqual(x.calls[0].body.get('signature'),x.storage.apiSignature);
+ assert.equal(x.calls[0].body.has('username'),false);
+ assert.equal(x.calls[0].body.has('password'),false);
+});
+test('recognizes future access errors by HTTP/code without depending on English message',async()=>{
+ for(const response of [
+   {status:401,errorCode:'401',message:'New localization of error'},
+   {status:403,errorCode:'403',message:'Authentication protocol changed'}
+ ]){
+   const x=newContext({apiFailure:response});
+   const result=await x.send({type:'CHECK_CONNECTION'});
+   assert.equal(result.errorCode,'ACCESS_DENIED');
+   assert.match(result.reason,/HTTP 401\/403/);
+ }
+});
+test('handles 403 HTML login page separately from malformed ordinary responses',async()=>{
+ const x=newContext({apiFailure:{status:403,html:'<html><form>Log in</form></html>'}});
+ const result=await x.send({type:'CHECK_CONNECTION'});
+ assert.equal(result.errorCode,'ACCESS_DENIED');
+ assert.doesNotMatch(result.reason,/valid JSON/);
+});
+test('keeps non-auth failures specific and preserves normal connection flow',async()=>{
+ const x=newContext({errorMessage:'Keyword already exists'});
+ const failure=await x.send({type:'SHORTEN_URL',longUrl:'https://example.org/'});
+ assert.equal(failure.ok,false);
+ assert.equal(failure.reason,'Keyword already exists');
+ const y=newContext();
+ const ok=await y.send({type:'CHECK_CONNECTION'});
+ assert.equal(ok.ok,true);
+ assert.equal(ok.total,12);
+});
+test('all ten locales explain API token recovery and provide an accessible Tools link',()=>{
+ const locales=['en','de','ar','es','fr','he','ja','pt','ru','zh_CN'];
+ const en=JSON.parse(source('_locales/en/messages.json'));
+ for(const lang of locales){
+  const d=JSON.parse(source('_locales/'+lang+'/messages.json'));
+  for(const key of ['apiAuthRejected','apiAccessDenied','apiInvalidResponse','apiOpenTools']){
+   assert.ok(d[key]?.message,lang+':'+key);
+   assert.ok(d[key].message.includes('YOURLS'),lang+':'+key);
+  }
+  assert.match(d.apiAuthRejected.message,/kURL/);
+  assert.match(d.apiInvalidResponse.message,/\$status\$/);
+ }
+ for(const [html,ids] of [
+  ['options.html',['options-auth-recovery','options-auth-tools']],
+  ['dashboard.html',['dashboard-auth-recovery','dashboard-auth-tools']]
+ ]) for(const id of ids) assert.ok(source(html).includes('id="'+id+'"'),id);
+ assert.match(source('JS/options.js'),/false, true, error.code\)/);
+ assert.match(source('JS/dashboard.js'),/showAuthRecovery\(error.code\)/);
+});
+test('bundled YOURLS Helper 1.1.6 authenticates destructive operations',()=>{
+ const php=source('helper/kurl-helper/plugin.php');
+ assert.match(php,/Version: 1\.1\.6/);
+ assert.match(php,/function kurl_api_require_auth\(\)/);
+ for(const fn of ['kurl_api_delete','kurl_api_find_by_url','kurl_api_regenerate']){
+   const pos=php.indexOf('function '+fn+'()');
+   assert.ok(pos>0);
+   assert.match(php.slice(pos,pos+190),/kurl_api_require_auth\(\)/,fn);
+ }
+ assert.match(source('JS/background.js'),/HELPER_VERSION = "1\.1\.6"/);
+});
+test('no status notification is inserted into the body of an outgoing message',()=>{
+ const js=source('JS/background.js');
+ assert.doesNotMatch(js,/contextToast\(/);
+ assert.doesNotMatch(js,/kurl-context-toast/);
+ assert.match(js,/setBadgeText\(\{text: value, tabId\}\)/);
 });

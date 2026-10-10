@@ -2,7 +2,7 @@
 /*
 Plugin Name: kURL Helper
 Description: Adds safe lookup, editing, regeneration and deletion to YOURLS for kURL clients.
-Version: 1.1.5
+Version: 1.1.6
 Author: Gerald Drißner
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -17,13 +17,31 @@ yourls_add_filter( 'api_action_kurl_delete', 'kurl_api_delete' );
 yourls_add_filter( 'api_action_kurl_find_by_url', 'kurl_api_find_by_url' );
 yourls_add_filter( 'api_action_kurl_regenerate', 'kurl_api_regenerate' );
 
+/**
+ * YOURLS checks API credentials only on private installations (YOURLS_PRIVATE
+ * true and YOURLS_PRIVATE_API not false). Lookup, edit, regeneration and
+ * deletion must never be anonymous, so the credentials are verified here as
+ * well. API requests never accept the admin cookie (no cross-site requests).
+ */
+function kurl_api_require_auth() {
+    if ( true === yourls_is_valid_user() ) {
+        return null;
+    }
+    return [
+        'statusCode' => 403,
+        'errorCode'  => '403',
+        'status'     => 'fail',
+        'message'    => 'Authentication required',
+    ];
+}
+
 function kurl_api_ping() {
     return [
         'statusCode'          => 200,
         'status'              => 'success',
         'message'             => 'success',
         'kurl_extended'       => true,
-        'kurl_helper_version' => '1.1.5',
+        'kurl_helper_version' => '1.1.6',
         'kurl_capabilities'   => [ 'delete', 'find_by_url', 'regenerate' ],
     ];
 }
@@ -116,6 +134,10 @@ function kurl_api_info_value( $info, $key, $default = '' ) {
 }
 
 function kurl_api_delete() {
+    $denied = kurl_api_require_auth();
+    if ( null !== $denied ) {
+        return $denied;
+    }
     $shorturl = kurl_api_request_string( 'shorturl' );
     if ( $shorturl === '' ) {
         return [ 'statusCode' => 400, 'status' => 'fail', 'message' => 'Missing shorturl' ];
@@ -148,6 +170,10 @@ function kurl_api_delete() {
 }
 
 function kurl_api_find_by_url() {
+    $denied = kurl_api_require_auth();
+    if ( null !== $denied ) {
+        return $denied;
+    }
     $requested_url = kurl_api_request_string( 'url' );
     if ( $requested_url === '' ) {
         return [ 'statusCode' => 400, 'status' => 'fail', 'message' => 'Missing url' ];
@@ -240,6 +266,10 @@ function kurl_api_random_keyword( $longurl ) {
 }
 
 function kurl_api_regenerate() {
+    $denied = kurl_api_require_auth();
+    if ( null !== $denied ) {
+        return $denied;
+    }
     $requested_url      = kurl_api_request_string( 'url' );
     $requested_shorturl = kurl_api_request_string( 'shorturl' );
     if ( $requested_url === '' || $requested_shorturl === '' ) {

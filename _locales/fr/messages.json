@@ -300,6 +300,15 @@
     "description": "Text for the 'View More' button to load more links."
   },
   "apiAuthRejected": {
-    "message": "YOURLS a refusé la signature de l’API. Le jeton a peut-être changé après la mise à jour. Connectez-vous à YOURLS, ouvrez Administration → Outils, copiez la signature actuelle, collez-la dans les paramètres de kURL, puis cliquez sur « Tester la connexion et enregistrer »."
+    "message": "YOURLS a refusé la signature de l’API. Le jeton a peut-être changé après la mise à jour du serveur. Connectez-vous à l’administration de YOURLS dans votre navigateur, ouvrez Administration → Outils, copiez la signature actuelle dans les paramètres de kURL, puis choisissez « Tester la connexion et enregistrer ». kURL ne demande ni identifiant ni mot de passe. Si le problème persiste, vérifiez les horloges et les règles d’accès à l’API."
+  },
+  "apiAccessDenied": {
+    "message": "Le serveur refuse l’accès à l’API (HTTP 401/403). Vérifiez la signature dans YOURLS → Administration → Outils, puis réessayez. Si elle est correcte, vérifiez les restrictions du serveur et les horloges. Aucune connexion n’est nécessaire dans kURL."
+  },
+  "apiInvalidResponse": {
+    "message": "YOURLS n’a pas renvoyé de réponse API valide (HTTP $status$). Vérifiez l’adresse du serveur, HTTPS et les redirections éventuelles vers une page de connexion."
+  },
+  "apiOpenTools": {
+    "message": "Ouvrir YOURLS → Administration → Outils pour copier la signature actuelle"
   }
 }

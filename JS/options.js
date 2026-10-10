@@ -5,9 +5,16 @@ const $ = id => document.getElementById(id);
 const t = (key, fallback) => browser.i18n.getMessage(key) || fallback;
 let saved = { yourlsUrl: "", apiSignature: "", autoCopy: true, showCopyNotifications: true };
 
-function status(message, good = false, failed = false) {
+function status(message, good = false, failed = false, errorCode = "") {
   $("status").textContent = message;
   $("status").className = good ? "info ok" : failed ? "info error-message" : "info";
+  const recovery = $("options-auth-recovery");
+  recovery.hidden = !["AUTH_REJECTED", "ACCESS_DENIED"].includes(errorCode);
+  if (!recovery.hidden) {
+    const base = H.sanitizeBaseUrl($("yourlsUrl").value);
+    if (base) $("options-auth-tools").href = base + "/admin/tools.php";
+    else recovery.hidden = true;
+  }
 }
 function connection() {
   const base = H.sanitizeBaseUrl($("yourlsUrl").value);
@@ -26,7 +33,7 @@ async function hostPermission(base) {
 let testing = false;
 async function test() {
   let config;
-  try { config = connection(); } catch (error) { return status(error.message, false, true); }
+  try { config = connection(); } catch (error) { return status(error.message); }
   if (testing) return;
   testing = true;
   $("test").disabled = true;
@@ -37,7 +44,11 @@ async function test() {
     const result = await browser.runtime.sendMessage({
       type: "CHECK_CONNECTION", settings: config
     });
-    if (!result?.ok) throw new Error(result?.reason || t("optionsStatusConnFailed", "Connection failed."));
+    if (!result?.ok) {
+      const error = new Error(result?.reason || t("optionsStatusConnFailed", "Connection failed."));
+      error.code = result?.errorCode || "";
+      throw error;
+    }
     // Commit only AFTER the API actually accepted the credentials.
     const finalSettings = { ...config, autoCopy: $("autoCopy").checked,
       showCopyNotifications: $("showCopyNotifications").checked };
@@ -48,7 +59,7 @@ async function test() {
         ("Total links: " + result.total)), true);
   } catch (error) {
     status(t("optionsStatusNotSaved", "Connection failed. Settings were not saved. ") +
-      String(error.message || error), false, true);
+      String(error.message || error), false, true, error.code);
   } finally {
     testing = false;
     $("test").disabled = false;

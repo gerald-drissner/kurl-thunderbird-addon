@@ -1,10 +1,10 @@
-# kURL for Thunderbird 2.0.10 (test build)
+# kURL for Thunderbird 2.0.11 (test build)
 
 This MailExtension shortens and manages links on a user-controlled HTTPS YOURLS server, with an integrated Thunderbird compose workflow. The optional YOURLS Helper is bundled here, separately from other kURL projects.
 
 ## Installation
 
-In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.10-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
+In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.11-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
 
 Configure your HTTPS YOURLS server and signature token under kURL settings. Assign keyboard shortcuts via **Manage Extension Shortcuts**; this build installs without default key bindings.
 
@@ -48,7 +48,7 @@ This is a localized-copy-only follow-up to 2.0.5. It updates the shortcut guidan
 
 The extension settings open in a full Thunderbird tab (`options_ui.open_in_tab = true`), rather than the narrow Add-ons Manager inline preferences panel. From there open **Dashboard**, **Bulk**, or **Logs**. The dashboard uses a wide, two-column layout on large screens and collapses into one column on small screens; server details are tucked into an expandable section.
 
-The optional kURL Helper is now maintained independently in the **Thunderbird repository** under `helper/kurl-helper/plugin.php`. It is also bundled in the XPI, and the dashboard offers **Show full PHP source**, **Copy PHP source**, and **Save plugin.php**. It must be installed in `user/plugins/kurl-helper/plugin.php` on the **YOURLS server** and activated in **Manage Plugins**, not installed in Thunderbird. Existing installations of kURL Helper 1.1.5 are compatible, and one server-side installation suffices for multiple clients. The dashboard's Helper status remains visible, with instructions available even when the Helper is installed.
+The optional kURL Helper is now maintained independently in the **Thunderbird repository** under `helper/kurl-helper/plugin.php`. It is also bundled in the XPI, and the dashboard offers **Show full PHP source**, **Copy PHP source**, and **Save plugin.php**. It must be installed in `user/plugins/kurl-helper/plugin.php` on the **YOURLS server** and activated in **Manage Plugins**, not installed in Thunderbird. For remote edit, lookup and delete, this build requires Helper **1.1.6 or newer**. Older versions must be updated; there is still only one server-side Helper installation. **Note:** current WordPress kURL versions that compare the Helper version exactly with 1.1.5 may mark 1.1.6 as outdated until their version check is updated. This is a separate WordPress compatibility issue, not a second Helper to install. The dashboard's Helper status remains visible, with instructions available even when the Helper is installed.
 
 Right-click shortening now attempts a transient, unobtrusive confirmation in the Thunderbird message/compose content. When content injection is not available, the existing Thunderbird desktop notification is used; operating-system notification policies still apply. Both success and error states have feedback.
 
@@ -75,10 +75,26 @@ The YOURLS server-side kURL Helper must be installed separately. A malformed plu
 - Updated EN/DE labels and warnings use neutral client names; unchanged YOURLS API.
 - Verify installation in YOURLS by refreshing the dashboard. Downloading a PHP file does not install it on the server automatically.
 
-## 2.0.10: Optional copy confirmations and platform review
+## 2.0.11: Optional copy confirmations and platform review
 
 - Dashboard row copy and manual short-URL copy show a brief, unobtrusive toast after the clipboard operation succeeds.
 - **Show success notifications** is available in Dashboard and Settings, **on by default**; changing the switch saves immediately to `browser.storage.local`, without sending or changing the YOURLS token. Both pages remain synchronized.
 - When turned off, successful right-click copy/insert suppresses desktop notifications, content toasts and toolbar badges. **Failures remain visible.** Clipboard operations are unaffected.
 - The extension uses Thunderbird WebExtension APIs and has no Windows/macOS/Linux-specific binary dependencies. CI runs Node.js regression tests, JavaScript syntax checks, and XPI packing on Linux, Windows, and macOS hosted runners. This is **not a substitute for running Thunderbird itself on all three operating systems**.
 - The compatibility checklist, including system notification and clipboard permissions, is in `PLATFORM_TESTING.md`.
+
+## Recovering API access after a YOURLS upgrade
+
+A signed **read-only `db-stats` API call** is used to verify the credentials
+when you select **Test connection & save**. The add-on does not need or accept
+your YOURLS admin username and password; these are entered only into YOURLS in
+a normal browser. If YOURLS responds with `Please log in` or an authentication
+error code, kURL displays localized recovery steps and an **Admin → Tools** link.
+
+YOURLS 1.10.5 changed the secret API signature. After an upgrade, copy the
+current signature from the YOURLS admin Tools page and paste it into kURL.
+Signature checks use time-limited SHA-256 tokens over HTTPS and the add-on never
+stores an invalid replacement following a failed connection test. Errors from
+reverse proxies or clock skew may also require server-side fixes. A 401/403
+is not proof the secret alone is wrong. A public YOURLS server should use the
+included **Helper 1.1.6** for authenticated remote editing/deletion.

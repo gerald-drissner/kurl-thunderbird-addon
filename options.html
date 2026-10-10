@@ -31,7 +31,7 @@
     </div>
 
     <div class="toggle-container">
-      <label for="showCopyNotifications" data-i18n-key="optionsCopyFeedbackLabel">Show success notifications</label>
+      <label for="showCopyNotifications" data-i18n-key="optionsCopyFeedbackLabel">Show copy confirmations</label>
       <label class="switch">
         <input id="showCopyNotifications" type="checkbox" checked>
         <span class="slider round"></span>
@@ -47,6 +47,7 @@
 
     <p class="settings-hint" data-i18n-key="optionsOpenDashboardHint">Open Dashboard in its own tab for link statistics, link management and Helper installation instructions.</p>
     <div id="status" class="info" role="status" aria-live="polite" data-i18n-key="optionsStatusLoaded">Saved settings loaded. Click “Test Connection”.</div>
+    <p id="options-auth-recovery" class="auth-recovery" hidden><a id="options-auth-tools" target="_blank" rel="noopener noreferrer" data-i18n-key="apiOpenTools">Open YOURLS Admin → Tools to copy the current API signature</a></p>
 
     <p id="privacy-info" data-i18n-key="optionsPrivacyNotice">kURL sends the target URL, optional keyword/title, and API authentication data to your configured YOURLS server over HTTPS. Dashboard actions retrieve statistics and link information from that server. API settings and a seven-day activity log remain local to Thunderbird; no data is sent to the add-on developer.</p>
   <div class="shortcut-info">

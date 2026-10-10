@@ -296,6 +296,15 @@
     "description": "Text for the 'View More' button to load more links."
   },
   "apiAuthRejected": {
-    "message": "YOURLS ha rechazado la firma de la API. Es posible que el token haya cambiado después de actualizar. Inicia sesión en YOURLS, abre Administración → Herramientas, copia la firma actual, pégala en los ajustes de kURL y pulsa «Probar conexión y guardar»."
+    "message": "YOURLS rechazó la firma de la API. Es posible que el token haya cambiado tras actualizar el servidor. Inicia sesión en la administración de YOURLS desde el navegador, abre Administración → Herramientas, copia la firma actual a la configuración de kURL y pulsa «Probar conexión y guardar». kURL no necesita tu usuario ni contraseña. Si sigue fallando, comprueba la hora del equipo y del servidor y las reglas de acceso a la API."
+  },
+  "apiAccessDenied": {
+    "message": "El servidor rechazó el acceso a la API (HTTP 401/403). Comprueba la firma en YOURLS → Administración → Herramientas y vuelve a probar. Si es correcta, revisa las restricciones del servidor y su reloj. No es necesario iniciar sesión en kURL."
+  },
+  "apiInvalidResponse": {
+    "message": "YOURLS no devolvió una respuesta válida de la API (HTTP $status$). Revisa la URL del servidor, HTTPS y posibles redirecciones o páginas de inicio de sesión."
+  },
+  "apiOpenTools": {
+    "message": "Abrir YOURLS → Administración → Herramientas para copiar la firma actual"
   }
 }
