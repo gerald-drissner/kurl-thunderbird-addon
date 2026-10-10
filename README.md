@@ -106,7 +106,7 @@ included **Helper 1.1.7** for authenticated remote editing/deletion (minimum sup
 - Right-click Control-click on macOS matches the clicked link by target URL, regardless of caret location. Ambiguous duplicate links are refused rather than editing the wrong one.
 - Toolbar badges have independent timers per tab and never appear in the outgoing email body.
 - Persistent context menus are registered on install/update and startup, not each background wake.
-- The Helper source link is pinned to the immutable 1.1.6-containing revision (not falsely labeled a tag).
+- The Helper source link is pinned to an immutable commit containing 1.1.7 (not falsely labeled a tag).
 - GitHub Actions updated to current runtimes; local and CI regression tests cover these cases.
 
 **Not yet a published ATN release.** A real macOS Control-click test and a Windows/macOS Thunderbird check are needed. The WordPress client currently uses strict Helper version matching; update it before installing Helper 1.1.6 unless API is publicly accessible.
