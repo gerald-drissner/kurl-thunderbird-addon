@@ -306,9 +306,47 @@
     "message": "Сервер отказал в доступе к API (HTTP 401/403). Проверьте подпись в YOURLS → Администрирование → Инструменты и повторите проверку. Если подпись актуальна, проверьте ограничения доступа и системное время. Вход в kURL не требуется."
   },
   "apiInvalidResponse": {
-    "message": "YOURLS не вернул корректный ответ API (HTTP $status$). Проверьте адрес сервера, HTTPS и возможные перенаправления на страницу входа."
+    "message": "YOURLS не вернул корректный ответ API (HTTP $status$). Проверьте адрес сервера, HTTPS и возможные перенаправления на страницу входа.",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
   },
   "apiOpenTools": {
     "message": "Открыть YOURLS → Администрирование → Инструменты и скопировать текущую подпись"
+  },
+  "optionsBtnTestAndSave": {
+    "message": "Проверить подключение и сохранить"
+  },
+  "contextSelectUrl": {
+    "message": "Выберите полный URL с HTTP(S)."
+  },
+  "contextInserted": {
+    "message": "✓ Короткая ссылка вставлена: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextCopied": {
+    "message": "✓ Скопировано в буфер обмена: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextShorteningFailed": {
+    "message": "Не удалось сократить URL"
+  },
+  "dashboardLabelClicks": {
+    "message": "Клики: $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   }
 }

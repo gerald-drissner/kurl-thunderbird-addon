@@ -123,7 +123,8 @@ function makeLinkRow(link, rank = null) {
   actions.className = "kurl-actions";
   const clicks = document.createElement("span");
   clicks.className = "link-clicks";
-  clicks.textContent = formatNumber(link.clicks) + " " + t("dashboardLabelClicks", "clicks");
+  const count = formatNumber(link.clicks);
+  clicks.textContent = browser.i18n.getMessage("dashboardLabelClicks", [count]) || "Clicks: " + count;
   actions.appendChild(clicks);
   if (short) {
     actions.appendChild(makeButton(t("popupBtnCopy", "Copy"), async () => {

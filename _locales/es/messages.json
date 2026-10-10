@@ -302,9 +302,47 @@
     "message": "El servidor rechazó el acceso a la API (HTTP 401/403). Comprueba la firma en YOURLS → Administración → Herramientas y vuelve a probar. Si es correcta, revisa las restricciones del servidor y su reloj. No es necesario iniciar sesión en kURL."
   },
   "apiInvalidResponse": {
-    "message": "YOURLS no devolvió una respuesta válida de la API (HTTP $status$). Revisa la URL del servidor, HTTPS y posibles redirecciones o páginas de inicio de sesión."
+    "message": "YOURLS no devolvió una respuesta válida de la API (HTTP $status$). Revisa la URL del servidor, HTTPS y posibles redirecciones o páginas de inicio de sesión.",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
   },
   "apiOpenTools": {
     "message": "Abrir YOURLS → Administración → Herramientas para copiar la firma actual"
+  },
+  "optionsBtnTestAndSave": {
+    "message": "Probar conexión y guardar"
+  },
+  "contextSelectUrl": {
+    "message": "Seleccione una URL HTTP(S) completa."
+  },
+  "contextInserted": {
+    "message": "✓ URL corta insertada: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextCopied": {
+    "message": "✓ Copiada al portapapeles: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextShorteningFailed": {
+    "message": "No se pudo acortar la URL"
+  },
+  "dashboardLabelClicks": {
+    "message": "Clics: $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   }
 }

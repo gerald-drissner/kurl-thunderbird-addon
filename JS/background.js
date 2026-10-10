@@ -2,6 +2,8 @@
 "use strict";
 const H = window.Helpers;
 const i18n = (key, fallback) => browser.i18n.getMessage(key) || fallback;
+const i18nArg = (key, value, fallback) =>
+  browser.i18n.getMessage(key, [String(value)]) || fallback.replace("$1", String(value));
 const MAX_BODY = 1048576;
 const TIMEOUT = 15000;
 const HELPER_VERSION = "1.1.6";
@@ -80,10 +82,11 @@ async function getHelperInfo(force = false) {
 
 // Never insert transient status nodes in a Thunderbird compose editor: they
 // can be serialized into an outgoing message or an autosaved draft.
-let badgeGeneration = 0;
+const badgeTimers = new Map();
 async function signalToolbar(kind, tabId) {
   if (!Number.isInteger(tabId) || tabId < 0) return;
-  const generation = ++badgeGeneration;
+  const previous = badgeTimers.get(tabId);
+  if (previous) clearTimeout(previous);
   const value = kind === "error" ? "!" : "✓";
   const color = kind === "error" ? "#b91c1c" : "#15803d";
   const actions = [browser.action, browser.messageDisplayAction, browser.composeAction];
@@ -93,13 +96,19 @@ async function signalToolbar(kind, tabId) {
       if (api?.setBadgeBackgroundColor) await api.setBadgeBackgroundColor({color, tabId});
     } catch { /* This toolbar API may not exist in the current Thunderbird view. */ }
   }
-  setTimeout(() => {
-    if (generation !== badgeGeneration) return;
+  const timeout = setTimeout(() => {
+    if (badgeTimers.get(tabId) !== timeout) return;
+    badgeTimers.delete(tabId);
     for (const api of actions) {
       try { void api?.setBadgeText?.({text: "", tabId}); } catch {}
     }
   }, 3500);
+  badgeTimers.set(tabId, timeout);
 }
+browser.tabs.onRemoved?.addListener(tabId => {
+  if (badgeTimers.has(tabId)) clearTimeout(badgeTimers.get(tabId));
+  badgeTimers.delete(tabId);
+});
 async function contextFeedback(tab, message, kind = "success") {
   // Suppress only optional success messages. Failures must remain visible.
   if (kind === "success") {
@@ -182,7 +191,8 @@ async function request(action, options = {}, override = null) {
     const json = H.parseMaybeJson(text);
     if (!json) {
       if (response.status === 401 || response.status === 403) throw apiFailure(null, response.status);
-      throw new Error(i18n("apiInvalidResponse", "YOURLS did not return a valid API response (HTTP $status$). Check the server URL, HTTPS and any proxy or login redirect.").replace("$status$", String(response.status)));
+      throw new Error(browser.i18n.getMessage("apiInvalidResponse", [String(response.status)]) ||
+        `YOURLS did not return a valid API response (HTTP ${response.status}). Check the server URL, HTTPS and any proxy or login redirect.`);
     }
     return { httpOK: response.ok, status: response.status, json };
   } catch (error) {
@@ -413,23 +423,43 @@ async function selectedUrl(tabId) {
 }
 
 /* Self-contained function: executeScript serializes it into the compose frame. */
-function performComposeInsertion(url, originalUrl, isPlainText) {
+function performComposeInsertion(url, originalUrl, isPlainText, fromLink = false) {
   const editor = document.body?.isContentEditable ? document.body :
     document.querySelector('[contenteditable="true"]');
   if (!editor?.isContentEditable) return {ok:false,reason:"No editable message body."};
   const sel = window.getSelection();
-  if (!sel?.rangeCount) return {ok:false,reason:"Place the cursor inside the message body."};
-  let range = sel.getRangeAt(0);
-  if (!editor.contains(range.commonAncestorContainer))
+  if (!sel?.rangeCount && !fromLink) return {ok:false,reason:"Place the cursor inside the message body."};
+  let range = sel?.rangeCount ? sel.getRangeAt(0) : null;
+  if (!fromLink && !editor.contains(range.commonAncestorContainer))
     return {ok:false,reason:"Place the cursor in the message body."};
   const escape = value => String(value).replace(/&/g,"&amp;").replace(/</g,"&lt;")
     .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-  const node = range.commonAncestorContainer;
-  const element = node.nodeType === 1 ? node : node.parentElement;
-  const anchor = element?.closest?.("a[href]");
+  if (fromLink && isPlainText && originalUrl &&
+      (!range || range.collapsed || sel.toString() !== originalUrl))
+    return {ok:false,reason:"In plain-text mode, select the URL before using Shorten and insert."};
   const sameURL = (left,right) => {
     try {return new URL(left).href === new URL(right).href;} catch{return false;}
   };
+  if (fromLink && !isPlainText && originalUrl) {
+    // macOS Control-click does not move the selection to the clicked link.
+    // Target the correct anchor only when it can be identified unambiguously.
+    const matches = [...editor.querySelectorAll("a[href]")]
+      .filter(a => sameURL(a.getAttribute("href"), originalUrl));
+    const touched = range && editor.contains(range.commonAncestorContainer)
+      ? matches.filter(a => range.intersectsNode(a)) : [];
+    const target = touched.length === 1 ? touched[0]
+      : touched.length === 0 && matches.length === 1 ? matches[0] : null;
+    if (!target) return {ok:false,reason: matches.length
+      ? "Several links use this URL. Click inside the desired link and try again."
+      : "The clicked link was not found in the message body."};
+    range = document.createRange(); range.selectNodeContents(target); range.collapse(true);
+    sel.removeAllRanges(); sel.addRange(range);
+  }
+  if (!range || !editor.contains(range.commonAncestorContainer))
+    return {ok:false,reason:"Place the cursor in the message body."};
+  const node = range.commonAncestorContainer;
+  const element = node.nodeType === 1 ? node : node.parentElement;
+  const anchor = element?.closest?.("a[href]");
   if (anchor && (!originalUrl || !sameURL(anchor.getAttribute("href"),originalUrl))) {
     // A caret in an unrelated link must NEVER rewrite its destination.
     return {ok:false,reason:"Cursor is inside a different hyperlink. Move it outside that link."};
@@ -504,26 +534,26 @@ function performComposeInsertion(url, originalUrl, isPlainText) {
   return {ok:document.execCommand("insertHTML",false,
     '<a href="'+escape(url)+'">'+escape(url)+'</a>')};
 }
-async function insertUrl(tabId, value, original = "") {
+async function insertUrl(tabId, value, original = "", fromLink = false) {
   const tab = await browser.tabs.get(tabId);
   if (tab.type !== "messageCompose") throw new Error("Open a compose window first.");
   const details = await browser.compose.getComposeDetails(tabId);
   const eligible = await browser.scripting.executeScript({
     target: {tabId,allFrames:true},
-    func: () => {
+    func: (clickedLink) => {
       const editor = document.body?.isContentEditable ? document.body :
         document.querySelector('[contenteditable="true"]');
       if (!editor?.isContentEditable) return false;
       const sel = window.getSelection();
-      return !!(sel?.rangeCount && editor.contains(sel.getRangeAt(0).commonAncestorContainer));
-    }
+      return !!(clickedLink || (sel?.rangeCount && editor.contains(sel.getRangeAt(0).commonAncestorContainer)));
+    }, args: [fromLink]
   });
   const candidates=eligible.filter(frame=>frame.result===true);
   if(candidates.length!==1) throw new Error("Select a URL or place the caret in exactly one compose editor.");
   const frames=await browser.scripting.executeScript({
     target:{tabId,frameIds:[candidates[0].frameId]},
     func:performComposeInsertion,
-    args:[value,original,!!details.isPlainText]
+    args:[value,original,!!details.isPlainText,fromLink]
   });
   const result=frames[0]?.result;
   if(!result?.ok) throw new Error(result?.reason || "Could not insert the short URL safely.");
@@ -606,20 +636,19 @@ function ensureMenus() {
 // Event listeners must be registered synchronously in MV3 background pages.
 browser.runtime.onInstalled.addListener(() => { void ensureMenus(); });
 browser.runtime.onStartup?.addListener(() => { void ensureMenus(); });
-void ensureMenus();
 
 browser.menus.onClicked.addListener(async (info, tab) => {
   if (!["kurl-quick-copy", "kurl-quick-insert"].includes(info.menuItemId)) return;
   const raw = info.linkUrl ||
     extractFirstUrl(info.selectionText);
   const url = H.validHttpUrl(raw);
-  if (!url) return contextFeedback(tab, "Select a complete HTTP(S) URL.", "error");
+  if (!url) return contextFeedback(tab, i18n("contextSelectUrl", "Select a complete HTTP(S) URL."), "error");
   try {
     const result = await shorten(url);
     if (info.menuItemId === "kurl-quick-insert") {
-      await insertUrl(tab.id, result.shortUrl, url);
+      await insertUrl(tab.id, result.shortUrl, url, !!info.linkUrl);
       await writeLog("RIGHT_CLICK_INSERT");
-      await contextFeedback(tab, "✓ Short URL inserted: " + result.shortUrl);
+      await contextFeedback(tab, i18nArg("contextInserted", result.shortUrl, "✓ Short URL inserted: $1"));
     } else {
       if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(result.shortUrl);
@@ -635,10 +664,10 @@ browser.menus.onClicked.addListener(async (info, tab) => {
         } finally { field.remove(); }
       }
       await writeLog("RIGHT_CLICK_COPY");
-      await contextFeedback(tab, "✓ Copied to clipboard: " + result.shortUrl);
+      await contextFeedback(tab, i18nArg("contextCopied", result.shortUrl, "✓ Copied to clipboard: $1"));
     }
   } catch (error) {
     await writeLog("RIGHT_CLICK_FAILED", "error");
-    await contextFeedback(tab, "kURL: " + (error?.message || "Shortening failed"), "error");
+    await contextFeedback(tab, "kURL: " + (error?.message || i18n("contextShorteningFailed", "Shortening failed")), "error");
   }
 });

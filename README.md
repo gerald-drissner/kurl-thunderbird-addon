@@ -1,10 +1,10 @@
-# kURL for Thunderbird 2.0.11 (test build)
+# kURL for Thunderbird 2.0.12 (test build)
 
 This MailExtension shortens and manages links on a user-controlled HTTPS YOURLS server, with an integrated Thunderbird compose workflow. The optional YOURLS Helper is bundled here, separately from other kURL projects.
 
 ## Installation
 
-In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.11-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
+In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.12-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
 
 Configure your HTTPS YOURLS server and signature token under kURL settings. Assign keyboard shortcuts via **Manage Extension Shortcuts**; this build installs without default key bindings.
 
@@ -50,19 +50,19 @@ The extension settings open in a full Thunderbird tab (`options_ui.open_in_tab =
 
 The optional kURL Helper is now maintained independently in the **Thunderbird repository** under `helper/kurl-helper/plugin.php`. It is also bundled in the XPI, and the dashboard offers **Show full PHP source**, **Copy PHP source**, and **Save plugin.php**. It must be installed in `user/plugins/kurl-helper/plugin.php` on the **YOURLS server** and activated in **Manage Plugins**, not installed in Thunderbird. For remote edit, lookup and delete, this build requires Helper **1.1.6 or newer**. Older versions must be updated; there is still only one server-side Helper installation. **Note:** current WordPress kURL versions that compare the Helper version exactly with 1.1.5 may mark 1.1.6 as outdated until their version check is updated. This is a separate WordPress compatibility issue, not a second Helper to install. The dashboard's Helper status remains visible, with instructions available even when the Helper is installed.
 
-Right-click shortening now attempts a transient, unobtrusive confirmation in the Thunderbird message/compose content. When content injection is not available, the existing Thunderbird desktop notification is used; operating-system notification policies still apply. Both success and error states have feedback.
+Right-click shortening uses desktop notifications and a temporary badge on the active Thunderbird tab. It never injects confirmation HTML into the compose editor, because that could become part of a sent message or draft. System notification display depends on operating-system settings.
 
 ### Manual test checklist
 
 1. Open Add-ons → kURL → Settings: verify a full Thunderbird tab, then navigate to the Dashboard. Confirm the wide layout and the collapsible connection details.
 2. With the helper absent, confirm that the onboarding card appears, but ordinary shorten/copy/statistics still work.
-3. Right-click a URL in the compose editor → Shorten and copy. Confirm the clipboard contents and toast or Thunderbird notification; repeat from a read-only message.
+3. Right-click a URL in the compose editor → Shorten and copy. Confirm the clipboard contents and Thunderbird notification or badge; repeat from a read-only message.
 4. Install the helper on YOURLS, refresh the dashboard, then verify helper state changes to Ready and helper-only controls are enabled.
 5. Repeat HTML/plain-text insertion, QR attachment, and reading historical URLs. No live Thunderbird tests are represented by the automated Node regression suite.
 
 ## New in 2.0.8
 
-Right-click menus now register on extension background startup; context shortening attempts a native confirmation and a temporary toolbar badge. The dashboard displays a persistent Helper status, rank numbers for popular links and highlighted click counts. The redundant list Stats button is removed. The local log supports pagination, clipboard copying and `.txt` export. **Test connection & save** is now the primary setup action; credentials are committed only after the live YOURLS check succeeds, while **Save without testing** remains available explicitly.
+Right-click menus register on installation/update and browser startup; context shortening attempts a native confirmation and a temporary toolbar badge. The dashboard displays a persistent Helper status, rank numbers for popular links and highlighted click counts. The redundant list Stats button is removed. The local log supports pagination, clipboard copying and `.txt` export. **Test connection & save** is now the primary setup action; credentials are committed only after the live YOURLS check succeeds, while **Save without testing** remains available explicitly.
 
 The YOURLS server-side kURL Helper must be installed separately. A malformed plugin name in YOURLS cannot be repaired from Thunderbird; use the clean `helper/kurl-helper/plugin.php` from this repository and ensure the top PHP comment contains `Plugin Name: kURL Helper`.
 
@@ -75,11 +75,11 @@ The YOURLS server-side kURL Helper must be installed separately. A malformed plu
 - Updated EN/DE labels and warnings use neutral client names; unchanged YOURLS API.
 - Verify installation in YOURLS by refreshing the dashboard. Downloading a PHP file does not install it on the server automatically.
 
-## 2.0.11: Optional copy confirmations and platform review
+## 2.0.12: Optional copy confirmations and platform review
 
 - Dashboard row copy and manual short-URL copy show a brief, unobtrusive toast after the clipboard operation succeeds.
 - **Show success notifications** is available in Dashboard and Settings, **on by default**; changing the switch saves immediately to `browser.storage.local`, without sending or changing the YOURLS token. Both pages remain synchronized.
-- When turned off, successful right-click copy/insert suppresses desktop notifications, content toasts and toolbar badges. **Failures remain visible.** Clipboard operations are unaffected.
+- When turned off, successful right-click copy/insert suppresses desktop notifications, desktop notifications and toolbar badges. **Failures remain visible.** Clipboard operations are unaffected.
 - The extension uses Thunderbird WebExtension APIs and has no Windows/macOS/Linux-specific binary dependencies. CI runs Node.js regression tests, JavaScript syntax checks, and XPI packing on Linux, Windows, and macOS hosted runners. This is **not a substitute for running Thunderbird itself on all three operating systems**.
 - The compatibility checklist, including system notification and clipboard permissions, is in `PLATFORM_TESTING.md`.
 
@@ -98,3 +98,15 @@ stores an invalid replacement following a failed connection test. Errors from
 reverse proxies or clock skew may also require server-side fixes. A 401/403
 is not proof the secret alone is wrong. A public YOURLS server should use the
 included **Helper 1.1.6** for authenticated remote editing/deletion.
+
+## 2.0.12: installer fixes and release preparation
+
+- Fixed all ten HTTP status-code locale placeholders and added translated API-test button labels to the remaining languages.
+- Context-menu success/error feedback and dashboard click counters now use localized messages.
+- Right-click Control-click on macOS matches the clicked link by target URL, regardless of caret location. Ambiguous duplicate links are refused rather than editing the wrong one.
+- Toolbar badges have independent timers per tab and never appear in the outgoing email body.
+- Persistent context menus are registered on install/update and startup, not each background wake.
+- The Helper source link is pinned to the immutable 1.1.6-containing revision (not falsely labeled a tag).
+- GitHub Actions updated to current runtimes; local and CI regression tests cover these cases.
+
+**Not yet a published ATN release.** A real macOS Control-click test and a Windows/macOS Thunderbird check are needed. The WordPress client currently uses strict Helper version matching; update it before installing Helper 1.1.6 unless API is publicly accessible.

@@ -381,9 +381,47 @@
     "message": "رفض الخادم الوصول إلى API ‏(HTTP 401/403). تحقق من التوقيع في إدارة YOURLS ← الأدوات، ثم أعد اختبار الاتصال. إذا كان التوقيع صحيحا فتحقق من قيود الخادم والوقت. لا يلزم تسجيل الدخول داخل kURL."
   },
   "apiInvalidResponse": {
-    "message": "لم يرسل YOURLS استجابة API صالحة (HTTP $status$). تحقق من عنوان الخادم وHTTPS وأي إعادة توجيه إلى صفحة تسجيل الدخول."
+    "message": "لم يرسل YOURLS استجابة API صالحة (HTTP $status$). تحقق من عنوان الخادم وHTTPS وأي إعادة توجيه إلى صفحة تسجيل الدخول.",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
   },
   "apiOpenTools": {
     "message": "افتح إدارة YOURLS ← الأدوات لنسخ توقيع API الحالي"
+  },
+  "optionsBtnTestAndSave": {
+    "message": "اختبر الاتصال واحفظ"
+  },
+  "contextSelectUrl": {
+    "message": "حدد رابط HTTP(S) كاملا."
+  },
+  "contextInserted": {
+    "message": "✓ تم إدراج الرابط المختصر: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextCopied": {
+    "message": "✓ تم النسخ إلى الحافظة: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextShorteningFailed": {
+    "message": "تعذر اختصار الرابط"
+  },
+  "dashboardLabelClicks": {
+    "message": "النقرات: $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   }
 }

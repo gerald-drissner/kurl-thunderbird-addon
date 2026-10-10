@@ -298,9 +298,47 @@
     "message": "O servidor recusou o acesso à API (HTTP 401/403). Verifique a assinatura em YOURLS → Administração → Ferramentas e tente novamente. Se estiver correta, verifique as restrições de acesso e os relógios. Não é necessário iniciar sessão no kURL."
   },
   "apiInvalidResponse": {
-    "message": "O YOURLS não devolveu uma resposta válida da API (HTTP $status$). Verifique o endereço do servidor, HTTPS e eventuais redirecionamentos para páginas de início de sessão."
+    "message": "O YOURLS não devolveu uma resposta válida da API (HTTP $status$). Verifique o endereço do servidor, HTTPS e eventuais redirecionamentos para páginas de início de sessão.",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
   },
   "apiOpenTools": {
     "message": "Abrir YOURLS → Administração → Ferramentas para copiar a assinatura atual"
+  },
+  "optionsBtnTestAndSave": {
+    "message": "Testar ligação e guardar"
+  },
+  "contextSelectUrl": {
+    "message": "Selecione um URL HTTP(S) completo."
+  },
+  "contextInserted": {
+    "message": "✓ URL curto inserido: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextCopied": {
+    "message": "✓ Copiado para a área de transferência: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextShorteningFailed": {
+    "message": "Falha ao encurtar o URL"
+  },
+  "dashboardLabelClicks": {
+    "message": "Cliques: $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   }
 }

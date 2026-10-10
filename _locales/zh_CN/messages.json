@@ -306,9 +306,47 @@
     "message": "服务器拒绝 API 访问（HTTP 401/403）。请在 YOURLS 的“管理 → 工具”检查签名并重新测试。如果签名正确，请检查服务器访问限制和系统时间。无需在 kURL 中登录。"
   },
   "apiInvalidResponse": {
-    "message": "YOURLS 未返回有效的 API 响应（HTTP $status$）。请检查服务器地址、HTTPS 以及可能跳转到登录页面的重定向。"
+    "message": "YOURLS 未返回有效的 API 响应（HTTP $status$）。请检查服务器地址、HTTPS 以及可能跳转到登录页面的重定向。",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
   },
   "apiOpenTools": {
     "message": "打开 YOURLS 的“管理 → 工具”以复制当前 API 签名"
+  },
+  "optionsBtnTestAndSave": {
+    "message": "测试连接并保存"
+  },
+  "contextSelectUrl": {
+    "message": "请选择完整的 HTTP(S) URL。"
+  },
+  "contextInserted": {
+    "message": "✓ 已插入短链接：$shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextCopied": {
+    "message": "✓ 已复制到剪贴板：$shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextShorteningFailed": {
+    "message": "短链接创建失败"
+  },
+  "dashboardLabelClicks": {
+    "message": "点击次数：$count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   }
 }

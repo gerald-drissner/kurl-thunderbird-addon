@@ -92,6 +92,8 @@ test('outdated helper denied mutation',async()=>{
 });
 test('right-click copy and compose menus register at background startup',async()=>{
  const x=newContext();await vm.runInContext('menuInitialization',x.ctx);
+ assert.equal(x.menus.length,0);
+ await x.install();await vm.runInContext('menuInitialization',x.ctx);
  assert.equal(x.menus.length,2);
  assert.equal(x.menus[0].id,'kurl-quick-copy');
  assert.ok(x.menus[0].contexts.includes('link'));
@@ -118,7 +120,7 @@ test('bulk creates links sequentially and skips invalid lines',()=>{
 });
 test('package metadata and page references',()=>{
  const manifest=JSON.parse(source('manifest.json'));
- assert.equal(manifest.version,'2.0.11');
+ assert.equal(manifest.version,'2.0.12');
  assert.equal(manifest.browser_specific_settings.gecko.strict_min_version,'140.0');
  assert.deepEqual(manifest.optional_host_permissions,['https://*/*']);
  assert.ok(!manifest.permissions.includes('tabs'));
@@ -335,7 +337,7 @@ test('German localized insertion and shortcut terms match buttons',()=>{
 
 test('released QR generator, ASCII-canonical QR payload, four-module quiet zone',()=>{
  const lib=source('JS/qrcode.js'), pop=source('JS/popup.js');
- assert.equal(JSON.parse(source('package.json')).version,'2.0.11');
+ assert.equal(JSON.parse(source('package.json')).version,'2.0.12');
  assert.match(lib,/QR Code Generator for JavaScript/);
  assert.match(pop,/qrcode\(0, "H"\)/);
  assert.match(pop,/qr\.addData\(new URL\(value\)\.href, \"Byte\"\)/);
@@ -415,7 +417,7 @@ test('2.0.6 optional copy edits match visible controls and released vendoring me
  const vendor=source('VENDOR.md');
  assert.doesNotMatch(vendor,/external reviewer|independently compared/i);
  assert.match(vendor,/SHA-256 of bundled file/);
- assert.equal(JSON.parse(source('manifest.json')).version,'2.0.11');
+ assert.equal(JSON.parse(source('manifest.json')).version,'2.0.12');
 });
 
 test('2.0.7 opens settings dashboard as a full tab with helper onboarding',()=>{
@@ -427,7 +429,7 @@ test('2.0.7 opens settings dashboard as a full tab with helper onboarding',()=>{
  const js=source('JS/dashboard.js');
  assert.ok(js.includes('helperInitialState'));
  assert.doesNotMatch(js,/\$\("helper-setup"\)\.hidden\s*=\s*info\.helperReady/);
- assert.ok(source('JS/background.js').includes('contextFeedback(tab, "✓ Copied to clipboard: "'));
+ assert.match(source('JS/background.js'), /contextFeedback\(tab, i18nArg\("contextCopied"/);
  for(const lang of ['en','de']) {
    const data=JSON.parse(source('_locales/'+lang+'/messages.json'));
    assert.ok(data.helperStep2.message.includes('user/plugins/kurl-helper/'));
@@ -476,7 +478,7 @@ test('old hidden 2.0.7 menu is upgraded to a visible 2.0.8 insert menu',async()=
  const x=newContext();
  // Previously persisted menu from an event-page generation that hid Insert.
  x.menus.push({id:'kurl-quick-insert',contexts:['link','selection','compose_body'],visible:false});
- await vm.runInContext('menuInitialization',x.ctx);
+ await x.install();await vm.runInContext('menuInitialization',x.ctx);
  assert.equal(x.menus.length,2);
  assert.equal(x.menus.find(x=>x.id==='kurl-quick-insert').visible,true);
 });
@@ -630,4 +632,60 @@ test('no status notification is inserted into the body of an outgoing message',(
  assert.doesNotMatch(js,/contextToast\(/);
  assert.doesNotMatch(js,/kurl-context-toast/);
  assert.match(js,/setBadgeText\(\{text: value, tabId\}\)/);
+});
+
+test('HTTP response placeholder is valid and supplied as argument in all languages',()=>{
+  assert.match(source('JS/background.js'),/getMessage\("apiInvalidResponse", \[String\(response.status\)\]\)/);
+  for(const lang of fs.readdirSync(path.join(root,'_locales'))){
+    const m=JSON.parse(source('_locales/'+lang+'/messages.json'));
+    assert.equal(m.apiInvalidResponse.placeholders.status.content,'$1',lang);
+    assert.match(m.apiInvalidResponse.message,/\$status\$/i,lang);
+    for(const key of ['optionsBtnTestAndSave','contextSelectUrl','contextShorteningFailed','contextCopied','contextInserted','dashboardLabelClicks'])
+      assert.ok(m[key]?.message,lang+': '+key);
+    assert.equal(m.contextCopied.placeholders.shorturl.content,'$1');
+    assert.equal(m.contextInserted.placeholders.shorturl.content,'$1');
+    assert.equal(m.dashboardLabelClicks.placeholders.count.content,'$1');
+  }
+});
+
+test('toolbar badges are scoped and independently cleared per tab', async()=>{
+  const x=newContext();
+  const scheduled=[], log=[];
+  x.ctx.setTimeout=fn=>{scheduled.push(fn);return scheduled.length};
+  x.ctx.clearTimeout=id=>log.push(['cancel',id]);
+  const button={
+    setBadgeText:async args=>log.push(['text',args.tabId,args.text]),
+    setBadgeBackgroundColor:async args=>log.push(['color',args.tabId,args.color])
+  };
+  x.ctx.browser.action=button;
+  await vm.runInContext('signalToolbar("success", 101)',x.ctx);
+  await vm.runInContext('signalToolbar("error", 202)',x.ctx);
+  assert.deepEqual(log.filter(v=>v[0]==='text'),[['text',101,'✓'],['text',202,'!']]);
+  scheduled[0]();
+  assert.deepEqual(log.filter(v=>v[0]==='text').at(-1),['text',101,'']);
+  assert.equal(log.filter(v=>v[0]==='text'&&v[1]===202&&v[2]==='').length,0);
+  await vm.runInContext('signalToolbar("success", 202)',x.ctx);
+  assert.ok(log.some(v=>v[0]==='cancel'&&v[1]===2));
+  scheduled[1](); // Old timer must not wipe the newer value on 202.
+  assert.equal(log.filter(v=>v[0]==='text'&&v[1]===202&&v[2]==='').length,0);
+  scheduled[2]();
+  assert.deepEqual(log.filter(v=>v[0]==='text').at(-1),['text',202,'']);
+});
+
+test('macOS clicked link insertion is explicit and never injects into unrelated caret',()=>{
+  const js=source('JS/background.js');
+  assert.match(js,/insertUrl\(tab\.id, result\.shortUrl, url, !!info\.linkUrl\)/);
+  assert.match(js,/function performComposeInsertion\(url, originalUrl, isPlainText, fromLink = false\)/);
+  assert.match(js,/matches\.length === 1/);
+  assert.match(js,/Several links use this URL/);
+  assert.doesNotMatch(js,/^void ensureMenus\(\);/m);
+});
+
+test('Helper source pin contains 1.1.6 and no obsolete references',()=>{
+  const html=source('dashboard.html');
+  assert.match(html,/blob\/ec69d21075c21cfa5f12265665b15cc30936e835\/helper\/kurl-helper\/plugin.php/);
+  assert.doesNotMatch(html,/blob\/e6422d7/);
+  assert.match(source('REVIEWER_NOTES.md'),/Thunderbird does \*\*not\*\* execute PHP/);
+  assert.doesNotMatch(source('README.md'),/confirmation in the Thunderbird message\/compose content/);
+  assert.match(source('.github/workflows/ci.yml'),/actions\/checkout@v7/);
 });

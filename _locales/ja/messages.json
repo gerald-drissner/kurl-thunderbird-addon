@@ -302,9 +302,47 @@
     "message": "サーバーが API アクセスを拒否しました (HTTP 401/403)。YOURLS の「管理 → ツール」で署名を確認して再テストしてください。署名が正しい場合はアクセス制限と時刻を確認してください。kURL 内でのログインは不要です。"
   },
   "apiInvalidResponse": {
-    "message": "YOURLS から有効な API 応答が返されませんでした (HTTP $status$)。サーバーの URL、HTTPS、ログインページへのリダイレクトを確認してください。"
+    "message": "YOURLS から有効な API 応答が返されませんでした (HTTP $status$)。サーバーの URL、HTTPS、ログインページへのリダイレクトを確認してください。",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
   },
   "apiOpenTools": {
     "message": "YOURLS の「管理 → ツール」を開いて現在の API 署名をコピー"
+  },
+  "optionsBtnTestAndSave": {
+    "message": "接続をテストして保存"
+  },
+  "contextSelectUrl": {
+    "message": "HTTP(S) の完全な URL を選択してください。"
+  },
+  "contextInserted": {
+    "message": "✓ 短縮 URL を挿入しました: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextCopied": {
+    "message": "✓ クリップボードにコピーしました: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextShorteningFailed": {
+    "message": "URL の短縮に失敗しました"
+  },
+  "dashboardLabelClicks": {
+    "message": "クリック数: $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   }
 }

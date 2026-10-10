@@ -231,7 +231,7 @@ details summary {
   content: "";
   height: 18px;
   width: 18px;
-  left: 3px;
+  inset-inline-start: 3px;
   bottom: 3px;
   background-color: white;
   transition: .4s;
@@ -261,8 +261,8 @@ input:checked + .slider:before {
   border-bottom: 1px solid var(--border);
   margin-bottom: 16px;
   margin-top: 16px; /* This adds space above the tabs */
-  margin-left: -16px;
-  margin-right: -16px;
+  margin-inline-start: -16px;
+  margin-inline-end: -16px;
   padding: 0 12px;
 }
 .nav-tab {
@@ -364,7 +364,7 @@ gap: 8px;
   padding: 4px 8px;
   border-radius: 6px;
   flex-shrink: 0;
-  margin-left: 16px;
+  margin-inline-start: 16px;
 }
 .error-message {
   color: var(--bad);

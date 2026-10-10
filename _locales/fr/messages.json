@@ -306,9 +306,47 @@
     "message": "Le serveur refuse l’accès à l’API (HTTP 401/403). Vérifiez la signature dans YOURLS → Administration → Outils, puis réessayez. Si elle est correcte, vérifiez les restrictions du serveur et les horloges. Aucune connexion n’est nécessaire dans kURL."
   },
   "apiInvalidResponse": {
-    "message": "YOURLS n’a pas renvoyé de réponse API valide (HTTP $status$). Vérifiez l’adresse du serveur, HTTPS et les redirections éventuelles vers une page de connexion."
+    "message": "YOURLS n’a pas renvoyé de réponse API valide (HTTP $status$). Vérifiez l’adresse du serveur, HTTPS et les redirections éventuelles vers une page de connexion.",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
   },
   "apiOpenTools": {
     "message": "Ouvrir YOURLS → Administration → Outils pour copier la signature actuelle"
+  },
+  "optionsBtnTestAndSave": {
+    "message": "Tester la connexion et enregistrer"
+  },
+  "contextSelectUrl": {
+    "message": "Sélectionnez une URL HTTP(S) complète."
+  },
+  "contextInserted": {
+    "message": "✓ URL courte insérée : $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextCopied": {
+    "message": "✓ Copiée dans le presse-papiers : $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextShorteningFailed": {
+    "message": "Échec du raccourcissement"
+  },
+  "dashboardLabelClicks": {
+    "message": "Clics : $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   }
 }

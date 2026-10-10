@@ -631,9 +631,44 @@
     "message": "Der Server verweigert den API-Zugriff (HTTP 401/403). Prüfen Sie die API-Signatur unter YOURLS → Admin → Tools und testen Sie die Verbindung erneut. Ist das Token aktuell, prüfen Sie die Zugriffsregeln und die Systemzeiten. Eine Anmeldung im kURL-Add-on ist nicht erforderlich."
   },
   "apiInvalidResponse": {
-    "message": "YOURLS hat keine gültige API-Antwort geliefert (HTTP $status$). Prüfen Sie die Server-URL, HTTPS und mögliche Weiterleitungen oder vorgeschaltete Anmeldeseiten."
+    "message": "YOURLS hat keine gültige API-Antwort geliefert (HTTP $status$). Prüfen Sie die Server-URL, HTTPS und mögliche Weiterleitungen oder vorgeschaltete Anmeldeseiten.",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
   },
   "apiOpenTools": {
     "message": "YOURLS → Admin → Tools öffnen und die aktuelle API-Signatur kopieren"
+  },
+  "contextSelectUrl": {
+    "message": "Wählen Sie eine vollständige HTTP(S)-URL aus."
+  },
+  "contextInserted": {
+    "message": "✓ Kurz-URL eingefügt: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextCopied": {
+    "message": "✓ In Zwischenablage kopiert: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextShorteningFailed": {
+    "message": "Kürzen fehlgeschlagen"
+  },
+  "dashboardLabelClicks": {
+    "message": "Klicks: $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   }
 }

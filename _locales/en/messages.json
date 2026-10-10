@@ -631,9 +631,44 @@
     "message": "The server refused API access (HTTP 401/403). Check the API signature in YOURLS Admin → Tools and test again. If it is current, check your server's access restrictions and clocks. kURL does not sign in to the admin interface."
   },
   "apiInvalidResponse": {
-    "message": "YOURLS did not return a valid API response (HTTP $status$). Check the server URL, HTTPS and any proxy or login redirect."
+    "message": "YOURLS did not return a valid API response (HTTP $status$). Check the server URL, HTTPS and any proxy or login redirect.",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
   },
   "apiOpenTools": {
     "message": "Open YOURLS Admin → Tools to copy the current API signature"
+  },
+  "contextSelectUrl": {
+    "message": "Select a complete HTTP(S) URL."
+  },
+  "contextInserted": {
+    "message": "✓ Short URL inserted: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextCopied": {
+    "message": "✓ Copied to clipboard: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextShorteningFailed": {
+    "message": "Shortening failed"
+  },
+  "dashboardLabelClicks": {
+    "message": "Clicks: $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   }
 }

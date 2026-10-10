@@ -306,9 +306,47 @@
     "message": "השרת סירב לגישה ל־API ‏(HTTP 401/403). בדקו את החתימה בניהול YOURLS ← כלים ונסו שוב. אם החתימה עדכנית, בדקו את הגבלות הגישה ואת שעוני המערכות. אין צורך להתחבר דרך kURL."
   },
   "apiInvalidResponse": {
-    "message": "YOURLS לא החזיר תשובת API תקינה (HTTP $status$). בדקו את כתובת השרת, HTTPS והפניות לדף התחברות."
+    "message": "YOURLS לא החזיר תשובת API תקינה (HTTP $status$). בדקו את כתובת השרת, HTTPS והפניות לדף התחברות.",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
   },
   "apiOpenTools": {
     "message": "פתיחת ניהול YOURLS ← כלים והעתקת חתימת ה־API הנוכחית"
+  },
+  "optionsBtnTestAndSave": {
+    "message": "בדיקת חיבור ושמירה"
+  },
+  "contextSelectUrl": {
+    "message": "יש לבחור כתובת HTTP(S) מלאה."
+  },
+  "contextInserted": {
+    "message": "✓ הקישור המקוצר נוסף: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextCopied": {
+    "message": "✓ הועתק ללוח: $shorturl$",
+    "placeholders": {
+      "shorturl": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextShorteningFailed": {
+    "message": "קיצור הקישור נכשל"
+  },
+  "dashboardLabelClicks": {
+    "message": "לחיצות: $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   }
 }
