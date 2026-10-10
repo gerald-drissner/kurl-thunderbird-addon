@@ -376,7 +376,12 @@
     "message": "短縮URL・キーワード・転送先URL"
   },
   "lookupQueryPlaceholder": {
-    "message": "dri.li/example または https://example.com/article"
+    "message": "$short$ または https://example.com/article",
+    "placeholders": {
+      "short": {
+        "content": "$1"
+      }
+    }
   },
   "lookupSearch": {
     "message": "YOURLSを検索"
@@ -421,9 +426,17 @@
     "message": "表示中のリンクを検索"
   },
   "dashFilterHelp": {
-    "message": "すでに表示されている最近のリンクのみを対象にします。「さらに読み込む」で古いリンクも表示できます。"
+    "message": "すでに表示されている最近のリンクのみを対象にします。「$button$」で古いリンクも表示できます。",
+    "placeholders": {
+      "button": {
+        "content": "$1"
+      }
+    }
   },
   "dashFilterNoMatch": {
     "message": "表示中の最近のリンクに一致するものはありません。"
+  },
+  "lookupOwnInvalid": {
+    "message": "このアドレスはご利用の YOURLS サーバーに属していますが、有効な短縮URLではありません。このサーバーのキーワードまたは短縮URLを入力してください。"
   }
 }

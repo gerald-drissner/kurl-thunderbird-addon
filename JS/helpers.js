@@ -52,6 +52,40 @@ window.Helpers = (() => {
     }
   }
 
+  // Lookup accepts alternate spellings of short URLs from this server. This
+  // intentionally does NOT change extractKeyword(), which validates canonical
+  // URLs for write operations (edit, regenerate, delete).
+  function classifyLookupInput(base, input) {
+    const serverBase = sanitizeBaseUrl(base);
+    const raw = String(input || "").trim();
+    if (!serverBase || !raw) return null;
+    const keyword = validKeyword(raw);
+    if (keyword) return { kind: "short", shortUrl: serverBase + "/" + keyword };
+
+    const hasScheme = /^https?:\/\//i.test(raw);
+    const schemelessHost = !hasScheme && /^[^\s/?#]+\.[^\s/?#]+(?:[/?#]|$)/.test(raw);
+    const candidate = schemelessHost ? "https://" + raw : raw;
+    const urlText = validHttpUrl(candidate);
+    if (!urlText) return null;
+    const parsed = new URL(urlText);
+    const server = new URL(serverBase);
+    if (parsed.hostname.toLowerCase() !== server.hostname.toLowerCase()) {
+      // Never present a schemeless foreign URL as an arbitrary destination.
+      return hasScheme ? { kind: "long", target: urlText } : null;
+    }
+    // Same host: under no circumstances offer Create, even when the short link
+    // cannot be matched safely (wrong port, extra path, malformed keyword).
+    const rootPath = server.pathname.replace(/\/+$/, "") + "/";
+    if (parsed.port !== server.port || !parsed.pathname.startsWith(rootPath))
+      return { kind: "own-invalid" };
+    const slug = parsed.pathname.slice(rootPath.length).replace(/\/+$/, "");
+    const ownKeyword = validKeyword(slug);
+    if (!ownKeyword) return { kind: "own-invalid" };
+    // Ignore a trailing slash, query string and fragment when looking up an
+    // already shortened link. The request uses the canonical HTTPS URL.
+    return { kind: "short", shortUrl: serverBase + "/" + ownKeyword };
+  }
+
   function extractShort(json, base) {
     const candidates = [json?.shorturl, json?.url?.shorturl, json?.link?.shorturl];
     for (const candidate of candidates) {
@@ -97,7 +131,7 @@ window.Helpers = (() => {
   }
 
   return {
-    sanitizeBaseUrl, validHttpUrl, validKeyword, extractKeyword, extractShort,
+    sanitizeBaseUrl, validHttpUrl, validKeyword, extractKeyword, classifyLookupInput, extractShort,
     toFormData, getSettings, setSettings, parseMaybeJson
   };
 })();

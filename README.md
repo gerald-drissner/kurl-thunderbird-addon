@@ -1,10 +1,10 @@
-# kURL for Thunderbird 2.0.15 (test build)
+# kURL for Thunderbird 2.0.16 (test build)
 
 This MailExtension shortens and manages links on a user-controlled HTTPS YOURLS server, with an integrated Thunderbird compose workflow. The optional YOURLS Helper is bundled here, separately from other kURL projects.
 
 ## Installation
 
-In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.15-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
+In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.16-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
 
 Configure your HTTPS YOURLS server and signature token under kURL settings. Assign keyboard shortcuts via **Manage Extension Shortcuts**; this build installs without default key bindings.
 
@@ -134,3 +134,11 @@ Use **Find an existing link** on the Dashboard to search your YOURLS server by *
 A healthy Helper installation now appears only as a small expandable status row rather than a large installation card. Missing/outdated Helper guidance remains prominent and actionable. The field above **Recent links** is explicitly a filter of *only the entries already loaded into the dashboard*, not a server-wide search; load more entries to extend its scope. All new interface text is localized for the 10 shipped locale bundles.
 
 Run `python3 tests/browser-lookup-check.py` for two-way lookup and compact Helper UI regression checks. Full details in `TESTING_2_0_15.md`.
+
+## New in 2.0.16: robust dashboard lookup
+
+- Handles the configured YOURLS short-link hostname under HTTP or HTTPS and with trailing slashes, queries and fragments; treats same-host invalid paths as invalid short links **without suggesting creation**. For editing, the canonical parser remains strict.
+- Fetches click statistics by keyword to support internal HTTP YOURLS_SITE installations behind an HTTPS reverse proxy. This also fixes the popup statistics action.
+- The lookup placeholder uses the configured YOURLS base URL rather than a developer-specific domain. The loaded-list filter hint uses the actual localized **View More** label.
+- Corrected Arabic lookup grammar and terminology. All ten language bundles contain the new same-host validation message.
+- Helper 1.1.7 is unchanged. No server-side update is required for this release.

@@ -696,7 +696,12 @@
     "message": "Short URL, keyword, or destination URL"
   },
   "lookupQueryPlaceholder": {
-    "message": "dri.li/example or https://example.com/article"
+    "message": "$short$ or https://example.com/article",
+    "placeholders": {
+      "short": {
+        "content": "$1"
+      }
+    }
   },
   "lookupSearch": {
     "message": "Search YOURLS"
@@ -735,9 +740,17 @@
     "message": "Installation details and source"
   },
   "dashFilterHelp": {
-    "message": "Filters only the recent links already displayed. Use “Load more” to include older links."
+    "message": "Filters only the recent links already displayed. Use “$button$” to include older links.",
+    "placeholders": {
+      "button": {
+        "content": "$1"
+      }
+    }
   },
   "dashFilterNoMatch": {
     "message": "No matches among the displayed recent links."
+  },
+  "lookupOwnInvalid": {
+    "message": "This address belongs to your YOURLS server, but is not a valid short link. Enter a short keyword or a short URL from this server."
   }
 }

@@ -122,7 +122,7 @@ test('bulk creates links sequentially and skips invalid lines',()=>{
 });
 test('package metadata and page references',()=>{
  const manifest=JSON.parse(source('manifest.json'));
- assert.equal(manifest.version,'2.0.15');
+ assert.equal(manifest.version,'2.0.16');
  assert.equal(manifest.browser_specific_settings.gecko.strict_min_version,'140.0');
  assert.deepEqual(manifest.optional_host_permissions,['https://*/*']);
  assert.ok(!manifest.permissions.includes('tabs'));
@@ -339,7 +339,7 @@ test('German localized insertion and shortcut terms match buttons',()=>{
 
 test('released QR generator, ASCII-canonical QR payload, four-module quiet zone',()=>{
  const lib=source('JS/qrcode.js'), pop=source('JS/popup.js');
- assert.equal(JSON.parse(source('package.json')).version,'2.0.15');
+ assert.equal(JSON.parse(source('package.json')).version,'2.0.16');
  assert.match(lib,/QR Code Generator for JavaScript/);
  assert.match(pop,/qrcode\(0, "H"\)/);
  assert.match(pop,/qr\.addData\(new URL\(value\)\.href, \"Byte\"\)/);
@@ -419,7 +419,7 @@ test('2.0.6 optional copy edits match visible controls and released vendoring me
  const vendor=source('VENDOR.md');
  assert.doesNotMatch(vendor,/external reviewer|independently compared/i);
  assert.match(vendor,/SHA-256 of bundled file/);
- assert.equal(JSON.parse(source('manifest.json')).version,'2.0.15');
+ assert.equal(JSON.parse(source('manifest.json')).version,'2.0.16');
 });
 
 test('2.0.7 opens settings dashboard as a full tab with helper onboarding',()=>{
@@ -798,4 +798,62 @@ test('new lookup and filter labels are explicitly translated in every shipped lo
   const messages=JSON.parse(source('_locales/'+lang+'/messages.json'));
   for(const key of keys)assert.ok(messages[key]?.message,lang+' missing '+key);
  }
+});
+
+// 2.0.16: identify alternative spellings of THIS server's short links.
+test('lookup canonicalizes own short host under HTTP/HTTPS, trailing slash, query and fragment',()=>{
+ const H=newContext().ctx.Helpers;
+ const base='https://sho.rt';
+ for(const input of [
+  'AbC','sho.rt/AbC','https://sho.rt/AbC','http://sho.rt/AbC',
+  'https://sho.rt/AbC/','https://sho.rt/AbC?utm=test',
+  'https://sho.rt/AbC/?utm=test#fragment','http://sho.rt/AbC/#fragment'
+ ]) {
+  assert.deepEqual(JSON.parse(JSON.stringify(H.classifyLookupInput(base,input))),
+    {kind:'short',shortUrl:'https://sho.rt/AbC'},input);
+ }
+ assert.deepEqual(JSON.parse(JSON.stringify(H.classifyLookupInput(base,'https://other.example.org/page?x=1'))),
+  {kind:'long',target:'https://other.example.org/page?x=1'});
+});
+test('same-host invalid or ambiguous addresses never become destinations that can be shortened',()=>{
+ const H=newContext().ctx.Helpers;
+ for(const input of [
+  'https://sho.rt/','https://sho.rt/admin/tools.php','https://sho.rt/a/b',
+  'https://sho.rt/AbC%2Fhidden','https://sho.rt:8443/AbC','http://sho.rt/x/y',
+  'sho.rt/admin/tools.php','https://sho.rt/AbC?ref=x#frag/other'
+ ]) {
+  const got=H.classifyLookupInput('https://sho.rt',input);
+  // A query/fragment does not change the path or the keyword.
+  if(input.includes('AbC?ref=')) assert.equal(got.kind,'short');
+  else assert.equal(got.kind,'own-invalid',input);
+ }
+ const nested=H.classifyLookupInput('https://sho.rt/go','https://sho.rt/other');
+ assert.equal(nested.kind,'own-invalid');
+ assert.equal(H.classifyLookupInput('https://sho.rt/go','http://sho.rt/go/AbC/?q=1').shortUrl,
+  'https://sho.rt/go/AbC');
+});
+test('statistics send the keyword, not a full HTTPS address: YOURLS_SITE may be HTTP internally',async()=>{
+ const x=newContext();
+ const result=await x.send({type:'GET_STATS',shortUrl:'https://sho.rt/AbC'});
+ assert.equal(result.ok,true);
+ const call=x.calls.find(c=>c.action==='url-stats');
+ assert.equal(call.body.get('shorturl'),'AbC');
+ assert.equal(call.body.get('url'),null);
+ assert.equal(call.body.get('hash'),'sha256');
+});
+test('lookup translations quote the actual View More label and accept configured-server substitution',()=>{
+ for(const lang of ['ar','de','en','es','fr','he','ja','pt','ru','zh_CN']) {
+  const strings=JSON.parse(source('_locales/'+lang+'/messages.json'));
+  for(const [key, placeholder] of [['lookupQueryPlaceholder','short'],['dashFilterHelp','button']]) {
+   assert.match(strings[key].message,new RegExp('\\$'+placeholder+'\\$'),lang+' '+key);
+   assert.equal(strings[key].placeholders[placeholder].content,'$1');
+  }
+  assert.ok(strings.lookupOwnInvalid?.message,lang+' missing own-host warning');
+  assert.doesNotMatch(strings.lookupQueryPlaceholder.message,/dri\.li/i);
+ }
+ const ar=JSON.parse(source('_locales/ar/messages.json'));
+ assert.match(ar.lookupHelp.message,/رابطا مختصرا/);
+ assert.match(ar.lookupQueryLabel.message,/الكلمة المفتاحية/);
+ assert.match(ar.lookupInvalid.message,/رابطا أصليا صالحا/);
+ assert.match(ar.lookupFound.message,/تم العثور/);
 });

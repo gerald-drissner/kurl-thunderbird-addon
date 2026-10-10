@@ -49,6 +49,9 @@ function i18n() {
     const translated = browser.i18n.getMessage(el.dataset.i18nKey);
     if (translated) el.textContent = translated;
   });
+  const viewMoreLabel = t("dashboardBtnViewMore", "View More");
+  const filterHelp = browser.i18n.getMessage("dashFilterHelp", [viewMoreLabel]);
+  if (filterHelp) document.querySelector(".filter-scope-help").textContent = filterHelp;
 }
 async function send(type, extra = {}) {
   const response = await browser.runtime.sendMessage({ type, ...extra });
@@ -272,6 +275,7 @@ async function refresh(forceHelper = false) {
     $("server-status").textContent = t("dashboardStatusOnline", "Online");
     $("server-status").classList.add("status-online");
     $("info-server").textContent = info.base || "—";
+    updateLookupPlaceholder(info.base);
     $("info-version").textContent = info.yourlsVersion || "Unknown";
     $("info-helper").textContent = info.helperReady
       ? "Ready (" + info.helperVersion + ")"
@@ -281,6 +285,7 @@ async function refresh(forceHelper = false) {
     catch { $("info-activity").textContent = "—"; }
   } catch (error) {
     if (generation !== viewGeneration) return;
+    updateLookupPlaceholder("");
     helperReady = false;
     // Keep the local installation instructions available if the connection fails.
     $("helper-indicator").hidden = false;
@@ -343,17 +348,13 @@ function showLookup(data, found = true) {
   $("lookup-create").hidden = found || !H.validHttpUrl(data.target);
 }
 function determineLookup(raw, base) {
-  const query = String(raw || "").trim();
-  if (!query) return null;
-  // Exact short URLs, user-friendly keyword-only input, or a short URL without scheme.
-  let keyword = H.extractKeyword(base, query);
-  if (!keyword && !/^https?:\/\//i.test(query)) {
-    const candidate = H.validHttpUrl("https://" + query);
-    if (candidate) keyword = H.extractKeyword(base, candidate);
-  }
-  if (keyword) return {kind:"short", shortUrl:base + "/" + keyword};
-  const target = H.validHttpUrl(query);
-  return target ? {kind:"long", target} : null;
+  return H.classifyLookupInput(base, raw);
+}
+function updateLookupPlaceholder(base) {
+  const configured = H.sanitizeBaseUrl(base);
+  const example = (configured || "https://short.example") + "/example";
+  $("lookup-query").placeholder = browser.i18n.getMessage("lookupQueryPlaceholder", [example]) ||
+    (example + " or https://example.com/article");
 }
 function clickCount(response) {
   const j = response?.data || {};
@@ -367,8 +368,10 @@ async function searchLinks(event) {
   clearLookup();
   const base = H.sanitizeBaseUrl($('info-server').textContent);
   const query = base ? determineLookup($('lookup-query').value, base) : null;
-  if (!query) {
-    $("lookup-message").textContent = t("lookupInvalid", "Enter a valid destination URL, short URL on this server, or keyword.");
+  if (!query || query.kind === "own-invalid") {
+    $("lookup-message").textContent = query?.kind === "own-invalid"
+      ? t("lookupOwnInvalid", "This address belongs to your YOURLS server but is not a valid short link. Enter a short keyword or a short URL from this server.")
+      : t("lookupInvalid", "Enter a valid destination URL, short URL on this server, or keyword.");
     return;
   }
   if (query.kind === "long" && !helperReady) {
@@ -580,6 +583,7 @@ $("helper-code-details").addEventListener("toggle", async event => {
   }
 });
 i18n();
+updateLookupPlaceholder("");
 (async () => {
   const settings = await H.getSettings();
   showCopyNotifications = settings.showCopyNotifications;

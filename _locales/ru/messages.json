@@ -380,7 +380,12 @@
     "message": "Короткая ссылка, ключевое слово или адрес назначения"
   },
   "lookupQueryPlaceholder": {
-    "message": "dri.li/example или https://example.com/article"
+    "message": "$short$ или https://example.com/article",
+    "placeholders": {
+      "short": {
+        "content": "$1"
+      }
+    }
   },
   "lookupSearch": {
     "message": "Искать в YOURLS"
@@ -425,9 +430,17 @@
     "message": "Поиск по отображаемым ссылкам"
   },
   "dashFilterHelp": {
-    "message": "Фильтр работает только по уже отображённым недавним ссылкам. Нажмите «Загрузить ещё», чтобы включить старые ссылки."
+    "message": "Фильтр работает только по уже отображённым недавним ссылкам. Нажмите «$button$», чтобы включить старые ссылки.",
+    "placeholders": {
+      "button": {
+        "content": "$1"
+      }
+    }
   },
   "dashFilterNoMatch": {
     "message": "Совпадений среди отображаемых недавних ссылок нет."
+  },
+  "lookupOwnInvalid": {
+    "message": "Этот адрес относится к вашему серверу YOURLS, но не является корректной короткой ссылкой. Введите ключевое слово или короткую ссылку этого сервера."
   }
 }

@@ -257,7 +257,9 @@ async function stats(value) {
   const base = H.sanitizeBaseUrl(settings.yourlsUrl);
   const kw = H.extractKeyword(base, value);
   if (!kw) throw new Error("Enter a keyword or a short URL from your YOURLS server.");
-  const r = await request("url-stats", { shorturl: base + "/" + kw });
+  // YOURLS url-stats compares full URLs with YOURLS_SITE. A keyword works
+  // for public HTTPS origins proxied to an internal HTTP YOURLS_SITE.
+  const r = await request("url-stats", { shorturl: kw });
   return success(r);
 }
 

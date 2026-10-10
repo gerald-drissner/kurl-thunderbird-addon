@@ -380,7 +380,12 @@
     "message": "כתובת מקוצרת, מילת מפתח או כתובת יעד"
   },
   "lookupQueryPlaceholder": {
-    "message": "dri.li/example או https://example.com/article"
+    "message": "$short$ או https://example.com/article",
+    "placeholders": {
+      "short": {
+        "content": "$1"
+      }
+    }
   },
   "lookupSearch": {
     "message": "חיפוש ב־YOURLS"
@@ -425,9 +430,17 @@
     "message": "חיפוש בקישורים המוצגים"
   },
   "dashFilterHelp": {
-    "message": "הסינון חל רק על הקישורים האחרונים שכבר מוצגים. יש ללחוץ על ״טען עוד״ כדי לכלול קישורים ישנים."
+    "message": "הסינון חל רק על הקישורים האחרונים שכבר מוצגים. יש ללחוץ על ״$button$״ כדי לכלול קישורים ישנים.",
+    "placeholders": {
+      "button": {
+        "content": "$1"
+      }
+    }
   },
   "dashFilterNoMatch": {
     "message": "אין התאמות בקישורים האחרונים שמוצגים."
+  },
+  "lookupOwnInvalid": {
+    "message": "כתובת זו שייכת לשרת YOURLS שלך, אך אינה קישור מקוצר תקין. יש להזין מילת מפתח או כתובת מקוצרת מהשרת הזה."
   }
 }

@@ -372,7 +372,12 @@
     "message": "URL curto, palavra-chave ou URL de destino"
   },
   "lookupQueryPlaceholder": {
-    "message": "dri.li/exemplo ou https://example.com/artigo"
+    "message": "$short$ ou https://example.com/artigo",
+    "placeholders": {
+      "short": {
+        "content": "$1"
+      }
+    }
   },
   "lookupSearch": {
     "message": "Procurar no YOURLS"
@@ -417,9 +422,17 @@
     "message": "Pesquisar nas ligações apresentadas"
   },
   "dashFilterHelp": {
-    "message": "Filtra apenas as ligações recentes já apresentadas. Utilize «Carregar mais» para incluir as anteriores."
+    "message": "Filtra apenas as ligações recentes já apresentadas. Utilize «$button$» para incluir as anteriores.",
+    "placeholders": {
+      "button": {
+        "content": "$1"
+      }
+    }
   },
   "dashFilterNoMatch": {
     "message": "Não existem resultados nas ligações recentes apresentadas."
+  },
+  "lookupOwnInvalid": {
+    "message": "Este endereço pertence ao seu servidor YOURLS, mas não é um URL curto válido. Introduza uma palavra-chave ou um URL curto deste servidor."
   }
 }

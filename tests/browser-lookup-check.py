@@ -12,7 +12,16 @@ with sync_playwright() as p:
     page.evaluate('''messages=>{
       window.__calls=[];
       window.browser={
-        i18n:{getUILanguage:()=>"en-US",getMessage:(key,args)=>messages[key]?.message||""},
+        i18n:{getUILanguage:()=>"en-US",getMessage:(key,args)=>{
+          const entry=messages[key]; if(!entry) return '';
+          let message=entry.message;
+          for(const [name,definition] of Object.entries(entry.placeholders||{})){
+            const position=Number(String(definition.content||'').replace('$',''))-1;
+            const value=(Array.isArray(args)?args[position]:args)||'';
+            message=message.split('$'+name+'$').join(String(value));
+          }
+          return message;
+        }},
         storage:{local:{get:async defaults=>({...defaults,showCopyNotifications:true}),set:async()=>{}},onChanged:{addListener:()=>{}}},
         runtime:{getURL:path=>'moz-extension://kurl/'+path,sendMessage:async m=>{
           window.__calls.push(m);
@@ -47,6 +56,26 @@ with sync_playwright() as p:
     page.locator('#lookup-edit').click()
     assert page.locator('#manual-result').input_value()=='https://dri.li/AbC'
     assert page.locator('#manual-long').input_value()=='https://example.org/article'
+    assert page.locator('#lookup-query').evaluate('(el)=>el.placeholder').startswith('https://dri.li/example')
+    print('PASS: server-specific, not developer-specific, lookup placeholder')
+    # All spelling variants of this installation stay on short-link lookup,
+    # including http:// and a path with trailing slash and query parameters.
+    for alternative in ['http://dri.li/AbC','https://dri.li/AbC/','https://dri.li/AbC?utm=test',
+                        'https://dri.li/AbC/?utm=test#x']:
+        page.locator('#lookup-query').fill(alternative)
+        before=page.evaluate('window.__calls.length')
+        page.locator('#lookup-submit').click()
+        page.wait_for_function('document.querySelector("#lookup-short").textContent==="https://dri.li/AbC"')
+        types=page.evaluate('(index)=>window.__calls.slice(index).map(x=>x.type)',before)
+        assert 'EXPAND_URL' in types and 'LOOKUP_URL' not in types,alternative
+    # Own-server URL that is not a shortlink is never treated as a destination.
+    page.locator('#lookup-query').fill('https://dri.li/admin/tools.php')
+    before=page.evaluate('window.__calls.length')
+    page.locator('#lookup-submit').click()
+    assert page.evaluate('window.__calls.length')==before
+    assert not page.locator('#lookup-create').is_visible()
+    assert page.locator('#lookup-message').text_content().strip()
+    print('PASS: HTTP/slash/query/fragment canonicalization; no accidental own-host shortening')
     print('PASS: short URL -> destination, title, clicks, clipboard and edit')
     # Destination URL -> existing shortened link, and no match creates prefilled form.
     page.locator('#lookup-query').fill('https://example.org/article')

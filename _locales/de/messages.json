@@ -696,7 +696,12 @@
     "message": "Kurz-URL, Kürzel oder Zieladresse"
   },
   "lookupQueryPlaceholder": {
-    "message": "dri.li/beispiel oder https://example.com/artikel"
+    "message": "$short$ oder https://example.com/artikel",
+    "placeholders": {
+      "short": {
+        "content": "$1"
+      }
+    }
   },
   "lookupSearch": {
     "message": "In YOURLS suchen"
@@ -735,9 +740,17 @@
     "message": "Installationshilfe und Quelltext"
   },
   "dashFilterHelp": {
-    "message": "Durchsucht nur die bereits angezeigten letzten Links. Mit „Mehr laden“ beziehen Sie ältere Links ein."
+    "message": "Durchsucht nur die bereits angezeigten letzten Links. Mit „$button$“ beziehen Sie ältere Links ein.",
+    "placeholders": {
+      "button": {
+        "content": "$1"
+      }
+    }
   },
   "dashFilterNoMatch": {
     "message": "Keine Treffer unter den angezeigten letzten Links."
+  },
+  "lookupOwnInvalid": {
+    "message": "Diese Adresse gehört zu Ihrem YOURLS-Server, ist aber keine gültige Kurz-URL. Geben Sie ein Kürzel oder eine Kurz-URL dieses Servers ein."
   }
 }
