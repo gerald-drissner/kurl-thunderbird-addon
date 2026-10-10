@@ -156,7 +156,7 @@ function makeLinkRow(link, rank = null) {
         if (!window.confirm(question + "\n" + short)) return;
         try {
           await send("DELETE_SHORTURL", { shortUrl: short });
-          message($("dashboard-feedback"), "Deleted " + short);
+          message($("dashboard-feedback"), t("popupStatusDeleted", "Short URL deleted.") + " " + short);
           await refresh();
         } catch (error) {
           message($("dashboard-feedback"), error.message, true);

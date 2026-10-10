@@ -1,10 +1,12 @@
-# kURL for Thunderbird 2.0.19 (test build)
+# kURL for Thunderbird 2.0.20 (release candidate)
+
+Release resources: [CHANGELOG](CHANGELOG.md) · [Release notes](RELEASE_NOTES.md) · [ATN submission guide](ATN_SUBMISSION.md) · [Privacy policy](PRIVACY_POLICY.md) · [Release QA checklist](TESTING_2_0_20.md).
 
 This MailExtension shortens and manages links on a user-controlled HTTPS YOURLS server, with an integrated Thunderbird compose workflow. The optional YOURLS Helper is bundled here, separately from other kURL projects.
 
 ## Installation
 
-In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.19-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
+In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.20.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
 
 Configure your HTTPS YOURLS server and signature token under kURL settings. Assign keyboard shortcuts via **Manage Extension Shortcuts**; this build installs without default key bindings.
 
@@ -157,3 +159,9 @@ Dashboard is now the default add-on Settings view. When no connection is configu
 - The popup's **Go to Settings** button opens the connection/token form directly, even though the Dashboard is the default Add-ons Manager page.
 - After a successful server deletion, popular and recent link lists refresh even if the search query changes while the request is in flight. Search results typed later are not overwritten.
 - Server-side YOURLS Helper 1.1.7 and authentication behavior remain unchanged.
+
+## 2.0.20: final release-candidate polish
+
+- Dashboard list deletion success messages use the same localized confirmation as search-result deletion; no English-only status message remains for this action.
+- Release artifacts use stable archive timestamps and permissions for reproducible SHA-256 checksums across Linux, macOS and Windows.
+- Added consolidated CHANGELOG, release notes and ATN update instructions. No YOURLS API or server-side Helper changes.

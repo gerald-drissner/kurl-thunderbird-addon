@@ -1,8 +1,8 @@
-# kURL for Thunderbird — Privacy Policy (draft for ATN submission)
+# kURL for Thunderbird — Privacy Policy (for ATN submission)
 
 **Effective date:** 10 October 2026  
 **Publisher:** Gerald Drißner  
-**Applies to:** kURL for Thunderbird, version 2.0.12 and later, until revised.
+**Applies to:** kURL for Thunderbird, version 2.0.20 and later, until revised.
 
 kURL communicates only with the HTTPS YOURLS server you configure. When you explicitly shorten or manage a link, it sends the original URL and, where provided, a custom keyword and title to that server. The dashboard requests short-link statistics and metadata from that server. These requests are necessary for the add-on to work.
 
@@ -24,4 +24,4 @@ For privacy questions, use the project's GitHub issue tracker: https://github.co
 
 kURL sends the URLs you choose to shorten or manage, and optional keywords/titles, only to your configured HTTPS YOURLS server. It keeps your API token and a limited activity log locally in Thunderbird. It does not collect analytics or send your emails to the add-on developer.
 
-*Review this policy text and contact route before publication; it has not been entered in ATN's privacy-policy field.*
+*This complete text must be entered in the ATN privacy-policy field by the add-on owner.*

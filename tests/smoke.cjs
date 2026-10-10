@@ -122,7 +122,7 @@ test('bulk creates links sequentially and skips invalid lines',()=>{
 });
 test('package metadata and page references',()=>{
  const manifest=JSON.parse(source('manifest.json'));
- assert.equal(manifest.version,'2.0.19');
+ assert.equal(manifest.version,'2.0.20');
  assert.equal(manifest.browser_specific_settings.gecko.strict_min_version,'140.0');
  assert.deepEqual(manifest.optional_host_permissions,['https://*/*']);
  assert.ok(!manifest.permissions.includes('tabs'));
@@ -339,7 +339,7 @@ test('German localized insertion and shortcut terms match buttons',()=>{
 
 test('released QR generator, ASCII-canonical QR payload, four-module quiet zone',()=>{
  const lib=source('JS/qrcode.js'), pop=source('JS/popup.js');
- assert.equal(JSON.parse(source('package.json')).version,'2.0.19');
+ assert.equal(JSON.parse(source('package.json')).version,'2.0.20');
  assert.match(lib,/QR Code Generator for JavaScript/);
  assert.match(pop,/qrcode\(0, "H"\)/);
  assert.match(pop,/qr\.addData\(new URL\(value\)\.href, \"Byte\"\)/);
@@ -419,7 +419,7 @@ test('2.0.6 optional copy edits match visible controls and released vendoring me
  const vendor=source('VENDOR.md');
  assert.doesNotMatch(vendor,/external reviewer|independently compared/i);
  assert.match(vendor,/SHA-256 of bundled file/);
- assert.equal(JSON.parse(source('manifest.json')).version,'2.0.19');
+ assert.equal(JSON.parse(source('manifest.json')).version,'2.0.20');
 });
 
 test('2.0.7 opens settings dashboard as a full tab with helper onboarding',()=>{
@@ -949,4 +949,14 @@ test('search deletion refresh is independent of lookup input generation', () => 
  assert.match(fn,/if \(generation === lookupGeneration\)/);
  assert.match(fn,/await refresh\(\);/);
  assert.doesNotMatch(fn,/if \(generation !== lookupGeneration\) return/);
+});
+
+test('dashboard list deletion shows localized success without embedded English text', () => {
+ const dashboard = source('JS/dashboard.js');
+ assert.match(dashboard, /message\(\$\("dashboard-feedback"\), t\("popupStatusDeleted", "Short URL deleted\."\) \+ " " \+ short\)/);
+ assert.doesNotMatch(dashboard, /"Deleted " \+ short/);
+ for (const lang of ['ar','de','en','es','fr','he','ja','pt','ru','zh_CN']) {
+   const messages = JSON.parse(source('_locales/'+lang+'/messages.json'));
+   assert.ok(messages.popupStatusDeleted && messages.popupStatusDeleted.message);
+ }
 });

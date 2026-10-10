@@ -9,8 +9,15 @@ out=Path(sys.argv[1]) if len(sys.argv)>1 else root/f'kurl-thunderbird-{version}-
 allowed={'manifest.json','options.html','popup.html','dashboard.html','bulk.html','logs.html','styles.css','VENDOR.md'}
 folders={'JS','images','_locales','helper'}
 files=sorted(q for q in root.rglob('*') if q.is_file() and (q.relative_to(root).as_posix() in allowed or q.relative_to(root).parts[0] in folders))
+# Do not copy filesystem timestamps or platform-dependent permission bits into the
+# archive. Otherwise two builds from identical source yield different XPI hashes.
 with zipfile.ZipFile(out,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as z:
-    for file in files:z.write(file,file.relative_to(root).as_posix())
+    for file in files:
+        info=zipfile.ZipInfo(file.relative_to(root).as_posix(),date_time=(1980,1,1,0,0,0))
+        info.compress_type=zipfile.ZIP_DEFLATED
+        info.create_system=3
+        info.external_attr=(0o100644 << 16)
+        z.writestr(info,file.read_bytes(),compress_type=zipfile.ZIP_DEFLATED,compresslevel=9)
 with zipfile.ZipFile(out) as z:
     assert z.testzip() is None
     names=set(z.namelist())

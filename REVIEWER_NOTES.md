@@ -9,4 +9,4 @@
 - The QR implementation now bundles unchanged qrcode-generator 2.0.4 from its versioned upstream distribution; see VENDOR.md for exact source, commit and checksums. The vendored QR distribution is byte-identical to the npm release of qrcode-generator 2.0.4. VENDOR.md supplies the SHA-256 checksum and pinned upstream source for independent verification.
 
 - The XPI intentionally includes `helper/kurl-helper/plugin.php`: an optional PHP plugin for the user's separately administered YOURLS server. Thunderbird does **not** execute PHP. The dashboard only reads that bundled file as text to show/copy/download for users who want advanced link management. It never installs or runs server code. Current minimum supported Helper version: 1.1.6.
-- Live QA for Windows/macOS composition, including macOS Control-click link replacement, is required prior to ATN submission; GitHub Actions across operating systems do not simulate native Thunderbird.
+- CI verifies source, archive, and browser-simulated behavior on Linux/macOS/Windows. The project test reports distinguish these from native Thunderbird GUI testing; no claim of live macOS or Windows validation is made.
