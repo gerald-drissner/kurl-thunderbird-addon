@@ -348,5 +348,17 @@
         "content": "$1"
       }
     }
+  },
+  "insertAmbiguousLink": {
+    "message": "Plusieurs liens utilisent cette URL. Cliquez dans le lien voulu, puis réessayez."
+  },
+  "insertClickedLinkMissing": {
+    "message": "Le lien sélectionné est introuvable dans le corps du message."
+  },
+  "insertPlainTextSelectUrl": {
+    "message": "En mode texte brut, sélectionnez l’URL avant de raccourcir et insérer."
+  },
+  "optionsOldTokenHint": {
+    "message": "Ce jeton de dix caractères peut provenir d’une ancienne version de YOURLS. Copiez la signature API actuelle dans Administration → Outils."
   }
 }

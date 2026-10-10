@@ -348,5 +348,17 @@
         "content": "$1"
       }
     }
+  },
+  "insertAmbiguousLink": {
+    "message": "多个链接使用此网址。请单击目标链接内部，然后重试。"
+  },
+  "insertClickedLinkMissing": {
+    "message": "在邮件正文中找不到所点击的链接。"
+  },
+  "insertPlainTextSelectUrl": {
+    "message": "在纯文本模式下，请先选中网址，再执行缩短并插入。"
+  },
+  "optionsOldTokenHint": {
+    "message": "此十字符令牌可能来自旧版 YOURLS。请从“管理 → 工具”复制当前 API 签名。"
   }
 }

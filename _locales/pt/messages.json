@@ -340,5 +340,17 @@
         "content": "$1"
       }
     }
+  },
+  "insertAmbiguousLink": {
+    "message": "Várias ligações usam este URL. Clique dentro da ligação pretendida e tente novamente."
+  },
+  "insertClickedLinkMissing": {
+    "message": "A ligação selecionada não foi encontrada no corpo da mensagem."
+  },
+  "insertPlainTextSelectUrl": {
+    "message": "Em modo de texto simples, selecione o URL antes de encurtar e inserir."
+  },
+  "optionsOldTokenHint": {
+    "message": "Este token de dez caracteres pode pertencer a uma versão antiga do YOURLS. Copie a assinatura API atual em Administração → Ferramentas."
   }
 }

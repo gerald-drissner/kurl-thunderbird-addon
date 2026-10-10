@@ -344,5 +344,17 @@
         "content": "$1"
       }
     }
+  },
+  "insertAmbiguousLink": {
+    "message": "Varios enlaces usan esta URL. Haz clic dentro del enlace deseado e inténtalo de nuevo."
+  },
+  "insertClickedLinkMissing": {
+    "message": "No se encontró el enlace pulsado en el cuerpo del mensaje."
+  },
+  "insertPlainTextSelectUrl": {
+    "message": "En modo texto sin formato, selecciona la URL antes de acortarla e insertarla."
+  },
+  "optionsOldTokenHint": {
+    "message": "Este token de diez caracteres podría pertenecer a una versión anterior de YOURLS. Copia la firma API actual desde Administración → Herramientas."
   }
 }

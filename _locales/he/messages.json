@@ -348,5 +348,17 @@
         "content": "$1"
       }
     }
+  },
+  "insertAmbiguousLink": {
+    "message": "כמה קישורים משתמשים בכתובת הזאת. יש ללחוץ בתוך הקישור הרצוי ולנסות שוב."
+  },
+  "insertClickedLinkMissing": {
+    "message": "הקישור שנלחץ לא נמצא בגוף ההודעה."
+  },
+  "insertPlainTextSelectUrl": {
+    "message": "במצב טקסט פשוט יש לבחור את הכתובת לפני קיצור והוספה."
+  },
+  "optionsOldTokenHint": {
+    "message": "אסימון זה, בן עשרה תווים, עשוי להיות מגרסת YOURLS ישנה. יש להעתיק את חתימת ה־API הנוכחית מניהול ← כלים."
   }
 }

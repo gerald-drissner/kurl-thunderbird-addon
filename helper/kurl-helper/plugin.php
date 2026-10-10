@@ -93,17 +93,27 @@ function kurl_api_shorturl_belongs_to_installation( $shorturl, $keyword ) {
 
     $given_scheme     = strtolower( (string) $given['scheme'] );
     $canonical_scheme = strtolower( (string) $canonical['scheme'] );
-    if ( ! in_array( $given_scheme, [ 'http', 'https' ], true ) || $given_scheme !== $canonical_scheme ) {
+    // The site may still be configured with http:// behind a TLS-terminating
+    // reverse proxy. Accept its external https:// URL, never an HTTP downgrade.
+    $scheme_matches = $given_scheme === $canonical_scheme;
+    $https_upgrade = $given_scheme === 'https' && $canonical_scheme === 'http';
+    if ( ! in_array( $given_scheme, [ 'http', 'https' ], true ) ||
+         ! in_array( $canonical_scheme, [ 'http', 'https' ], true ) ||
+         ( ! $scheme_matches && ! $https_upgrade ) ) {
         return false;
     }
 
     $given_port = isset( $given['port'] ) ? (int) $given['port'] : ( $given_scheme === 'https' ? 443 : 80 );
     $canonical_port = isset( $canonical['port'] ) ? (int) $canonical['port'] : ( $canonical_scheme === 'https' ? 443 : 80 );
+    $ports_match = $given_port === $canonical_port;
+    if ( $https_upgrade && ! isset( $given['port'] ) && ! isset( $canonical['port'] ) ) {
+        $ports_match = true; // standard 443 externally / standard 80 internally
+    }
     $given_path = rawurldecode( rtrim( (string) $given['path'], '/' ) );
     $canonical_path = rawurldecode( rtrim( (string) $canonical['path'], '/' ) );
 
     return strtolower( (string) $given['host'] ) === strtolower( (string) $canonical['host'] )
-        && $given_port === $canonical_port
+        && $ports_match
         && $given_path !== ''
         && hash_equals( $canonical_path, $given_path );
 }

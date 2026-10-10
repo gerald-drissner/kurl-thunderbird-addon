@@ -1,10 +1,10 @@
-# kURL for Thunderbird 2.0.12 (test build)
+# kURL for Thunderbird 2.0.13 (test build)
 
 This MailExtension shortens and manages links on a user-controlled HTTPS YOURLS server, with an integrated Thunderbird compose workflow. The optional YOURLS Helper is bundled here, separately from other kURL projects.
 
 ## Installation
 
-In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.12-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
+In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.13-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
 
 Configure your HTTPS YOURLS server and signature token under kURL settings. Assign keyboard shortcuts via **Manage Extension Shortcuts**; this build installs without default key bindings.
 
@@ -75,7 +75,7 @@ The YOURLS server-side kURL Helper must be installed separately. A malformed plu
 - Updated EN/DE labels and warnings use neutral client names; unchanged YOURLS API.
 - Verify installation in YOURLS by refreshing the dashboard. Downloading a PHP file does not install it on the server automatically.
 
-## 2.0.12: Optional copy confirmations and platform review
+## 2.0.13: Optional copy confirmations and platform review
 
 - Dashboard row copy and manual short-URL copy show a brief, unobtrusive toast after the clipboard operation succeeds.
 - **Show success notifications** is available in Dashboard and Settings, **on by default**; changing the switch saves immediately to `browser.storage.local`, without sending or changing the YOURLS token. Both pages remain synchronized.
@@ -99,7 +99,7 @@ reverse proxies or clock skew may also require server-side fixes. A 401/403
 is not proof the secret alone is wrong. A public YOURLS server should use the
 included **Helper 1.1.6** for authenticated remote editing/deletion.
 
-## 2.0.12: installer fixes and release preparation
+## 2.0.13: installer fixes and release preparation
 
 - Fixed all ten HTTP status-code locale placeholders and added translated API-test button labels to the remaining languages.
 - Context-menu success/error feedback and dashboard click counters now use localized messages.
@@ -110,3 +110,12 @@ included **Helper 1.1.6** for authenticated remote editing/deletion.
 - GitHub Actions updated to current runtimes; local and CI regression tests cover these cases.
 
 **Not yet a published ATN release.** A real macOS Control-click test and a Windows/macOS Thunderbird check are needed. The WordPress client currently uses strict Helper version matching; update it before installing Helper 1.1.6 unless API is publicly accessible.
+
+## Version 2.0.13 changes
+
+- RTL toggle switches keep their visible knob in Arabic and Hebrew.
+- Insertion refusals for ambiguous links, missing links and plain-text selections are localized.
+- Toolbar badge clearing handles rejected tab API calls without unhandled promises; removed the background tab-close listener.
+- The Helper accepts HTTPS access to an internally HTTP-configured YOURLS installation when the host and path match and both ports are standard (never accepts a downgrade).
+- Settings display a non-blocking warning for a possibly obsolete ten-character API token.
+- Bundled Helper source verification tolerates CRLF line endings.

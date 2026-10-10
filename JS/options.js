@@ -45,7 +45,10 @@ async function test() {
       type: "CHECK_CONNECTION", settings: config
     });
     if (!result?.ok) {
-      const error = new Error(result?.reason || t("optionsStatusConnFailed", "Connection failed."));
+      const authDenied = ["AUTH_REJECTED", "ACCESS_DENIED"].includes(result?.errorCode);
+      const legacyHint = authDenied && config.apiSignature.length === 10
+        ? " " + t("optionsOldTokenHint", "This ten-character token may be from an older YOURLS version. Copy the current API signature from Admin → Tools.") : "";
+      const error = new Error((result?.reason || t("optionsStatusConnFailed", "Connection failed.")) + legacyHint);
       error.code = result?.errorCode || "";
       throw error;
     }
@@ -121,7 +124,9 @@ async function init() {
   $("showCopyNotifications").checked = saved.showCopyNotifications;
   status(old.startsWith("http://") ?
     "Old HTTP connection detected. HTTPS has been filled in; test the connection and save the updated settings." :
-    t("optionsStatusLoaded", "Settings loaded."));
+    saved.apiSignature.length === 10
+      ? t("optionsOldTokenHint", "This ten-character token may be from an older YOURLS version. Copy the current API signature from Admin → Tools.")
+      : t("optionsStatusLoaded", "Settings loaded."));
 }
 $("showCopyNotifications").addEventListener("change", async () => {
   const box = $("showCopyNotifications");

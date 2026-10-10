@@ -244,6 +244,8 @@ input:checked + .slider {
 input:checked + .slider:before {
   transform: translateX(20px);
 }
+/* The knob starts at the inline-start edge; RTL must move it to the left. */
+[dir="rtl"] input:checked + .slider:before { transform: translateX(-20px); }
 
 .slider.round {
   border-radius: 34px;
@@ -428,7 +430,7 @@ text-decoration: underline;
   gap: 6px;
   flex-shrink: 0;
 }
-.kurl-actions .link-clicks { margin: 0 6px 0 0; }
+.kurl-actions .link-clicks { margin-block: 0; margin-inline: 0 6px; }
 .kurl-actions button { padding: 6px 9px; font-size: 12px; }
 .link-urls { min-width: 0; flex: 1; }
 .link-short, .link-long { overflow-wrap: anywhere; }
@@ -498,7 +500,7 @@ body.options-body:has(.dashboard-shell) { min-width: 0; padding: 24px clamp(14px
 .dashboard-list-columns .link-urls {gap:5px;}
 .dashboard-list-columns .link-long {display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;white-space:normal;overflow-wrap:anywhere;max-width:none;}
 .dashboard-list-columns .kurl-actions {justify-content:flex-start;gap:7px;}
-.dashboard-list-columns .link-clicks {margin:0 12px 0 0;color:var(--muted);font-size:12px;}
+.dashboard-list-columns .link-clicks {margin-block:0;margin-inline:0 12px;color:var(--muted);font-size:12px;}
 .dashboard-shell #dashboard-feedback {margin:0 0 22px;}
 .helper-setup {margin-top:22px;padding:18px 21px;border:1px solid var(--border);border-radius:11px;background:var(--field);}
 .helper-setup[hidden] {display:none;}

@@ -100,15 +100,11 @@ async function signalToolbar(kind, tabId) {
     if (badgeTimers.get(tabId) !== timeout) return;
     badgeTimers.delete(tabId);
     for (const api of actions) {
-      try { void api?.setBadgeText?.({text: "", tabId}); } catch {}
+      try { void api?.setBadgeText?.({text: "", tabId})?.catch?.(() => {}); } catch {}
     }
   }, 3500);
   badgeTimers.set(tabId, timeout);
 }
-browser.tabs.onRemoved?.addListener(tabId => {
-  if (badgeTimers.has(tabId)) clearTimeout(badgeTimers.get(tabId));
-  badgeTimers.delete(tabId);
-});
 async function contextFeedback(tab, message, kind = "success") {
   // Suppress only optional success messages. Failures must remain visible.
   if (kind === "success") {
@@ -436,7 +432,7 @@ function performComposeInsertion(url, originalUrl, isPlainText, fromLink = false
     .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
   if (fromLink && isPlainText && originalUrl &&
       (!range || range.collapsed || sel.toString() !== originalUrl))
-    return {ok:false,reason:"In plain-text mode, select the URL before using Shorten and insert."};
+    return {ok:false,reason:"PLAIN_TEXT_SELECT_URL"};
   const sameURL = (left,right) => {
     try {return new URL(left).href === new URL(right).href;} catch{return false;}
   };
@@ -450,8 +446,8 @@ function performComposeInsertion(url, originalUrl, isPlainText, fromLink = false
     const target = touched.length === 1 ? touched[0]
       : touched.length === 0 && matches.length === 1 ? matches[0] : null;
     if (!target) return {ok:false,reason: matches.length
-      ? "Several links use this URL. Click inside the desired link and try again."
-      : "The clicked link was not found in the message body."};
+      ? "AMBIGUOUS_CLICKED_LINK"
+      : "CLICKED_LINK_NOT_FOUND"};
     range = document.createRange(); range.selectNodeContents(target); range.collapse(true);
     sel.removeAllRanges(); sel.addRange(range);
   }
@@ -556,7 +552,17 @@ async function insertUrl(tabId, value, original = "", fromLink = false) {
     args:[value,original,!!details.isPlainText,fromLink]
   });
   const result=frames[0]?.result;
-  if(!result?.ok) throw new Error(result?.reason || "Could not insert the short URL safely.");
+  if(!result?.ok) {
+    // Codes cross the script-injection boundary; the background translates them.
+    const reasons = {
+      AMBIGUOUS_CLICKED_LINK: ["insertAmbiguousLink", "Several links use this URL. Click inside the desired link and try again."],
+      CLICKED_LINK_NOT_FOUND: ["insertClickedLinkMissing", "The clicked link was not found in the message body."],
+      PLAIN_TEXT_SELECT_URL: ["insertPlainTextSelectUrl", "In plain-text mode, select the URL before using Shorten and insert."]
+    };
+    const message = reasons[result?.reason];
+    throw new Error(message ? i18n(message[0], message[1]) :
+      (result?.reason || i18n("insertCannotSafely", "Could not insert the short URL safely.")));
+  }
   return {ok:true};
 }
 

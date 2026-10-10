@@ -409,7 +409,7 @@ async function getBundledHelperCode() {
       });
       if (!response.ok) throw new Error("Bundled helper file unavailable.");
       const code = await response.text();
-      if (!code.startsWith("<?php\n/*\nPlugin Name: kURL Helper\n") || code.length > 100000) {
+      if (!code.replace(/\r\n/g, "\n").startsWith("<?php\n/*\nPlugin Name: kURL Helper\n") || code.length > 100000) {
         throw new Error("Invalid bundled Helper source.");
       }
       return code;

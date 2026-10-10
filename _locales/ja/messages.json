@@ -344,5 +344,17 @@
         "content": "$1"
       }
     }
+  },
+  "insertAmbiguousLink": {
+    "message": "この URL を使うリンクが複数あります。目的のリンク内をクリックしてからやり直してください。"
+  },
+  "insertClickedLinkMissing": {
+    "message": "クリックしたリンクがメール本文に見つかりませんでした。"
+  },
+  "insertPlainTextSelectUrl": {
+    "message": "プレーンテキストモードでは、短縮して挿入する前に URL を選択してください。"
+  },
+  "optionsOldTokenHint": {
+    "message": "この10文字のトークンは古い YOURLS のものかもしれません。管理 → ツールから現在の API 署名をコピーしてください。"
   }
 }

@@ -670,5 +670,17 @@
         "content": "$1"
       }
     }
+  },
+  "insertAmbiguousLink": {
+    "message": "Several links use this URL. Click inside the desired link and try again."
+  },
+  "insertClickedLinkMissing": {
+    "message": "The clicked link was not found in the message body."
+  },
+  "insertPlainTextSelectUrl": {
+    "message": "In plain-text mode, select the URL before using Shorten and insert."
+  },
+  "optionsOldTokenHint": {
+    "message": "This ten-character token may be from an older YOURLS version. Copy the current API signature from Admin → Tools."
   }
 }

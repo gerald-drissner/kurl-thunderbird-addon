@@ -120,7 +120,7 @@ test('bulk creates links sequentially and skips invalid lines',()=>{
 });
 test('package metadata and page references',()=>{
  const manifest=JSON.parse(source('manifest.json'));
- assert.equal(manifest.version,'2.0.12');
+ assert.equal(manifest.version,'2.0.13');
  assert.equal(manifest.browser_specific_settings.gecko.strict_min_version,'140.0');
  assert.deepEqual(manifest.optional_host_permissions,['https://*/*']);
  assert.ok(!manifest.permissions.includes('tabs'));
@@ -337,7 +337,7 @@ test('German localized insertion and shortcut terms match buttons',()=>{
 
 test('released QR generator, ASCII-canonical QR payload, four-module quiet zone',()=>{
  const lib=source('JS/qrcode.js'), pop=source('JS/popup.js');
- assert.equal(JSON.parse(source('package.json')).version,'2.0.12');
+ assert.equal(JSON.parse(source('package.json')).version,'2.0.13');
  assert.match(lib,/QR Code Generator for JavaScript/);
  assert.match(pop,/qrcode\(0, "H"\)/);
  assert.match(pop,/qr\.addData\(new URL\(value\)\.href, \"Byte\"\)/);
@@ -417,7 +417,7 @@ test('2.0.6 optional copy edits match visible controls and released vendoring me
  const vendor=source('VENDOR.md');
  assert.doesNotMatch(vendor,/external reviewer|independently compared/i);
  assert.match(vendor,/SHA-256 of bundled file/);
- assert.equal(JSON.parse(source('manifest.json')).version,'2.0.12');
+ assert.equal(JSON.parse(source('manifest.json')).version,'2.0.13');
 });
 
 test('2.0.7 opens settings dashboard as a full tab with helper onboarding',()=>{
@@ -688,4 +688,36 @@ test('Helper source pin contains 1.1.6 and no obsolete references',()=>{
   assert.match(source('REVIEWER_NOTES.md'),/Thunderbird does \*\*not\*\* execute PHP/);
   assert.doesNotMatch(source('README.md'),/confirmation in the Thunderbird message\/compose content/);
   assert.match(source('.github/workflows/ci.yml'),/actions\/checkout@v7/);
+});
+
+
+test('RTL toggles, counters and editor errors are localized without injecting UI into compose',()=>{
+ const css=source('styles.css'),js=source('JS/background.js');
+ assert.match(css,/\[dir="rtl"\] input:checked \+ \.slider:before \{ transform: translateX\(-20px\); \}/);
+ assert.match(css,/\.kurl-actions \.link-clicks \{ margin-block: 0; margin-inline: 0 6px; \}/);
+ assert.match(css,/\.dashboard-list-columns \.link-clicks \{margin-block:0;margin-inline:0 12px/);
+ assert.doesNotMatch(js,/browser\.tabs\.onRemoved/);
+ assert.match(js,/setBadgeText\?\.\(\{text: "", tabId\}\)\?\.catch\?\.\(\(\) => \{\}\)/);
+ for (const lang of ['ar','de','en','es','fr','he','ja','pt','ru','zh_CN']) {
+  const d=JSON.parse(source('_locales/'+lang+'/messages.json'));
+  for(const key of ['insertAmbiguousLink','insertClickedLinkMissing','insertPlainTextSelectUrl','optionsOldTokenHint'])
+   assert.ok(d[key]?.message?.length>8,lang+': '+key);
+ }
+ for(const code of ['AMBIGUOUS_CLICKED_LINK','CLICKED_LINK_NOT_FOUND','PLAIN_TEXT_SELECT_URL'])
+  assert.ok(js.includes(code));
+ assert.match(source('JS/dashboard.js'),/code\.replace\(\/\\r\\n\/g, "\\n"\)/);
+});
+
+test('insertion reason codes are translated in background after frame execution',async()=>{
+ const x=newContext();
+ const german=JSON.parse(source('_locales/de/messages.json'));
+ x.ctx.browser.i18n.getMessage=k=>german[k]?.message||'';
+ const codes=['AMBIGUOUS_CLICKED_LINK','CLICKED_LINK_NOT_FOUND','PLAIN_TEXT_SELECT_URL'];
+ for(const [index,code] of codes.entries()){
+  let call=0;
+  x.ctx.browser.scripting.executeScript=async ()=>++call===1
+   ?[{frameId:0,result:true}]:[{frameId:0,result:{ok:false,reason:code}}];
+  await assert.rejects(vm.runInContext('insertUrl(1,"https://sho.rt/new","https://example.com",true)',x.ctx),
+   error=>error.message===german[['insertAmbiguousLink','insertClickedLinkMissing','insertPlainTextSelectUrl'][index]].message);
+ }
 });
