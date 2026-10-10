@@ -28,6 +28,7 @@
 
     <div class="row">
       <button id="btnShorten" data-i18n-key="popupBtnShorten">Shorten</button>
+      <button id="btnShortenInsert" class="secondary" type="button" data-i18n-key="popupBtnShortenInsert">Shorten &amp; Insert</button>
     </div>
 
     <label for="shortUrl" data-i18n-key="popupShortUrlLabel">Short URL</label>
@@ -54,7 +55,7 @@
       <button id="btnDetails" class="secondary" data-i18n-key="popupBtnToggleJson">Toggle JSON</button>
     </div>
 
-    <div id="msg" class="info" data-i18n-key="popupStatusReady">Ready.</div>
+    <div id="msg" class="info" role="status" aria-live="polite" data-i18n-key="popupStatusReady">Ready.</div>
     <pre id="json" style="display:none;"></pre>
 
     <div id="popup-footer">

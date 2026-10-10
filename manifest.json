@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "kurl - YOURLS Shortener",
   "short_name": "kurl",
-  "version": "1.9",
+  "version": "2.0.0",
   "author": "Gerald Drißner",
   "default_locale": "en",
   "description": "__MSG_extensionDescription__",
@@ -66,5 +66,10 @@
   ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'; base-uri 'none';"
+  },
+  "action": {
+    "default_title": "kURL",
+    "default_popup": "popup.html",
+    "default_icon": "images/kurl-icon-48.png"
   }
 }

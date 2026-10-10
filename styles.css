@@ -1,5 +1,5 @@
 /* ==========================================================================
- * kurls - YOURLS SHORTENER Thunderbird Add-on — styles.css
+ * kURL - YOURLS SHORTENER Thunderbird Add-on — styles.css
  * ========================================================================== */
 
 /* --- COLOR PALETTE (Dark by default) --- */
@@ -92,7 +92,7 @@ label.row span {
   font-size: 14px;
   color: var(--text);
 }
-input[type="text"], input[type="url"], input[type="password"] {
+input[type="text"], input[type="url"], input[type="password"], input[type="search"] {
   width: 100%;
   padding: 8px 10px;
   border-radius: 8px;
@@ -392,3 +392,78 @@ font-size: 13px;
 color: var(--text);
 text-decoration: underline;
 }
+
+
+/* Dashboard panels and accessible layouts */
+.kurl-panel {
+  margin: 18px 0 24px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--field);
+}
+.kurl-details {
+  display: grid;
+  grid-template-columns: minmax(100px, auto) minmax(0, 1fr);
+  gap: 6px 12px;
+  margin: 0 0 18px;
+  font-size: 13px;
+}
+.kurl-details dt { color: var(--muted); }
+.kurl-details dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.kurl-link-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.kurl-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.kurl-actions .link-clicks { margin: 0 6px 0 0; }
+.kurl-actions button { padding: 6px 9px; font-size: 12px; }
+.link-urls { min-width: 0; flex: 1; }
+.link-short, .link-long { overflow-wrap: anywhere; }
+.link-long { white-space: normal; }
+.kurl-inline-label { margin-top: 0; }
+#filter-links { min-width: 210px; max-width: 290px; }
+#manual-result { margin-bottom: 6px; }
+@media (max-width: 640px) {
+  body.options-body { min-width: 0; padding: 8px; }
+  .dashboard-grid { gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat-card { padding: 10px; }
+  .stat-value { font-size: 22px; }
+  .link-item { align-items: flex-start; flex-direction: column; gap: 10px; }
+  .kurl-actions { justify-content: flex-start; }
+  .dashboard-header { flex-wrap: wrap; gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  button, .slider { transition: none; }
+}
+/* Import/bulk operation controls */
+textarea, select {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--field);
+  color: var(--text);
+  font: inherit;
+}
+textarea { display: block; width: 100%; padding: 10px; resize: vertical; }
+select { padding: 7px; }
+textarea:focus-visible, select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+progress { display: block; width: 100%; height: 14px; margin: 16px 0 8px; accent-color: var(--accent); }
+.kurl-help, .kurl-date { color: var(--muted); font-size: 12px; }
+.nav-tabs { overflow-x: auto; margin-bottom: 18px; }
+.nav-tab { flex-shrink: 0; }
+.link-item a { overflow-wrap: anywhere; }

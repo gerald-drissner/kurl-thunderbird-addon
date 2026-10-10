@@ -382,5 +382,137 @@
   "dashboardBtnViewMore": {
     "message": "View More",
     "description": "Text for the 'View More' button to load more links."
+  },
+  "dashOverview": {
+    "message": "YOURLS overview"
+  },
+  "dashCreate": {
+    "message": "Create a short URL"
+  },
+  "dashTop": {
+    "message": "Most clicked YOURLS links"
+  },
+  "dashFilter": {
+    "message": "Filter loaded links"
+  },
+  "dashSearch": {
+    "message": "Search URL or keyword"
+  },
+  "dashTarget": {
+    "message": "Target URL"
+  },
+  "dashKeyword": {
+    "message": "Custom keyword (optional)"
+  },
+  "dashTitleInput": {
+    "message": "Title (optional)"
+  },
+  "dashShorten": {
+    "message": "Shorten URL"
+  },
+  "dashCopyResult": {
+    "message": "Copy result"
+  },
+  "dashShortUrl": {
+    "message": "Short URL"
+  },
+  "dashServer": {
+    "message": "Server"
+  },
+  "dashYourlsVersion": {
+    "message": "YOURLS version"
+  },
+  "dashHelper": {
+    "message": "kURL Helper"
+  },
+  "popupBtnShortenInsert": {
+    "message": "Shorten & Insert"
+  },
+  "menuQuickCopy": {
+    "message": "kURL: Shorten and copy"
+  },
+  "menuQuickInsert": {
+    "message": "kURL: Shorten and insert"
+  },
+  "dashBulk": {
+    "message": "Bulk"
+  },
+  "dashLogs": {
+    "message": "Logs"
+  },
+  "dashLookup": {
+    "message": "Check YOURLS"
+  },
+  "dashRegenerate": {
+    "message": "Regenerate safely"
+  },
+  "dashManualHelp": {
+    "message": "Check for an existing link before creating one. Updating and regenerating links requires kURL Helper 1.1.5; changing a link could break links in WordPress posts or emails."
+  },
+  "dashActivity": {
+    "message": "Operations (last 7 days)"
+  },
+  "dashEdit": {
+    "message": "Edit"
+  },
+  "dashEditReady": {
+    "message": "Existing link selected. Generate / Update will edit it."
+  },
+  "dashFound": {
+    "message": "Existing short URL found."
+  },
+  "dashNotFound": {
+    "message": "No existing short URL found. You can generate one."
+  },
+  "bulkHeading": {
+    "message": "Bulk URL shortener"
+  },
+  "bulkExplanation": {
+    "message": "Paste one full HTTP(S) URL per line. Existing YOURLS links will be reused. No WordPress content is changed. Maximum 250 unique URLs per run."
+  },
+  "bulkInput": {
+    "message": "URLs to shorten"
+  },
+  "bulkSize": {
+    "message": "Batch size"
+  },
+  "bulkPreview": {
+    "message": "Preview"
+  },
+  "bulkStart": {
+    "message": "Start"
+  },
+  "bulkStop": {
+    "message": "Stop after current request"
+  },
+  "bulkCopy": {
+    "message": "Copy results"
+  },
+  "bulkExisting": {
+    "message": "Existing"
+  },
+  "bulkCreated": {
+    "message": "Created"
+  },
+  "logHeading": {
+    "message": "Recent kURL activity"
+  },
+  "logExplanation": {
+    "message": "Local log of the last seven days (maximum 100 entries). No API tokens, email contents or URLs are recorded."
+  },
+  "logClear": {
+    "message": "Clear log"
+  },
+  "logConfirmClear": {
+    "message": "Clear the local kURL activity log?"
+  },
+  "logEntries": {
+    "message": "entries in the last 7 days"
+  },
+  "dashNew": {
+    "message": "New link"
+  },
+  "dashNewReady": {
+    "message": "Ready for a new short URL."
   }
 }
