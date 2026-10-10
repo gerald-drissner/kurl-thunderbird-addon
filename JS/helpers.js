@@ -73,12 +73,13 @@ window.Helpers = (() => {
 
   async function getSettings() {
     const data = await browser.storage.local.get({
-      yourlsUrl: "", apiSignature: "", autoCopy: true
+      yourlsUrl: "", apiSignature: "", autoCopy: true, showCopyNotifications: true
     });
     return {
       yourlsUrl: sanitizeBaseUrl(data.yourlsUrl),
       apiSignature: String(data.apiSignature || ""),
-      autoCopy: data.autoCopy !== false
+      autoCopy: data.autoCopy !== false,
+      showCopyNotifications: data.showCopyNotifications !== false
     };
   }
 

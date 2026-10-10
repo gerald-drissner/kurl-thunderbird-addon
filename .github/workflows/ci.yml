@@ -5,7 +5,11 @@ on:
   pull_request:
 jobs:
   test:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     permissions:
       contents: read
     steps:
@@ -13,15 +17,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - name: JavaScript syntax
         run: npm run check
       - name: Regression tests
         run: npm test
       - name: YOURLS Helper PHP syntax
+        if: runner.os == 'Linux'
         run: php -l helper/kurl-helper/plugin.php
       - name: Build and validate test XPI
         run: python3 scripts/build-xpi.py
       - uses: actions/upload-artifact@v4
         with:
-          name: kurl-thunderbird-test-xpi
+          name: kurl-thunderbird-${{ matrix.os }}-test-xpi
           path: kurl-thunderbird-*-test.xpi

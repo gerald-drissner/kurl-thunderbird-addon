@@ -103,8 +103,13 @@ async function signalToolbar(kind) {
   }, 3500);
 }
 async function contextFeedback(tab, message, kind = "success") {
-  // Received-message pages are often inaccessible to scripting. Always request a
-  // native notification and a toolbar signal; use an inline toast when supported.
+  // Suppress only optional success messages. Failures must remain visible.
+  if (kind === "success") {
+    const settings = await H.getSettings();
+    if (!settings.showCopyNotifications) return;
+  }
+  // OS notifications vary in presentation/permissions. The toolbar badge and
+  // an inline toast are best-effort alternatives when available.
   await Promise.allSettled([
     notify(message), contextToast(tab?.id, message, kind), signalToolbar(kind)
   ]);

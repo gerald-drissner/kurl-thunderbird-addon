@@ -614,5 +614,14 @@
   },
   "helperDownloadStarted": {
     "message": "Download requested. Save the file as plugin.php."
+  },
+  "optionsCopyFeedbackLabel": {
+    "message": "Show success notifications"
+  },
+  "optionsCopyFeedbackHint": {
+    "message": "Display brief copy confirmations in the dashboard and feedback after right-click copying or inserting. Turning this off hides success toasts, desktop notifications and badges; errors remain visible. Saved immediately."
+  },
+  "dashCopyToast": {
+    "message": "Copied to clipboard"
   }
 }

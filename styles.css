@@ -537,3 +537,27 @@ body.options-body:has(.dashboard-shell) { min-width: 0; padding: 24px clamp(14px
  border:1px solid var(--border);border-radius:8px;white-space:pre;tab-size:4;direction:ltr;text-align:start;}
 .helper-source code {font:inherit;white-space:inherit;color:var(--text);}
 
+
+/* Copy confirmation: a small transient status, not a disruptive system dialog. */
+.dashboard-utilities { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+.copy-notification-setting {
+  display: inline-flex; align-items: center; gap: 7px;
+  margin: 0; cursor: pointer; font-size: 13px; color: var(--muted);
+}
+.copy-notification-setting input { flex: 0 0 auto; }
+.copy-toast {
+  position: fixed; inset-inline-end: 24px; inset-block-end: 24px;
+  z-index: 10000; max-width: min(460px, calc(100vw - 32px));
+  padding: 12px 16px; border-radius: 9px; border: 1px solid var(--border);
+  background: var(--panel); color: var(--text); box-shadow: var(--shadow);
+  overflow-wrap: anywhere; font-size: 13px; line-height: 1.45;
+  border-inline-start: 4px solid var(--ok);
+}
+.copy-toast[hidden] { display: none !important; }
+@media (prefers-reduced-motion: no-preference) {
+  .copy-toast:not([hidden]) { animation: kurl-toast-in .15s ease-out; }
+  @keyframes kurl-toast-in { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+}
+@media (max-width: 660px) {
+  .dashboard-utilities { align-items: flex-start; }
+}

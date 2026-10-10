@@ -3,7 +3,7 @@
 const H = window.Helpers;
 const $ = id => document.getElementById(id);
 const t = (key, fallback) => browser.i18n.getMessage(key) || fallback;
-let saved = { yourlsUrl: "", apiSignature: "", autoCopy: true };
+let saved = { yourlsUrl: "", apiSignature: "", autoCopy: true, showCopyNotifications: true };
 
 function status(message, good = false) {
   $("status").textContent = message;
@@ -39,7 +39,8 @@ async function test() {
     });
     if (!result?.ok) throw new Error(result?.reason || t("optionsStatusConnFailed", "Connection failed."));
     // Commit only AFTER the API actually accepted the credentials.
-    const finalSettings = { ...config, autoCopy: $("autoCopy").checked };
+    const finalSettings = { ...config, autoCopy: $("autoCopy").checked,
+      showCopyNotifications: $("showCopyNotifications").checked };
     await H.setSettings(finalSettings);
     saved = finalSettings;
     status(t("optionsStatusVerifiedSaved", "Connection verified and settings saved. " ) +
@@ -58,8 +59,10 @@ async function save() {
   try { config = connection(); } catch (error) { return status(error.message); }
   try {
     await hostPermission(config.yourlsUrl);
-    await H.setSettings({ ...config, autoCopy: $("autoCopy").checked });
-    saved = { ...config, autoCopy: $("autoCopy").checked };
+    await H.setSettings({ ...config, autoCopy: $("autoCopy").checked,
+      showCopyNotifications: $("showCopyNotifications").checked });
+    saved = { ...config, autoCopy: $("autoCopy").checked,
+      showCopyNotifications: $("showCopyNotifications").checked };
     status(t("optionsStatusSavedUnchecked", "Settings saved without connection verification. You can test the connection later."));
   } catch (error) {
     status(String(error.message || error));
@@ -104,10 +107,29 @@ async function init() {
     ? "https://" + old.slice("http://".length) : saved.yourlsUrl;
   $("apiSignature").value = saved.apiSignature;
   $("autoCopy").checked = saved.autoCopy;
+  $("showCopyNotifications").checked = saved.showCopyNotifications;
   status(old.startsWith("http://") ?
     "Old HTTP connection detected. HTTPS has been filled in; test the connection and save the updated settings." :
     t("optionsStatusLoaded", "Settings loaded."));
 }
+$("showCopyNotifications").addEventListener("change", async () => {
+  const box = $("showCopyNotifications");
+  const choice = box.checked;
+  try {
+    // This UI preference is independent of YOURLS connection or API credentials.
+    await H.setSettings({showCopyNotifications: choice});
+    saved.showCopyNotifications = choice;
+  } catch (error) {
+    box.checked = !choice;
+    status(String(error.message || error));
+  }
+});
+browser.storage.onChanged?.addListener((changes, area) => {
+  if (area === "local" && changes.showCopyNotifications) {
+    $("showCopyNotifications").checked = changes.showCopyNotifications.newValue !== false;
+    saved.showCopyNotifications = $("showCopyNotifications").checked;
+  }
+});
 $("test").addEventListener("click", test);
 $("save").addEventListener("click", save);
 $("removePerm").addEventListener("click", revoke);

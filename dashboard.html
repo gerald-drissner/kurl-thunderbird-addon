@@ -16,9 +16,16 @@
     </nav>
     <div class="dashboard-header">
       <h1 data-i18n-key="dashboardTitle">Dashboard</h1>
-      <button id="refresh-btn" class="secondary" type="button" data-i18n-key="dashboardBtnRefresh">Refresh</button>
+      <div class="dashboard-utilities">
+        <label class="copy-notification-setting" for="dash-copy-notifications">
+          <input id="dash-copy-notifications" type="checkbox" checked>
+          <span data-i18n-key="optionsCopyFeedbackLabel">Show success notifications</span>
+        </label>
+        <button id="refresh-btn" class="secondary" type="button" data-i18n-key="dashboardBtnRefresh">Refresh</button>
+      </div>
     </div>
     <p id="dashboard-feedback" class="info" role="status" aria-live="polite">Loading…</p>
+    <div id="copy-toast" class="copy-toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
 
     <div class="dashboard-workspace">
     <div class="dashboard-overview-column">

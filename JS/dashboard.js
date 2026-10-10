@@ -11,6 +11,25 @@ let viewGeneration = 0;
 let helperReady = false;
 let helperSourcePromise = null;
 let helperInitialState = true;
+let showCopyNotifications = true;
+let copyToastTimer = null;
+function showCopiedToast(shortUrl) {
+  if (!showCopyNotifications) return;
+  const toast = $("copy-toast");
+  clearTimeout(copyToastTimer);
+  // Trusted UI string only. Do not render the URL or untrusted server text as HTML.
+  toast.textContent = t("dashCopyToast", "Copied to clipboard") + ": " + shortUrl;
+  toast.hidden = false;
+  copyToastTimer = setTimeout(() => {
+    toast.hidden = true;
+    toast.textContent = "";
+  }, 2800);
+}
+function hideCopiedToast() {
+  clearTimeout(copyToastTimer);
+  $("copy-toast").hidden = true;
+  $("copy-toast").textContent = "";
+}
 
 function message(el, value, error = false) {
   el.textContent = String(value);
@@ -106,7 +125,7 @@ function makeLinkRow(link, rank = null) {
     actions.appendChild(makeButton(t("popupBtnCopy", "Copy"), async () => {
       try {
         await navigator.clipboard.writeText(short);
-        message($("dashboard-feedback"), "Copied: " + short);
+        showCopiedToast(short);
       } catch (error) {
         message($("dashboard-feedback"), "Cannot copy to clipboard: " + error.message, true);
       }
@@ -421,6 +440,29 @@ $("helper-code-details").addEventListener("toggle", async event => {
   }
 });
 i18n();
+(async () => {
+  const settings = await H.getSettings();
+  showCopyNotifications = settings.showCopyNotifications;
+  $("dash-copy-notifications").checked = showCopyNotifications;
+})().catch(error => console.warn("kURL: Could not read copy notification preference", error));
+$("dash-copy-notifications").addEventListener("change", async () => {
+  const box = $("dash-copy-notifications");
+  const choice = box.checked;
+  try {
+    await H.setSettings({showCopyNotifications: choice});
+    showCopyNotifications = choice;
+    if (!choice) hideCopiedToast();
+  } catch (error) {
+    box.checked = !choice;
+    message($("dashboard-feedback"), error.message || String(error), true);
+  }
+});
+browser.storage.onChanged?.addListener((changes, area) => {
+  if (area !== "local" || !changes.showCopyNotifications) return;
+  showCopyNotifications = changes.showCopyNotifications.newValue !== false;
+  $("dash-copy-notifications").checked = showCopyNotifications;
+  if (!showCopyNotifications) hideCopiedToast();
+});
 $("refresh-btn").addEventListener("click", () => refresh(true));
 $("manual-form").addEventListener("submit", createNew);
 $("manual-update").addEventListener("click",updateExisting);
@@ -437,8 +479,9 @@ $("manual-reset").addEventListener("click", () => {
 });
 $("manual-copy").addEventListener("click", async () => {
   try {
-    await navigator.clipboard.writeText($("manual-result").value);
-    message($("manual-status"), "Copied to clipboard.");
+    const short = $("manual-result").value;
+    await navigator.clipboard.writeText(short);
+    showCopiedToast(short);
   } catch (error) {
     message($("manual-status"), error.message, true);
   }

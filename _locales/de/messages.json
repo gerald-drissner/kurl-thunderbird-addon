@@ -614,5 +614,14 @@
   },
   "helperDownloadStarted": {
     "message": "Download angefordert. Speichern Sie die Datei als plugin.php."
+  },
+  "optionsCopyFeedbackLabel": {
+    "message": "Erfolgsbestätigungen anzeigen"
+  },
+  "optionsCopyFeedbackHint": {
+    "message": "Zeigt kurze Hinweise nach dem Kopieren im Dashboard sowie nach dem Kürzen, Kopieren oder Einfügen per Kontextmenü. Bei deaktivierter Option werden Erfolgshinweise, Desktop-Benachrichtigungen und Symbolmarkierungen ausgeblendet; Fehlermeldungen bleiben sichtbar. Wird sofort gespeichert."
+  },
+  "dashCopyToast": {
+    "message": "In die Zwischenablage kopiert"
   }
 }

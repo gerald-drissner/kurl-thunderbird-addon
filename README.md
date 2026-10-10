@@ -1,10 +1,10 @@
-# kURL for Thunderbird 2.0.9 (test build)
+# kURL for Thunderbird 2.0.10 (test build)
 
 This MailExtension shortens and manages links on a user-controlled HTTPS YOURLS server, with an integrated Thunderbird compose workflow. The optional YOURLS Helper is bundled here, separately from other kURL projects.
 
 ## Installation
 
-In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.6-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
+In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.10-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
 
 Configure your HTTPS YOURLS server and signature token under kURL settings. Assign keyboard shortcuts via **Manage Extension Shortcuts**; this build installs without default key bindings.
 
@@ -74,3 +74,11 @@ The YOURLS server-side kURL Helper must be installed separately. A malformed plu
 - Source link points to an immutable commit in the Thunderbird repository; the WordPress plugin repository is no longer needed for Thunderbird setup.
 - Updated EN/DE labels and warnings use neutral client names; unchanged YOURLS API.
 - Verify installation in YOURLS by refreshing the dashboard. Downloading a PHP file does not install it on the server automatically.
+
+## 2.0.10: Optional copy confirmations and platform review
+
+- Dashboard row copy and manual short-URL copy show a brief, unobtrusive toast after the clipboard operation succeeds.
+- **Show success notifications** is available in Dashboard and Settings, **on by default**; changing the switch saves immediately to `browser.storage.local`, without sending or changing the YOURLS token. Both pages remain synchronized.
+- When turned off, successful right-click copy/insert suppresses desktop notifications, content toasts and toolbar badges. **Failures remain visible.** Clipboard operations are unaffected.
+- The extension uses Thunderbird WebExtension APIs and has no Windows/macOS/Linux-specific binary dependencies. CI runs Node.js regression tests, JavaScript syntax checks, and XPI packing on Linux, Windows, and macOS hosted runners. This is **not a substitute for running Thunderbird itself on all three operating systems**.
+- The compatibility checklist, including system notification and clipboard permissions, is in `PLATFORM_TESTING.md`.

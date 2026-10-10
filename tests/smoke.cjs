@@ -7,7 +7,7 @@ const {test}=require('node:test');
 const root=path.resolve(__dirname,'..');
 function source(p){return fs.readFileSync(path.join(root,p),'utf8')}
 function newContext(opts={}){
- const storage={yourlsUrl:'https://sho.rt/admin',apiSignature:'private-abc',autoCopy:true};
+ const storage={yourlsUrl:'https://sho.rt/admin',apiSignature:'private-abc',autoCopy:true,showCopyNotifications:opts.showCopyNotifications!==false};
  const calls=[], menus=[];
  let messageHandler,onInstalledHandler,contextClickHandler;
  const sentNotifications=[], clipboardWrites=[];
@@ -108,7 +108,7 @@ test('bulk creates links sequentially and skips invalid lines',()=>{
 });
 test('package metadata and page references',()=>{
  const manifest=JSON.parse(source('manifest.json'));
- assert.equal(manifest.version,'2.0.9');
+ assert.equal(manifest.version,'2.0.10');
  assert.equal(manifest.browser_specific_settings.gecko.strict_min_version,'140.0');
  assert.deepEqual(manifest.optional_host_permissions,['https://*/*']);
  assert.ok(!manifest.permissions.includes('tabs'));
@@ -325,7 +325,7 @@ test('German localized insertion and shortcut terms match buttons',()=>{
 
 test('released QR generator, ASCII-canonical QR payload, four-module quiet zone',()=>{
  const lib=source('JS/qrcode.js'), pop=source('JS/popup.js');
- assert.equal(JSON.parse(source('package.json')).version,'2.0.9');
+ assert.equal(JSON.parse(source('package.json')).version,'2.0.10');
  assert.match(lib,/QR Code Generator for JavaScript/);
  assert.match(pop,/qrcode\(0, "H"\)/);
  assert.match(pop,/qr\.addData\(new URL\(value\)\.href, \"Byte\"\)/);
@@ -405,7 +405,7 @@ test('2.0.6 optional copy edits match visible controls and released vendoring me
  const vendor=source('VENDOR.md');
  assert.doesNotMatch(vendor,/external reviewer|independently compared/i);
  assert.match(vendor,/SHA-256 of bundled file/);
- assert.equal(JSON.parse(source('manifest.json')).version,'2.0.9');
+ assert.equal(JSON.parse(source('manifest.json')).version,'2.0.10');
 });
 
 test('2.0.7 opens settings dashboard as a full tab with helper onboarding',()=>{
@@ -492,4 +492,53 @@ test('2.0.9 bundles the independent YOURLS Helper with valid plugin metadata',()
   for(const key of ['helperDownload','helperCopy','helperShowCode','helperSource','helperStep2'])assert.ok(strings[key]?.message);
   assert.doesNotMatch(strings.helperSource.message,/WordPress/i);
  }
+});
+
+// 2.0.10 opt-out confirmation preference (copy behavior always unchanged).
+test('notifications enabled by default and disabled settings are honored in background',async()=>{
+ const x=newContext();
+ assert.equal(x.storage.showCopyNotifications,true);
+ await x.click({menuItemId:'kurl-quick-copy',linkUrl:'https://example.org/'},{id:2});
+ assert.deepEqual(x.clipboardWrites,['https://sho.rt/AbC']);
+ assert.equal(x.sentNotifications.length,1);
+ const y=newContext({showCopyNotifications:false});
+ await y.click({menuItemId:'kurl-quick-copy',linkUrl:'https://example.org/'},{id:2});
+ assert.deepEqual(y.clipboardWrites,['https://sho.rt/AbC']);
+ assert.equal(y.sentNotifications.length,0);
+ await y.send({type:'CHECK_CONNECTION'});
+ assert.equal(y.storage.showCopyNotifications,false);
+});
+test('error feedback remains visible when success confirmations disabled',async()=>{
+ const x=newContext({showCopyNotifications:false});
+ await x.click({menuItemId:'kurl-quick-copy',selectionText:'not a URL'},{id:1});
+ assert.equal(x.sentNotifications.length,1);
+ assert.match(x.sentNotifications[0].message,/Select a complete HTTP/);
+});
+test('global feedback setting is shared by both pages without saving the API token',()=>{
+ const options=source('JS/options.js'),dashboard=source('JS/dashboard.js');
+ const helpers=source('JS/helpers.js');
+ assert.match(helpers,/showCopyNotifications: data\.showCopyNotifications !== false/);
+ assert.match(helpers,/showCopyNotifications: true/);
+ assert.match(options,/setSettings\(\{showCopyNotifications: choice\}\)/);
+ assert.match(dashboard,/setSettings\(\{showCopyNotifications: choice\}\)/);
+ assert.match(dashboard,/browser\.storage\.onChanged/);
+ assert.match(options,/browser\.storage\.onChanged/);
+ const dashboardHtml=source('dashboard.html'),optionsHtml=source('options.html');
+ assert.match(dashboardHtml,/id="dash-copy-notifications"/);
+ assert.match(dashboardHtml,/id="copy-toast".*aria-live="polite"/);
+ assert.match(optionsHtml,/id="showCopyNotifications"/);
+ for(const lang of ['en','de','ar']){
+  const locale=JSON.parse(source('_locales/'+lang+'/messages.json'));
+  for(const key of ['optionsCopyFeedbackLabel','optionsCopyFeedbackHint','dashCopyToast'])
+   assert.ok(locale[key]?.message,key+' missing for '+lang);
+ }
+});
+test('portable WebExtension APIs instead of OS-specific commands',()=>{
+ const manifest=JSON.parse(source('manifest.json'));
+ assert.equal(manifest.manifest_version,3);
+ const js=['background','dashboard','options','popup','bulk','logs','helpers'].map(x=>source('JS/'+x+'.js')).join('\n');
+ assert.doesNotMatch(js,/process\.platform|child_process|os\.platform|navigator\.platform|xdg-open|osascript|powershell|execFileSync/);
+ assert.deepEqual(manifest.optional_host_permissions,['https://*/*']);
+ assert.ok(manifest.permissions.includes('notifications'));
+ assert.ok(manifest.permissions.includes('clipboardWrite'));
 });
