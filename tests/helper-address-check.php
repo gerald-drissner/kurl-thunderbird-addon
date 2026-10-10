@@ -12,6 +12,8 @@ $cases = [
  ['https://sho.rt/abc','http://sho.rt/abc',false],
  ['http://sho.rt/abc','https://evil.org/abc',false],
  ['http://sho.rt/abc','https://sho.rt/other',false],
+ ['http://sho.rt:8080/abc','https://sho.rt:8080/abc',true],
+ ['https://sho.rt:8443/abc','http://sho.rt:8443/abc',false],
  ['http://sho.rt:8080/abc','https://sho.rt/abc',false],
  ['http://sho.rt/abc','https://sho.rt:8443/abc',false],
  ['http://sho.rt/abc','https://sho.rt/abc?query=1',false],
