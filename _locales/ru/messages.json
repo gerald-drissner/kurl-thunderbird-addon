@@ -298,5 +298,8 @@
   "dashboardBtnViewMore": {
     "message": "Показать ещё",
     "description": "Text for the 'View More' button to load more links."
+  },
+  "apiAuthRejected": {
+    "message": "YOURLS отклонил подпись API. После обновления токен мог измениться. Войдите в YOURLS, откройте Администрирование → Инструменты, скопируйте текущую подпись API, вставьте её в настройки kURL и нажмите «Проверить подключение и сохранить»."
   }
 }

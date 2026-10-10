@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "__MSG_extensionName__",
   "short_name": "kURL",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "author": "Gerald Drißner",
   "default_locale": "en",
   "description": "__MSG_extensionDescription__",
@@ -13,10 +13,10 @@
     }
   },
   "icons": {
-    "48": "images/kurl-icon-48.png",
-    "96": "images/kurl-icon-96.png",
     "16": "images/kurl-icon-16.png",
-    "32": "images/kurl-icon-32.png"
+    "32": "images/kurl-icon-32.png",
+    "48": "images/kurl-icon-48.png",
+    "96": "images/kurl-icon-96.png"
   },
   "background": {
     "scripts": [

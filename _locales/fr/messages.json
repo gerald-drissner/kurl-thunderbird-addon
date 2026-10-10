@@ -298,5 +298,8 @@
   "dashboardBtnViewMore": {
     "message": "Voir plus",
     "description": "Text for the 'View More' button to load more links."
+  },
+  "apiAuthRejected": {
+    "message": "YOURLS a refusé la signature de l’API. Le jeton a peut-être changé après la mise à jour. Connectez-vous à YOURLS, ouvrez Administration → Outils, copiez la signature actuelle, collez-la dans les paramètres de kURL, puis cliquez sur « Tester la connexion et enregistrer »."
   }
 }

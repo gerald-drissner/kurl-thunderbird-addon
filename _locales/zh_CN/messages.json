@@ -298,5 +298,8 @@
   "dashboardBtnViewMore": {
     "message": "查看更多",
     "description": "Text for the 'View More' button to load more links."
+  },
+  "apiAuthRejected": {
+    "message": "YOURLS 拒绝了 API 签名。更新后签名令牌可能已更改。请登录 YOURLS，打开“管理 → 工具”，复制当前 API 签名，将其粘贴到 kURL 设置中，然后选择“测试连接并保存”。"
   }
 }

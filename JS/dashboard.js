@@ -269,6 +269,10 @@ async function refresh(forceHelper = false) {
     $("server-status").textContent = t("dashboardStatusError", "Error");
     $("server-status").classList.remove("status-online");
     message($("dashboard-feedback"), error.message, true);
+    // A single actionable error is clearer than repeating the same API auth
+    // failure under "Top links" and "Recent links".
+    $("refresh-btn").disabled = false;
+    return;
   }
   const topTask = (async () => {
     try {

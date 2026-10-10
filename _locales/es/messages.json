@@ -294,5 +294,8 @@
   "dashboardBtnViewMore": {
     "message": "Ver más",
     "description": "Text for the 'View More' button to load more links."
+  },
+  "apiAuthRejected": {
+    "message": "YOURLS ha rechazado la firma de la API. Es posible que el token haya cambiado después de actualizar. Inicia sesión en YOURLS, abre Administración → Herramientas, copia la firma actual, pégala en los ajustes de kURL y pulsa «Probar conexión y guardar»."
   }
 }

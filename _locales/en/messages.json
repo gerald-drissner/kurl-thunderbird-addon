@@ -623,5 +623,8 @@
   },
   "dashCopyToast": {
     "message": "Copied to clipboard"
+  },
+  "apiAuthRejected": {
+    "message": "YOURLS rejected the API signature. After an update, the token may have changed. Sign in to YOURLS, open Admin → Tools, copy the current API signature, paste it into kURL Settings, then select Test connection & save."
   }
 }

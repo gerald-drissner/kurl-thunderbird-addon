@@ -5,9 +5,9 @@ const $ = id => document.getElementById(id);
 const t = (key, fallback) => browser.i18n.getMessage(key) || fallback;
 let saved = { yourlsUrl: "", apiSignature: "", autoCopy: true, showCopyNotifications: true };
 
-function status(message, good = false) {
+function status(message, good = false, failed = false) {
   $("status").textContent = message;
-  $("status").className = good ? "info ok" : "info";
+  $("status").className = good ? "info ok" : failed ? "info error-message" : "info";
 }
 function connection() {
   const base = H.sanitizeBaseUrl($("yourlsUrl").value);
@@ -26,7 +26,7 @@ async function hostPermission(base) {
 let testing = false;
 async function test() {
   let config;
-  try { config = connection(); } catch (error) { return status(error.message); }
+  try { config = connection(); } catch (error) { return status(error.message, false, true); }
   if (testing) return;
   testing = true;
   $("test").disabled = true;
@@ -48,7 +48,7 @@ async function test() {
         ("Total links: " + result.total)), true);
   } catch (error) {
     status(t("optionsStatusNotSaved", "Connection failed. Settings were not saved. ") +
-      String(error.message || error));
+      String(error.message || error), false, true);
   } finally {
     testing = false;
     $("test").disabled = false;

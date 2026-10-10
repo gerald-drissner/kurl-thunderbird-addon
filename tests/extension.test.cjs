@@ -7,7 +7,7 @@ const path = require("node:path");
 const root = path.resolve(__dirname, "..");
 const read = file => fs.readFileSync(path.join(root, file), "utf8");
 
-function extension({ helperVersion = "1.1.5", duplicate = false } = {}) {
+function extension({ helperVersion = "1.1.5", duplicate = false, authenticationFailure = false } = {}) {
   const calls = [];
   const saved = { yourlsUrl: "https://sho.rt/admin/", apiSignature: "test-token", autoCopy: true };
   let messageListener;
@@ -56,7 +56,10 @@ function extension({ helperVersion = "1.1.5", duplicate = false } = {}) {
     if (action === "url-stats") result = {
       ...result, link: { shorturl: "https://sho.rt/AbC", url: "https://example.org/", clicks: 3 }
     };
-    const status = action === "shorturl" && duplicate ? 400 : 200;
+    if (authenticationFailure) {
+      result = { status: "fail", statusCode: 403, message: "Please log in" };
+    }
+    const status = authenticationFailure ? 403 : (action === "shorturl" && duplicate ? 400 : 200);
     return {
       status, ok: status < 300, headers: { get: () => null },
       body: null, text: async () => JSON.stringify(result)
@@ -188,4 +191,29 @@ test("every JS-referenced DOM element exists in the matching page", () => {
     const used = [...script.matchAll(/\$\("([^"]+)"\)/g)].map(m => m[1]);
     for (const id of used) assert.ok(defined.has(id), js + " references missing #" + id);
   }
+});
+
+test("YOURLS login errors explain the token update, without leaking the server phrase", async () => {
+  const a = extension({ authenticationFailure: true });
+  const check = await a.invoke({ type: "CHECK_CONNECTION", settings: {
+    yourlsUrl: "https://sho.rt", apiSignature: "old-token"
+  } });
+  assert.equal(check.ok, false);
+  assert.match(check.reason, /signature/i);
+  assert.match(check.reason, /Tools/);
+  assert.doesNotMatch(check.reason, /Please log in/i);
+  const info = await a.invoke({ type: "GET_INFO" });
+  assert.equal(info.ok, false);
+  assert.match(info.reason, /Test connection & save/);
+});
+
+test("all ten locale bundles contain specific instructions for rejected API signatures", () => {
+  for (const dir of ["ar", "de", "en", "es", "fr", "he", "ja", "pt", "ru", "zh_CN"]) {
+    const bundle = JSON.parse(read("_locales/" + dir + "/messages.json"));
+    assert.ok(bundle.apiAuthRejected.message.includes("YOURLS"), dir);
+    assert.ok(bundle.apiAuthRejected.message.includes("kURL"), dir);
+    assert.ok(bundle.apiAuthRejected.message.length > 80, dir);
+  }
+  assert.doesNotMatch(read("JS/background.js"), /function contextToast/);
+  assert.match(read("JS/dashboard.js"), /single actionable error/);
 });

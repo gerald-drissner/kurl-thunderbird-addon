@@ -294,5 +294,8 @@
   "dashboardBtnViewMore": {
     "message": "さらに表示",
     "description": "Text for the 'View More' button to load more links."
+  },
+  "apiAuthRejected": {
+    "message": "YOURLS が API 署名を拒否しました。更新によって署名トークンが変わった可能性があります。YOURLS にログインし、管理 → ツールで現在の API 署名をコピーして kURL の設定に貼り付け、「接続をテストして保存」を選択してください。"
   }
 }

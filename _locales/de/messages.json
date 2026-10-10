@@ -623,5 +623,8 @@
   },
   "dashCopyToast": {
     "message": "In die Zwischenablage kopiert"
+  },
+  "apiAuthRejected": {
+    "message": "YOURLS hat die API-Signatur abgelehnt. Nach einem Update kann sich das Token geändert haben. Melden Sie sich bei YOURLS an, öffnen Sie Admin → Tools und kopieren Sie die aktuelle API-Signatur. Tragen Sie sie in den kURL-Einstellungen ein und klicken Sie auf „Verbindung testen und speichern“."
   }
 }

@@ -16,6 +16,14 @@ function helperVersionAtLeast(found, minimum = HELPER_VERSION) {
 }
 function apiError(json, code) {
   const value = typeof json?.message === "string" ? json.message.trim() : "";
+  // YOURLS 1.10.5+ may invalidate saved signature tokens after an upgrade.
+  // Treat this as an API authentication problem, NOT a browser-login prompt.
+  const authenticationFailure = /^(?:please log in[.!]?|authentication required[.!]?|invalid (?:api )?signature[.!]?)$/i.test(value) ||
+    (!value && Number(code) === 401);
+  if (authenticationFailure) {
+    return i18n("apiAuthRejected",
+      "YOURLS rejected the API signature. After an update, the token may have changed. Sign in to YOURLS, open Admin → Tools, copy the current API signature, paste it into kURL Settings, then select Test connection & save.");
+  }
   return value ? value.slice(0, 300) : `YOURLS request failed (HTTP ${code}).`;
 }
 function extractFirstUrl(raw) {
@@ -54,51 +62,26 @@ async function getHelperInfo(force = false) {
 }
 
 
-// A brief on-page confirmation complements OS notifications, which users may disable.
-async function contextToast(tabId, message, kind = "success") {
-  if (!Number.isInteger(tabId) || tabId < 0) return false;
-  try {
-    const result = await browser.scripting.executeScript({
-      target: {tabId},
-      func: (text, state) => {
-        const old = document.getElementById("kurl-context-toast");
-        old?.remove();
-        const node = document.createElement("div");
-        node.id = "kurl-context-toast";
-        node.setAttribute("role", "status");
-        node.textContent = text;
-        Object.assign(node.style, {
-          position: "fixed", zIndex: "2147483647", insetInlineEnd: "20px",
-          insetBlockEnd: "24px", maxWidth: "min(420px, 85vw)",
-          padding: "11px 16px", borderRadius: "9px", boxShadow: "0 5px 25px #0007",
-          color: "#fff", backgroundColor: state === "error" ? "#9f2424" : "#176b50",
-          font: "14px system-ui, sans-serif", overflowWrap: "anywhere",
-          pointerEvents: "none"
-        });
-        document.body.appendChild(node);
-        setTimeout(() => {if (node.isConnected) node.remove();}, 3200);
-        return true;
-      },
-      args: [String(message), kind]
-    });
-    return result?.some(frame => frame?.result === true) || false;
-  } catch {return false;}
-}
+// Never inject notifications into a compose editor: Thunderbird could send them
+// as part of the message. Use operating-system notifications and tab-scoped badges.
 let badgeGeneration = 0;
-async function signalToolbar(kind) {
+async function signalToolbar(kind, tabId) {
+  // A badge without tabId appears on every Thunderbird window.
+  if (!Number.isInteger(tabId) || tabId < 0) return;
   const generation = ++badgeGeneration;
   const value = kind === "error" ? "!" : "✓";
   const color = kind === "error" ? "#b91c1c" : "#15803d";
-  for (const api of [browser.action, browser.messageDisplayAction, browser.composeAction]) {
+  const actions = [browser.action, browser.messageDisplayAction, browser.composeAction];
+  for (const api of actions) {
     try {
-      if (api?.setBadgeText) await api.setBadgeText({text: value});
-      if (api?.setBadgeBackgroundColor) await api.setBadgeBackgroundColor({color});
-    } catch { /* A toolbar API may not be available in the current Thunderbird view. */ }
+      if (api?.setBadgeText) await api.setBadgeText({text: value, tabId});
+      if (api?.setBadgeBackgroundColor) await api.setBadgeBackgroundColor({color, tabId});
+    } catch { /* Unsupported button in this Thunderbird context. */ }
   }
   setTimeout(() => {
     if (generation !== badgeGeneration) return;
-    for (const api of [browser.action, browser.messageDisplayAction, browser.composeAction]) {
-      try { void api?.setBadgeText?.({text:""}); } catch {}
+    for (const api of actions) {
+      try { void api?.setBadgeText?.({text: "", tabId}); } catch {}
     }
   }, 3500);
 }
@@ -108,11 +91,8 @@ async function contextFeedback(tab, message, kind = "success") {
     const settings = await H.getSettings();
     if (!settings.showCopyNotifications) return;
   }
-  // OS notifications vary in presentation/permissions. The toolbar badge and
-  // an inline toast are best-effort alternatives when available.
-  await Promise.allSettled([
-    notify(message), contextToast(tab?.id, message, kind), signalToolbar(kind)
-  ]);
+  // The OS notification is independent of message content; badge is tab-scoped.
+  await Promise.allSettled([notify(message), signalToolbar(kind, tab?.id)]);
 }
 
 function notify(message) {

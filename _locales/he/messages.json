@@ -298,5 +298,8 @@
   "dashboardBtnViewMore": {
     "message": "הצג עוד",
     "description": "Text for the 'View More' button to load more links."
+  },
+  "apiAuthRejected": {
+    "message": "YOURLS דחה את חתימת ה־API. ייתכן שאסימון החתימה השתנה לאחר העדכון. יש להתחבר ל־YOURLS, לפתוח ניהול ← כלים, להעתיק את חתימת ה־API הנוכחית, להדביק אותה בהגדרות kURL ולבחור ״בדיקת חיבור ושמירה״."
   }
 }
