@@ -683,7 +683,7 @@ test('macOS clicked link insertion is explicit and never injects into unrelated 
 
 test('Helper source pin contains 1.1.6 and no obsolete references',()=>{
   const html=source('dashboard.html');
-  assert.match(html,/blob\/ec69d21075c21cfa5f12265665b15cc30936e835\/helper\/kurl-helper\/plugin.php/);
+  assert.match(html,/blob\/d38e51f86adde760517af25acc4fa607d8bf9c5e\/helper\/kurl-helper\/plugin.php/);
   assert.doesNotMatch(html,/blob\/e6422d7/);
   assert.match(source('REVIEWER_NOTES.md'),/Thunderbird does \*\*not\*\* execute PHP/);
   assert.doesNotMatch(source('README.md'),/confirmation in the Thunderbird message\/compose content/);
