@@ -1,10 +1,10 @@
-# kURL for Thunderbird 2.0.17 (test build)
+# kURL for Thunderbird 2.0.18 (test build)
 
 This MailExtension shortens and manages links on a user-controlled HTTPS YOURLS server, with an integrated Thunderbird compose workflow. The optional YOURLS Helper is bundled here, separately from other kURL projects.
 
 ## Installation
 
-In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.17-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
+In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.18-test.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
 
 Configure your HTTPS YOURLS server and signature token under kURL settings. Assign keyboard shortcuts via **Manage Extension Shortcuts**; this build installs without default key bindings.
 
@@ -146,3 +146,7 @@ Run `python3 tests/browser-lookup-check.py` for two-way lookup and compact Helpe
 ## New in 2.0.17: subfolder-safe lookup
 
 For YOURLS installed below a prefix (for example, `https://example.com/go`), an explicitly qualified URL on the same host **outside** that prefix (such as `https://example.com/blog/post`) is a normal destination eligible for read-only reverse lookup. Inside `/go/`, alternate short-URL spellings are still normalized, and unsafe paths are still refused. Root-level YOURLS installations retain their existing same-host protection. Arabic popup keyword terminology and French filter-help punctuation are aligned with the dashboard. The bundled Helper 1.1.7 is unchanged.
+
+## 2.0.18 dashboard workflow
+
+Dashboard is now the default add-on Settings view. When no connection is configured, it displays an onboarding link without issuing YOURLS API requests. The connection light in Settings is based on a real read-only API check, not merely the presence of stored credentials. Found short-link results offer deletion only with a verified compatible Helper and an explicit confirmation.

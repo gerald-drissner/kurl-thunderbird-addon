@@ -36,7 +36,7 @@
     "description": "Remove host permission button text."
   },
   "optionsStatusLoaded": {
-    "message": "Paramètres sauvegardés chargés. Cliquez sur “Tester la connexion”.",
+    "message": "Paramètres enregistrés chargés.",
     "description": "Initial status message on options page."
   },
   "optionsStatusEnterUrlAndToken": {
@@ -442,5 +442,35 @@
   },
   "lookupOwnInvalid": {
     "message": "Cette adresse appartient à votre serveur YOURLS, mais ce n’est pas une URL courte valide. Saisissez un mot-clé ou une URL courte de ce serveur."
+  },
+  "dashboardSetupHeading": {
+    "message": "Connecter le serveur YOURLS"
+  },
+  "dashboardSetupHelp": {
+    "message": "Saisissez l’adresse du serveur YOURLS et la signature API dans les paramètres, puis testez la connexion pour les enregistrer."
+  },
+  "dashboardSetupButton": {
+    "message": "Ouvrir les paramètres YOURLS"
+  },
+  "dashboardSetupStatus": {
+    "message": "Connectez votre serveur YOURLS pour commencer."
+  },
+  "connectionNotConfigured": {
+    "message": "Connexion non configurée"
+  },
+  "connectionNotChecked": {
+    "message": "Connexion non vérifiée avec ces paramètres"
+  },
+  "connectionChecking": {
+    "message": "Vérification de la connexion YOURLS…"
+  },
+  "connectionOnline": {
+    "message": "Connecté — l’API YOURLS répond"
+  },
+  "connectionFailed": {
+    "message": "Échec de connexion — vérifiez le serveur et le jeton"
+  },
+  "connectionPermissionMissing": {
+    "message": "Autorisation d’accès au serveur YOURLS manquante"
   }
 }

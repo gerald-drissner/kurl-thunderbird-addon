@@ -13,7 +13,7 @@ with sync_playwright() as p:
  } });
  window.browser = {
    i18n: {getMessage:k=>'',getUILanguage:()=>'en-US'},
-   storage: {local: {get:async defaults=>({...defaults,showCopyNotifications:true}),set:async()=>{}},onChanged:{addListener:()=>{}}},
+   storage: {local: {get:async defaults=>({...defaults,yourlsUrl:'https://sho.rt',apiSignature:'test-token',showCopyNotifications:true}),set:async()=>{}},onChanged:{addListener:()=>{}}},
    runtime: {
      getURL: path => 'https://example.invalid/'+path,
      sendMessage: async m => m.type==='GET_INFO' ? {ok:true,data:{base:'https://sho.rt',totalLinks:17,totalClicks:512,helperReady:true,helperVersion:'1.1.5',yourlsVersion:'1.10.6'}}:

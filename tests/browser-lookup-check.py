@@ -22,7 +22,7 @@ with sync_playwright() as p:
           }
           return message;
         }},
-        storage:{local:{get:async defaults=>({...defaults,showCopyNotifications:true}),set:async()=>{}},onChanged:{addListener:()=>{}}},
+        storage:{local:{get:async defaults=>({...defaults,yourlsUrl:'https://dri.li',apiSignature:'test-token',showCopyNotifications:true}),set:async()=>{}},onChanged:{addListener:()=>{}}},
         runtime:{getURL:path=>'moz-extension://kurl/'+path,sendMessage:async m=>{
           window.__calls.push(m);
           if(m.type==='GET_INFO')return {ok:true,data:{base:'https://dri.li',totalLinks:18,totalClicks:512,helperReady:true,helperVersion:'1.1.7',yourlsVersion:'1.10.6'}};

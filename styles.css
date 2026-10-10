@@ -596,3 +596,18 @@ body.options-body:has(.dashboard-shell) { min-width: 0; padding: 24px clamp(14px
 .lookup-actions { display:flex;gap:8px;flex-wrap:wrap; }
 .filter-scope-help { color:var(--muted);font-size:11px;max-width:260px;margin:6px 0 0;line-height:1.45; }
 @media(max-width:550px){.lookup-controls{flex-direction:column;align-items:stretch;}.lookup-details{grid-template-columns:1fr;gap:3px;}}
+
+/* 2.0.18: a trustworthy settings status derived from a live read-only API request. */
+.connection-indicator { display:flex; align-items:center; gap:10px; padding:10px 13px; border:1px solid var(--border); border-radius:9px; background:var(--field); margin-block:6px 18px; font-size:14px; font-weight:600; }
+.connection-light { inline-size:11px; block-size:11px; border-radius:50%; background:#8994a4; flex:0 0 11px; box-shadow:0 0 0 2px color-mix(in srgb,#8994a4 24%,transparent); }
+.connection-ok .connection-light { background:#16c784; box-shadow:0 0 0 2px color-mix(in srgb,#16c784 24%,transparent); }
+.connection-bad .connection-light { background:#e45858; box-shadow:0 0 0 2px color-mix(in srgb,#e45858 24%,transparent); }
+.connection-checking .connection-light { background:#e4ae45; box-shadow:0 0 0 2px color-mix(in srgb,#e4ae45 24%,transparent); }
+.connection-ok { border-color:color-mix(in srgb,#16c784 45%,var(--border)); }
+.connection-bad { border-color:color-mix(in srgb,#e45858 55%,var(--border)); }
+.dashboard-onboarding { margin-block:12px 22px; padding:18px 22px; background:var(--field); border:1px solid var(--border); border-radius:10px; }
+.dashboard-onboarding h2 { margin-block:0 8px; }
+.dashboard-onboarding p { color:var(--muted); }
+.dashboard-onboarding .kurl-setup-action { display:inline-block; text-decoration:none; padding:10px 15px; border-radius:7px; color:#fff; background:var(--accent); font-weight:600; }
+.dashboard-shell.is-unconfigured .dashboard-workspace, .dashboard-shell.is-unconfigured .dashboard-list-columns, .dashboard-shell.is-unconfigured #helper-setup { display:none !important; }
+.dashboard-shell.is-unconfigured #dashboard-onboarding { display:block !important; }

@@ -36,7 +36,7 @@
     "description": "Remove host permission button text."
   },
   "optionsStatusLoaded": {
-    "message": "保存された設定を読み込みました。「接続をテスト」をクリックしてください。",
+    "message": "保存済みの設定を読み込みました。",
     "description": "Initial status message on options page."
   },
   "optionsStatusEnterUrlAndToken": {
@@ -438,5 +438,35 @@
   },
   "lookupOwnInvalid": {
     "message": "このアドレスはご利用の YOURLS サーバーに属していますが、有効な短縮URLではありません。このサーバーのキーワードまたは短縮URLを入力してください。"
+  },
+  "dashboardSetupHeading": {
+    "message": "YOURLS サーバーに接続"
+  },
+  "dashboardSetupHelp": {
+    "message": "設定画面で YOURLS の URL と API 署名を入力し、接続をテストして保存してください。"
+  },
+  "dashboardSetupButton": {
+    "message": "YOURLS の設定を開く"
+  },
+  "dashboardSetupStatus": {
+    "message": "最初に YOURLS サーバーを接続してください。"
+  },
+  "connectionNotConfigured": {
+    "message": "接続が設定されていません"
+  },
+  "connectionNotChecked": {
+    "message": "現在の設定では接続を確認していません"
+  },
+  "connectionChecking": {
+    "message": "YOURLS への接続を確認中…"
+  },
+  "connectionOnline": {
+    "message": "接続済み — YOURLS API が応答しました"
+  },
+  "connectionFailed": {
+    "message": "接続確認に失敗 — サーバーとトークンを確認してください"
+  },
+  "connectionPermissionMissing": {
+    "message": "YOURLS サーバーへのアクセス権がありません"
   }
 }

@@ -36,7 +36,7 @@
     "description": "Remove host permission button text."
   },
   "optionsStatusLoaded": {
-    "message": "Сохраненные настройки загружены. Нажмите “Проверить соединение”.",
+    "message": "Сохранённые настройки загружены.",
     "description": "Initial status message on options page."
   },
   "optionsStatusEnterUrlAndToken": {
@@ -442,5 +442,35 @@
   },
   "lookupOwnInvalid": {
     "message": "Этот адрес относится к вашему серверу YOURLS, но не является корректной короткой ссылкой. Введите ключевое слово или короткую ссылку этого сервера."
+  },
+  "dashboardSetupHeading": {
+    "message": "Подключение к серверу YOURLS"
+  },
+  "dashboardSetupHelp": {
+    "message": "Введите адрес YOURLS и подпись API в настройках. Проверьте подключение и сохраните данные."
+  },
+  "dashboardSetupButton": {
+    "message": "Открыть настройки YOURLS"
+  },
+  "dashboardSetupStatus": {
+    "message": "Подключите сервер YOURLS, чтобы начать."
+  },
+  "connectionNotConfigured": {
+    "message": "Подключение не настроено"
+  },
+  "connectionNotChecked": {
+    "message": "Подключение с этими настройками не проверено"
+  },
+  "connectionChecking": {
+    "message": "Проверка подключения к YOURLS…"
+  },
+  "connectionOnline": {
+    "message": "Подключено — API YOURLS отвечает"
+  },
+  "connectionFailed": {
+    "message": "Ошибка проверки — проверьте сервер и токен"
+  },
+  "connectionPermissionMissing": {
+    "message": "Нет разрешения на доступ к серверу YOURLS"
   }
 }

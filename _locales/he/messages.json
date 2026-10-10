@@ -36,7 +36,7 @@
     "description": "Remove host permission button text."
   },
   "optionsStatusLoaded": {
-    "message": "הגדרות שמורות נטענו. לחץ “בדוק חיבור”.",
+    "message": "ההגדרות השמורות נטענו.",
     "description": "Initial status message on options page."
   },
   "optionsStatusEnterUrlAndToken": {
@@ -442,5 +442,35 @@
   },
   "lookupOwnInvalid": {
     "message": "כתובת זו שייכת לשרת YOURLS שלך, אך אינה קישור מקוצר תקין. יש להזין מילת מפתח או כתובת מקוצרת מהשרת הזה."
+  },
+  "dashboardSetupHeading": {
+    "message": "חיבור לשרת YOURLS"
+  },
+  "dashboardSetupHelp": {
+    "message": "יש להזין את כתובת השרת ואת חתימת ה־API בהגדרות YOURLS, ואז לבדוק את החיבור ולשמור."
+  },
+  "dashboardSetupButton": {
+    "message": "פתיחת הגדרות YOURLS"
+  },
+  "dashboardSetupStatus": {
+    "message": "יש לחבר את שרת YOURLS כדי להתחיל."
+  },
+  "connectionNotConfigured": {
+    "message": "החיבור לא הוגדר"
+  },
+  "connectionNotChecked": {
+    "message": "החיבור לא נבדק עבור הגדרות אלה"
+  },
+  "connectionChecking": {
+    "message": "בודק את החיבור ל־YOURLS…"
+  },
+  "connectionOnline": {
+    "message": "מחובר — ממשק ה־API של YOURLS מגיב"
+  },
+  "connectionFailed": {
+    "message": "בדיקת החיבור נכשלה — יש לבדוק את השרת והאסימון"
+  },
+  "connectionPermissionMissing": {
+    "message": "חסרה הרשאת גישה לשרת YOURLS"
   }
 }

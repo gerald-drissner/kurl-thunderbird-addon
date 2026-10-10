@@ -10,10 +10,15 @@
   <h1 data-i18n-key="optionsTitle">YOURLS Settings</h1>
 
   <div class="nav-tabs">
-    <a href="options.html" class="nav-tab active" data-i18n-key="optionsTitle">Settings</a>
     <a href="dashboard.html" class="nav-tab" data-i18n-key="dashboardTitle">Dashboard</a>
+    <a href="options.html" class="nav-tab active" data-i18n-key="optionsTitle">Settings</a>
     <a href="bulk.html" class="nav-tab" data-i18n-key="dashBulk">Bulk</a>
     <a href="logs.html" class="nav-tab" data-i18n-key="dashLogs">Logs</a>
+  </div>
+
+  <div id="connection-indicator" class="connection-indicator connection-neutral" role="status" aria-live="polite">
+    <span class="connection-light" aria-hidden="true"></span>
+    <span id="connection-indicator-text" data-i18n-key="connectionNotConfigured">Connection not configured</span>
   </div>
 
   <label for="yourlsUrl" data-i18n-key="optionsYourlsUrlLabel">YOURLS URL (no trailing slash)</label>

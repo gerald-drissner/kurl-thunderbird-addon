@@ -9,8 +9,8 @@
 <body class="options-body">
   <main class="card dashboard-shell">
     <nav class="nav-tabs" aria-label="kURL">
-      <a href="options.html" class="nav-tab" data-i18n-key="optionsTitle">Settings</a>
       <a href="dashboard.html" class="nav-tab active" aria-current="page" data-i18n-key="dashboardTitle">Dashboard</a>
+      <a href="options.html" class="nav-tab" data-i18n-key="optionsTitle">Settings</a>
       <a href="bulk.html" class="nav-tab" data-i18n-key="dashBulk">Bulk</a>
       <a href="logs.html" class="nav-tab" data-i18n-key="dashLogs">Logs</a>
     </nav>
@@ -28,6 +28,11 @@
     <p id="dashboard-auth-recovery" class="auth-recovery" hidden><a id="dashboard-auth-tools" target="_blank" rel="noopener noreferrer" data-i18n-key="apiOpenTools">Open YOURLS Admin → Tools to copy the current API signature</a></p>
     <div id="copy-toast" class="copy-toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
 
+    <section id="dashboard-onboarding" class="dashboard-onboarding" hidden aria-labelledby="onboarding-heading">
+      <h2 id="onboarding-heading" data-i18n-key="dashboardSetupHeading">Connect your YOURLS server</h2>
+      <p data-i18n-key="dashboardSetupHelp">To use the dashboard, enter your YOURLS URL and API signature in Settings. Test the connection there to save the configuration.</p>
+      <a class="kurl-setup-action" href="options.html" data-i18n-key="dashboardSetupButton">Open YOURLS Settings</a>
+    </section>
     <div class="dashboard-workspace">
     <div class="dashboard-overview-column">
     <section aria-labelledby="overview-title">
@@ -84,6 +89,7 @@
         <div class="row lookup-actions">
           <button id="lookup-copy" type="button" class="secondary" data-i18n-key="popupBtnCopy">Copy</button>
           <button id="lookup-edit" type="button" class="secondary" data-i18n-key="dashEdit">Edit</button>
+          <button id="lookup-delete" type="button" class="danger" data-i18n-key="popupBtnDelete" hidden>Delete</button>
           <button id="lookup-create" type="button" class="secondary" data-i18n-key="lookupCreateInstead" hidden>Create a short URL</button>
         </div>
       </section>

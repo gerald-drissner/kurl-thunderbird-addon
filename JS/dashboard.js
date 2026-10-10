@@ -233,6 +233,21 @@ function showAuthRecovery(code) {
 async function refresh(forceHelper = false) {
   const generation = ++viewGeneration;
   showAuthRecovery("");
+  let settings;
+  try { settings = await H.getSettings(); }
+  catch (error) { message($("dashboard-feedback"), String(error.message || error), true); return; }
+  if (generation !== viewGeneration) return;
+  const ready = Boolean(settings.yourlsUrl && settings.apiSignature);
+  document.querySelector(".dashboard-shell").classList.toggle("is-unconfigured", !ready);
+  $("dashboard-onboarding").hidden = ready;
+  if (!ready) {
+    helperReady = false;
+    clearLookup();
+    $("lookup-message").textContent = "";
+    message($("dashboard-feedback"), t("dashboardSetupStatus", "Connect your YOURLS server to get started."));
+    $("refresh-btn").disabled = false;
+    return;
+  }
   currentOffset = 0;
   recentLinks = [];
   $("view-more-container").replaceChildren();
@@ -267,7 +282,10 @@ async function refresh(forceHelper = false) {
 
     $("manual-lookup").disabled = !helperReady;
     updateManualButtons();
-    if (lookedUp) $("lookup-edit").hidden = !helperReady || !lookedUp.shortUrl;
+    if (lookedUp) {
+      $("lookup-edit").hidden = !helperReady || !lookedUp.shortUrl;
+      $("lookup-delete").hidden = !helperReady || !lookedUp.shortUrl;
+    }
     $("total-links").textContent = formatNumber(info.totalLinks);
     $("total-clicks").textContent = formatNumber(info.totalClicks);
     $("avg-clicks").textContent = info.totalLinks > 0
@@ -328,6 +346,7 @@ function clearLookup() {
   $("lookup-result").hidden = true;
   $("lookup-copy").hidden = true;
   $("lookup-edit").hidden = true;
+  $("lookup-delete").hidden = true;
   $("lookup-create").hidden = true;
   $("lookup-short").textContent = "—";
   $("lookup-long").textContent = "—";
@@ -345,7 +364,27 @@ function showLookup(data, found = true) {
   $("lookup-title").textContent = data.title || "—";
   $("lookup-copy").hidden = !found;
   $("lookup-edit").hidden = !found || !helperReady || !H.validHttpUrl(data.target);
+  $("lookup-delete").hidden = !found || !helperReady || !H.extractKeyword($( "info-server" ).textContent, data.shortUrl || "");
   $("lookup-create").hidden = found || !H.validHttpUrl(data.target);
+}
+async function deleteLookedUp() {
+  if (!helperReady || !lookedUp?.shortUrl || $("lookup-delete").hidden) return;
+  const shortUrl = lookedUp.shortUrl;
+  const keyword = H.extractKeyword($("info-server").textContent, shortUrl);
+  if (!keyword) return;
+  if (!window.confirm(t("confirmDelete", "Delete this short URL permanently? Existing websites and sent emails may refer to it.") + "\n" + shortUrl)) return;
+  // No new result should be accepted as the stale result during the mutation.
+  const generation = ++lookupGeneration;
+  $("lookup-delete").disabled = true;
+  try {
+    await send("DELETE_SHORTURL", {shortUrl});
+    if (generation !== lookupGeneration) return;
+    clearLookup();
+    $("lookup-message").textContent = t("popupStatusDeleted", "Short URL deleted.");
+    await refresh();
+  } catch (error) {
+    if (generation === lookupGeneration) $("lookup-message").textContent = String(error.message || error);
+  } finally { $("lookup-delete").disabled = false; }
 }
 function determineLookup(raw, base) {
   return H.classifyLookupInput(base, raw);
@@ -639,6 +678,7 @@ $("lookup-copy").addEventListener("click", async () => {
   catch (error) { $("lookup-message").textContent = String(error.message || error); }
 });
 $("lookup-edit").addEventListener("click", () => fillManualFromLookup(true));
+$("lookup-delete").addEventListener("click", deleteLookedUp);
 $("lookup-create").addEventListener("click", () => fillManualFromLookup(false));
 refresh();
 // The target field may change while an existing short URL stays selected.

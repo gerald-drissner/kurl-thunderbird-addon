@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "__MSG_extensionName__",
   "short_name": "kURL",
-  "version": "2.0.17",
+  "version": "2.0.18",
   "author": "Gerald Drißner",
   "default_locale": "en",
   "description": "__MSG_extensionDescription__",
@@ -33,7 +33,7 @@
     }
   },
   "options_ui": {
-    "page": "options.html",
+    "page": "dashboard.html",
     "open_in_tab": true
   },
   "compose_action": {

@@ -36,7 +36,7 @@
     "description": "Remove host permission button text."
   },
   "optionsStatusLoaded": {
-    "message": "已加载保存的设置。点击“测试连接”。",
+    "message": "已加载保存的设置。",
     "description": "Initial status message on options page."
   },
   "optionsStatusEnterUrlAndToken": {
@@ -442,5 +442,35 @@
   },
   "lookupOwnInvalid": {
     "message": "此地址属于您的 YOURLS 服务器，但不是有效的短链接。请输入此服务器上的关键词或短链接。"
+  },
+  "dashboardSetupHeading": {
+    "message": "连接 YOURLS 服务器"
+  },
+  "dashboardSetupHelp": {
+    "message": "在设置中填写 YOURLS 地址和 API 签名，测试连接成功后保存配置。"
+  },
+  "dashboardSetupButton": {
+    "message": "打开 YOURLS 设置"
+  },
+  "dashboardSetupStatus": {
+    "message": "请先连接 YOURLS 服务器。"
+  },
+  "connectionNotConfigured": {
+    "message": "尚未配置连接"
+  },
+  "connectionNotChecked": {
+    "message": "尚未使用这些设置测试连接"
+  },
+  "connectionChecking": {
+    "message": "正在检查 YOURLS 连接…"
+  },
+  "connectionOnline": {
+    "message": "已连接 — YOURLS API 正常响应"
+  },
+  "connectionFailed": {
+    "message": "连接检查失败 — 请检查服务器和令牌"
+  },
+  "connectionPermissionMissing": {
+    "message": "缺少 YOURLS 服务器访问权限"
   }
 }

@@ -35,7 +35,7 @@
     "description": "Remove host permission button text."
   },
   "optionsStatusLoaded": {
-    "message": "Gespeicherte Einstellungen geladen. Klicken Sie auf „Verbindung testen“.",
+    "message": "Gespeicherte Einstellungen geladen.",
     "description": "Initial status message on options page."
   },
   "optionsStatusEnterUrlAndToken": {
@@ -752,5 +752,35 @@
   },
   "lookupOwnInvalid": {
     "message": "Diese Adresse gehört zu Ihrem YOURLS-Server, ist aber keine gültige Kurz-URL. Geben Sie ein Kürzel oder eine Kurz-URL dieses Servers ein."
+  },
+  "dashboardSetupHeading": {
+    "message": "YOURLS-Server verbinden"
+  },
+  "dashboardSetupHelp": {
+    "message": "Geben Sie in den YOURLS-Einstellungen die Serveradresse und das API-Signatur-Token ein. Mit „Verbindung testen und speichern“ richten Sie den Zugang ein."
+  },
+  "dashboardSetupButton": {
+    "message": "YOURLS-Einstellungen öffnen"
+  },
+  "dashboardSetupStatus": {
+    "message": "Verbinden Sie zuerst Ihren YOURLS-Server."
+  },
+  "connectionNotConfigured": {
+    "message": "Verbindung noch nicht eingerichtet"
+  },
+  "connectionNotChecked": {
+    "message": "Verbindung für diese Einstellungen noch nicht geprüft"
+  },
+  "connectionChecking": {
+    "message": "YOURLS-Verbindung wird geprüft …"
+  },
+  "connectionOnline": {
+    "message": "Verbunden – die YOURLS-API antwortet"
+  },
+  "connectionFailed": {
+    "message": "Verbindungsprüfung fehlgeschlagen – Server und Token prüfen"
+  },
+  "connectionPermissionMissing": {
+    "message": "Berechtigung für den YOURLS-Server fehlt"
   }
 }

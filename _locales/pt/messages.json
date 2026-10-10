@@ -36,7 +36,7 @@
     "description": "Remove host permission button text."
   },
   "optionsStatusLoaded": {
-    "message": "Configurações salvas carregadas. Clique em “Testar Conexão”.",
+    "message": "Definições guardadas carregadas.",
     "description": "Initial status message on options page."
   },
   "optionsStatusEnterUrlAndToken": {
@@ -434,5 +434,35 @@
   },
   "lookupOwnInvalid": {
     "message": "Este endereço pertence ao seu servidor YOURLS, mas não é um URL curto válido. Introduza uma palavra-chave ou um URL curto deste servidor."
+  },
+  "dashboardSetupHeading": {
+    "message": "Ligar ao servidor YOURLS"
+  },
+  "dashboardSetupHelp": {
+    "message": "Introduza o endereço YOURLS e a assinatura API nas definições. Teste a ligação para guardar a configuração."
+  },
+  "dashboardSetupButton": {
+    "message": "Abrir definições do YOURLS"
+  },
+  "dashboardSetupStatus": {
+    "message": "Ligue o servidor YOURLS para começar."
+  },
+  "connectionNotConfigured": {
+    "message": "Ligação não configurada"
+  },
+  "connectionNotChecked": {
+    "message": "Ligação não verificada com estas definições"
+  },
+  "connectionChecking": {
+    "message": "A verificar ligação ao YOURLS…"
+  },
+  "connectionOnline": {
+    "message": "Ligado — a API do YOURLS respondeu"
+  },
+  "connectionFailed": {
+    "message": "Falha na verificação — confira o servidor e o token"
+  },
+  "connectionPermissionMissing": {
+    "message": "Falta autorização para o servidor YOURLS"
   }
 }

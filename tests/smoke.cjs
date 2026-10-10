@@ -122,7 +122,7 @@ test('bulk creates links sequentially and skips invalid lines',()=>{
 });
 test('package metadata and page references',()=>{
  const manifest=JSON.parse(source('manifest.json'));
- assert.equal(manifest.version,'2.0.17');
+ assert.equal(manifest.version,'2.0.18');
  assert.equal(manifest.browser_specific_settings.gecko.strict_min_version,'140.0');
  assert.deepEqual(manifest.optional_host_permissions,['https://*/*']);
  assert.ok(!manifest.permissions.includes('tabs'));
@@ -308,7 +308,7 @@ test('Arabic localized wording and selective vocalization',()=>{
  const dict=Object.fromEntries(Object.entries(ar).map(([k,v])=>[k,v.message]));
  assert.equal(dict.popupBtnDelete,'احذف');
  assert.equal(dict.optionsBtnTest,'اختبر الاتصال');
- assert.equal(dict.optionsStatusLoaded,'تم تحميل الإعدادات المحفوظة. انقر على «اختبر الاتصال».');
+ assert.equal(dict.optionsStatusLoaded,'تم تحميل الإعدادات المحفوظة.');
  assert.equal(dict.bulkHeading,'اختصار مجموعة من الروابط');
  assert.equal(dict.bulkInput,'الروابط المراد اختصارها');
  assert.equal(dict.bulkPreview,'عاين');
@@ -339,7 +339,7 @@ test('German localized insertion and shortcut terms match buttons',()=>{
 
 test('released QR generator, ASCII-canonical QR payload, four-module quiet zone',()=>{
  const lib=source('JS/qrcode.js'), pop=source('JS/popup.js');
- assert.equal(JSON.parse(source('package.json')).version,'2.0.17');
+ assert.equal(JSON.parse(source('package.json')).version,'2.0.18');
  assert.match(lib,/QR Code Generator for JavaScript/);
  assert.match(pop,/qrcode\(0, "H"\)/);
  assert.match(pop,/qr\.addData\(new URL\(value\)\.href, \"Byte\"\)/);
@@ -419,7 +419,7 @@ test('2.0.6 optional copy edits match visible controls and released vendoring me
  const vendor=source('VENDOR.md');
  assert.doesNotMatch(vendor,/external reviewer|independently compared/i);
  assert.match(vendor,/SHA-256 of bundled file/);
- assert.equal(JSON.parse(source('manifest.json')).version,'2.0.17');
+ assert.equal(JSON.parse(source('manifest.json')).version,'2.0.18');
 });
 
 test('2.0.7 opens settings dashboard as a full tab with helper onboarding',()=>{
@@ -896,4 +896,29 @@ test('Arabic popup lookup terminology and French typographic button quotes are c
  assert.equal(ar.lookupResultHeading.message,'تم العثور على الرابط');
  const fr=JSON.parse(source('_locales/fr/messages.json'));
  assert.match(fr.dashFilterHelp.message,/« \$button\$ »/);
+});
+
+// 2.0.18: dashboard-first onboarding, live status and Helper-gated search deletion.
+test('dashboard-first settings opens a safe setup view and offers lookup deletion only with Helper',()=>{
+ const manifest=JSON.parse(source('manifest.json'));
+ assert.equal(manifest.options_ui.page,'dashboard.html');
+ const dashboard=source('dashboard.html'),options=source('options.html'),js=source('JS/dashboard.js');
+ assert.match(dashboard,/id="dashboard-onboarding"/);
+ assert.match(dashboard,/id="lookup-delete"[^>]+hidden/);
+ assert.match(options,/id="connection-indicator"/);
+ assert.match(js,/if \(!ready\)/);
+ assert.match(js,/if \(!helperReady \|\| !lookedUp\?\.shortUrl/);
+ assert.match(js,/confirmDelete/);
+ for (const name of ['options.html','dashboard.html','bulk.html','logs.html']) {
+   const html=source(name);
+   assert.ok(html.indexOf('href="dashboard.html"')<html.indexOf('href="options.html"'),name);
+ }
+});
+test('2.0.18 status and onboarding messages are defined in every locale',()=>{
+ for(const dir of require('node:fs').readdirSync(require('node:path').join(root,'_locales'))){
+   const d=JSON.parse(source('_locales/'+dir+'/messages.json'));
+   for(const key of ['dashboardSetupHeading','dashboardSetupHelp','dashboardSetupButton','dashboardSetupStatus','connectionNotConfigured','connectionNotChecked','connectionChecking','connectionOnline','connectionFailed','connectionPermissionMissing']){
+     assert.ok(d[key]?.message,dir+' '+key);
+   }
+ }
 });

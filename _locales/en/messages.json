@@ -35,7 +35,7 @@
     "description": "Remove host permission button text."
   },
   "optionsStatusLoaded": {
-    "message": "Saved settings loaded. Click “Test Connection”.",
+    "message": "Saved settings loaded.",
     "description": "Initial status message on options page."
   },
   "optionsStatusEnterUrlAndToken": {
@@ -752,5 +752,35 @@
   },
   "lookupOwnInvalid": {
     "message": "This address belongs to your YOURLS server, but is not a valid short link. Enter a short keyword or a short URL from this server."
+  },
+  "dashboardSetupHeading": {
+    "message": "Connect your YOURLS server"
+  },
+  "dashboardSetupHelp": {
+    "message": "To use the dashboard, enter your YOURLS URL and API signature in Settings. Test the connection there to save the configuration."
+  },
+  "dashboardSetupButton": {
+    "message": "Open YOURLS Settings"
+  },
+  "dashboardSetupStatus": {
+    "message": "Connect your YOURLS server to get started."
+  },
+  "connectionNotConfigured": {
+    "message": "Connection not configured"
+  },
+  "connectionNotChecked": {
+    "message": "Connection not checked for these settings"
+  },
+  "connectionChecking": {
+    "message": "Checking YOURLS connection…"
+  },
+  "connectionOnline": {
+    "message": "Connected — YOURLS API responded successfully"
+  },
+  "connectionFailed": {
+    "message": "Connection check failed — check the token and server"
+  },
+  "connectionPermissionMissing": {
+    "message": "YOURLS host permission missing"
   }
 }
