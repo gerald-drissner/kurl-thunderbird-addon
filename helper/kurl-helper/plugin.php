@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: kURL Helper
-Description: Enables remote deletion, safe long-URL lookup, safe regeneration, and versioned API pinging for kURL clients (Thunderbird, WordPress and others).
+Description: Adds safe lookup, editing, regeneration and deletion to YOURLS for kURL clients.
 Version: 1.1.5
 Author: Gerald Drißner
 License: GPL-2.0-or-later
