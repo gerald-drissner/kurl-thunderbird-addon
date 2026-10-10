@@ -1,4 +1,4 @@
-"""2.0.18 browser checks: dashboard-first onboarding, secure search deletion, real status lamp."""
+"""2.0.19 browser checks: onboarding, localized delete, concurrent refresh and status lamp."""
 import json
 from pathlib import Path
 from playwright.sync_api import sync_playwright
@@ -16,6 +16,9 @@ with sync_playwright() as p:
       window.__calls=[];
       window.__helper=true;
       window.__deleted=false;
+      window.__holdDelete=false;window.__pendingDeleteResolve=null;
+      window.__confirmMessages=[];
+      window.confirm=message=>{window.__confirmMessages.push(message);return true;};
       window.browser={
         i18n:{getUILanguage:()=>'en-US',getMessage:()=>''},
         storage:{local:{get:async defaults=>({...defaults,...window.__saved}),set:async data=>Object.assign(window.__saved,data)},onChanged:{addListener:()=>{}}},
@@ -26,7 +29,10 @@ with sync_playwright() as p:
           if(request.type==='GET_TOP_LINKS'||request.type==='GET_RECENT_LINKS')return {ok:true,data:{links:[]}};
           if(request.type==='EXPAND_URL')return {ok:true,data:{shortUrl:'https://sho.rt/abc',target:'https://example.org/page',title:'Sample'}};
           if(request.type==='GET_STATS')return {ok:true,data:{link:{clicks:3}}};
-          if(request.type==='DELETE_SHORTURL'){window.__deleted=true;return {ok:true};}
+          if(request.type==='DELETE_SHORTURL'){
+            if(window.__holdDelete)return new Promise(resolve=>{window.__pendingDeleteResolve=()=>{window.__deleted=true;resolve({ok:true});};});
+            window.__deleted=true;return {ok:true};
+          }
           throw Error('Unexpected '+request.type);
         }}
       };
@@ -51,13 +57,32 @@ with sync_playwright() as p:
     page.evaluate('window.confirm=()=>false')
     page.locator('#lookup-delete').click()
     assert page.evaluate('window.__calls.filter(c=>c.type==="DELETE_SHORTURL").length')==0
-    page.evaluate('window.confirm=()=>true')
+    page.evaluate('window.confirm=message=>{window.__confirmMessages.push(message);return true;}')
     page.locator('#lookup-delete').click()
     page.wait_for_function('window.__deleted===true')
     page.wait_for_function('document.querySelector("#lookup-result").hidden')
     assert page.evaluate('window.__calls.filter(c=>c.type==="DELETE_SHORTURL").length')==1
     print('PASS Delete only after explicit confirmation; clears stale result and refreshes')
-    page.evaluate('window.__helper=false;window.__deleted=false')
+    # Delayed DELETE while a search input event invalidates the old lookup generation.
+    # The deletion is still committed, so both link lists MUST refresh.
+    page.locator('#lookup-query').fill('https://sho.rt/abc')
+    page.locator('#lookup-submit').click()
+    page.locator('#lookup-delete').wait_for(state='visible')
+    page.evaluate('window.__holdDelete=true')
+    previous = page.evaluate('window.__calls.filter(c=>c.type==="GET_INFO").length')
+    page.locator('#lookup-delete').click()
+    page.wait_for_function('typeof window.__pendingDeleteResolve==="function"')
+    page.locator('#lookup-query').fill('https://example.org/next')
+    assert page.locator('#lookup-result').is_hidden()
+    page.evaluate('window.__pendingDeleteResolve()')
+    page.wait_for_function('(n)=>window.__calls.filter(c=>c.type==="GET_INFO").length>n', arg=previous)
+    page.wait_for_function('(n)=>window.__calls.filter(c=>c.type==="GET_TOP_LINKS").length>=n', arg=2)
+    assert page.locator('#lookup-query').input_value()=='https://example.org/next'
+    assert page.locator('#lookup-result').is_hidden()
+    assert page.evaluate('window.__calls.filter(c=>c.type==="DELETE_SHORTURL").length')==2
+    assert page.evaluate('window.__confirmMessages.at(-1).includes("https://sho.rt/abc")')
+    print('PASS Pending delete followed by typing still refreshes lists, preserves new query')
+    page.evaluate('window.__holdDelete=false;window.__helper=false;window.__deleted=false')
     page.locator('#refresh-btn').click()
     page.wait_for_function('document.querySelector("#helper-setup").dataset.state==="missing"')
     page.locator('#lookup-query').fill('https://sho.rt/abc')

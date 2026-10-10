@@ -122,7 +122,7 @@ test('bulk creates links sequentially and skips invalid lines',()=>{
 });
 test('package metadata and page references',()=>{
  const manifest=JSON.parse(source('manifest.json'));
- assert.equal(manifest.version,'2.0.18');
+ assert.equal(manifest.version,'2.0.19');
  assert.equal(manifest.browser_specific_settings.gecko.strict_min_version,'140.0');
  assert.deepEqual(manifest.optional_host_permissions,['https://*/*']);
  assert.ok(!manifest.permissions.includes('tabs'));
@@ -339,7 +339,7 @@ test('German localized insertion and shortcut terms match buttons',()=>{
 
 test('released QR generator, ASCII-canonical QR payload, four-module quiet zone',()=>{
  const lib=source('JS/qrcode.js'), pop=source('JS/popup.js');
- assert.equal(JSON.parse(source('package.json')).version,'2.0.18');
+ assert.equal(JSON.parse(source('package.json')).version,'2.0.19');
  assert.match(lib,/QR Code Generator for JavaScript/);
  assert.match(pop,/qrcode\(0, "H"\)/);
  assert.match(pop,/qr\.addData\(new URL\(value\)\.href, \"Byte\"\)/);
@@ -419,7 +419,7 @@ test('2.0.6 optional copy edits match visible controls and released vendoring me
  const vendor=source('VENDOR.md');
  assert.doesNotMatch(vendor,/external reviewer|independently compared/i);
  assert.match(vendor,/SHA-256 of bundled file/);
- assert.equal(JSON.parse(source('manifest.json')).version,'2.0.18');
+ assert.equal(JSON.parse(source('manifest.json')).version,'2.0.19');
 });
 
 test('2.0.7 opens settings dashboard as a full tab with helper onboarding',()=>{
@@ -921,4 +921,32 @@ test('2.0.18 status and onboarding messages are defined in every locale',()=>{
      assert.ok(d[key]?.message,dir+' '+key);
    }
  }
+});
+
+// 2.0.19: localized confirmation, onboarding shortcut, and concurrent list refresh.
+test('all locales provide a localized irreversible-delete confirmation', () => {
+ const locales=['ar','de','en','es','fr','he','ja','pt','ru','zh_CN'];
+ const values=new Set();
+ for (const lang of locales) {
+   const msg=JSON.parse(source('_locales/'+lang+'/messages.json')).confirmDelete?.message;
+   assert.ok(msg && msg.length>=18, 'Missing irreversible delete warning: '+lang);
+   values.add(msg);
+ }
+ assert.equal(values.size,10, 'delete confirmation must not fall back to English');
+ const dash=source('JS/dashboard.js');
+ assert.match(dash,/t\("confirmDelete",/);
+ assert.doesNotMatch(dash,/const question = "Delete " \+ short/);
+});
+test('unconfigured popup links directly to YOURLS settings, not default dashboard', () => {
+ const popup=source('JS/popup.js');
+ assert.match(popup,/browser\.tabs\.create\(\{ url: browser\.runtime\.getURL\("options\.html"\) \}\)/);
+ assert.doesNotMatch(popup,/browser\.runtime\.openOptionsPage\(\)/);
+});
+test('search deletion refresh is independent of lookup input generation', () => {
+ const src=source('JS/dashboard.js');
+ const fn=src.slice(src.indexOf('async function deleteLookedUp()'),src.indexOf('function determineLookup(',src.indexOf('async function deleteLookedUp()')));
+ assert.match(fn,/await send\("DELETE_SHORTURL"/);
+ assert.match(fn,/if \(generation === lookupGeneration\)/);
+ assert.match(fn,/await refresh\(\);/);
+ assert.doesNotMatch(fn,/if \(generation !== lookupGeneration\) return/);
 });

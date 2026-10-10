@@ -464,5 +464,8 @@
   },
   "connectionPermissionMissing": {
     "message": "Falta autorização para o servidor YOURLS"
+  },
+  "confirmDelete": {
+    "message": "Eliminar permanentemente este URL curto? As ligações em sites e mensagens de correio eletrónico já enviadas poderão deixar de funcionar."
   }
 }

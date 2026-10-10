@@ -468,5 +468,8 @@
   },
   "connectionPermissionMissing": {
     "message": "Falta permiso para acceder al servidor YOURLS"
+  },
+  "confirmDelete": {
+    "message": "¿Eliminar definitivamente este enlace corto? Los enlaces incluidos en sitios web y correos electrónicos enviados podrían dejar de funcionar."
   }
 }

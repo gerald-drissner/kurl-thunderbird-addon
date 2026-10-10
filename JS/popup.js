@@ -232,7 +232,15 @@
     clearResults();
     status(t("popupStatusDeleted", "Link deleted."), true);
   }));
-  $("open-options").addEventListener("click", () => browser.runtime.openOptionsPage());
+  $("open-options").addEventListener("click", async () => {
+    try {
+      // openOptionsPage() points to the dashboard; onboarding needs the token form.
+      await browser.tabs.create({ url: browser.runtime.getURL("options.html") });
+      window.close();
+    } catch (error) {
+      status(String(error?.message || error));
+    }
+  });
   $("open-dashboard-link")?.addEventListener("click", event => {
     event.preventDefault();
     browser.tabs.create({ url: browser.runtime.getURL("dashboard.html") });

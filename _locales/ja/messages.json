@@ -468,5 +468,8 @@
   },
   "connectionPermissionMissing": {
     "message": "YOURLS サーバーへのアクセス権がありません"
+  },
+  "confirmDelete": {
+    "message": "この短縮URLを完全に削除しますか？ウェブサイトや送信済みメールに含まれるリンクが機能しなくなる可能性があります。"
   }
 }

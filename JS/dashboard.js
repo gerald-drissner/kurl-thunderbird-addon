@@ -152,9 +152,8 @@ function makeLinkRow(link, rank = null) {
     }
     if (helperReady) {
       actions.appendChild(makeButton(t("popupBtnDelete", "Delete"), async () => {
-        const question = "Delete " + short +
-          " from YOURLS permanently? This could break links referenced by websites or sent emails.";
-        if (!window.confirm(question)) return;
+        const question = t("confirmDelete", "Delete this short URL permanently? Existing websites and sent emails may refer to it.");
+        if (!window.confirm(question + "\n" + short)) return;
         try {
           await send("DELETE_SHORTURL", { shortUrl: short });
           message($("dashboard-feedback"), "Deleted " + short);
@@ -378,9 +377,13 @@ async function deleteLookedUp() {
   $("lookup-delete").disabled = true;
   try {
     await send("DELETE_SHORTURL", {shortUrl});
-    if (generation !== lookupGeneration) return;
-    clearLookup();
-    $("lookup-message").textContent = t("popupStatusDeleted", "Short URL deleted.");
+    // Refresh server lists after ANY successful delete, even if the user edits
+    // the search field while the DELETE_SHORTURL request is pending.
+    // Only replace the lookup result if it still belongs to this operation.
+    if (generation === lookupGeneration) {
+      clearLookup();
+      $("lookup-message").textContent = t("popupStatusDeleted", "Short URL deleted.");
+    }
     await refresh();
   } catch (error) {
     if (generation === lookupGeneration) $("lookup-message").textContent = String(error.message || error);

@@ -472,5 +472,8 @@
   },
   "connectionPermissionMissing": {
     "message": "Autorisation d’accès au serveur YOURLS manquante"
+  },
+  "confirmDelete": {
+    "message": "Supprimer définitivement ce lien court ? Les liens présents sur des sites web et dans des courriels déjà envoyés risquent de ne plus fonctionner."
   }
 }
