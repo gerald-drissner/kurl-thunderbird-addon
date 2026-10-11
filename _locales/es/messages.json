@@ -471,5 +471,11 @@
   },
   "confirmDelete": {
     "message": "¿Eliminar definitivamente este enlace corto? Los enlaces incluidos en sitios web y correos electrónicos enviados podrían dejar de funcionar."
+  },
+  "footerContact": {
+    "message": "Contacto"
+  },
+  "footerSupport": {
+    "message": "Apoyar el desarrollo"
   }
 }

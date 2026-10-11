@@ -1,3 +1,9 @@
+## [2.0.21] — 2026-10-11
+
+- Show the installed kURL version dynamically at the bottom of the dashboard.
+- Add localized Contact and voluntary Support development links in the dashboard footer.
+- No changes to Thunderbird permissions, mail integration, YOURLS Helper, authentication, data collection, or extension ID.
+
 # Changelog — kURL for Thunderbird
 
 The add-on's browser extension ID remains `yourls@drissner.me`. Version 2.0.20 is the next update to the existing Thunderbird add-on, not a different product.

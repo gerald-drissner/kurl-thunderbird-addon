@@ -475,5 +475,11 @@
   },
   "confirmDelete": {
     "message": "确定永久删除此短链接吗？网站和已发送电子邮件中的相关链接可能会失效。"
+  },
+  "footerContact": {
+    "message": "联系"
+  },
+  "footerSupport": {
+    "message": "支持开发"
   }
 }

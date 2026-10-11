@@ -475,5 +475,11 @@
   },
   "confirmDelete": {
     "message": "Supprimer définitivement ce lien court ? Les liens présents sur des sites web et dans des courriels déjà envoyés risquent de ne plus fonctionner."
+  },
+  "footerContact": {
+    "message": "Contact"
+  },
+  "footerSupport": {
+    "message": "Soutenir le développement"
   }
 }

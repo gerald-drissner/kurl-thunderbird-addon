@@ -782,5 +782,11 @@
   },
   "connectionPermissionMissing": {
     "message": "Berechtigung für den YOURLS-Server fehlt"
+  },
+  "footerContact": {
+    "message": "Kontakt"
+  },
+  "footerSupport": {
+    "message": "Entwicklung unterstützen"
   }
 }

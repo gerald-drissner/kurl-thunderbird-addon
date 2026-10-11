@@ -1,3 +1,9 @@
+## 2.0.21 — Thunderbird Add-ons update
+
+The dashboard now displays the installed kURL version and includes unobtrusive Contact and optional Support development links. Both links open only when clicked. No payment is required, and no YOURLS credentials or email content are shared with those sites. There are no new permissions or changes to the server-side Helper. All existing functionality remains unchanged.
+
+**Deutsch:** Das Dashboard zeigt jetzt automatisch die installierte kURL-Version. Neu sind die Links „Kontakt“ und „Entwicklung unterstützen“. Beide öffnen sich nur nach einem Klick; sämtliche Funktionen bleiben kostenlos nutzbar. Berechtigungen, YOURLS-Zugangsdaten, E-Mail-Funktionen und Helper bleiben unverändert.
+
 # kURL for Thunderbird 2.0.20
 
 Major update from the published kURL 1.9 series. Existing add-on installations can update in place: the Thunderbird extension ID remains `yourls@drissner.me`.
