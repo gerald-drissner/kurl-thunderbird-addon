@@ -1,4 +1,4 @@
-# kURL for Thunderbird 2.0.20 (release candidate)
+# kURL for Thunderbird 2.0.21 (release candidate)
 
 Release resources: [CHANGELOG](CHANGELOG.md) · [Release notes](RELEASE_NOTES.md) · [ATN submission guide](ATN_SUBMISSION.md) · [Privacy policy](PRIVACY_POLICY.md) · [Release QA checklist](TESTING_2_0_20.md).
 
@@ -6,7 +6,7 @@ This MailExtension shortens and manages links on a user-controlled HTTPS YOURLS 
 
 ## Installation
 
-In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.20.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
+In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.21.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
 
 Configure your HTTPS YOURLS server and signature token under kURL settings. Assign keyboard shortcuts via **Manage Extension Shortcuts**; this build installs without default key bindings.
 
