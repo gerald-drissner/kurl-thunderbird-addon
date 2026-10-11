@@ -10,3 +10,7 @@
 
 - The XPI intentionally includes `helper/kurl-helper/plugin.php`: an optional PHP plugin for the user's separately administered YOURLS server. Thunderbird does **not** execute PHP. The dashboard only reads that bundled file as text to show/copy/download for users who want advanced link management. It never installs or runs server code. Current minimum supported Helper version: 1.1.6.
 - CI verifies source, archive, and browser-simulated behavior on Linux/macOS/Windows. The project test reports distinguish these from native Thunderbird GUI testing; no claim of live macOS or Windows validation is made.
+
+## 2.0.21 reviewer note
+
+This update changes dashboard presentation only: the version label is loaded with `browser.runtime.getManifest().version`; two static external anchors link to `https://drissner.media/kontakt` and `https://www.paypal.com/paypalme/drissner`. Both are user-clicked, open with `rel="noopener noreferrer"`, and do not read or transmit mailbox, YOURLS, or credential data. No new permissions. The Helper PHP source is unchanged and is not executed by Thunderbird.

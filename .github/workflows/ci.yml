@@ -25,6 +25,8 @@ jobs:
         run: npm run check
       - name: Regression tests
         run: npm test
+      - name: Dashboard footer and contact links
+        run: node tests/footer.cjs
       - name: YOURLS Helper PHP syntax
         if: runner.os == 'Linux'
         run: php -l helper/kurl-helper/plugin.php

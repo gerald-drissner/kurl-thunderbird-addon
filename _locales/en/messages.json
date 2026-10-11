@@ -782,5 +782,11 @@
   },
   "connectionPermissionMissing": {
     "message": "YOURLS host permission missing"
+  },
+  "footerContact": {
+    "message": "Contact"
+  },
+  "footerSupport": {
+    "message": "Support development"
   }
 }

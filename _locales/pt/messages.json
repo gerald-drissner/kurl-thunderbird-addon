@@ -467,5 +467,11 @@
   },
   "confirmDelete": {
     "message": "Eliminar permanentemente este URL curto? As ligações em sites e mensagens de correio eletrónico já enviadas poderão deixar de funcionar."
+  },
+  "footerContact": {
+    "message": "Contato"
+  },
+  "footerSupport": {
+    "message": "Apoiar o desenvolvimento"
   }
 }
