@@ -1,3 +1,11 @@
+## 2.0.22 — Thunderbird Add-ons review fixes
+
+The background message listener now responds only to requests handled by kURL, allowing other listeners to answer unrelated messages. The unused `messagesRead` permission has been removed. The bundled QR generator is unchanged; its declaration now points to the exact npm release for automated security auditing. The add-on ID remains `yourls@drissner.me`; Thunderbird 140 or later is required.
+
+**Deutsch:** Der Nachrichten-Listener im Hintergrund antwortet jetzt nur auf Anfragen, die kURL verarbeitet. Andere Listener können dadurch auf ihre eigenen Nachrichten antworten. Die ungenutzte Berechtigung `messagesRead` wurde entfernt. Der mitgelieferte QR-Generator bleibt unverändert; seine Herkunft ist nun mit der exakten npm-Version für automatische Sicherheitsprüfungen dokumentiert. Add-on-ID und Mindestversion Thunderbird 140 bleiben unverändert.
+
+Reading-view right-click copying uses the clicked link or selected URL. The removed permission did not enable automatic selection lookup in the reading-view popup; paste a URL or use the right-click menu. Compose selection and insertion remain available.
+
 ## 2.0.21 — Thunderbird Add-ons update
 
 The dashboard now displays the installed kURL version and includes unobtrusive Contact and optional Support development links. Both links open only when clicked. No payment is required, and no YOURLS credentials or email content are shared with those sites. There are no new permissions or changes to the server-side Helper. All existing functionality remains unchanged.

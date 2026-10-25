@@ -1,3 +1,11 @@
+## [2.0.22] — 2026-10-25
+
+- Register a non-async runtime message listener; return a Promise only for handled requests so unrelated listeners can respond.
+- Remove the unused `messagesRead` permission and correct the reviewer documentation.
+- Declare the unchanged qrcode-generator 2.0.4 file using its pinned npm jsDelivr URL for automated vulnerability auditing.
+- Add message-routing and reading-view copy regression tests; include the existing footer checks in the default test command.
+- Update release and submission documentation. The extension ID and minimum Thunderbird version (140.0) are unchanged.
+
 ## [2.0.21] — 2026-10-11
 
 - Show the installed kURL version dynamically at the bottom of the dashboard.
@@ -6,7 +14,7 @@
 
 # Changelog — kURL for Thunderbird
 
-The add-on's browser extension ID remains `yourls@drissner.me`. Version 2.0.20 is the next update to the existing Thunderbird add-on, not a different product.
+The add-on's browser extension ID remains `yourls@drissner.me`. Version 2.0.22 is an update to the existing Thunderbird add-on, not a different product.
 
 ## [2.0.20] — 2026-10-10
 

@@ -582,9 +582,22 @@ async function insertUrl(tabId, value, original = "", fromLink = false) {
   return {ok:true};
 }
 
-browser.runtime.onMessage.addListener(async message => {
+// Claim a response only for requests owned by this background script. An async
+// listener would return a Promise even for messages intended for other pages.
+const HANDLED_MESSAGE_TYPES = new Set([
+  "CHECK_CONNECTION", "SHORTEN_URL", "GET_STATS", "EXPAND_URL", "GET_INFO",
+  "GET_RECENT_LINKS", "GET_TOP_LINKS", "DELETE_SHORTURL", "ATTACH_QR_CODE",
+  "GET_SELECTED_URL", "INSERT_URL", "LOOKUP_URL", "UPDATE_URL", "REGENERATE_URL",
+  "LOG_BULK", "GET_LOG", "CLEAR_LOG"
+]);
+browser.runtime.onMessage.addListener(message => {
+  if (!message || typeof message.type !== "string" ||
+      !HANDLED_MESSAGE_TYPES.has(message.type)) return;
+  return handleMessage(message);
+});
+
+async function handleMessage(message) {
   try {
-    if (!message || typeof message.type !== "string") return { ok: false, reason: "Invalid request." };
     // Log read-only requests only on explicit failure, never their URLs or tokens.
     const eventTypes = new Set(["SHORTEN_URL", "DELETE_SHORTURL", "LOOKUP_URL", "UPDATE_URL", "REGENERATE_URL"]);
     try {
@@ -603,7 +616,7 @@ browser.runtime.onMessage.addListener(async message => {
       ...(error?.code === "AUTH_REJECTED" || error?.code === "ACCESS_DENIED"
         ? { errorCode: error.code } : {}) };
   }
-});
+}
 
 async function dispatch(message) {
     switch (message.type) {

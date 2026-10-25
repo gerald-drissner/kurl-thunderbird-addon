@@ -59,8 +59,57 @@ function newContext(opts={}){
  TextEncoder,TextDecoder,AbortController,setTimeout,clearTimeout,Date,Uint8Array,console};ctx.window=ctx;
  vm.createContext(ctx);vm.runInContext(source('JS/helpers.js'),ctx,{filename:'helpers.js'});
  vm.runInContext(source('JS/background.js'),ctx,{filename:'background.js'});
- return {ctx,calls,storage,menus,sentNotifications,clipboardWrites,send:async msg=>messageHandler(msg),install:()=>onInstalledHandler(),click:async(info,tab)=>contextClickHandler(info,tab)};
+ return {ctx,calls,storage,menus,sentNotifications,clipboardWrites,receive:msg=>messageHandler(msg),send:async msg=>messageHandler(msg),install:()=>onInstalledHandler(),click:async(info,tab)=>contextClickHandler(info,tab)};
 }
+test('runtime listener leaves unrelated and malformed messages unanswered',()=>{
+ const x=newContext();
+ for(const message of [undefined,null,false,42,'SHORTEN_URL',{},[],{type:null},
+   {type:17},{type:'UNKNOWN'},{type:'toString'},{type:'__proto__'}]) {
+   assert.equal(x.receive(message),undefined);
+ }
+ assert.equal(x.calls.length,0);
+ assert.equal(x.storage.kurlActivityLog,undefined);
+});
+test('runtime listener returns a Promise for exactly the dispatch request types',async()=>{
+ const x=newContext();
+ const handled=Array.from(vm.runInContext('HANDLED_MESSAGE_TYPES',x.ctx));
+ const cases=[...source('JS/background.js').split('async function dispatch(message)')[1]
+   .split('/* Migrate')[0].matchAll(/case "([A-Z_]+)":/g)].map(match=>match[1]);
+ assert.deepEqual([...handled].sort(),[...cases].sort());
+ x.ctx.dispatch=async message=>({ok:true,type:message.type});
+ for(const type of cases) {
+   const response=x.receive({type});
+   assert.equal(typeof response?.then,'function',type);
+   const result=await response;
+   assert.equal(result.ok,true,type);
+   assert.equal(result.type,type);
+ }
+});
+test('handled runtime failures retain structured responses and local error logging',async()=>{
+ const x=newContext();
+ x.ctx.dispatch=async()=>{throw Object.assign(new Error('Test access failure'),{code:'ACCESS_DENIED'})};
+ const result=await x.receive({type:'SHORTEN_URL'});
+ assert.equal(result.ok,false);
+ assert.equal(result.reason,'Test access failure');
+ assert.equal(result.errorCode,'ACCESS_DENIED');
+ assert.equal(x.storage.kurlActivityLog.length,1);
+ assert.equal(x.storage.kurlActivityLog[0].level,'error');
+});
+test('received-message link and selection copy need no mailbox API or injected script',async()=>{
+ const manifest=JSON.parse(source('manifest.json'));
+ assert.ok(!manifest.permissions.includes('messagesRead'));
+ assert.ok(!manifest.permissions.includes('messagesModify'));
+ const x=newContext();
+ x.ctx.browser.scripting.executeScript=async()=>{assert.fail('Read-view copy must use menu data')};
+ x.ctx.browser.tabs.get=async()=>{assert.fail('Read-view copy must not query the message')};
+ for(const data of [{linkUrl:'https://example.org/article'},
+   {selectionText:'See https://example.org/article.'}]) {
+   await x.click({menuItemId:'kurl-quick-copy',...data},{id:9,type:'messageDisplay'});
+ }
+ assert.equal(x.clipboardWrites.length,2);
+ assert.ok(x.clipboardWrites.every(url=>url==='https://sho.rt/AbC'));
+ assert.equal(x.calls.filter(call=>call.action==='shorturl').length,2);
+});
 test('https-only server, preserve long URLs exactly, validate unsafe targets',async()=>{
  const x=newContext();
  const H=x.ctx.Helpers;
@@ -122,7 +171,7 @@ test('bulk creates links sequentially and skips invalid lines',()=>{
 });
 test('package metadata and page references',()=>{
  const manifest=JSON.parse(source('manifest.json'));
- assert.equal(manifest.version,'2.0.21');
+ assert.equal(manifest.version,'2.0.22');
  assert.equal(manifest.browser_specific_settings.gecko.strict_min_version,'140.0');
  assert.deepEqual(manifest.optional_host_permissions,['https://*/*']);
  assert.ok(!manifest.permissions.includes('tabs'));
@@ -339,7 +388,7 @@ test('German localized insertion and shortcut terms match buttons',()=>{
 
 test('released QR generator, ASCII-canonical QR payload, four-module quiet zone',()=>{
  const lib=source('JS/qrcode.js'), pop=source('JS/popup.js');
- assert.equal(JSON.parse(source('package.json')).version,'2.0.21');
+ assert.equal(JSON.parse(source('package.json')).version,'2.0.22');
  assert.match(lib,/QR Code Generator for JavaScript/);
  assert.match(pop,/qrcode\(0, "H"\)/);
  assert.match(pop,/qr\.addData\(new URL\(value\)\.href, \"Byte\"\)/);
@@ -419,7 +468,7 @@ test('2.0.6 optional copy edits match visible controls and released vendoring me
  const vendor=source('VENDOR.md');
  assert.doesNotMatch(vendor,/external reviewer|independently compared/i);
  assert.match(vendor,/SHA-256 of bundled file/);
- assert.equal(JSON.parse(source('manifest.json')).version,'2.0.21');
+ assert.equal(JSON.parse(source('manifest.json')).version,'2.0.22');
 });
 
 test('2.0.7 opens settings dashboard as a full tab with helper onboarding',()=>{
