@@ -1,12 +1,12 @@
-# kURL for Thunderbird 2.0.20 (release candidate)
+# kURL for Thunderbird 2.0.22
 
-Release resources: [CHANGELOG](CHANGELOG.md) · [Release notes](RELEASE_NOTES.md) · [ATN submission guide](ATN_SUBMISSION.md) · [Privacy policy](PRIVACY_POLICY.md) · [Release QA checklist](TESTING_2_0_20.md).
+Release resources: [CHANGELOG](CHANGELOG.md) · [Release notes](RELEASE_NOTES.md) · [ATN submission guide](ATN_SUBMISSION.md) · [Privacy policy](PRIVACY_POLICY.md) · [Release QA checklist](TESTING_2_0_22.md).
 
 This MailExtension shortens and manages links on a user-controlled HTTPS YOURLS server, with an integrated Thunderbird compose workflow. The optional YOURLS Helper is bundled here, separately from other kURL projects.
 
 ## Installation
 
-In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.20.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
+In Thunderbird (140 or later): **Add-ons and Themes > gear icon > Install Add-on From File** and select `kurl-thunderbird-2.0.22.xpi`. The extension ID is `yourls@drissner.me`: **the build may replace an earlier kURL add-on**, so use a separate Thunderbird profile first.
 
 Configure your HTTPS YOURLS server and signature token under kURL settings. Assign keyboard shortcuts via **Manage Extension Shortcuts**; this build installs without default key bindings.
 
@@ -165,3 +165,17 @@ Dashboard is now the default add-on Settings view. When no connection is configu
 - Dashboard list deletion success messages use the same localized confirmation as search-result deletion; no English-only status message remains for this action.
 - Release artifacts use stable archive timestamps and permissions for reproducible SHA-256 checksums across Linux, macOS and Windows.
 - Added consolidated CHANGELOG, release notes and ATN update instructions. No YOURLS API or server-side Helper changes.
+
+## Dashboard footer (2.0.21)
+
+The dashboard reads the current installed version from the add-on manifest. Contact and optional support links open an external page only after the user clicks. The add-on never transmits YOURLS credentials or Thunderbird message content to those sites. No payment or donation is required for any feature.
+
+
+## ATN review fixes (2.0.22)
+
+- The background runtime listener returns a Promise only for the 17 request types it handles; unknown or malformed messages receive no response.
+- Removed the unused `messagesRead` permission and corrected its earlier justification. Reading-view right-click copy uses the URL or selection supplied by the menu event. Automatic selection lookup in the reading-view popup was not enabled by that permission; paste a URL or use the right-click menu. Compose selection and insertion still use `compose` and `scripting`.
+- The unchanged QR generator is declared against its exact npm release in `VENDOR.md`, allowing automated package auditing and byte verification.
+- `npm test` now includes the footer checks and regression coverage for message routing and reading-view right-click copying.
+
+Build with `python3 scripts/build-xpi.py kurl-thunderbird-2.0.22.xpi`. See `TESTING_2_0_22.md` for validation and remaining native Thunderbird checks.

@@ -4,8 +4,10 @@ This is an **update to the existing add-on**, not a new listing. The add-on ID m
 
 ## 1. Confirm the release package
 
-- Obtain **`kurl-thunderbird-2.0.20.xpi`** from the GitHub draft release or the tested local build.
-- Confirm `manifest.json` contains `version: 2.0.20`, `strict_min_version: 140.0`, and `browser_specific_settings.gecko.id: yourls@drissner.me`.
+Version 2.0.21 was approved on 2026-10-21. Version 2.0.22 addresses the three follow-up items from that review; see `REVIEWER_NOTES.md` and `TESTING_2_0_22.md`.
+
+- Obtain **`kurl-thunderbird-2.0.22.xpi`** from the GitHub draft release or the tested local build.
+- Confirm `manifest.json` contains `version: 2.0.22`, `strict_min_version: 140.0`, and `browser_specific_settings.gecko.id: yourls@drissner.me`.
 - Verify SHA-256 against the accompanying `SHA256SUMS.txt` from the **same build**. The XPI is the compiled distributable; a `.zip` is for source review only.
 - Perform live checks in native Thunderbird on Linux and, before broad release, Windows/macOS: setup, right-click copy/insert, HTML/plain-text composing, macOS Control-click, notifications, QR attachment, and irreversible delete on a disposable short link.
 
@@ -15,10 +17,10 @@ This is an **update to the existing add-on**, not a new listing. The add-on ID m
 2. Open the **Developer Hub** (for example https://addons.thunderbird.net/en-US/developers/ ) and select **Manage My Add-ons** / **Manage Your Add-ons**. The exact wording may vary by localization.
 3. Open the **existing kURL – YOURLS** listing. You can find the public page at https://addons.thunderbird.net/thunderbird/addon/kurl-yourls-shortener/ (the public URL is NOT necessarily the edit URL).
 4. In the add-on's **Manage Versions / Upload New Version** section, choose **Upload New Version**. Do **not** select “Submit a New Add-on.”
-5. Upload `kurl-thunderbird-2.0.20.xpi` and complete the validator/review screens. The manifest version must be higher than the existing store version.
+5. Upload `kurl-thunderbird-2.0.22.xpi` and complete the validator/review screens. The manifest version must be higher than the existing store version.
 6. Enter the **English version notes** from `RELEASE_NOTES.md`, preferably also the German ones in their localized field where supported. If the form permits only one, use English as the default.
-7. For a source-code or reviewer-notes field, reference the public GitHub repository and provide `REVIEWER_NOTES.md`. If ATN specifically requests an uploaded source archive, supply `kurl-thunderbird-2.0.20-source.zip` and the reproduction command `python3 scripts/build-xpi.py`.
-8. Submit the version for review. Because kURL requests `messagesRead`, it may require human review; do not assume it is live immediately.
+7. For a source-code or reviewer-notes field, reference the public GitHub repository and provide `REVIEWER_NOTES.md`. If ATN specifically requests an uploaded source archive, supply `kurl-thunderbird-2.0.22-source.zip` and the reproduction command `python3 scripts/build-xpi.py`.
+8. Submit the version for review. ATN may require human review; do not assume it is live immediately. The unused `messagesRead` permission was removed in this release.
 
 ## 3. Edit the existing add-on's listing and privacy field
 
@@ -38,7 +40,7 @@ Update the screenshots to show the current dashboard, lookup, Settings status in
 
 - The new version may enter manual review. Wait for approval and the version appearing on the existing listing.
 - Existing users should receive the normal add-on update through Thunderbird once a newer compatible version is published; they do not need to uninstall/reinstall.
-- Verify the public listing displays **2.0.20** and that clicking the install/update button returns the correct add-on.
+- Verify the public listing displays **2.0.22** and that clicking the install/update button returns the correct add-on.
 - Keep the exact `.xpi`, checksum and GitHub commit/tag for repeatable future updates.
 
 ## Submission checklist
@@ -46,7 +48,7 @@ Update the screenshots to show the current dashboard, lookup, Settings status in
 - [ ] Native Thunderbird Windows and macOS smoke tests completed
 - [ ] Privacy policy pasted into dedicated ATN field
 - [ ] Short privacy disclosure added to listing
-- [ ] 2.0.20 XPI selected for the *existing* add-on
+- [ ] 2.0.22 XPI selected for the *existing* add-on
 - [ ] Changelog/version notes entered, including German where supported
 - [ ] Reviewer/build notes supplied
 - [ ] Screenshots/requirements updated

@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "__MSG_extensionName__",
   "short_name": "kURL",
-  "version": "2.0.20",
+  "version": "2.0.22",
   "author": "Gerald Drißner",
   "default_locale": "en",
   "description": "__MSG_extensionDescription__",
@@ -58,8 +58,7 @@
     "compose",
     "menus",
     "notifications",
-    "scripting",
-    "messagesRead"
+    "scripting"
   ],
   "optional_host_permissions": [
     "https://*/*"

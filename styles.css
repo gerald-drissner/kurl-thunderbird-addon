@@ -611,3 +611,24 @@ body.options-body:has(.dashboard-shell) { min-width: 0; padding: 24px clamp(14px
 .dashboard-onboarding .kurl-setup-action { display:inline-block; text-decoration:none; padding:10px 15px; border-radius:7px; color:#fff; background:var(--accent); font-weight:600; }
 .dashboard-shell.is-unconfigured .dashboard-workspace, .dashboard-shell.is-unconfigured .dashboard-list-columns, .dashboard-shell.is-unconfigured #helper-setup { display:none !important; }
 .dashboard-shell.is-unconfigured #dashboard-onboarding { display:block !important; }
+
+/* Nonintrusive, user-initiated external support links; no outbound requests on page load. */
+.kurl-dashboard-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0 10px;
+  margin-top: 30px;
+  padding: 17px 8px 3px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+  text-align: center;
+}
+.kurl-dashboard-footer a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.kurl-dashboard-footer a:hover,
+.kurl-dashboard-footer a:focus-visible { color: var(--accent); }
+.kurl-dashboard-footer #kurl-dashboard-version { unicode-bidi: isolate; white-space: nowrap; }
+.kurl-dashboard-footer .kurl-footer-separator { opacity: .55; }
